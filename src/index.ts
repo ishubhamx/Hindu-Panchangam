@@ -1,5 +1,8 @@
 // src/index.ts
-import { Observer } from "astronomy-engine";
+import { Observer, Body, GeoVector, Ecliptic, SearchRiseSet } from "astronomy-engine";
+
+// Re-export astronomy-engine classes and functions that are essential for the package
+export { Observer, Body, GeoVector, Ecliptic, SearchRiseSet };
 
 // Main exports for the panchangam-js package
 export { getPanchangam, getPanchangamDetails } from './panchangam';
