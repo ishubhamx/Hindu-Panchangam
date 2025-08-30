@@ -44,6 +44,8 @@ console.log('Sunrise:', panchangam.sunrise);
 console.log('Sunset:', panchangam.sunset);
 ```
 
+Note: The `Observer` class and other astronomy utilities are re-exported from the astronomy-engine package for convenience. You can import them directly from our package without needing to install astronomy-engine separately.
+
 ### Generate HTML Calendar
 
 ```typescript
