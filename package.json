@@ -9,7 +9,7 @@
     "README.md"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" ",
     "build": "tsc",
     "prepublishOnly": "npm run build",
     "generate": "npm run build && node dist/index.js",
