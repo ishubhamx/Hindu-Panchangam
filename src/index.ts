@@ -11,8 +11,10 @@ export { getPanchangam, getPanchangamDetails } from './panchangam';
 export type { 
   Panchangam,
   PanchangamDetails,
-  KaranaTransition
+  KaranaTransition,
+  PlanetaryPosition,
+  MuhurtaTime
 } from './panchangam';
 
 // Re-export constants
-export { karanaNames, yogaNames, tithiNames, nakshatraNames } from './panchangam';
+export { karanaNames, yogaNames, tithiNames, nakshatraNames, rashiNames, horaRulers } from './panchangam';
