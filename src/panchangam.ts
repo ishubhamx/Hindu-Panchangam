@@ -131,23 +131,89 @@ function getVara(date: Date): number {
 }
 
 function getSunrise(date: Date, observer: Observer): Date | null {
-    const time = SearchRiseSet(Body.Sun, observer, 1, date, 1);
-    return time?.date || null;
+    // Start searching from the beginning of the day to ensure we get sunrise for the correct date
+    const startOfDay = new Date(date);
+    startOfDay.setUTCHours(0, 0, 0, 0);
+    
+    const time = SearchRiseSet(Body.Sun, observer, 1, startOfDay, 1);
+    if (!time) return null;
+    
+    const sunrise = time.date;
+    
+    // Check if sunrise is within the same calendar day (UTC)
+    const endOfDay = new Date(date);
+    endOfDay.setUTCHours(23, 59, 59, 999);
+    
+    if (sunrise >= startOfDay && sunrise <= endOfDay) {
+        return sunrise;
+    }
+    
+    return null;
 }
 
 function getSunset(date: Date, observer: Observer): Date | null {
-    const time = SearchRiseSet(Body.Sun, observer, -1, date, 1);
-    return time?.date || null;
+    // Start searching from the beginning of the day to ensure we get sunset for the correct date
+    const startOfDay = new Date(date);
+    startOfDay.setUTCHours(0, 0, 0, 0);
+    
+    const time = SearchRiseSet(Body.Sun, observer, -1, startOfDay, 1);
+    if (!time) return null;
+    
+    const sunset = time.date;
+    
+    // Check if sunset is within the same calendar day (UTC)
+    const endOfDay = new Date(date);
+    endOfDay.setUTCHours(23, 59, 59, 999);
+    
+    if (sunset >= startOfDay && sunset <= endOfDay) {
+        return sunset;
+    }
+    
+    return null;
 }
 
 function getMoonrise(date: Date, observer: Observer): Date | null {
-    const time = SearchRiseSet(Body.Moon, observer, 1, date, 1);
-    return time?.date || null;
+    // Start searching from the beginning of the day
+    const startOfDay = new Date(date);
+    startOfDay.setUTCHours(0, 0, 0, 0);
+    
+    const time = SearchRiseSet(Body.Moon, observer, 1, startOfDay, 1);
+    if (!time) return null;
+    
+    const moonrise = time.date;
+    
+    // Check if moonrise is within the same calendar day (UTC)
+    const endOfDay = new Date(date);
+    endOfDay.setUTCHours(23, 59, 59, 999);
+    
+    if (moonrise >= startOfDay && moonrise <= endOfDay) {
+        return moonrise;
+    }
+    
+    // Moon might rise the next day, which is valid
+    return moonrise;
 }
 
 function getMoonset(date: Date, observer: Observer): Date | null {
-    const time = SearchRiseSet(Body.Moon, observer, -1, date, 1);
-    return time?.date || null;
+    // Start searching from the beginning of the day
+    const startOfDay = new Date(date);
+    startOfDay.setUTCHours(0, 0, 0, 0);
+    
+    const time = SearchRiseSet(Body.Moon, observer, -1, startOfDay, 1);
+    if (!time) return null;
+    
+    const moonset = time.date;
+    
+    // Check if moonset is within the same calendar day (UTC)
+    const endOfDay = new Date(date);
+    endOfDay.setUTCHours(23, 59, 59, 999);
+    
+    if (moonset >= startOfDay && moonset <= endOfDay) {
+        return moonset;
+    }
+    
+    // Moon might set the next day, which is valid
+    return moonset;
 }
 
 /**
