@@ -1,7 +1,7 @@
 {
   "name": "@ishubhamx/panchangam-js",
   "version": "1.0.3",
-  "description": "Indian Panchangam (Hindu Calendar) library for calculating Tithi, Nakshatra, Yoga, Karana, and Vara using Swiss Ephemeris",
+  "description": "Enhanced Indian Panchangam (Hindu Calendar) library with comprehensive Vedic features including Muhurta calculations, planetary positions, Rashi placements, and auspicious/inauspicious time calculations using Swiss Ephemeris",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -16,7 +16,8 @@
     "validate": "npm run build && node dist/scripts/validate.js",
     "validate-comparison": "npm run build && node dist/scripts/validate-comparison.js",
     "debug": "npm run build && node dist/scripts/debug.js",
-    "simple-test": "npm run build && node dist/scripts/simple-test.js"
+    "simple-test": "npm run build && node dist/scripts/simple-test.js",
+    "vedic-example": "npm run build && node dist/scripts/comprehensive-example.js"
   },
   "keywords": [
     "panchangam",
@@ -27,6 +28,17 @@
     "yoga",
     "karana",
     "vara",
+    "muhurta",
+    "rashi",
+    "planetary-positions",
+    "vedic-astrology",
+    "brahma-muhurta",
+    "abhijit-muhurta",
+    "rahu-kalam",
+    "yamaganda-kalam",
+    "gulika-kalam",
+    "chandra-balam",
+    "hora",
     "astronomy",
     "swiss-ephemeris"
   ],
