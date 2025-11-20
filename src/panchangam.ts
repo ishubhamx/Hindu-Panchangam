@@ -23,6 +23,18 @@ export interface YogaTransition {
     endTime: Date;
 }
 
+export interface PlanetaryPosition {
+    longitude: number;      // Longitude in degrees (0-360)
+    rashi: number;         // Rashi index (0-11: Aries to Pisces)
+    rashiName: string;     // Rashi name
+    degree: number;        // Degree within the rashi (0-30)
+}
+
+export interface MuhurtaTime {
+    start: Date;
+    end: Date;
+}
+
 export interface Panchangam {
     tithi: number;
     nakshatra: number;
@@ -44,6 +56,24 @@ export interface Panchangam {
     tithiTransitions: TithiTransition[];
     nakshatraTransitions: NakshatraTransition[];
     yogaTransitions: YogaTransition[];
+    // Enhanced Vedic Features
+    abhijitMuhurta: MuhurtaTime | null;
+    brahmaMuhurta: MuhurtaTime | null;
+    govardhanMuhurta: MuhurtaTime | null;
+    yamagandaKalam: MuhurtaTime | null;
+    gulikaKalam: MuhurtaTime | null;
+    durMuhurta: MuhurtaTime[] | null;
+    planetaryPositions: {
+        sun: PlanetaryPosition;
+        moon: PlanetaryPosition;
+        mars: PlanetaryPosition;
+        mercury: PlanetaryPosition;
+        jupiter: PlanetaryPosition;
+        venus: PlanetaryPosition;
+        saturn: PlanetaryPosition;
+    };
+    chandrabalam: number;  // Moon strength (0-100)
+    currentHora: string;   // Current planetary hour
 }
 
 export interface PanchangamDetails extends Panchangam {
@@ -82,6 +112,15 @@ export const nakshatraNames = [
     "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha",
     "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta",
     "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"
+];
+
+export const rashiNames = [
+    "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+    "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+];
+
+export const horaRulers = [
+    "Sun", "Venus", "Mercury", "Moon", "Saturn", "Jupiter", "Mars"
 ];
 
 function getTithi(sunLon: number, moonLon: number): number {
@@ -368,6 +407,172 @@ function findYogaEnd(date: Date): Date | null {
     return search(yogaFunc, date);
 }
 
+function getPlanetaryPosition(body: Body, date: Date): PlanetaryPosition {
+    const vector = GeoVector(body, date, true);
+    const ecliptic = EclipticFunc(vector);
+    const longitude = ecliptic.elon;
+    
+    const rashi = Math.floor(longitude / 30);
+    const degree = longitude % 30;
+    
+    return {
+        longitude,
+        rashi,
+        rashiName: rashiNames[rashi],
+        degree
+    };
+}
+
+function calculateAbhijitMuhurta(sunrise: Date, sunset: Date): MuhurtaTime | null {
+    if (!sunrise || !sunset) return null;
+    
+    const dayDuration = sunset.getTime() - sunrise.getTime();
+    const noonTime = sunrise.getTime() + (dayDuration / 2);
+    
+    // Abhijit Muhurta is 24 minutes around noon (12 minutes before and after)
+    const abhijitStart = new Date(noonTime - 12 * 60 * 1000);
+    const abhijitEnd = new Date(noonTime + 12 * 60 * 1000);
+    
+    return {
+        start: abhijitStart,
+        end: abhijitEnd
+    };
+}
+
+function calculateBrahmaMuhurta(sunrise: Date): MuhurtaTime | null {
+    if (!sunrise) return null;
+    
+    // Brahma Muhurta is the last 1/8th of the night, approximately 96 minutes before sunrise
+    const brahmaMuhurtaStart = new Date(sunrise.getTime() - 96 * 60 * 1000);
+    const brahmaMuhurtaEnd = new Date(sunrise.getTime() - 48 * 60 * 1000);
+    
+    return {
+        start: brahmaMuhurtaStart,
+        end: brahmaMuhurtaEnd
+    };
+}
+
+function calculateGovardhanMuhurta(sunrise: Date, sunset: Date): MuhurtaTime | null {
+    if (!sunrise || !sunset) return null;
+    
+    const dayDuration = sunset.getTime() - sunrise.getTime();
+    // Govardhan Muhurta is in the afternoon, typically in the 6th hour (5/8 to 6/8 of day)
+    const govardhanStart = new Date(sunrise.getTime() + (5 * dayDuration / 8));
+    const govardhanEnd = new Date(sunrise.getTime() + (6 * dayDuration / 8));
+    
+    return {
+        start: govardhanStart,
+        end: govardhanEnd
+    };
+}
+
+function calculateYamagandaKalam(sunrise: Date, sunset: Date, vara: number): MuhurtaTime | null {
+    if (!sunrise || !sunset) return null;
+    
+    const daylightMillis = sunset.getTime() - sunrise.getTime();
+    const portionMillis = daylightMillis / 8;
+    
+    // Yamaganda Kalam portions for each day: Sun, Mon, Tue, Wed, Thu, Fri, Sat
+    const yamagandaPortionIndex = [7, 5, 4, 6, 3, 2, 1]; 
+    const portionIndex = yamagandaPortionIndex[vara];
+    
+    const startMillis = sunrise.getTime() + (portionIndex - 1) * portionMillis;
+    const endMillis = sunrise.getTime() + portionIndex * portionMillis;
+    
+    return {
+        start: new Date(startMillis),
+        end: new Date(endMillis)
+    };
+}
+
+function calculateGulikaKalam(sunrise: Date, sunset: Date, vara: number): MuhurtaTime | null {
+    if (!sunrise || !sunset) return null;
+    
+    const daylightMillis = sunset.getTime() - sunrise.getTime();
+    const portionMillis = daylightMillis / 8;
+    
+    // Gulika Kalam portions for each day: Sun, Mon, Tue, Wed, Thu, Fri, Sat
+    const gulikaPortionIndex = [6, 4, 3, 5, 2, 1, 7]; 
+    const portionIndex = gulikaPortionIndex[vara];
+    
+    const startMillis = sunrise.getTime() + (portionIndex - 1) * portionMillis;
+    const endMillis = sunrise.getTime() + portionIndex * portionMillis;
+    
+    return {
+        start: new Date(startMillis),
+        end: new Date(endMillis)
+    };
+}
+
+function calculateDurMuhurta(sunrise: Date, sunset: Date): MuhurtaTime[] | null {
+    if (!sunrise || !sunset) return null;
+    
+    const dayDuration = sunset.getTime() - sunrise.getTime();
+    const muhurtaDuration = dayDuration / 15; // Day is divided into 15 muhurtas
+    
+    // Dur Muhurtas are typically the 4th, 6th, and 14th muhurtas
+    const durMuhurtas: MuhurtaTime[] = [];
+    
+    // 4th Muhurta (around 10-11 AM)
+    const fourthStart = new Date(sunrise.getTime() + 3 * muhurtaDuration);
+    const fourthEnd = new Date(sunrise.getTime() + 4 * muhurtaDuration);
+    durMuhurtas.push({ start: fourthStart, end: fourthEnd });
+    
+    // 6th Muhurta (around 12-1 PM)  
+    const sixthStart = new Date(sunrise.getTime() + 5 * muhurtaDuration);
+    const sixthEnd = new Date(sunrise.getTime() + 6 * muhurtaDuration);
+    durMuhurtas.push({ start: sixthStart, end: sixthEnd });
+    
+    // 14th Muhurta (late afternoon)
+    const fourteenthStart = new Date(sunrise.getTime() + 13 * muhurtaDuration);
+    const fourteenthEnd = new Date(sunrise.getTime() + 14 * muhurtaDuration);
+    durMuhurtas.push({ start: fourteenthStart, end: fourteenthEnd });
+    
+    return durMuhurtas;
+}
+
+function calculateChandraBalam(moonLon: number, sunLon: number): number {
+    // Calculate moon strength based on the angular distance from sun
+    let angularDistance = Math.abs(moonLon - sunLon);
+    if (angularDistance > 180) {
+        angularDistance = 360 - angularDistance;
+    }
+    
+    // Full moon (180 degrees apart) = 100% strength
+    // New moon (0 degrees apart) = 0% strength
+    return Math.round((angularDistance / 180) * 100);
+}
+
+function getCurrentHora(date: Date, sunrise: Date): string {
+    if (!sunrise) return horaRulers[0]; // Default to Sun
+    
+    const dayOfWeek = date.getDay();
+    const millisecondsFromSunrise = date.getTime() - sunrise.getTime();
+    
+    // If the time is before sunrise, use the previous day's calculation
+    if (millisecondsFromSunrise < 0) {
+        // Calculate previous day's sunrise
+        const prevDay = new Date(date.getTime() - 24 * 60 * 60 * 1000);
+        const prevDayOfWeek = prevDay.getDay();
+        const hoursFromPrevSunrise = Math.abs(millisecondsFromSunrise) / (1000 * 60 * 60);
+        
+        const dayStartPlanet = [0, 3, 6, 2, 5, 1, 4]; // Sun=0, Moon=3, Mars=6, Mercury=2, Jupiter=5, Venus=1, Saturn=4
+        const startPlanetIndex = dayStartPlanet[prevDayOfWeek];
+        const horaIndex = (startPlanetIndex + Math.floor(24 - hoursFromPrevSunrise)) % 7;
+        return horaRulers[horaIndex];
+    }
+    
+    const hoursFromSunrise = millisecondsFromSunrise / (1000 * 60 * 60);
+    
+    // Each hora is approximately 1 hour
+    // Starting planet varies by day of week
+    const dayStartPlanet = [0, 3, 6, 2, 5, 1, 4]; // Sun=0, Moon=3, Mars=6, Mercury=2, Jupiter=5, Venus=1, Saturn=4
+    const startPlanetIndex = dayStartPlanet[dayOfWeek];
+    
+    const horaIndex = (startPlanetIndex + Math.floor(hoursFromSunrise)) % 7;
+    return horaRulers[horaIndex];
+}
+
 function calculateRahuKalam(sunrise: Date, sunset: Date, vara: number): { start: Date, end: Date } | null {
     if (!sunrise || !sunset) {
         return null;
@@ -588,6 +793,28 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
         ? findYogaTransitions(sunrise, nextSunrise)
         : [];
 
+    // Enhanced Vedic Features
+    const abhijitMuhurta = (sunrise && sunset) ? calculateAbhijitMuhurta(sunrise, sunset) : null;
+    const brahmaMuhurta = sunrise ? calculateBrahmaMuhurta(sunrise) : null;
+    const govardhanMuhurta = (sunrise && sunset) ? calculateGovardhanMuhurta(sunrise, sunset) : null;
+    const yamagandaKalam = (sunrise && sunset) ? calculateYamagandaKalam(sunrise, sunset, getVara(date)) : null;
+    const gulikaKalam = (sunrise && sunset) ? calculateGulikaKalam(sunrise, sunset, getVara(date)) : null;
+    const durMuhurta = (sunrise && sunset) ? calculateDurMuhurta(sunrise, sunset) : null;
+    
+    // Planetary positions
+    const planetaryPositions = {
+        sun: getPlanetaryPosition(Body.Sun, date),
+        moon: getPlanetaryPosition(Body.Moon, date),
+        mars: getPlanetaryPosition(Body.Mars, date),
+        mercury: getPlanetaryPosition(Body.Mercury, date),
+        jupiter: getPlanetaryPosition(Body.Jupiter, date),
+        venus: getPlanetaryPosition(Body.Venus, date),
+        saturn: getPlanetaryPosition(Body.Saturn, date)
+    };
+    
+    const chandrabalam = calculateChandraBalam(moonEcliptic.elon, sunEcliptic.elon);
+    const currentHora = sunrise ? getCurrentHora(date, sunrise) : horaRulers[0];
+
     return {
         tithi: getTithi(sunEcliptic.elon, moonEcliptic.elon),
         nakshatra: getNakshatra(moonEcliptic.elon),
@@ -609,6 +836,16 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
         tithiTransitions,
         nakshatraTransitions,
         yogaTransitions,
+        // Enhanced Vedic Features
+        abhijitMuhurta,
+        brahmaMuhurta,
+        govardhanMuhurta,
+        yamagandaKalam,
+        gulikaKalam,
+        durMuhurta,
+        planetaryPositions,
+        chandrabalam,
+        currentHora
     };
 }
 
