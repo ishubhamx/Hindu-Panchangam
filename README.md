@@ -5,15 +5,35 @@ A TypeScript/JavaScript library for calculating Indian Panchangam (Hindu Calenda
 
 ## Features
 
+### Core Panchangam Elements
 - **Tithi Calculation**: Calculate lunar phases and tithi (lunar day)
 - **Nakshatra**: Determine the lunar mansion (nakshatra)
 - **Yoga**: Calculate the combination of solar and lunar longitudes
 - **Karana**: Determine the half-tithi periods
 - **Vara**: Calculate the day of the week
+
+### Astronomical Times
 - **Sunrise/Sunset**: Accurate sunrise and sunset times
 - **Moonrise/Moonset**: Lunar rise and set times
 - **End Times**: Calculate when tithi, nakshatra, and yoga end
+
+### Enhanced Vedic Features
+
+#### Muhurta (Auspicious Times)
+- **Abhijit Muhurta**: Most auspicious time of the day (24 minutes around noon)
+- **Brahma Muhurta**: Pre-dawn meditation time (96 minutes before sunrise)
+- **Govardhan Muhurta**: Afternoon auspicious period
+
+#### Inauspicious Times  
 - **Rahu Kalam**: Calculate inauspicious time periods
+- **Yamaganda Kalam**: Death-related inauspicious periods
+- **Gulika Kalam**: Saturn-influenced unfavorable times
+- **Dur Muhurta**: Multiple inauspicious periods throughout the day
+
+#### Planetary Calculations
+- **Planetary Positions**: Longitude, Rashi (zodiac sign), and degrees for all major planets (Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn)
+- **Chandra Balam**: Moon strength calculation (0-100%)
+- **Hora**: Current planetary hour based on traditional system
 
 ## Installation
 
@@ -42,6 +62,14 @@ console.log('Karana:', panchangam.karana);
 console.log('Vara:', panchangam.vara);
 console.log('Sunrise:', panchangam.sunrise);
 console.log('Sunset:', panchangam.sunset);
+
+// Enhanced Vedic Features
+console.log('Abhijit Muhurta:', panchangam.abhijitMuhurta);
+console.log('Brahma Muhurta:', panchangam.brahmaMuhurta);
+console.log('Chandra Balam:', panchangam.chandrabalam + '%');
+console.log('Current Hora:', panchangam.currentHora);
+console.log('Sun in:', panchangam.planetaryPositions.sun.rashiName);
+console.log('Moon in:', panchangam.planetaryPositions.moon.rashiName);
 ```
 
 Note: The `Observer` class and other astronomy utilities are re-exported from the astronomy-engine package for convenience. You can import them directly from our package without needing to install astronomy-engine separately.
@@ -63,13 +91,26 @@ const htmlContent = generateHtmlCalendar(year, month, observer, timeZone);
 ### Available Constants
 
 ```typescript
-import { karanaNames, yogaNames } from '@ishubhamx/panchangam-js';
+import { 
+  karanaNames, 
+  yogaNames, 
+  tithiNames, 
+  nakshatraNames, 
+  rashiNames, 
+  horaRulers 
+} from '@ishubhamx/panchangam-js';
 
 // Karana names: ["Bava", "Balava", "Kaulava", "Taitila", "Gara", "Vanija", "Vishti", "Shakuni", "Chatushpada", "Naga", "Kimstughna"]
 console.log('Karana:', karanaNames[panchangam.karana]);
 
 // Yoga names: ["Vishkambha", "Priti", "Ayushman", ...]
 console.log('Yoga:', yogaNames[panchangam.yoga]);
+
+// Rashi names: ["Aries", "Taurus", "Gemini", ...]
+console.log('Sun Rashi:', rashiNames[panchangam.planetaryPositions.sun.rashi]);
+
+// Hora rulers: ["Sun", "Venus", "Mercury", "Moon", "Saturn", "Jupiter", "Mars"]
+console.log('Current Hora Planet:', panchangam.currentHora);
 ```
 
 ## API Reference
@@ -85,11 +126,14 @@ Returns a complete panchangam object for the given date and location.
 **Returns:**
 ```typescript
 interface Panchangam {
+    // Core Panchangam Elements
     tithi: number;                    // 0-29 (Prathama to Amavasya/Purnima)
     nakshatra: number;               // 0-26 (Ashwini to Revati)
     yoga: number;                    // 0-26 (Vishkambha to Vaidhriti)
     karana: string;                  // Karana name
     vara: number;                    // 0-6 (Sunday to Saturday)
+    
+    // Astronomical Times
     sunrise: Date | null;            // Sunrise time
     sunset: Date | null;             // Sunset time
     moonrise: Date | null;           // Moonrise time
@@ -99,8 +143,49 @@ interface Panchangam {
     tithiStartTime: Date | null;     // When current tithi started
     tithiEndTime: Date | null;       // When current tithi ends
     yogaEndTime: Date | null;        // When current yoga ends
+    
+    // Inauspicious Times
     rahuKalamStart: Date | null;     // Rahu Kalam start time
     rahuKalamEnd: Date | null;       // Rahu Kalam end time
+    yamagandaKalam: MuhurtaTime | null;  // Yamaganda Kalam period
+    gulikaKalam: MuhurtaTime | null;     // Gulika Kalam period
+    durMuhurta: MuhurtaTime[] | null;    // Multiple Dur Muhurta periods
+    
+    // Auspicious Times
+    abhijitMuhurta: MuhurtaTime | null;  // Abhijit Muhurta period
+    brahmaMuhurta: MuhurtaTime | null;   // Brahma Muhurta period
+    govardhanMuhurta: MuhurtaTime | null; // Govardhan Muhurta period
+    
+    // Planetary Information
+    planetaryPositions: {
+        sun: PlanetaryPosition;      // Sun's position in rashi
+        moon: PlanetaryPosition;     // Moon's position in rashi
+        mars: PlanetaryPosition;     // Mars position
+        mercury: PlanetaryPosition;  // Mercury position
+        jupiter: PlanetaryPosition;  // Jupiter position
+        venus: PlanetaryPosition;    // Venus position
+        saturn: PlanetaryPosition;   // Saturn position
+    };
+    chandrabalam: number;            // Moon strength (0-100)
+    currentHora: string;             // Current planetary hour
+    
+    // Transition Information
+    karanaTransitions: KaranaTransition[];
+    tithiTransitions: TithiTransition[];
+    nakshatraTransitions: NakshatraTransition[];
+    yogaTransitions: YogaTransition[];
+}
+
+interface PlanetaryPosition {
+    longitude: number;      // Longitude in degrees (0-360)
+    rashi: number;         // Rashi index (0-11: Aries to Pisces)
+    rashiName: string;     // Rashi name (e.g., "Aries", "Taurus")
+    degree: number;        // Degree within the rashi (0-30)
+}
+
+interface MuhurtaTime {
+    start: Date;           // Start time of the period
+    end: Date;             // End time of the period
 }
 ```
 
@@ -135,6 +220,48 @@ const panchangam = getPanchangam(date, observer);
 console.log('Today\'s Panchangam:', panchangam);
 ```
 
+### Enhanced Vedic Features Example
+
+```javascript
+const { getPanchangam, Observer, rashiNames, horaRulers } = require('@ishubhamx/panchangam-js');
+
+const observer = new Observer(12.9716, 77.5946, 920); // Bangalore coordinates
+const date = new Date('2025-06-22');
+const panchangam = getPanchangam(date, observer);
+
+// Core Panchangam
+console.log('Tithi:', panchangam.tithi);
+console.log('Nakshatra:', panchangam.nakshatra);
+console.log('Yoga:', panchangam.yoga);
+
+// Muhurta Times
+console.log('Abhijit Muhurta:', panchangam.abhijitMuhurta);
+console.log('Brahma Muhurta:', panchangam.brahmaMuhurta);
+
+// Inauspicious Times
+console.log('Rahu Kalam:', panchangam.rahuKalamStart, 'to', panchangam.rahuKalamEnd);
+console.log('Yamaganda Kalam:', panchangam.yamagandaKalam);
+console.log('Gulika Kalam:', panchangam.gulikaKalam);
+
+// Planetary Information
+console.log('Sun in:', panchangam.planetaryPositions.sun.rashiName, 
+            `(${panchangam.planetaryPositions.sun.degree.toFixed(2)}°)`);
+console.log('Moon in:', panchangam.planetaryPositions.moon.rashiName,
+            `(${panchangam.planetaryPositions.moon.degree.toFixed(2)}°)`);
+console.log('Moon Strength (Chandra Balam):', panchangam.chandrabalam + '%');
+
+// Current Hora
+console.log('Current Planetary Hour (Hora):', panchangam.currentHora);
+
+// Dur Muhurta periods
+if (panchangam.durMuhurta) {
+    console.log('Dur Muhurta periods:');
+    panchangam.durMuhurta.forEach((period, index) => {
+        console.log(`  ${index + 1}: ${period.start} to ${period.end}`);
+    });
+}
+```
+
 ### Browser Usage
 
 ```html
@@ -148,6 +275,20 @@ const panchangam = getPanchangam(date, observer);
 console.log('Today\'s Panchangam:', panchangam);
 </script>
 ```
+
+## Testing and Examples
+
+### Run the Example
+```bash
+npm run vedic-example
+```
+This will run a comprehensive example showing all the enhanced Vedic features.
+
+### Run Simple Test
+```bash
+npm run simple-test
+```
+Basic functionality test to verify the library is working correctly.
 
 ## Environment Compatibility
 
