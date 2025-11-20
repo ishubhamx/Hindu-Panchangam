@@ -1,10 +1,11 @@
 # Panchangam JS
 
 
-A TypeScript/JavaScript library for calculating Indian Panchangam (Hindu Calendar) elements including Tithi, Nakshatra, Yoga, Karana, and Vara using Swiss Ephemeris astronomical calculations.
+A TypeScript/JavaScript library for calculating Indian Panchangam (Hindu Calendar) elements including Tithi, Nakshatra, Yoga, Karana, and Vara using Swiss Ephemeris astronomical calculations with **Lahiri Ayanamsa** for accurate sidereal positions.
 
 ## Features
 
+- **Sidereal Calculations**: Uses Lahiri Ayanamsa (official ayanamsa for Indian government Panchang)
 - **Tithi Calculation**: Calculate lunar phases and tithi (lunar day)
 - **Nakshatra**: Determine the lunar mansion (nakshatra)
 - **Yoga**: Calculate the combination of solar and lunar longitudes
@@ -14,6 +15,7 @@ A TypeScript/JavaScript library for calculating Indian Panchangam (Hindu Calenda
 - **Moonrise/Moonset**: Lunar rise and set times
 - **End Times**: Calculate when tithi, nakshatra, and yoga end
 - **Rahu Kalam**: Calculate inauspicious time periods
+- **Accurate**: Matches Drik Panchang and other authoritative Indian Panchang sources
 
 ## Installation
 
@@ -115,6 +117,48 @@ Generates a complete HTML calendar for the specified month.
 - `timeZone`: IANA timezone string
 
 **Returns:** HTML string with complete calendar
+
+## Astronomical Calculations
+
+This library uses **sidereal (Nirayana)** positions for all Panchang calculations, not tropical positions. The conversion from tropical to sidereal is done using the **Lahiri Ayanamsa**, which is the official ayanamsa adopted by the Indian government for Panchang calculations.
+
+### Lahiri Ayanamsa
+
+The Lahiri ayanamsa represents the difference between the tropical and sidereal zodiac. It accounts for the precession of the equinoxes and ensures our calculations match traditional Indian astronomical references.
+
+**Key Features:**
+- Base value at J2000.0 epoch: 23° 51' 10.44"
+- Current value (2025): approximately 24° 12'
+- Changes at approximately 50.29 arc-seconds per year
+
+### Advanced Usage: Ayanamsa Utilities
+
+For advanced users who need direct access to ayanamsa calculations:
+
+```typescript
+import { getLahiriAyanamsa, tropicalToSidereal, getAyanamsaInfo } from '@ishubhamx/panchangam-js';
+
+const date = new Date('2025-09-14');
+
+// Get the ayanamsa value
+const ayanamsa = getLahiriAyanamsa(date);
+console.log('Ayanamsa:', ayanamsa); // ~24.21 degrees
+
+// Convert tropical longitude to sidereal
+const tropicalLongitude = 180; // degrees
+const siderealLongitude = tropicalToSidereal(tropicalLongitude, date);
+console.log('Sidereal:', siderealLongitude); // ~155.79 degrees
+
+// Get detailed ayanamsa information
+const info = getAyanamsaInfo(date);
+console.log(info);
+// {
+//   ayanamsa: 24.212,
+//   ayanamsaDMS: "24° 12' 43.23\"",
+//   julianDay: 2460566.5,
+//   julianCenturies: 0.2558
+// }
+```
 
 ## Dependencies
 
