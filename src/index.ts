@@ -16,3 +16,6 @@ export type {
 
 // Re-export constants
 export { karanaNames, yogaNames, tithiNames, nakshatraNames } from './panchangam';
+
+// Re-export ayanamsa utilities for advanced users
+export { getLahiriAyanamsa, tropicalToSidereal, getAyanamsaInfo } from './ayanamsa';

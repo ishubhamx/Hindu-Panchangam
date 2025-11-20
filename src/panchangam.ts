@@ -1,4 +1,23 @@
 import { Body, GeoVector, Ecliptic as EclipticFunc, Observer, SearchRiseSet } from "astronomy-engine";
+import { tropicalToSidereal } from "./ayanamsa";
+
+/**
+ * Get sidereal longitude for the Sun
+ */
+function getSunSiderealLongitude(date: Date): number {
+    const sunVector = GeoVector(Body.Sun, date, true);
+    const sunEcliptic = EclipticFunc(sunVector);
+    return tropicalToSidereal(sunEcliptic.elon, date);
+}
+
+/**
+ * Get sidereal longitude for the Moon
+ */
+function getMoonSiderealLongitude(date: Date): number {
+    const moonVector = GeoVector(Body.Moon, date, true);
+    const moonEcliptic = EclipticFunc(moonVector);
+    return tropicalToSidereal(moonEcliptic.elon, date);
+}
 
 export interface KaranaTransition {
     name: string;
@@ -249,14 +268,14 @@ function search(f: (date: Date) => number, startDate: Date): Date | null {
 }
 
 function findNakshatraStart(date: Date): Date | null {
-    const moonLonInitial = EclipticFunc(GeoVector(Body.Moon, date, true)).elon;
+    const moonLonInitial = getMoonSiderealLongitude(date);
     const currentNakshatraIndex = Math.floor(moonLonInitial / (13 + 1/3));
     const startNakshatraLongitude = currentNakshatraIndex * (13 + 1/3);
 
     const targetLon = startNakshatraLongitude % 360;
 
     const nakshatraFunc = (d: Date): number => {
-        let moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
+        let moonLon = getMoonSiderealLongitude(d);
         // Handle the 360->0 wrap-around for the search.
         if (moonLon > targetLon + 180) {
             moonLon -= 360;
@@ -270,14 +289,14 @@ function findNakshatraStart(date: Date): Date | null {
 }
 
 function findNakshatraEnd(date: Date): Date | null {
-    const moonLonInitial = EclipticFunc(GeoVector(Body.Moon, date, true)).elon;
+    const moonLonInitial = getMoonSiderealLongitude(date);
     const currentNakshatra = Math.floor(moonLonInitial / (13 + 1/3));
     const nextNakshatraLongitude = (currentNakshatra + 1) * (13 + 1/3);
     
     const targetLon = nextNakshatraLongitude % 360;
 
     const nakshatraFunc = (d: Date): number => {
-        let moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
+        let moonLon = getMoonSiderealLongitude(d);
         // Handle the 360->0 wrap-around
         if (moonLon < targetLon - 180) {
             moonLon += 360;
@@ -289,8 +308,8 @@ function findNakshatraEnd(date: Date): Date | null {
 }
 
 function findTithiStart(date: Date): Date | null {
-    const sunLonInitial = EclipticFunc(GeoVector(Body.Sun, date, true)).elon;
-    const moonLonInitial = EclipticFunc(GeoVector(Body.Moon, date, true)).elon;
+    const sunLonInitial = getSunSiderealLongitude(date);
+    const moonLonInitial = getMoonSiderealLongitude(date);
     let diffInitial = moonLonInitial - sunLonInitial;
     if (diffInitial < 0) diffInitial += 360;
 
@@ -299,8 +318,8 @@ function findTithiStart(date: Date): Date | null {
     const targetAngle = startTithiAngle % 360;
 
     const tithiFunc = (d: Date): number => {
-        const sunLon = EclipticFunc(GeoVector(Body.Sun, d, true)).elon;
-        const moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
+        const sunLon = getSunSiderealLongitude(d);
+        const moonLon = getMoonSiderealLongitude(d);
         let diff = moonLon - sunLon;
         if (diff < 0) diff += 360;
 
@@ -317,8 +336,8 @@ function findTithiStart(date: Date): Date | null {
 }
 
 function findTithiEnd(date: Date): Date | null {
-    const sunLonInitial = EclipticFunc(GeoVector(Body.Sun, date, true)).elon;
-    const moonLonInitial = EclipticFunc(GeoVector(Body.Moon, date, true)).elon;
+    const sunLonInitial = getSunSiderealLongitude(date);
+    const moonLonInitial = getMoonSiderealLongitude(date);
     let diffInitial = moonLonInitial - sunLonInitial;
     if (diffInitial < 0) diffInitial += 360;
 
@@ -327,8 +346,8 @@ function findTithiEnd(date: Date): Date | null {
     const targetAngle = nextTithiAngle % 360;
 
     const tithiFunc = (d: Date): number => {
-        const sunLon = EclipticFunc(GeoVector(Body.Sun, d, true)).elon;
-        const moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
+        const sunLon = getSunSiderealLongitude(d);
+        const moonLon = getMoonSiderealLongitude(d);
         let diff = moonLon - sunLon;
         if (diff < 0) diff += 360;
 
@@ -342,8 +361,8 @@ function findTithiEnd(date: Date): Date | null {
 }
 
 function findYogaEnd(date: Date): Date | null {
-    const sunLonInitial = EclipticFunc(GeoVector(Body.Sun, date, true)).elon;
-    const moonLonInitial = EclipticFunc(GeoVector(Body.Moon, date, true)).elon;
+    const sunLonInitial = getSunSiderealLongitude(date);
+    const moonLonInitial = getMoonSiderealLongitude(date);
     const totalLongitudeInitial = sunLonInitial + moonLonInitial;
 
     const yogaWidth = 360 / 27; // 13 degrees 20 minutes
@@ -351,8 +370,8 @@ function findYogaEnd(date: Date): Date | null {
     const nextYogaBoundary = (currentYogaTotalIndex + 1) * yogaWidth;
 
     const yogaFunc = (d: Date): number => {
-        const sunLon = EclipticFunc(GeoVector(Body.Sun, d, true)).elon;
-        const moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
+        const sunLon = getSunSiderealLongitude(d);
+        const moonLon = getMoonSiderealLongitude(d);
         let totalLon = sunLon + moonLon;
 
         // If totalLon is much smaller than our target, it means one of the
@@ -395,23 +414,23 @@ function findKaranaTransitions(startDate: Date, endDate: Date): KaranaTransition
     const transitions: KaranaTransition[] = [];
     let current = new Date(startDate);
     let lastKarana = getKarana(
-        EclipticFunc(GeoVector(Body.Sun, current, true)).elon,
-        EclipticFunc(GeoVector(Body.Moon, current, true)).elon
+        getSunSiderealLongitude(current),
+        getMoonSiderealLongitude(current)
     );
     while (current < endDate) {
         // Find next Karana end
         const nextKaranaEnd = (() => {
             // Karana changes every 6 degrees of moon-sun difference
-            const sunLon = EclipticFunc(GeoVector(Body.Sun, current, true)).elon;
-            const moonLon = EclipticFunc(GeoVector(Body.Moon, current, true)).elon;
+            const sunLon = getSunSiderealLongitude(current);
+            const moonLon = getMoonSiderealLongitude(current);
             let diff = moonLon - sunLon;
             if (diff < 0) diff += 360;
             const karanaIndexAbs = Math.floor(diff / 6);
             const nextKaranaAngle = (karanaIndexAbs + 1) * 6;
             const targetAngle = nextKaranaAngle % 360;
             const karanaFunc = (d: Date): number => {
-                const sunLon = EclipticFunc(GeoVector(Body.Sun, d, true)).elon;
-                const moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
+                const sunLon = getSunSiderealLongitude(d);
+                const moonLon = getMoonSiderealLongitude(d);
                 let diff = moonLon - sunLon;
                 if (diff < 0) diff += 360;
                 if (diff < targetAngle - 180) diff += 360;
@@ -427,8 +446,8 @@ function findKaranaTransitions(startDate: Date, endDate: Date): KaranaTransition
             transitions.push({ name: lastKarana, endTime: nextKaranaEnd });
             current = new Date(nextKaranaEnd.getTime() + 60 * 1000); // move 1 min ahead to avoid infinite loop
             lastKarana = getKarana(
-                EclipticFunc(GeoVector(Body.Sun, current, true)).elon,
-                EclipticFunc(GeoVector(Body.Moon, current, true)).elon
+                getSunSiderealLongitude(current),
+                getMoonSiderealLongitude(current)
             );
         }
     }
@@ -439,21 +458,21 @@ function findTithiTransitions(startDate: Date, endDate: Date): TithiTransition[]
     const transitions: TithiTransition[] = [];
     let current = new Date(startDate);
     let lastTithi = getTithi(
-        EclipticFunc(GeoVector(Body.Sun, current, true)).elon,
-        EclipticFunc(GeoVector(Body.Moon, current, true)).elon
+        getSunSiderealLongitude(current),
+        getMoonSiderealLongitude(current)
     );
     while (current < endDate) {
         const nextTithiEnd = (() => {
-            const sunLon = EclipticFunc(GeoVector(Body.Sun, current, true)).elon;
-            const moonLon = EclipticFunc(GeoVector(Body.Moon, current, true)).elon;
+            const sunLon = getSunSiderealLongitude(current);
+            const moonLon = getMoonSiderealLongitude(current);
             let diff = moonLon - sunLon;
             if (diff < 0) diff += 360;
             const tithiIndex = Math.floor(diff / 12);
             const nextTithiAngle = (tithiIndex + 1) * 12;
             const targetAngle = nextTithiAngle % 360;
             const tithiFunc = (d: Date): number => {
-                const sunLon = EclipticFunc(GeoVector(Body.Sun, d, true)).elon;
-                const moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
+                const sunLon = getSunSiderealLongitude(d);
+                const moonLon = getMoonSiderealLongitude(d);
                 let diff = moonLon - sunLon;
                 if (diff < 0) diff += 360;
                 if (diff < targetAngle - 180) diff += 360;
@@ -468,8 +487,8 @@ function findTithiTransitions(startDate: Date, endDate: Date): TithiTransition[]
             transitions.push({ index: lastTithi, name: tithiNames[lastTithi] || String(lastTithi), endTime: nextTithiEnd });
             current = new Date(nextTithiEnd.getTime() + 60 * 1000);
             lastTithi = getTithi(
-                EclipticFunc(GeoVector(Body.Sun, current, true)).elon,
-                EclipticFunc(GeoVector(Body.Moon, current, true)).elon
+                getSunSiderealLongitude(current),
+                getMoonSiderealLongitude(current)
             );
         }
     }
@@ -480,16 +499,16 @@ function findNakshatraTransitions(startDate: Date, endDate: Date): NakshatraTran
     const transitions: NakshatraTransition[] = [];
     let current = new Date(startDate);
     let lastNakshatra = getNakshatra(
-        EclipticFunc(GeoVector(Body.Moon, current, true)).elon
+        getMoonSiderealLongitude(current)
     );
     while (current < endDate) {
         const nextNakshatraEnd = (() => {
-            const moonLon = EclipticFunc(GeoVector(Body.Moon, current, true)).elon;
+            const moonLon = getMoonSiderealLongitude(current);
             const nakshatraIndex = Math.floor(moonLon / (13 + 1/3));
             const nextNakshatraLongitude = (nakshatraIndex + 1) * (13 + 1/3);
             const targetLon = nextNakshatraLongitude % 360;
             const nakshatraFunc = (d: Date): number => {
-                let moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
+                let moonLon = getMoonSiderealLongitude(d);
                 if (moonLon < targetLon - 180) moonLon += 360;
                 return moonLon - targetLon;
             };
@@ -502,7 +521,7 @@ function findNakshatraTransitions(startDate: Date, endDate: Date): NakshatraTran
             transitions.push({ index: lastNakshatra, name: nakshatraNames[lastNakshatra] || String(lastNakshatra), endTime: nextNakshatraEnd });
             current = new Date(nextNakshatraEnd.getTime() + 60 * 1000);
             lastNakshatra = getNakshatra(
-                EclipticFunc(GeoVector(Body.Moon, current, true)).elon
+                getMoonSiderealLongitude(current)
             );
         }
     }
@@ -513,20 +532,20 @@ function findYogaTransitions(startDate: Date, endDate: Date): YogaTransition[] {
     const transitions: YogaTransition[] = [];
     let current = new Date(startDate);
     let lastYoga = getYoga(
-        EclipticFunc(GeoVector(Body.Sun, current, true)).elon,
-        EclipticFunc(GeoVector(Body.Moon, current, true)).elon
+        getSunSiderealLongitude(current),
+        getMoonSiderealLongitude(current)
     );
     while (current < endDate) {
         const nextYogaEnd = (() => {
-            const sunLon = EclipticFunc(GeoVector(Body.Sun, current, true)).elon;
-            const moonLon = EclipticFunc(GeoVector(Body.Moon, current, true)).elon;
+            const sunLon = getSunSiderealLongitude(current);
+            const moonLon = getMoonSiderealLongitude(current);
             const totalLongitude = sunLon + moonLon;
             const yogaWidth = 360 / 27;
             const yogaIndex = Math.floor(totalLongitude / yogaWidth);
             const nextYogaBoundary = (yogaIndex + 1) * yogaWidth;
             const yogaFunc = (d: Date): number => {
-                const sunLon = EclipticFunc(GeoVector(Body.Sun, d, true)).elon;
-                const moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
+                const sunLon = getSunSiderealLongitude(d);
+                const moonLon = getMoonSiderealLongitude(d);
                 let totalLon = sunLon + moonLon;
                 if (totalLon < nextYogaBoundary - 270) totalLon += 360;
                 return totalLon - nextYogaBoundary;
@@ -540,8 +559,8 @@ function findYogaTransitions(startDate: Date, endDate: Date): YogaTransition[] {
             transitions.push({ index: lastYoga, name: yogaNames[lastYoga] || String(lastYoga), endTime: nextYogaEnd });
             current = new Date(nextYogaEnd.getTime() + 60 * 1000);
             lastYoga = getYoga(
-                EclipticFunc(GeoVector(Body.Sun, current, true)).elon,
-                EclipticFunc(GeoVector(Body.Moon, current, true)).elon
+                getSunSiderealLongitude(current),
+                getMoonSiderealLongitude(current)
             );
         }
     }
@@ -549,11 +568,9 @@ function findYogaTransitions(startDate: Date, endDate: Date): YogaTransition[] {
 }
 
 export function getPanchangam(date: Date, observer: Observer): Panchangam {
-    const sunVector = GeoVector(Body.Sun, date, true);
-    const moonVector = GeoVector(Body.Moon, date, true);
-    
-    const sunEcliptic = EclipticFunc(sunVector);
-    const moonEcliptic = EclipticFunc(moonVector);
+    // Get sidereal longitudes for accurate Indian Panchang calculations
+    const sunSiderealLon = getSunSiderealLongitude(date);
+    const moonSiderealLon = getMoonSiderealLongitude(date);
 
     const sunrise = getSunrise(date, observer);
     const sunset = getSunset(date, observer);
@@ -589,10 +606,10 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
         : [];
 
     return {
-        tithi: getTithi(sunEcliptic.elon, moonEcliptic.elon),
-        nakshatra: getNakshatra(moonEcliptic.elon),
-        yoga: getYoga(sunEcliptic.elon, moonEcliptic.elon),
-        karana: getKarana(sunEcliptic.elon, moonEcliptic.elon),
+        tithi: getTithi(sunSiderealLon, moonSiderealLon),
+        nakshatra: getNakshatra(moonSiderealLon),
+        yoga: getYoga(sunSiderealLon, moonSiderealLon),
+        karana: getKarana(sunSiderealLon, moonSiderealLon),
         vara: getVara(date),
         sunrise,
         sunset,
