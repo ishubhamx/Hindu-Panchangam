@@ -1,7 +1,7 @@
 {
   "name": "@ishubhamx/panchangam-js",
   "version": "1.0.3",
-  "description": "Indian Panchangam (Hindu Calendar) library for calculating Tithi, Nakshatra, Yoga, Karana, and Vara using Swiss Ephemeris",
+  "description": "Comprehensive TypeScript/JavaScript library for calculating Indian Panchangam (Hindu Calendar) elements with high astronomical accuracy - Tithi, Nakshatra, Yoga, Karana, Vara, and auspicious timings using Swiss Ephemeris",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -20,17 +20,31 @@
   },
   "keywords": [
     "panchangam",
+    "panchang",
     "hindu-calendar",
     "indian-calendar",
+    "vedic-astrology",
+    "jyotish",
     "tithi",
     "nakshatra",
     "yoga",
     "karana",
     "vara",
+    "rahu-kalam",
+    "muhurta",
+    "lunar-calendar",
     "astronomy",
-    "swiss-ephemeris"
+    "swiss-ephemeris",
+    "ephemeris",
+    "astronomical-calculations",
+    "moon-phases",
+    "sunrise-sunset"
   ],
-  "author": "",
+  "author": "ishubhamx",
+  "homepage": "https://github.com/ishubhamx/Hindu-Panchangam#readme",
+  "bugs": {
+    "url": "https://github.com/ishubhamx/Hindu-Panchangam/issues"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
