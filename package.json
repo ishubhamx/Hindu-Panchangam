@@ -1,6 +1,6 @@
 {
   "name": "@ishubhamx/panchangam-js",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "Enhanced Indian Panchangam (Hindu Calendar) library with comprehensive Vedic features including Muhurta calculations, planetary positions, Rashi placements, and auspicious/inauspicious time calculations using Swiss Ephemeris",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
