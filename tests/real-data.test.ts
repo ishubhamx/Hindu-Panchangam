@@ -40,10 +40,12 @@ const TEST_CASES = [
 describe('Real Data Regression Tests', () => {
     TEST_CASES.forEach(({ date, expected }) => {
         test(`matches Drik Panchang for ${date}`, () => {
-            let dt = new Date(date);
-            // First, get the sunrise time for this date
-            // We start with noon to be safely in the day
-            dt.setHours(12, 0, 0, 0);
+            // Fix Timezone Issue: Validating for the "Civil Day" implied by the string
+            // "2025-10-01T00:00+05:30" implies we want to test Oct 1.
+            // In UTC, this instant is Sept 30. If we just use setHours(12), it might stay on Sept 30 in CI.
+            // We explicit construct UTC Noon for the target date to ensure we test THAT day.
+            const datePart = date.split('T')[0]; // 2025-10-01
+            let dt = new Date(`${datePart}T12:00:00Z`);
 
             const pInit = getPanchangam(dt, BANGALORE);
 
