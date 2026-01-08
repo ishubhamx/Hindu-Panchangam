@@ -2,22 +2,23 @@
   "name": "@ishubhamx/panchangam-js",
   "version": "1.0.3",
   "description": "Enhanced Indian Panchangam (Hindu Calendar) library with comprehensive Vedic features including Muhurta calculations, planetary positions, Rashi placements, and auspicious/inauspicious time calculations using Swiss Ephemeris",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "files": [
-    "dist/**/*",
+    "dist/src/**/*",
     "README.md"
   ],
   "scripts": {
-    "test": "npm run build && node dist/test/comprehensive.test.js",
+    "test": "jest",
     "build": "tsc",
     "prepublishOnly": "npm run build",
-    "generate": "npm run build && node dist/index.js",
-    "validate": "npm run build && node dist/scripts/validate.js",
-    "validate-comparison": "npm run build && node dist/scripts/validate-comparison.js",
-    "debug": "npm run build && node dist/scripts/debug.js",
-    "simple-test": "npm run build && node dist/scripts/simple-test.js",
-    "vedic-example": "npm run build && node dist/scripts/comprehensive-example.js"
+    "generate": "ts-node src/index.ts",
+    "validate": "ts-node scripts/validate.ts",
+    "validate-comparison": "ts-node scripts/validate-comparison.ts",
+    "debug": "ts-node scripts/debug.ts",
+    "simple-test": "ts-node scripts/simple-test.ts",
+    "vedic-example": "ts-node scripts/comprehensive-example.ts",
+    "bulk-verify": "ts-node scripts/bulk-verify.ts"
   },
   "keywords": [
     "panchangam",
@@ -53,10 +54,14 @@
     "luxon": "^3.6.1"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/luxon": "^3.6.2",
     "@types/node": "^24.0.3",
     "axios": "^1.10.0",
     "cheerio": "^1.1.0",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "engines": {
