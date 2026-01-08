@@ -1,129 +1,8 @@
 import { Body, GeoVector, Ecliptic as EclipticFunc, Observer, SearchRiseSet } from "astronomy-engine";
+import { repeatingKaranaNames, tithiNames, nakshatraNames, yogaNames, rashiNames, horaRulers } from "./constants";
+import { KaranaTransition, TithiTransition, NakshatraTransition, YogaTransition, PlanetaryPosition, MuhurtaTime } from "./types";
 
-export interface KaranaTransition {
-    name: string;
-    endTime: Date;
-}
-
-export interface TithiTransition {
-    index: number;
-    name: string;
-    endTime: Date;
-}
-
-export interface NakshatraTransition {
-    index: number;
-    name: string;
-    endTime: Date;
-}
-
-export interface YogaTransition {
-    index: number;
-    name: string;
-    endTime: Date;
-}
-
-export interface PlanetaryPosition {
-    longitude: number;      // Longitude in degrees (0-360)
-    rashi: number;         // Rashi index (0-11: Aries to Pisces)
-    rashiName: string;     // Rashi name
-    degree: number;        // Degree within the rashi (0-30)
-}
-
-export interface MuhurtaTime {
-    start: Date;
-    end: Date;
-}
-
-export interface Panchangam {
-    tithi: number;
-    nakshatra: number;
-    yoga: number;
-    karana: string;
-    vara: number;
-    sunrise: Date | null;
-    sunset: Date | null;
-    moonrise: Date | null;
-    moonset: Date | null;
-    nakshatraStartTime: Date | null;
-    nakshatraEndTime: Date | null;
-    tithiStartTime: Date | null;
-    tithiEndTime: Date | null;
-    yogaEndTime: Date | null;
-    rahuKalamStart: Date | null;
-    rahuKalamEnd: Date | null;
-    karanaTransitions: KaranaTransition[];
-    tithiTransitions: TithiTransition[];
-    nakshatraTransitions: NakshatraTransition[];
-    yogaTransitions: YogaTransition[];
-    // Enhanced Vedic Features
-    abhijitMuhurta: MuhurtaTime | null;
-    brahmaMuhurta: MuhurtaTime | null;
-    govardhanMuhurta: MuhurtaTime | null;
-    yamagandaKalam: MuhurtaTime | null;
-    gulikaKalam: MuhurtaTime | null;
-    durMuhurta: MuhurtaTime[] | null;
-    planetaryPositions: {
-        sun: PlanetaryPosition;
-        moon: PlanetaryPosition;
-        mars: PlanetaryPosition;
-        mercury: PlanetaryPosition;
-        jupiter: PlanetaryPosition;
-        venus: PlanetaryPosition;
-        saturn: PlanetaryPosition;
-    };
-    chandrabalam: number;  // Moon strength (0-100)
-    currentHora: string;   // Current planetary hour
-}
-
-export interface PanchangamDetails extends Panchangam {
-    sunrise: Date | null;
-}
-
-const repeatingKaranaNames = [
-    "Bava", "Balava", "Kaulava", "Taitila", "Gara", "Vanija", "Vishti"
-];
-
-const fixedKaranaNames = [
-    "Shakuni", "Chatushpada", "Naga", "Kimstughna"
-];
-
-export const karanaNames = [...repeatingKaranaNames, ...fixedKaranaNames];
-
-export const yogaNames = [
-    "Vishkambha", "Priti", "Ayushman", "Saubhagya", "Shobhana", "Atiganda",
-    "Sukarman", "Dhriti", "Shula", "Ganda", "Vriddhi", "Dhruva", "Vyaghata",
-    "Harshana", "Vajra", "Siddhi", "Vyatipata", "Variyana", "Parigha",
-    "Shiva", "Siddha", "Sadhya", "Shubha", "Shukla", "Brahma", "Indra", "Vaidhriti"
-];
-
-export const tithiNames = [
-    "Prathama", "Dwitiya", "Tritiya", "Chaturthi", "Panchami",
-    "Shashthi", "Saptami", "Ashtami", "Navami", "Dashami",
-    "Ekadashi", "Dwadashi", "Trayodashi", "Chaturdashi", "Purnima",
-    "Prathama", "Dwitiya", "Tritiya", "Chaturthi", "Panchami",
-    "Shashthi", "Saptami", "Ashtami", "Navami", "Dashami",
-    "Ekadashi", "Dwadashi", "Trayodashi", "Chaturdashi", "Amavasya",
-];
-
-export const nakshatraNames = [
-    "Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra",
-    "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni",
-    "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha",
-    "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta",
-    "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"
-];
-
-export const rashiNames = [
-    "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
-    "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
-];
-
-export const horaRulers = [
-    "Sun", "Venus", "Mercury", "Moon", "Saturn", "Jupiter", "Mars"
-];
-
-function getTithi(sunLon: number, moonLon: number): number {
+export function getTithi(sunLon: number, moonLon: number): number {
     let longitudeDifference = moonLon - sunLon;
     if (longitudeDifference < 0) {
         longitudeDifference += 360;
@@ -131,16 +10,16 @@ function getTithi(sunLon: number, moonLon: number): number {
     return Math.floor(longitudeDifference / 12);
 }
 
-function getNakshatra(moonLon: number): number {
-    return Math.floor(moonLon / (13 + 1/3));
+export function getNakshatra(moonLon: number): number {
+    return Math.floor(moonLon / (13 + 1 / 3));
 }
 
-function getYoga(sunLon: number, moonLon: number): number {
+export function getYoga(sunLon: number, moonLon: number): number {
     const totalLongitude = sunLon + moonLon;
-    return Math.floor(totalLongitude / (13 + 1/3)) % 27;
+    return Math.floor(totalLongitude / (13 + 1 / 3)) % 27;
 }
 
-function getKarana(sunLon: number, moonLon: number): string {
+export function getKarana(sunLon: number, moonLon: number): string {
     let longitudeDifference = moonLon - sunLon;
     if (longitudeDifference < 0) {
         longitudeDifference += 360;
@@ -160,98 +39,86 @@ function getKarana(sunLon: number, moonLon: number): string {
     if (karanaIndexAbs === 59) {
         return "Naga";
     }
-    
+
     const repeatingIndex = (karanaIndexAbs - 1) % 7;
     return repeatingKaranaNames[repeatingIndex];
 }
 
-function getVara(date: Date): number {
+export function getVara(date: Date): number {
     return date.getDay();
 }
 
-function getSunrise(date: Date, observer: Observer): Date | null {
-    // Start searching from the beginning of the day to ensure we get sunrise for the correct date
+export function getSunrise(date: Date, observer: Observer): Date | null {
     const startOfDay = new Date(date);
     startOfDay.setUTCHours(0, 0, 0, 0);
-    
+
     const time = SearchRiseSet(Body.Sun, observer, 1, startOfDay, 1);
     if (!time) return null;
-    
+
     const sunrise = time.date;
-    
-    // Check if sunrise is within the same calendar day (UTC)
+
     const endOfDay = new Date(date);
     endOfDay.setUTCHours(23, 59, 59, 999);
-    
+
     if (sunrise >= startOfDay && sunrise <= endOfDay) {
         return sunrise;
     }
-    
+
     return null;
 }
 
-function getSunset(date: Date, observer: Observer): Date | null {
-    // Start searching from the beginning of the day to ensure we get sunset for the correct date
+export function getSunset(date: Date, observer: Observer): Date | null {
     const startOfDay = new Date(date);
     startOfDay.setUTCHours(0, 0, 0, 0);
-    
+
     const time = SearchRiseSet(Body.Sun, observer, -1, startOfDay, 1);
     if (!time) return null;
-    
+
     const sunset = time.date;
-    
-    // Check if sunset is within the same calendar day (UTC)
+
     const endOfDay = new Date(date);
     endOfDay.setUTCHours(23, 59, 59, 999);
-    
+
     if (sunset >= startOfDay && sunset <= endOfDay) {
         return sunset;
     }
-    
+
     return null;
 }
 
-function getMoonrise(date: Date, observer: Observer): Date | null {
-    // Start searching from the beginning of the day
+export function getMoonrise(date: Date, observer: Observer): Date | null {
     const startOfDay = new Date(date);
     startOfDay.setUTCHours(0, 0, 0, 0);
-    
+
     const time = SearchRiseSet(Body.Moon, observer, 1, startOfDay, 1);
     if (!time) return null;
-    
+
     const moonrise = time.date;
-    
-    // Check if moonrise is within the same calendar day (UTC)
+
     const endOfDay = new Date(date);
     endOfDay.setUTCHours(23, 59, 59, 999);
-    
+
     if (moonrise >= startOfDay && moonrise <= endOfDay) {
         return moonrise;
     }
-    
-    // Moon might rise the next day, which is valid
     return moonrise;
 }
 
-function getMoonset(date: Date, observer: Observer): Date | null {
-    // Start searching from the beginning of the day
+export function getMoonset(date: Date, observer: Observer): Date | null {
     const startOfDay = new Date(date);
     startOfDay.setUTCHours(0, 0, 0, 0);
-    
+
     const time = SearchRiseSet(Body.Moon, observer, -1, startOfDay, 1);
     if (!time) return null;
-    
+
     const moonset = time.date;
-    
-    // Check if moonset is within the same calendar day (UTC)
+
     const endOfDay = new Date(date);
     endOfDay.setUTCHours(23, 59, 59, 999);
-    
+
     if (moonset >= startOfDay && moonset <= endOfDay) {
         return moonset;
     }
-    
-    // Moon might set the next day, which is valid
     return moonset;
 }
 
@@ -267,9 +134,6 @@ function search(f: (date: Date) => number, startDate: Date): Date | null {
     let fb = f(b);
 
     if (fa * fb >= 0) {
-        // We need the function to cross zero in the interval. 
-        // If not, we might not find a root.
-        // This can happen if a tithi/nakshatra doesn't end within the next 2 days, which is rare.
         return null;
     }
 
@@ -287,20 +151,31 @@ function search(f: (date: Date) => number, startDate: Date): Date | null {
     return a;
 }
 
-function findNakshatraStart(date: Date): Date | null {
+export function findNakshatraStart(date: Date, ayanamsa: number): Date | null {
     const moonLonInitial = EclipticFunc(GeoVector(Body.Moon, date, true)).elon;
-    const currentNakshatraIndex = Math.floor(moonLonInitial / (13 + 1/3));
-    const startNakshatraLongitude = currentNakshatraIndex * (13 + 1/3);
+    // Sidereal Longitude
+    const moonLonSidereal = (moonLonInitial - ayanamsa + 360) % 360;
 
-    const targetLon = startNakshatraLongitude % 360;
+    const currentNakshatraIndex = Math.floor(moonLonSidereal / (13 + 1 / 3));
+    const startNakshatraLongitude = currentNakshatraIndex * (13 + 1 / 3);
+
+    const targetLon = startNakshatraLongitude; // This is in Sidereal frame
 
     const nakshatraFunc = (d: Date): number => {
         let moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
+        let moonLonSid = (moonLon - ayanamsa + 360) % 360;
+
         // Handle the 360->0 wrap-around for the search.
-        if (moonLon > targetLon + 180) {
-            moonLon -= 360;
+        if (moonLonSid > targetLon + 180) {
+            moonLonSid -= 360;
         }
-        return moonLon - targetLon;
+
+        // Standard diff logic
+        let diff = moonLonSid - targetLon;
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+
+        return diff;
     };
 
     // A nakshatra lasts about a day. Searching from 25 hours before should be safe.
@@ -308,26 +183,31 @@ function findNakshatraStart(date: Date): Date | null {
     return search(nakshatraFunc, searchStartDate);
 }
 
-function findNakshatraEnd(date: Date): Date | null {
+export function findNakshatraEnd(date: Date, ayanamsa: number): Date | null {
     const moonLonInitial = EclipticFunc(GeoVector(Body.Moon, date, true)).elon;
-    const currentNakshatra = Math.floor(moonLonInitial / (13 + 1/3));
-    const nextNakshatraLongitude = (currentNakshatra + 1) * (13 + 1/3);
-    
+    const moonLonSidereal = (moonLonInitial - ayanamsa + 360) % 360;
+
+    const currentNakshatra = Math.floor(moonLonSidereal / (13 + 1 / 3));
+    const nextNakshatraLongitude = (currentNakshatra + 1) * (13 + 1 / 3);
+
     const targetLon = nextNakshatraLongitude % 360;
 
     const nakshatraFunc = (d: Date): number => {
         let moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
+        let moonLonSid = (moonLon - ayanamsa + 360) % 360;
+
         // Handle the 360->0 wrap-around
-        if (moonLon < targetLon - 180) {
-            moonLon += 360;
-        }
-        return moonLon - targetLon;
+        let diff = moonLonSid - targetLon;
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+
+        return diff;
     };
 
     return search(nakshatraFunc, date);
 }
 
-function findTithiStart(date: Date): Date | null {
+export function findTithiStart(date: Date): Date | null {
     const sunLonInitial = EclipticFunc(GeoVector(Body.Sun, date, true)).elon;
     const moonLonInitial = EclipticFunc(GeoVector(Body.Moon, date, true)).elon;
     let diffInitial = moonLonInitial - sunLonInitial;
@@ -355,7 +235,7 @@ function findTithiStart(date: Date): Date | null {
     return search(tithiFunc, searchStartDate);
 }
 
-function findTithiEnd(date: Date): Date | null {
+export function findTithiEnd(date: Date): Date | null {
     const sunLonInitial = EclipticFunc(GeoVector(Body.Sun, date, true)).elon;
     const moonLonInitial = EclipticFunc(GeoVector(Body.Moon, date, true)).elon;
     let diffInitial = moonLonInitial - sunLonInitial;
@@ -380,10 +260,14 @@ function findTithiEnd(date: Date): Date | null {
     return search(tithiFunc, date);
 }
 
-function findYogaEnd(date: Date): Date | null {
+export function findYogaEnd(date: Date, ayanamsa: number): Date | null {
     const sunLonInitial = EclipticFunc(GeoVector(Body.Sun, date, true)).elon;
     const moonLonInitial = EclipticFunc(GeoVector(Body.Moon, date, true)).elon;
-    const totalLongitudeInitial = sunLonInitial + moonLonInitial;
+
+    const sunLonSid = (sunLonInitial - ayanamsa + 360) % 360;
+    const moonLonSid = (moonLonInitial - ayanamsa + 360) % 360;
+
+    const totalLongitudeInitial = sunLonSid + moonLonSid;
 
     const yogaWidth = 360 / 27; // 13 degrees 20 minutes
     const currentYogaTotalIndex = Math.floor(totalLongitudeInitial / yogaWidth);
@@ -392,11 +276,12 @@ function findYogaEnd(date: Date): Date | null {
     const yogaFunc = (d: Date): number => {
         const sunLon = EclipticFunc(GeoVector(Body.Sun, d, true)).elon;
         const moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
-        let totalLon = sunLon + moonLon;
 
-        // If totalLon is much smaller than our target, it means one of the
-        // components (likely the moon) has wrapped around from 360 to 0.
-        // We add 360 to make the value monotonic for the search function.
+        let sunLonS = (sunLon - ayanamsa + 360) % 360;
+        let moonLonS = (moonLon - ayanamsa + 360) % 360;
+
+        let totalLon = sunLonS + moonLonS;
+
         if (totalLon < nextYogaBoundary - 270) {
             totalLon += 360;
         }
@@ -407,14 +292,16 @@ function findYogaEnd(date: Date): Date | null {
     return search(yogaFunc, date);
 }
 
-function getPlanetaryPosition(body: Body, date: Date): PlanetaryPosition {
+export function getPlanetaryPosition(body: Body, date: Date, ayanamsa: number): PlanetaryPosition {
     const vector = GeoVector(body, date, true);
     const ecliptic = EclipticFunc(vector);
-    const longitude = ecliptic.elon;
-    
+    const tropicalLon = ecliptic.elon;
+
+    const longitude = (tropicalLon - ayanamsa + 360) % 360;
+
     const rashi = Math.floor(longitude / 30);
     const degree = longitude % 30;
-    
+
     return {
         longitude,
         rashi,
@@ -423,157 +310,159 @@ function getPlanetaryPosition(body: Body, date: Date): PlanetaryPosition {
     };
 }
 
-function calculateAbhijitMuhurta(sunrise: Date, sunset: Date): MuhurtaTime | null {
+export function calculateAbhijitMuhurta(sunrise: Date, sunset: Date): MuhurtaTime | null {
     if (!sunrise || !sunset) return null;
-    
+
     const dayDuration = sunset.getTime() - sunrise.getTime();
     const noonTime = sunrise.getTime() + (dayDuration / 2);
-    
-    // Abhijit Muhurta is 24 minutes around noon (12 minutes before and after)
-    const abhijitStart = new Date(noonTime - 12 * 60 * 1000);
-    const abhijitEnd = new Date(noonTime + 12 * 60 * 1000);
-    
+
+    // Abhijit Muhurta is typically 1 Muhurta (48 minutes) centered around solar noon
+    // So 24 minutes before and after local noon
+    const abhijitStart = new Date(noonTime - 24 * 60 * 1000);
+    const abhijitEnd = new Date(noonTime + 24 * 60 * 1000);
+
     return {
         start: abhijitStart,
         end: abhijitEnd
     };
 }
 
-function calculateBrahmaMuhurta(sunrise: Date): MuhurtaTime | null {
+export function calculateBrahmaMuhurta(sunrise: Date): MuhurtaTime | null {
     if (!sunrise) return null;
-    
+
     // Brahma Muhurta is the last 1/8th of the night, approximately 96 minutes before sunrise
     const brahmaMuhurtaStart = new Date(sunrise.getTime() - 96 * 60 * 1000);
     const brahmaMuhurtaEnd = new Date(sunrise.getTime() - 48 * 60 * 1000);
-    
+
     return {
         start: brahmaMuhurtaStart,
         end: brahmaMuhurtaEnd
     };
 }
 
-function calculateGovardhanMuhurta(sunrise: Date, sunset: Date): MuhurtaTime | null {
+export function calculateGovardhanMuhurta(sunrise: Date, sunset: Date): MuhurtaTime | null {
     if (!sunrise || !sunset) return null;
-    
+
     const dayDuration = sunset.getTime() - sunrise.getTime();
     // Govardhan Muhurta is in the afternoon, typically in the 6th hour (5/8 to 6/8 of day)
     const govardhanStart = new Date(sunrise.getTime() + (5 * dayDuration / 8));
     const govardhanEnd = new Date(sunrise.getTime() + (6 * dayDuration / 8));
-    
+
     return {
         start: govardhanStart,
         end: govardhanEnd
     };
 }
 
-function calculateYamagandaKalam(sunrise: Date, sunset: Date, vara: number): MuhurtaTime | null {
+export function calculateYamagandaKalam(sunrise: Date, sunset: Date, vara: number): MuhurtaTime | null {
     if (!sunrise || !sunset) return null;
-    
+
     const daylightMillis = sunset.getTime() - sunrise.getTime();
     const portionMillis = daylightMillis / 8;
-    
+
     // Yamaganda Kalam portions for each day: Sun, Mon, Tue, Wed, Thu, Fri, Sat
-    const yamagandaPortionIndex = [7, 5, 4, 6, 3, 2, 1]; 
+    // Rule: Sun=5, Mon=4, Tue=3, Wed=2, Thu=1, Fri=7, Sat=6
+    const yamagandaPortionIndex = [5, 4, 3, 2, 1, 7, 6];
     const portionIndex = yamagandaPortionIndex[vara];
-    
+
     const startMillis = sunrise.getTime() + (portionIndex - 1) * portionMillis;
     const endMillis = sunrise.getTime() + portionIndex * portionMillis;
-    
+
     return {
         start: new Date(startMillis),
         end: new Date(endMillis)
     };
 }
 
-function calculateGulikaKalam(sunrise: Date, sunset: Date, vara: number): MuhurtaTime | null {
+export function calculateGulikaKalam(sunrise: Date, sunset: Date, vara: number): MuhurtaTime | null {
     if (!sunrise || !sunset) return null;
-    
+
     const daylightMillis = sunset.getTime() - sunrise.getTime();
     const portionMillis = daylightMillis / 8;
-    
+
     // Gulika Kalam portions for each day: Sun, Mon, Tue, Wed, Thu, Fri, Sat
-    const gulikaPortionIndex = [6, 4, 3, 5, 2, 1, 7]; 
+    // Rule: Sun=7, Mon=6, Tue=5, Wed=4, Thu=3, Fri=2, Sat=1
+    const gulikaPortionIndex = [7, 6, 5, 4, 3, 2, 1];
     const portionIndex = gulikaPortionIndex[vara];
-    
+
     const startMillis = sunrise.getTime() + (portionIndex - 1) * portionMillis;
     const endMillis = sunrise.getTime() + portionIndex * portionMillis;
-    
+
     return {
         start: new Date(startMillis),
         end: new Date(endMillis)
     };
 }
 
-function calculateDurMuhurta(sunrise: Date, sunset: Date): MuhurtaTime[] | null {
+export function calculateDurMuhurta(sunrise: Date, sunset: Date): MuhurtaTime[] | null {
     if (!sunrise || !sunset) return null;
-    
+
     const dayDuration = sunset.getTime() - sunrise.getTime();
     const muhurtaDuration = dayDuration / 15; // Day is divided into 15 muhurtas
-    
-    // Dur Muhurtas are typically the 4th, 6th, and 14th muhurtas
+
     const durMuhurtas: MuhurtaTime[] = [];
-    
+
     // 4th Muhurta (around 10-11 AM)
     const fourthStart = new Date(sunrise.getTime() + 3 * muhurtaDuration);
     const fourthEnd = new Date(sunrise.getTime() + 4 * muhurtaDuration);
     durMuhurtas.push({ start: fourthStart, end: fourthEnd });
-    
+
     // 6th Muhurta (around 12-1 PM)  
     const sixthStart = new Date(sunrise.getTime() + 5 * muhurtaDuration);
     const sixthEnd = new Date(sunrise.getTime() + 6 * muhurtaDuration);
     durMuhurtas.push({ start: sixthStart, end: sixthEnd });
-    
+
     // 14th Muhurta (late afternoon)
     const fourteenthStart = new Date(sunrise.getTime() + 13 * muhurtaDuration);
     const fourteenthEnd = new Date(sunrise.getTime() + 14 * muhurtaDuration);
     durMuhurtas.push({ start: fourteenthStart, end: fourteenthEnd });
-    
+
     return durMuhurtas;
 }
 
-function calculateChandraBalam(moonLon: number, sunLon: number): number {
+export function calculateChandraBalam(moonLon: number, sunLon: number): number {
     // Calculate moon strength based on the angular distance from sun
     let angularDistance = Math.abs(moonLon - sunLon);
     if (angularDistance > 180) {
         angularDistance = 360 - angularDistance;
     }
-    
+
     // Full moon (180 degrees apart) = 100% strength
     // New moon (0 degrees apart) = 0% strength
     return Math.round((angularDistance / 180) * 100);
 }
 
-function getCurrentHora(date: Date, sunrise: Date): string {
+export function getCurrentHora(date: Date, sunrise: Date): string {
     if (!sunrise) return horaRulers[0]; // Default to Sun
-    
+
     const dayOfWeek = date.getDay();
     const millisecondsFromSunrise = date.getTime() - sunrise.getTime();
-    
+
     // If the time is before sunrise, use the previous day's calculation
     if (millisecondsFromSunrise < 0) {
         // Calculate previous day's sunrise
         const prevDay = new Date(date.getTime() - 24 * 60 * 60 * 1000);
         const prevDayOfWeek = prevDay.getDay();
         const hoursFromPrevSunrise = Math.abs(millisecondsFromSunrise) / (1000 * 60 * 60);
-        
+
         const dayStartPlanet = [0, 3, 6, 2, 5, 1, 4]; // Sun=0, Moon=3, Mars=6, Mercury=2, Jupiter=5, Venus=1, Saturn=4
         const startPlanetIndex = dayStartPlanet[prevDayOfWeek];
         const horaIndex = (startPlanetIndex + Math.floor(24 - hoursFromPrevSunrise)) % 7;
         return horaRulers[horaIndex];
     }
-    
+
     const hoursFromSunrise = millisecondsFromSunrise / (1000 * 60 * 60);
-    
+
     // Each hora is approximately 1 hour
     // Starting planet varies by day of week
     const dayStartPlanet = [0, 3, 6, 2, 5, 1, 4]; // Sun=0, Moon=3, Mars=6, Mercury=2, Jupiter=5, Venus=1, Saturn=4
     const startPlanetIndex = dayStartPlanet[dayOfWeek];
-    
+
     const horaIndex = (startPlanetIndex + Math.floor(hoursFromSunrise)) % 7;
     return horaRulers[horaIndex];
 }
 
-function calculateRahuKalam(sunrise: Date, sunset: Date, vara: number): { start: Date, end: Date } | null {
+export function calculateRahuKalam(sunrise: Date, sunset: Date, vara: number): { start: Date, end: Date } | null {
     if (!sunrise || !sunset) {
         return null;
     }
@@ -593,10 +482,7 @@ function calculateRahuKalam(sunrise: Date, sunset: Date, vara: number): { start:
     };
 }
 
-/**
- * Find all Karana transitions (end times and names) between startDate and endDate (typically sunrise to next sunrise)
- */
-function findKaranaTransitions(startDate: Date, endDate: Date): KaranaTransition[] {
+export function findKaranaTransitions(startDate: Date, endDate: Date): KaranaTransition[] {
     const transitions: KaranaTransition[] = [];
     let current = new Date(startDate);
     let lastKarana = getKarana(
@@ -640,7 +526,7 @@ function findKaranaTransitions(startDate: Date, endDate: Date): KaranaTransition
     return transitions;
 }
 
-function findTithiTransitions(startDate: Date, endDate: Date): TithiTransition[] {
+export function findTithiTransitions(startDate: Date, endDate: Date): TithiTransition[] {
     const transitions: TithiTransition[] = [];
     let current = new Date(startDate);
     let lastTithi = getTithi(
@@ -681,22 +567,30 @@ function findTithiTransitions(startDate: Date, endDate: Date): TithiTransition[]
     return transitions;
 }
 
-function findNakshatraTransitions(startDate: Date, endDate: Date): NakshatraTransition[] {
+export function findNakshatraTransitions(startDate: Date, endDate: Date, ayanamsa: number): NakshatraTransition[] {
     const transitions: NakshatraTransition[] = [];
     let current = new Date(startDate);
-    let lastNakshatra = getNakshatra(
-        EclipticFunc(GeoVector(Body.Moon, current, true)).elon
-    );
+
+    const getSiderealMoon = (d: Date) => {
+        const m = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
+        return (m - ayanamsa + 360) % 360;
+    };
+
+    let lastNakshatra = getNakshatra(getSiderealMoon(current));
+
     while (current < endDate) {
         const nextNakshatraEnd = (() => {
-            const moonLon = EclipticFunc(GeoVector(Body.Moon, current, true)).elon;
-            const nakshatraIndex = Math.floor(moonLon / (13 + 1/3));
-            const nextNakshatraLongitude = (nakshatraIndex + 1) * (13 + 1/3);
+            const moonLonSid = getSiderealMoon(current);
+            const nakshatraIndex = Math.floor(moonLonSid / (13 + 1 / 3));
+            const nextNakshatraLongitude = (nakshatraIndex + 1) * (13 + 1 / 3);
             const targetLon = nextNakshatraLongitude % 360;
+
             const nakshatraFunc = (d: Date): number => {
-                let moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
-                if (moonLon < targetLon - 180) moonLon += 360;
-                return moonLon - targetLon;
+                let m = getSiderealMoon(d);
+                let diff = m - targetLon;
+                if (diff > 180) diff -= 360;
+                if (diff < -180) diff += 360;
+                return diff;
             };
             return search(nakshatraFunc, current);
         })();
@@ -706,33 +600,36 @@ function findNakshatraTransitions(startDate: Date, endDate: Date): NakshatraTran
         } else {
             transitions.push({ index: lastNakshatra, name: nakshatraNames[lastNakshatra] || String(lastNakshatra), endTime: nextNakshatraEnd });
             current = new Date(nextNakshatraEnd.getTime() + 60 * 1000);
-            lastNakshatra = getNakshatra(
-                EclipticFunc(GeoVector(Body.Moon, current, true)).elon
-            );
+            lastNakshatra = getNakshatra(getSiderealMoon(current));
         }
     }
     return transitions;
 }
 
-function findYogaTransitions(startDate: Date, endDate: Date): YogaTransition[] {
+export function findYogaTransitions(startDate: Date, endDate: Date, ayanamsa: number): YogaTransition[] {
     const transitions: YogaTransition[] = [];
     let current = new Date(startDate);
+
+    const getSiderealSum = (d: Date) => {
+        const sun = EclipticFunc(GeoVector(Body.Sun, d, true)).elon;
+        const moon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
+        return ((sun - ayanamsa + 360) % 360) + ((moon - ayanamsa + 360) % 360);
+    };
+
     let lastYoga = getYoga(
-        EclipticFunc(GeoVector(Body.Sun, current, true)).elon,
-        EclipticFunc(GeoVector(Body.Moon, current, true)).elon
+        (EclipticFunc(GeoVector(Body.Sun, current, true)).elon - ayanamsa + 360) % 360,
+        (EclipticFunc(GeoVector(Body.Moon, current, true)).elon - ayanamsa + 360) % 360
     );
+
     while (current < endDate) {
         const nextYogaEnd = (() => {
-            const sunLon = EclipticFunc(GeoVector(Body.Sun, current, true)).elon;
-            const moonLon = EclipticFunc(GeoVector(Body.Moon, current, true)).elon;
-            const totalLongitude = sunLon + moonLon;
+            const totalLongitude = getSiderealSum(current);
             const yogaWidth = 360 / 27;
             const yogaIndex = Math.floor(totalLongitude / yogaWidth);
             const nextYogaBoundary = (yogaIndex + 1) * yogaWidth;
+
             const yogaFunc = (d: Date): number => {
-                const sunLon = EclipticFunc(GeoVector(Body.Sun, d, true)).elon;
-                const moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
-                let totalLon = sunLon + moonLon;
+                let totalLon = getSiderealSum(d);
                 if (totalLon < nextYogaBoundary - 270) totalLon += 360;
                 return totalLon - nextYogaBoundary;
             };
@@ -744,121 +641,11 @@ function findYogaTransitions(startDate: Date, endDate: Date): YogaTransition[] {
         } else {
             transitions.push({ index: lastYoga, name: yogaNames[lastYoga] || String(lastYoga), endTime: nextYogaEnd });
             current = new Date(nextYogaEnd.getTime() + 60 * 1000);
-            lastYoga = getYoga(
-                EclipticFunc(GeoVector(Body.Sun, current, true)).elon,
-                EclipticFunc(GeoVector(Body.Moon, current, true)).elon
-            );
+
+            const s = (EclipticFunc(GeoVector(Body.Sun, current, true)).elon - ayanamsa + 360) % 360;
+            const m = (EclipticFunc(GeoVector(Body.Moon, current, true)).elon - ayanamsa + 360) % 360;
+            lastYoga = getYoga(s, m);
         }
     }
     return transitions;
-}
-
-export function getPanchangam(date: Date, observer: Observer): Panchangam {
-    const sunVector = GeoVector(Body.Sun, date, true);
-    const moonVector = GeoVector(Body.Moon, date, true);
-    
-    const sunEcliptic = EclipticFunc(sunVector);
-    const moonEcliptic = EclipticFunc(moonVector);
-
-    const sunrise = getSunrise(date, observer);
-    const sunset = getSunset(date, observer);
-    const moonrise = getMoonrise(date, observer);
-    const moonset = getMoonset(date, observer);
-
-    const nakshatraStartTime = findNakshatraStart(date);
-    const nakshatraEndTime = findNakshatraEnd(date);
-    const tithiStartTime = findTithiStart(date);
-    const tithiEndTime = findTithiEnd(date);
-    const yogaEndTime = findYogaEnd(date);
-
-    const rahuKalam = (sunrise && sunset) ? calculateRahuKalam(sunrise, sunset, getVara(date)) : null;
-
-    // For Karana transitions, use sunrise to next day's sunrise
-    let nextSunrise: Date | null = null;
-    if (sunrise) {
-        const nextDay = new Date(sunrise.getTime());
-        nextDay.setDate(nextDay.getDate() + 1);
-        nextSunrise = getSunrise(nextDay, observer);
-    }
-    const karanaTransitions = (sunrise && nextSunrise)
-        ? findKaranaTransitions(sunrise, nextSunrise)
-        : [];
-    const tithiTransitions = (sunrise && nextSunrise)
-        ? findTithiTransitions(sunrise, nextSunrise)
-        : [];
-    const nakshatraTransitions = (sunrise && nextSunrise)
-        ? findNakshatraTransitions(sunrise, nextSunrise)
-        : [];
-    const yogaTransitions = (sunrise && nextSunrise)
-        ? findYogaTransitions(sunrise, nextSunrise)
-        : [];
-
-    // Enhanced Vedic Features
-    const abhijitMuhurta = (sunrise && sunset) ? calculateAbhijitMuhurta(sunrise, sunset) : null;
-    const brahmaMuhurta = sunrise ? calculateBrahmaMuhurta(sunrise) : null;
-    const govardhanMuhurta = (sunrise && sunset) ? calculateGovardhanMuhurta(sunrise, sunset) : null;
-    const yamagandaKalam = (sunrise && sunset) ? calculateYamagandaKalam(sunrise, sunset, getVara(date)) : null;
-    const gulikaKalam = (sunrise && sunset) ? calculateGulikaKalam(sunrise, sunset, getVara(date)) : null;
-    const durMuhurta = (sunrise && sunset) ? calculateDurMuhurta(sunrise, sunset) : null;
-    
-    // Planetary positions
-    const planetaryPositions = {
-        sun: getPlanetaryPosition(Body.Sun, date),
-        moon: getPlanetaryPosition(Body.Moon, date),
-        mars: getPlanetaryPosition(Body.Mars, date),
-        mercury: getPlanetaryPosition(Body.Mercury, date),
-        jupiter: getPlanetaryPosition(Body.Jupiter, date),
-        venus: getPlanetaryPosition(Body.Venus, date),
-        saturn: getPlanetaryPosition(Body.Saturn, date)
-    };
-    
-    const chandrabalam = calculateChandraBalam(moonEcliptic.elon, sunEcliptic.elon);
-    const currentHora = sunrise ? getCurrentHora(date, sunrise) : horaRulers[0];
-
-    return {
-        tithi: getTithi(sunEcliptic.elon, moonEcliptic.elon),
-        nakshatra: getNakshatra(moonEcliptic.elon),
-        yoga: getYoga(sunEcliptic.elon, moonEcliptic.elon),
-        karana: getKarana(sunEcliptic.elon, moonEcliptic.elon),
-        vara: getVara(date),
-        sunrise,
-        sunset,
-        moonrise,
-        moonset,
-        nakshatraStartTime,
-        nakshatraEndTime,
-        tithiStartTime,
-        tithiEndTime,
-        yogaEndTime,
-        rahuKalamStart: rahuKalam?.start || null,
-        rahuKalamEnd: rahuKalam?.end || null,
-        karanaTransitions,
-        tithiTransitions,
-        nakshatraTransitions,
-        yogaTransitions,
-        // Enhanced Vedic Features
-        abhijitMuhurta,
-        brahmaMuhurta,
-        govardhanMuhurta,
-        yamagandaKalam,
-        gulikaKalam,
-        durMuhurta,
-        planetaryPositions,
-        chandrabalam,
-        currentHora
-    };
-}
-
-export function getPanchangamDetails(date: Date, observer: Observer): PanchangamDetails {
-    const panchangam = getPanchangam(date, observer);
-    const sunrise = getSunrise(date, observer);
-    const sunset = getSunset(date, observer);
-    const nakshatraEndTime = findNakshatraEnd(date);
-
-    return {
-        ...panchangam,
-        sunrise,
-        sunset,
-        nakshatraEndTime,
-    };
 }

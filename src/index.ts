@@ -1,20 +1,6 @@
-// src/index.ts
-import { Observer, Body, GeoVector, Ecliptic, SearchRiseSet } from "astronomy-engine";
-
-// Re-export astronomy-engine classes and functions that are essential for the package
-export { Observer, Body, GeoVector, Ecliptic, SearchRiseSet };
-
-// Main exports for the panchangam-js package
-export { getPanchangam, getPanchangamDetails } from './panchangam';
-
-// Re-export types
-export type { 
-  Panchangam,
-  PanchangamDetails,
-  KaranaTransition,
-  PlanetaryPosition,
-  MuhurtaTime
-} from './panchangam';
-
-// Re-export constants
-export { karanaNames, yogaNames, tithiNames, nakshatraNames, rashiNames, horaRulers } from './panchangam';
+export * from './core/types';
+export * from './core/constants';
+export * from './core/calculations'; // Export helper functions if needed
+export * from './core/ayanamsa';
+export * from './core/panchangam';
+export { Observer } from 'astronomy-engine';

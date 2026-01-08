@@ -1,5 +1,5 @@
 import { Observer, Body, SearchRiseSet } from 'astronomy-engine';
-import { getPanchangam, Panchangam, yogaNames, karanaNames } from "../panchangam";
+import { getPanchangam, Panchangam, yogaNames, karanaNames } from "../src/index";
 import { DateTime } from "luxon";
 
 // Re-using the name arrays from index.ts. In a larger app, we might centralize these.
@@ -64,7 +64,7 @@ export function generateHtmlCalendar(year: number, month: number, observer: Obse
     `;
 
     // Add empty cells for the first day of the month
-    const firstDayOfMonth = DateTime.fromObject({year, month, day: 1}).weekday; // 1 for Monday, 7 for Sunday
+    const firstDayOfMonth = DateTime.fromObject({ year, month, day: 1 }).weekday; // 1 for Monday, 7 for Sunday
     const startOffset = firstDayOfMonth % 7;
     for (let i = 0; i < startOffset; i++) {
         calendarHtml += '<div class="day"></div>';
@@ -86,7 +86,7 @@ export function generateHtmlCalendar(year: number, month: number, observer: Obse
             calendarHtml += `<div class="day"><div class="day-number">${day}</div><div>No sunrise on next day</div></div>`;
             continue;
         }
-        
+
         const dayWindow = { start: sunriseToday, end: sunriseTomorrow };
         const p1 = getPanchangam(dayWindow.start.date, observer);
 
@@ -125,7 +125,7 @@ export function generateHtmlCalendar(year: number, month: number, observer: Obse
             </div>
         `;
     }
-    
+
     calendarHtml += `
                 </div>
             </body>

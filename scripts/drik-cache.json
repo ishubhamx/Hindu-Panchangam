@@ -1,0 +1,5072 @@
+{
+  "1277333_21/01/2025": {
+    "date": "21/01/2025",
+    "locationId": "1277333",
+    "sunrise": "06:46",
+    "sunset": "06:16",
+    "tithi": {
+      "name": "Saptami",
+      "endTime": "12:39"
+    },
+    "nakshatra": {
+      "name": "Chitra",
+      "endTime": "11:36"
+    },
+    "yoga": {
+      "name": "Dhriti",
+      "endTime": "03:50"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "12:39"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:23 PM to 04:50 PM",
+    "yamaganda": "09:39 AM to 11:05 AM",
+    "gulika": "12:31 PM to 01:57 PM",
+    "abhijit": "12:08 PM to 12:54 PM",
+    "moonrise": "12:20 AM, Jan 22",
+    "moonset": "11:34 AM",
+    "brahmaMuhurta": "05:06 AM to 05:56 AM"
+  },
+  "1277333_22/01/2025": {
+    "date": "22/01/2025",
+    "locationId": "1277333",
+    "sunrise": "06:46",
+    "sunset": "06:16",
+    "tithi": {
+      "name": "Ashtami",
+      "endTime": "03:18"
+    },
+    "nakshatra": {
+      "name": "Swati",
+      "endTime": "02:34"
+    },
+    "yoga": {
+      "name": "Shula",
+      "endTime": "04:38"
+    },
+    "karana": {
+      "name": "Kaulava",
+      "endTime": "03:18"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:31 PM to 01:58 PM",
+    "yamaganda": "08:13 AM to 09:39 AM",
+    "gulika": "11:05 AM to 12:31 PM",
+    "abhijit": "None",
+    "moonrise": "01:08 AM, Jan 23",
+    "moonset": "12:11 PM",
+    "brahmaMuhurta": "05:06 AM to 05:56 AM"
+  },
+  "1277333_26/01/2025": {
+    "date": "26/01/2025",
+    "locationId": "1277333",
+    "sunrise": "06:46",
+    "sunset": "06:18",
+    "tithi": {
+      "name": "Dwadashi",
+      "endTime": "08:54"
+    },
+    "nakshatra": {
+      "name": "Jyeshtha",
+      "endTime": "08:26"
+    },
+    "yoga": {
+      "name": "Vyaghata",
+      "endTime": "03:34"
+    },
+    "karana": {
+      "name": "Kaulava",
+      "endTime": "08:48"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:52 PM to 06:18 PM",
+    "yamaganda": "12:32 PM to 01:59 PM",
+    "gulika": "03:25 PM to 04:52 PM",
+    "abhijit": "12:09 PM to 12:55 PM",
+    "moonrise": "04:46 AM, Jan 27",
+    "moonset": "03:18 PM",
+    "brahmaMuhurta": "05:07 AM to 05:57 AM"
+  },
+  "1277333_09/02/2025": {
+    "date": "09/02/2025",
+    "locationId": "1277333",
+    "sunrise": "06:44",
+    "sunset": "06:24",
+    "tithi": {
+      "name": "Dwadashi",
+      "endTime": "07:25"
+    },
+    "nakshatra": {
+      "name": "Ardra",
+      "endTime": "05:53"
+    },
+    "yoga": {
+      "name": "Vishkambha",
+      "endTime": "12:07"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "07:47"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:56 PM to 06:24 PM",
+    "yamaganda": "12:34 PM to 02:01 PM",
+    "gulika": "03:29 PM to 04:56 PM",
+    "abhijit": "12:11 PM to 12:57 PM",
+    "moonrise": "03:31 PM",
+    "moonset": "04:56 AM, Feb 10",
+    "brahmaMuhurta": "05:05 AM to 05:55 AM"
+  },
+  "1277333_12/02/2025": {
+    "date": "12/02/2025",
+    "locationId": "1277333",
+    "sunrise": "06:43",
+    "sunset": "06:25",
+    "tithi": {
+      "name": "Purnima",
+      "endTime": "07:22"
+    },
+    "nakshatra": {
+      "name": "Ashlesha",
+      "endTime": "07:35"
+    },
+    "yoga": {
+      "name": "Saubhagya",
+      "endTime": "08:07"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "07:05"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:34 PM to 02:02 PM",
+    "yamaganda": "08:11 AM to 09:39 AM",
+    "gulika": "11:06 AM to 12:34 PM",
+    "abhijit": "None",
+    "moonrise": "06:20 PM",
+    "moonset": "No Moonset",
+    "brahmaMuhurta": "05:05 AM to 05:54 AM"
+  },
+  "1277333_17/02/2025": {
+    "date": "17/02/2025",
+    "locationId": "1277333",
+    "sunrise": "06:41",
+    "sunset": "06:26",
+    "tithi": {
+      "name": "Panchami",
+      "endTime": "04:53"
+    },
+    "nakshatra": {
+      "name": "Chitra",
+      "endTime": "0x30b"
+    },
+    "yoga": {
+      "name": "Shula",
+      "endTime": "08:55"
+    },
+    "karana": {
+      "name": "Kaulava",
+      "endTime": "03:33"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "08:09 AM to 09:37 AM",
+    "yamaganda": "11:06 AM to 12:34 PM",
+    "gulika": "02:02 PM to 03:30 PM",
+    "abhijit": "12:10 PM to 12:57 PM",
+    "moonrise": "10:13 PM",
+    "moonset": "09:32 AM",
+    "brahmaMuhurta": "05:03 AM to 05:52 AM"
+  },
+  "1277333_25/02/2025": {
+    "date": "25/02/2025",
+    "locationId": "1277333",
+    "sunrise": "06:38",
+    "sunset": "06:28",
+    "tithi": {
+      "name": "Dwadashi",
+      "endTime": "12:47"
+    },
+    "nakshatra": {
+      "name": "Uttara Ashadha",
+      "endTime": "06:31"
+    },
+    "yoga": {
+      "name": "Vyatipata",
+      "endTime": "08:15"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "12:47"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:30 PM to 04:59 PM",
+    "yamaganda": "09:35 AM to 11:04 AM",
+    "gulika": "12:33 PM to 02:01 PM",
+    "abhijit": "12:09 PM to 12:56 PM",
+    "moonrise": "05:12 AM, Feb 26",
+    "moonset": "03:59 PM",
+    "brahmaMuhurta": "05:00 AM to 05:49 AM"
+  },
+  "1277333_15/03/2025": {
+    "date": "15/03/2025",
+    "locationId": "1277333",
+    "sunrise": "06:27",
+    "sunset": "06:30",
+    "tithi": {
+      "name": "Pratipada",
+      "endTime": "02:33"
+    },
+    "nakshatra": {
+      "name": "Uttara Phalguni",
+      "endTime": "08:54"
+    },
+    "yoga": {
+      "name": "Ganda",
+      "endTime": "02:00"
+    },
+    "karana": {
+      "name": "Kaulava",
+      "endTime": "02:33"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:28 AM to 10:58 AM",
+    "yamaganda": "01:59 PM to 03:29 PM",
+    "gulika": "06:27 AM to 07:57 AM",
+    "abhijit": "12:04 PM to 12:53 PM",
+    "moonrise": "07:23 PM",
+    "moonset": "06:57 AM",
+    "brahmaMuhurta": "04:51 AM to 05:39 AM"
+  },
+  "1277333_30/03/2025": {
+    "date": "30/03/2025",
+    "locationId": "1277333",
+    "sunrise": "06:17",
+    "sunset": "06:31",
+    "tithi": {
+      "name": "Pratipada",
+      "endTime": "12:49"
+    },
+    "nakshatra": {
+      "name": "Revati",
+      "endTime": "04:35"
+    },
+    "yoga": {
+      "name": "Indra",
+      "endTime": "05:54"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "12:49"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:59 PM to 06:31 PM",
+    "yamaganda": "12:24 PM to 01:56 PM",
+    "gulika": "03:28 PM to 04:59 PM",
+    "abhijit": "12:00 PM to 12:49 PM",
+    "moonrise": "06:44 AM",
+    "moonset": "07:31 PM",
+    "brahmaMuhurta": "04:43 AM to 05:30 AM"
+  },
+  "1277333_13/04/2025": {
+    "date": "13/04/2025",
+    "locationId": "1277333",
+    "sunrise": "06:08",
+    "sunset": "06:32",
+    "tithi": {
+      "name": "Pratipada",
+      "endTime": "0x30b"
+    },
+    "nakshatra": {
+      "name": "Chitra",
+      "endTime": "09:11"
+    },
+    "yoga": {
+      "name": "Harshana",
+      "endTime": "09:40"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "07:08"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:59 PM to 06:32 PM",
+    "yamaganda": "12:20 PM to 01:53 PM",
+    "gulika": "03:26 PM to 04:59 PM",
+    "abhijit": "11:55 AM to 12:45 PM",
+    "moonrise": "06:51 PM",
+    "moonset": "No Moonset",
+    "brahmaMuhurta": "04:35 AM to 05:22 AM"
+  },
+  "1277333_30/01/2025": {
+    "date": "30/01/2025",
+    "locationId": "1277333",
+    "sunrise": "06:46",
+    "sunset": "06:20",
+    "tithi": {
+      "name": "Pratipada",
+      "endTime": "04:10"
+    },
+    "nakshatra": {
+      "name": "Shravana",
+      "endTime": "07:15"
+    },
+    "yoga": {
+      "name": "Vyatipata",
+      "endTime": "06:33"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "04:10"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "02:00 PM to 03:26 PM",
+    "yamaganda": "06:46 AM to 08:13 AM",
+    "gulika": "09:40 AM to 11:06 AM",
+    "abhijit": "12:10 PM to 12:56 PM",
+    "moonrise": "07:24 AM",
+    "moonset": "07:16 PM",
+    "brahmaMuhurta": "05:07 AM to 05:56 AM"
+  },
+  "1277333_27/02/2025": {
+    "date": "27/02/2025",
+    "locationId": "1277333",
+    "sunrise": "06:37",
+    "sunset": "06:28",
+    "tithi": {
+      "name": "Chaturdashi",
+      "endTime": "08:54"
+    },
+    "nakshatra": {
+      "name": "Dhanishtha",
+      "endTime": "03:43"
+    },
+    "yoga": {
+      "name": "Shiva",
+      "endTime": "11:41"
+    },
+    "karana": {
+      "name": "Shakuni",
+      "endTime": "08:54"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "02:01 PM to 03:30 PM",
+    "yamaganda": "06:37 AM to 08:06 AM",
+    "gulika": "09:34 AM to 11:03 AM",
+    "abhijit": "12:09 PM to 12:56 PM",
+    "moonrise": "No Moonrise",
+    "moonset": "05:57 PM",
+    "brahmaMuhurta": "04:59 AM to 05:48 AM"
+  },
+  "1277333_06/03/2025": {
+    "date": "06/03/2025",
+    "locationId": "1277333",
+    "sunrise": "06:33",
+    "sunset": "06:29",
+    "tithi": {
+      "name": "Saptami",
+      "endTime": "10:50"
+    },
+    "nakshatra": {
+      "name": "Rohini",
+      "endTime": "12:05"
+    },
+    "yoga": {
+      "name": "Vishkambha",
+      "endTime": "08:29"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "10:50"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "02:00 PM to 03:30 PM",
+    "yamaganda": "06:33 AM to 08:02 AM",
+    "gulika": "09:32 AM to 11:01 AM",
+    "abhijit": "12:07 PM to 12:55 PM",
+    "moonrise": "11:27 AM",
+    "moonset": "12:55 AM, Mar 07",
+    "brahmaMuhurta": "04:56 AM to 05:44 AM"
+  },
+  "1277333_25/03/2025": {
+    "date": "25/03/2025",
+    "locationId": "1277333",
+    "sunrise": "06:20",
+    "sunset": "06:31",
+    "tithi": {
+      "name": "Ekadashi",
+      "endTime": "03:45"
+    },
+    "nakshatra": {
+      "name": "Shravana",
+      "endTime": "03:49"
+    },
+    "yoga": {
+      "name": "Shiva",
+      "endTime": "02:53"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "04:30"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:28 PM to 04:59 PM",
+    "yamaganda": "09:23 AM to 10:54 AM",
+    "gulika": "12:26 PM to 01:57 PM",
+    "abhijit": "12:01 PM to 12:50 PM",
+    "moonrise": "03:47 AM, Mar 26",
+    "moonset": "02:41 PM",
+    "brahmaMuhurta": "04:46 AM to 05:33 AM"
+  },
+  "1277333_20/04/2025": {
+    "date": "20/04/2025",
+    "locationId": "1277333",
+    "sunrise": "06:04",
+    "sunset": "06:33",
+    "tithi": {
+      "name": "Saptami",
+      "endTime": "07:00"
+    },
+    "nakshatra": {
+      "name": "Purva Ashadha",
+      "endTime": "11:48"
+    },
+    "yoga": {
+      "name": "Siddha",
+      "endTime": "12:13"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "06:46"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:59 PM to 06:33 PM",
+    "yamaganda": "12:19 PM to 01:52 PM",
+    "gulika": "03:26 PM to 04:59 PM",
+    "abhijit": "11:54 AM to 12:44 PM",
+    "moonrise": "12:51 AM, Apr 21",
+    "moonset": "11:32 AM",
+    "brahmaMuhurta": "04:32 AM to 05:18 AM"
+  },
+  "1277333_07/05/2025": {
+    "date": "07/05/2025",
+    "locationId": "1277333",
+    "sunrise": "05:57",
+    "sunset": "06:36",
+    "tithi": {
+      "name": "Dashami",
+      "endTime": "10:19"
+    },
+    "nakshatra": {
+      "name": "Purva Phalguni",
+      "endTime": "06:17"
+    },
+    "yoga": {
+      "name": "Vyaghata",
+      "endTime": "01:05"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "10:19"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:16 PM to 01:51 PM",
+    "yamaganda": "07:32 AM to 09:06 AM",
+    "gulika": "10:41 AM to 12:16 PM",
+    "abhijit": "None",
+    "moonrise": "02:34 PM",
+    "moonset": "03:00 AM, May 08",
+    "brahmaMuhurta": "04:26 AM to 05:11 AM"
+  },
+  "1277333_13/05/2025": {
+    "date": "13/05/2025",
+    "locationId": "1277333",
+    "sunrise": "05:55",
+    "sunset": "06:37",
+    "tithi": {
+      "name": "Pratipada",
+      "endTime": "12:35"
+    },
+    "nakshatra": {
+      "name": "Vishakha",
+      "endTime": "09:09"
+    },
+    "yoga": {
+      "name": "Parigha",
+      "endTime": "0x30b"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "11:32"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:27 PM to 05:02 PM",
+    "yamaganda": "09:05 AM to 10:41 AM",
+    "gulika": "12:16 PM to 01:51 PM",
+    "abhijit": "11:51 AM to 12:41 PM",
+    "moonrise": "07:16 PM",
+    "moonset": "06:03 AM",
+    "brahmaMuhurta": "04:24 AM to 05:10 AM"
+  },
+  "1277333_28/05/2025": {
+    "date": "28/05/2025",
+    "locationId": "1277333",
+    "sunrise": "05:52",
+    "sunset": "06:42",
+    "tithi": {
+      "name": "Dwitiya",
+      "endTime": "01:54"
+    },
+    "nakshatra": {
+      "name": "Mrigashira",
+      "endTime": "12:29"
+    },
+    "yoga": {
+      "name": "Dhriti",
+      "endTime": "07:09"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "03:25"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:17 PM to 01:53 PM",
+    "yamaganda": "07:29 AM to 09:05 AM",
+    "gulika": "10:41 AM to 12:17 PM",
+    "abhijit": "None",
+    "moonrise": "06:43 AM",
+    "moonset": "08:15 PM",
+    "brahmaMuhurta": "04:23 AM to 05:08 AM"
+  },
+  "1277333_03/06/2025": {
+    "date": "03/06/2025",
+    "locationId": "1277333",
+    "sunrise": "05:52",
+    "sunset": "06:43",
+    "tithi": {
+      "name": "Ashtami",
+      "endTime": "09:56"
+    },
+    "nakshatra": {
+      "name": "Purva Phalguni",
+      "endTime": "12:58"
+    },
+    "yoga": {
+      "name": "Harshana",
+      "endTime": "08:09"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "09:10"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:31 PM to 05:07 PM",
+    "yamaganda": "09:05 AM to 10:42 AM",
+    "gulika": "12:18 PM to 01:54 PM",
+    "abhijit": "11:52 AM to 12:44 PM",
+    "moonrise": "12:30 PM",
+    "moonset": "01:00 AM, Jun 04",
+    "brahmaMuhurta": "04:23 AM to 05:08 AM"
+  },
+  "1277333_10/06/2025": {
+    "date": "10/06/2025",
+    "locationId": "1277333",
+    "sunrise": "05:53",
+    "sunset": "06:45",
+    "tithi": {
+      "name": "Chaturdashi",
+      "endTime": "11:35"
+    },
+    "nakshatra": {
+      "name": "Anuradha",
+      "endTime": "06:02"
+    },
+    "yoga": {
+      "name": "Siddha",
+      "endTime": "01:45"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "11:35"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:32 PM to 05:09 PM",
+    "yamaganda": "09:06 AM to 10:43 AM",
+    "gulika": "12:19 PM to 01:56 PM",
+    "abhijit": "11:53 AM to 12:45 PM",
+    "moonrise": "06:04 PM",
+    "moonset": "05:34 AM, Jun 11",
+    "brahmaMuhurta": "04:24 AM to 05:08 AM"
+  },
+  "1277333_15/06/2025": {
+    "date": "15/06/2025",
+    "locationId": "1277333",
+    "sunrise": "05:54",
+    "sunset": "06:47",
+    "tithi": {
+      "name": "Chaturthi",
+      "endTime": "03:51"
+    },
+    "nakshatra": {
+      "name": "Shravana",
+      "endTime": "01:00"
+    },
+    "yoga": {
+      "name": "Indra",
+      "endTime": "12:20"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "03:51"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "05:10 PM to 06:47 PM",
+    "yamaganda": "12:20 PM to 01:57 PM",
+    "gulika": "03:34 PM to 05:10 PM",
+    "abhijit": "11:54 AM to 12:46 PM",
+    "moonrise": "10:19 PM",
+    "moonset": "09:14 AM",
+    "brahmaMuhurta": "04:25 AM to 05:09 AM"
+  },
+  "1277333_22/06/2025": {
+    "date": "22/06/2025",
+    "locationId": "1277333",
+    "sunrise": "05:55",
+    "sunset": "06:48",
+    "tithi": {
+      "name": "Dwadashi",
+      "endTime": "01:21"
+    },
+    "nakshatra": {
+      "name": "Bharani",
+      "endTime": "05:38"
+    },
+    "yoga": {
+      "name": "Sukarma",
+      "endTime": "04:57"
+    },
+    "karana": {
+      "name": "Kaulava",
+      "endTime": "02:56"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "05:12 PM to 06:48 PM",
+    "yamaganda": "12:22 PM to 01:58 PM",
+    "gulika": "03:35 PM to 05:12 PM",
+    "abhijit": "11:56 AM to 12:47 PM",
+    "moonrise": "03:25 AM, Jun 23",
+    "moonset": "03:41 PM",
+    "brahmaMuhurta": "04:26 AM to 05:11 AM"
+  },
+  "1277333_05/07/2025": {
+    "date": "05/07/2025",
+    "locationId": "1277333",
+    "sunrise": "05:58",
+    "sunset": "06:50",
+    "tithi": {
+      "name": "Dashami",
+      "endTime": "06:58"
+    },
+    "nakshatra": {
+      "name": "Swati",
+      "endTime": "07:51"
+    },
+    "yoga": {
+      "name": "Siddha",
+      "endTime": "08:36"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "06:58"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:11 AM to 10:48 AM",
+    "yamaganda": "02:01 PM to 03:37 PM",
+    "gulika": "05:58 AM to 07:35 AM",
+    "abhijit": "11:59 AM to 12:50 PM",
+    "moonrise": "02:14 PM",
+    "moonset": "01:57 AM, Jul 06",
+    "brahmaMuhurta": "04:29 AM to 05:14 AM"
+  },
+  "1277333_25/07/2025": {
+    "date": "25/07/2025",
+    "locationId": "1277333",
+    "sunrise": "06:04",
+    "sunset": "06:49",
+    "tithi": {
+      "name": "Pratipada",
+      "endTime": "11:22"
+    },
+    "nakshatra": {
+      "name": "Pushya",
+      "endTime": "04:00"
+    },
+    "yoga": {
+      "name": "Vajra",
+      "endTime": "07:28"
+    },
+    "karana": {
+      "name": "Kinstughna",
+      "endTime": "11:57"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:51 AM to 12:26 PM",
+    "yamaganda": "03:37 PM to 05:13 PM",
+    "gulika": "07:39 AM to 09:15 AM",
+    "abhijit": "12:01 PM to 12:52 PM",
+    "moonrise": "06:21 AM",
+    "moonset": "07:30 PM",
+    "brahmaMuhurta": "04:34 AM to 05:19 AM"
+  },
+  "1277333_01/08/2025": {
+    "date": "01/08/2025",
+    "locationId": "1277333",
+    "sunrise": "06:05",
+    "sunset": "06:47",
+    "tithi": {
+      "name": "Ashtami",
+      "endTime": "0x30b"
+    },
+    "nakshatra": {
+      "name": "Swati",
+      "endTime": "03:40"
+    },
+    "yoga": {
+      "name": "Shubha",
+      "endTime": "05:30"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "06:10"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:51 AM to 12:26 PM",
+    "yamaganda": "03:36 PM to 05:11 PM",
+    "gulika": "07:40 AM to 09:16 AM",
+    "abhijit": "12:01 PM to 12:51 PM",
+    "moonrise": "12:07 PM",
+    "moonset": "11:53 PM",
+    "brahmaMuhurta": "04:35 AM to 05:20 AM"
+  },
+  "1277333_05/08/2025": {
+    "date": "05/08/2025",
+    "locationId": "1277333",
+    "sunrise": "06:06",
+    "sunset": "06:45",
+    "tithi": {
+      "name": "Ekadashi",
+      "endTime": "01:12"
+    },
+    "nakshatra": {
+      "name": "Jyeshtha",
+      "endTime": "11:23"
+    },
+    "yoga": {
+      "name": "Indra",
+      "endTime": "07:25"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "01:12"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:35 PM to 05:10 PM",
+    "yamaganda": "09:16 AM to 10:51 AM",
+    "gulika": "12:26 PM to 02:00 PM",
+    "abhijit": "12:00 PM to 12:51 PM",
+    "moonrise": "03:35 PM",
+    "moonset": "03:03 AM, Aug 06",
+    "brahmaMuhurta": "04:35 AM to 05:21 AM"
+  },
+  "1277333_06/08/2025": {
+    "date": "06/08/2025",
+    "locationId": "1277333",
+    "sunrise": "06:06",
+    "sunset": "06:45",
+    "tithi": {
+      "name": "Dwadashi",
+      "endTime": "02:08"
+    },
+    "nakshatra": {
+      "name": "Mula",
+      "endTime": "01:00"
+    },
+    "yoga": {
+      "name": "Vaidhriti",
+      "endTime": "07:18"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "02:08"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:25 PM to 02:00 PM",
+    "yamaganda": "07:41 AM to 09:16 AM",
+    "gulika": "10:51 AM to 12:25 PM",
+    "abhijit": "None",
+    "moonrise": "04:29 PM",
+    "moonset": "03:59 AM, Aug 07",
+    "brahmaMuhurta": "04:35 AM to 05:21 AM"
+  },
+  "1277333_11/08/2025": {
+    "date": "11/08/2025",
+    "locationId": "1277333",
+    "sunrise": "06:07",
+    "sunset": "06:43",
+    "tithi": {
+      "name": "Dwitiya",
+      "endTime": "10:33"
+    },
+    "nakshatra": {
+      "name": "Shatabhisha",
+      "endTime": "01:00"
+    },
+    "yoga": {
+      "name": "Atiganda",
+      "endTime": "09:34"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "10:33"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "07:41 AM to 09:16 AM",
+    "yamaganda": "10:50 AM to 12:25 PM",
+    "gulika": "01:59 PM to 03:34 PM",
+    "abhijit": "12:00 PM to 12:50 PM",
+    "moonrise": "08:20 PM",
+    "moonset": "07:45 AM",
+    "brahmaMuhurta": "04:36 AM to 05:21 AM"
+  },
+  "1277333_12/08/2025": {
+    "date": "12/08/2025",
+    "locationId": "1277333",
+    "sunrise": "06:07",
+    "sunset": "06:42",
+    "tithi": {
+      "name": "Tritiya",
+      "endTime": "08:40"
+    },
+    "nakshatra": {
+      "name": "Purva Bhadrapada",
+      "endTime": "11:52"
+    },
+    "yoga": {
+      "name": "Sukarma",
+      "endTime": "06:54"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "08:40"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:33 PM to 05:08 PM",
+    "yamaganda": "09:16 AM to 10:50 AM",
+    "gulika": "12:25 PM to 01:59 PM",
+    "abhijit": "11:59 AM to 12:50 PM",
+    "moonrise": "09:01 PM",
+    "moonset": "08:38 AM",
+    "brahmaMuhurta": "04:36 AM to 05:21 AM"
+  },
+  "1277333_17/08/2025": {
+    "date": "17/08/2025",
+    "locationId": "1277333",
+    "sunrise": "06:08",
+    "sunset": "06:40",
+    "tithi": {
+      "name": "Navami",
+      "endTime": "07:24"
+    },
+    "nakshatra": {
+      "name": "Rohini",
+      "endTime": "03:17"
+    },
+    "yoga": {
+      "name": "Vyaghata",
+      "endTime": "01:40"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "08:28"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "05:06 PM to 06:40 PM",
+    "yamaganda": "12:24 PM to 01:58 PM",
+    "gulika": "03:32 PM to 05:06 PM",
+    "abhijit": "11:59 AM to 12:49 PM",
+    "moonrise": "01:04 AM, Aug 18",
+    "moonset": "01:30 PM",
+    "brahmaMuhurta": "04:36 AM to 05:22 AM"
+  },
+  "1277333_09/09/2025": {
+    "date": "09/09/2025",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:25",
+    "tithi": {
+      "name": "Dwitiya",
+      "endTime": "06:28"
+    },
+    "nakshatra": {
+      "name": "Uttara Bhadrapada",
+      "endTime": "06:07"
+    },
+    "yoga": {
+      "name": "Ganda",
+      "endTime": "11:59"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "07:51"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:21 PM to 04:53 PM",
+    "yamaganda": "09:13 AM to 10:45 AM",
+    "gulika": "12:17 PM to 01:49 PM",
+    "abhijit": "11:52 AM to 12:41 PM",
+    "moonrise": "07:38 PM",
+    "moonset": "07:23 AM",
+    "brahmaMuhurta": "04:35 AM to 05:22 AM"
+  },
+  "1277333_11/09/2025": {
+    "date": "11/09/2025",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:24",
+    "tithi": {
+      "name": "Chaturthi",
+      "endTime": "12:45"
+    },
+    "nakshatra": {
+      "name": "Ashwini",
+      "endTime": "01:58"
+    },
+    "yoga": {
+      "name": "Dhruva",
+      "endTime": "05:05"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "12:45"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:48 PM to 03:20 PM",
+    "yamaganda": "06:09 AM to 07:41 AM",
+    "gulika": "09:12 AM to 10:44 AM",
+    "abhijit": "11:52 AM to 12:41 PM",
+    "moonrise": "09:10 PM",
+    "moonset": "09:18 AM",
+    "brahmaMuhurta": "04:35 AM to 05:22 AM"
+  },
+  "1277333_07/10/2025": {
+    "date": "07/10/2025",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:05",
+    "tithi": {
+      "name": "Purnima",
+      "endTime": "09:16"
+    },
+    "nakshatra": {
+      "name": "Revati",
+      "endTime": "01:28"
+    },
+    "yoga": {
+      "name": "Dhruva",
+      "endTime": "09:31"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "09:16"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:06 PM to 04:36 PM",
+    "yamaganda": "09:08 AM to 10:38 AM",
+    "gulika": "12:07 PM to 01:37 PM",
+    "abhijit": "11:43 AM to 12:31 PM",
+    "moonrise": "06:13 PM",
+    "moonset": "No Moonset",
+    "brahmaMuhurta": "04:33 AM to 05:21 AM"
+  },
+  "1277333_09/10/2025": {
+    "date": "09/10/2025",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:04",
+    "tithi": {
+      "name": "Tritiya",
+      "endTime": "10:54"
+    },
+    "nakshatra": {
+      "name": "Bharani",
+      "endTime": "08:02"
+    },
+    "yoga": {
+      "name": "Vajra",
+      "endTime": "09:32"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "12:37"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:36 PM to 03:05 PM",
+    "yamaganda": "06:09 AM to 07:39 AM",
+    "gulika": "09:08 AM to 10:37 AM",
+    "abhijit": "11:43 AM to 12:31 PM",
+    "moonrise": "07:52 PM",
+    "moonset": "08:05 AM",
+    "brahmaMuhurta": "04:33 AM to 05:21 AM"
+  },
+  "1277333_10/10/2025": {
+    "date": "10/10/2025",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:04",
+    "tithi": {
+      "name": "Chaturthi",
+      "endTime": "07:38"
+    },
+    "nakshatra": {
+      "name": "Krittika",
+      "endTime": "05:31"
+    },
+    "yoga": {
+      "name": "Siddhi",
+      "endTime": "05:41"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "09:14"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:37 AM to 12:06 PM",
+    "yamaganda": "03:05 PM to 04:34 PM",
+    "gulika": "07:39 AM to 09:08 AM",
+    "abhijit": "11:43 AM to 12:30 PM",
+    "moonrise": "08:49 PM",
+    "moonset": "09:11 AM",
+    "brahmaMuhurta": "04:33 AM to 05:21 AM"
+  },
+  "1277333_23/10/2025": {
+    "date": "23/10/2025",
+    "locationId": "1277333",
+    "sunrise": "06:11",
+    "sunset": "05:57",
+    "tithi": {
+      "name": "Dwitiya",
+      "endTime": "10:46"
+    },
+    "nakshatra": {
+      "name": "Vishakha",
+      "endTime": "04:51"
+    },
+    "yoga": {
+      "name": "Ayushmana",
+      "endTime": "05:00"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "09:30"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:32 PM to 03:00 PM",
+    "yamaganda": "06:11 AM to 07:39 AM",
+    "gulika": "09:07 AM to 10:36 AM",
+    "abhijit": "11:40 AM to 12:27 PM",
+    "moonrise": "07:26 AM",
+    "moonset": "07:05 PM",
+    "brahmaMuhurta": "04:33 AM to 05:22 AM"
+  },
+  "1277333_28/10/2025": {
+    "date": "28/10/2025",
+    "locationId": "1277333",
+    "sunrise": "06:12",
+    "sunset": "05:54",
+    "tithi": {
+      "name": "Shashthi",
+      "endTime": "07:59"
+    },
+    "nakshatra": {
+      "name": "Purva Ashadha",
+      "endTime": "03:45"
+    },
+    "yoga": {
+      "name": "Sukarma",
+      "endTime": "07:51"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "07:59"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "02:59 PM to 04:27 PM",
+    "yamaganda": "09:08 AM to 10:35 AM",
+    "gulika": "12:03 PM to 01:31 PM",
+    "abhijit": "11:40 AM to 12:27 PM",
+    "moonrise": "11:43 AM",
+    "moonset": "11:15 PM",
+    "brahmaMuhurta": "04:34 AM to 05:23 AM"
+  },
+  "1277333_04/11/2025": {
+    "date": "04/11/2025",
+    "locationId": "1277333",
+    "sunrise": "06:14",
+    "sunset": "05:52",
+    "tithi": {
+      "name": "Chaturdashi",
+      "endTime": "10:36"
+    },
+    "nakshatra": {
+      "name": "Revati",
+      "endTime": "12:34"
+    },
+    "yoga": {
+      "name": "Vajra",
+      "endTime": "03:43"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "12:23"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "02:58 PM to 04:25 PM",
+    "yamaganda": "09:09 AM to 10:36 AM",
+    "gulika": "12:03 PM to 01:30 PM",
+    "abhijit": "11:40 AM to 12:26 PM",
+    "moonrise": "04:46 PM",
+    "moonset": "05:43 AM, Nov 05",
+    "brahmaMuhurta": "04:35 AM to 05:25 AM"
+  },
+  "1277333_13/11/2025": {
+    "date": "13/11/2025",
+    "locationId": "1277333",
+    "sunrise": "06:17",
+    "sunset": "05:50",
+    "tithi": {
+      "name": "Navami",
+      "endTime": "11:33"
+    },
+    "nakshatra": {
+      "name": "Magha",
+      "endTime": "07:38"
+    },
+    "yoga": {
+      "name": "Brahma",
+      "endTime": "06:58"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "11:10"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:30 PM to 02:57 PM",
+    "yamaganda": "06:17 AM to 07:44 AM",
+    "gulika": "09:11 AM to 10:37 AM",
+    "abhijit": "11:41 AM to 12:27 PM",
+    "moonrise": "01:29 AM, Nov 14",
+    "moonset": "01:25 PM",
+    "brahmaMuhurta": "04:38 AM to 05:28 AM"
+  },
+  "1277333_16/11/2025": {
+    "date": "16/11/2025",
+    "locationId": "1277333",
+    "sunrise": "06:19",
+    "sunset": "05:50",
+    "tithi": {
+      "name": "Dwadashi",
+      "endTime": "04:47"
+    },
+    "nakshatra": {
+      "name": "Hasta",
+      "endTime": "02:11"
+    },
+    "yoga": {
+      "name": "Vishkambha",
+      "endTime": "06:47"
+    },
+    "karana": {
+      "name": "Kaulava",
+      "endTime": "03:40"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:24 PM to 05:50 PM",
+    "yamaganda": "12:04 PM to 01:31 PM",
+    "gulika": "02:57 PM to 04:24 PM",
+    "abhijit": "11:41 AM to 12:27 PM",
+    "moonrise": "03:47 AM, Nov 17",
+    "moonset": "03:11 PM",
+    "brahmaMuhurta": "04:39 AM to 05:29 AM"
+  },
+  "1277333_19/11/2025": {
+    "date": "19/11/2025",
+    "locationId": "1277333",
+    "sunrise": "06:20",
+    "sunset": "05:50",
+    "tithi": {
+      "name": "Chaturdashi",
+      "endTime": "09:43"
+    },
+    "nakshatra": {
+      "name": "Swati",
+      "endTime": "07:59"
+    },
+    "yoga": {
+      "name": "Saubhagya",
+      "endTime": "09:01"
+    },
+    "karana": {
+      "name": "Shakuni",
+      "endTime": "09:43"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:05 PM to 01:31 PM",
+    "yamaganda": "07:46 AM to 09:13 AM",
+    "gulika": "10:39 AM to 12:05 PM",
+    "abhijit": "None",
+    "moonrise": "06:12 AM, Nov 20",
+    "moonset": "05:03 PM",
+    "brahmaMuhurta": "04:40 AM to 05:30 AM"
+  },
+  "1277333_24/11/2025": {
+    "date": "24/11/2025",
+    "locationId": "1277333",
+    "sunrise": "06:22",
+    "sunset": "05:50",
+    "tithi": {
+      "name": "Chaturthi",
+      "endTime": "09:22"
+    },
+    "nakshatra": {
+      "name": "Purva Ashadha",
+      "endTime": "09:53"
+    },
+    "yoga": {
+      "name": "Shula",
+      "endTime": "12:37"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "08:25"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "07:48 AM to 09:14 AM",
+    "yamaganda": "10:40 AM to 12:06 PM",
+    "gulika": "01:32 PM to 02:58 PM",
+    "abhijit": "11:43 AM to 12:29 PM",
+    "moonrise": "09:39 AM",
+    "moonset": "09:10 PM",
+    "brahmaMuhurta": "04:42 AM to 05:32 AM"
+  },
+  "1277333_17/12/2025": {
+    "date": "17/12/2025",
+    "locationId": "1277333",
+    "sunrise": "06:35",
+    "sunset": "05:57",
+    "tithi": {
+      "name": "Trayodashi",
+      "endTime": "02:32"
+    },
+    "nakshatra": {
+      "name": "Vishakha",
+      "endTime": "05:11"
+    },
+    "yoga": {
+      "name": "Sukarma",
+      "endTime": "02:17"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "01:15"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:16 PM to 01:41 PM",
+    "yamaganda": "08:00 AM to 09:25 AM",
+    "gulika": "10:51 AM to 12:16 PM",
+    "abhijit": "None",
+    "moonrise": "04:59 AM, Dec 18",
+    "moonset": "03:44 PM",
+    "brahmaMuhurta": "04:54 AM to 05:44 AM"
+  },
+  "1277333_30/12/2025": {
+    "date": "30/12/2025",
+    "locationId": "1277333",
+    "sunrise": "06:41",
+    "sunset": "06:04",
+    "tithi": {
+      "name": "Dashami",
+      "endTime": "07:50"
+    },
+    "nakshatra": {
+      "name": "Bharani",
+      "endTime": "03:58"
+    },
+    "yoga": {
+      "name": "Siddha",
+      "endTime": "01:02"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "07:50"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:13 PM to 04:38 PM",
+    "yamaganda": "09:32 AM to 10:57 AM",
+    "gulika": "12:22 PM to 01:48 PM",
+    "abhijit": "12:00 PM to 12:45 PM",
+    "moonrise": "01:58 PM",
+    "moonset": "03:09 AM, Dec 31",
+    "brahmaMuhurta": "05:00 AM to 05:50 AM"
+  },
+  "1277333_05/01/2026": {
+    "date": "05/01/2026",
+    "locationId": "1277333",
+    "sunrise": "06:43",
+    "sunset": "06:07",
+    "tithi": {
+      "name": "Dwitiya",
+      "endTime": "09:56"
+    },
+    "nakshatra": {
+      "name": "Pushya",
+      "endTime": "01:25"
+    },
+    "yoga": {
+      "name": "Vishkambha",
+      "endTime": "10:47"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "09:56"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "08:09 AM to 09:34 AM",
+    "yamaganda": "11:00 AM to 12:25 PM",
+    "gulika": "01:51 PM to 03:16 PM",
+    "abhijit": "12:02 PM to 12:48 PM",
+    "moonrise": "08:13 PM",
+    "moonset": "08:25 AM",
+    "brahmaMuhurta": "05:02 AM to 05:53 AM"
+  },
+  "1277333_26/01/2026": {
+    "date": "26/01/2026",
+    "locationId": "1277333",
+    "sunrise": "06:46",
+    "sunset": "06:18",
+    "tithi": {
+      "name": "Ashtami",
+      "endTime": "09:17"
+    },
+    "nakshatra": {
+      "name": "Ashwini",
+      "endTime": "12:32"
+    },
+    "yoga": {
+      "name": "Sadhya",
+      "endTime": "09:11"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "10:16"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "08:13 AM to 09:39 AM",
+    "yamaganda": "11:06 AM to 12:32 PM",
+    "gulika": "01:59 PM to 03:25 PM",
+    "abhijit": "12:09 PM to 12:55 PM",
+    "moonrise": "11:53 AM",
+    "moonset": "12:59 AM, Jan 27",
+    "brahmaMuhurta": "05:07 AM to 05:57 AM"
+  },
+  "1277333_11/02/2026": {
+    "date": "11/02/2026",
+    "locationId": "1277333",
+    "sunrise": "06:44",
+    "sunset": "06:24",
+    "tithi": {
+      "name": "Navami",
+      "endTime": "09:58"
+    },
+    "nakshatra": {
+      "name": "Anuradha",
+      "endTime": "10:53"
+    },
+    "yoga": {
+      "name": "Vyaghata",
+      "endTime": "02:30"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "09:58"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:34 PM to 02:02 PM",
+    "yamaganda": "08:11 AM to 09:39 AM",
+    "gulika": "11:06 AM to 12:34 PM",
+    "abhijit": "None",
+    "moonrise": "02:29 AM, Feb 12",
+    "moonset": "01:05 PM",
+    "brahmaMuhurta": "05:05 AM to 05:54 AM"
+  },
+  "1277333_18/02/2026": {
+    "date": "18/02/2026",
+    "locationId": "1277333",
+    "sunrise": "06:41",
+    "sunset": "06:26",
+    "tithi": {
+      "name": "Pratipada",
+      "endTime": "04:57"
+    },
+    "nakshatra": {
+      "name": "Shatabhisha",
+      "endTime": "09:16"
+    },
+    "yoga": {
+      "name": "Shiva",
+      "endTime": "10:45"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "04:57"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:34 PM to 02:02 PM",
+    "yamaganda": "08:09 AM to 09:37 AM",
+    "gulika": "11:05 AM to 12:34 PM",
+    "abhijit": "None",
+    "moonrise": "07:09 AM",
+    "moonset": "07:17 PM",
+    "brahmaMuhurta": "05:03 AM to 05:52 AM"
+  },
+  "1277333_22/02/2026": {
+    "date": "22/02/2026",
+    "locationId": "1277333",
+    "sunrise": "06:39",
+    "sunset": "06:27",
+    "tithi": {
+      "name": "Panchami",
+      "endTime": "11:09"
+    },
+    "nakshatra": {
+      "name": "Ashwini",
+      "endTime": "05:54"
+    },
+    "yoga": {
+      "name": "Shukla",
+      "endTime": "01:09"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "11:09"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:59 PM to 06:27 PM",
+    "yamaganda": "12:33 PM to 02:02 PM",
+    "gulika": "03:30 PM to 04:59 PM",
+    "abhijit": "12:10 PM to 12:57 PM",
+    "moonrise": "09:52 AM",
+    "moonset": "10:54 PM",
+    "brahmaMuhurta": "05:02 AM to 05:50 AM"
+  },
+  "1277333_05/03/2026": {
+    "date": "05/03/2026",
+    "locationId": "1277333",
+    "sunrise": "06:33",
+    "sunset": "06:29",
+    "tithi": {
+      "name": "Dwitiya",
+      "endTime": "05:03"
+    },
+    "nakshatra": {
+      "name": "Uttara Phalguni",
+      "endTime": "08:17"
+    },
+    "yoga": {
+      "name": "Shula",
+      "endTime": "07:46"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "05:03"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "02:01 PM to 03:30 PM",
+    "yamaganda": "06:33 AM to 08:03 AM",
+    "gulika": "09:32 AM to 11:02 AM",
+    "abhijit": "12:07 PM to 12:55 PM",
+    "moonrise": "08:07 PM",
+    "moonset": "07:36 AM",
+    "brahmaMuhurta": "04:57 AM to 05:45 AM"
+  },
+  "1277333_08/03/2026": {
+    "date": "08/03/2026",
+    "locationId": "1277333",
+    "sunrise": "06:32",
+    "sunset": "06:29",
+    "tithi": {
+      "name": "Panchami",
+      "endTime": "09:10"
+    },
+    "nakshatra": {
+      "name": "Swati",
+      "endTime": "01:31"
+    },
+    "yoga": {
+      "name": "Dhruva",
+      "endTime": "07:04"
+    },
+    "karana": {
+      "name": "Kaulava",
+      "endTime": "08:10"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "05:00 PM to 06:29 PM",
+    "yamaganda": "12:30 PM to 02:00 PM",
+    "gulika": "03:30 PM to 05:00 PM",
+    "abhijit": "12:07 PM to 12:54 PM",
+    "moonrise": "10:35 PM",
+    "moonset": "09:30 AM",
+    "brahmaMuhurta": "04:55 AM to 05:43 AM"
+  },
+  "1277333_21/03/2026": {
+    "date": "21/03/2026",
+    "locationId": "1277333",
+    "sunrise": "06:23",
+    "sunset": "06:30",
+    "tithi": {
+      "name": "Tritiya",
+      "endTime": "11:56"
+    },
+    "nakshatra": {
+      "name": "Ashwini",
+      "endTime": "12:37"
+    },
+    "yoga": {
+      "name": "Indra",
+      "endTime": "07:01"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "01:14"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:25 AM to 10:56 AM",
+    "yamaganda": "01:58 PM to 03:29 PM",
+    "gulika": "06:23 AM to 07:54 AM",
+    "abhijit": "12:03 PM to 12:51 PM",
+    "moonrise": "07:48 AM",
+    "moonset": "08:45 PM",
+    "brahmaMuhurta": "04:48 AM to 05:36 AM"
+  },
+  "1277333_23/03/2026": {
+    "date": "23/03/2026",
+    "locationId": "1277333",
+    "sunrise": "06:22",
+    "sunset": "06:31",
+    "tithi": {
+      "name": "Panchami",
+      "endTime": "06:38"
+    },
+    "nakshatra": {
+      "name": "Krittika",
+      "endTime": "08:49"
+    },
+    "yoga": {
+      "name": "Vishkambha",
+      "endTime": "12:22"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "07:56"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "07:53 AM to 09:24 AM",
+    "yamaganda": "10:55 AM to 12:26 PM",
+    "gulika": "01:57 PM to 03:28 PM",
+    "abhijit": "12:02 PM to 12:51 PM",
+    "moonrise": "09:28 AM",
+    "moonset": "10:51 PM",
+    "brahmaMuhurta": "04:47 AM to 05:35 AM"
+  },
+  "1277333_31/03/2026": {
+    "date": "31/03/2026",
+    "locationId": "1277333",
+    "sunrise": "06:17",
+    "sunset": "06:31",
+    "tithi": {
+      "name": "Trayodashi",
+      "endTime": "06:55"
+    },
+    "nakshatra": {
+      "name": "Purva Phalguni",
+      "endTime": "03:20"
+    },
+    "yoga": {
+      "name": "Ganda",
+      "endTime": "03:41"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "06:55"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:27 PM to 04:59 PM",
+    "yamaganda": "09:20 AM to 10:52 AM",
+    "gulika": "12:24 PM to 01:56 PM",
+    "abhijit": "11:59 AM to 12:48 PM",
+    "moonrise": "05:11 PM",
+    "moonset": "05:33 AM, Apr 01",
+    "brahmaMuhurta": "04:43 AM to 05:30 AM"
+  },
+  "1277333_04/04/2026": {
+    "date": "04/04/2026",
+    "locationId": "1277333",
+    "sunrise": "06:14",
+    "sunset": "06:31",
+    "tithi": {
+      "name": "Dwitiya",
+      "endTime": "10:08"
+    },
+    "nakshatra": {
+      "name": "Swati",
+      "endTime": "09:35"
+    },
+    "yoga": {
+      "name": "Harshana",
+      "endTime": "02:17"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "10:08"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:18 AM to 10:51 AM",
+    "yamaganda": "01:55 PM to 03:27 PM",
+    "gulika": "06:14 AM to 07:46 AM",
+    "abhijit": "11:58 AM to 12:47 PM",
+    "moonrise": "08:26 PM",
+    "moonset": "07:26 AM",
+    "brahmaMuhurta": "04:40 AM to 05:27 AM"
+  },
+  "1277333_05/04/2026": {
+    "date": "05/04/2026",
+    "locationId": "1277333",
+    "sunrise": "06:13",
+    "sunset": "06:31",
+    "tithi": {
+      "name": "Tritiya",
+      "endTime": "11:59"
+    },
+    "nakshatra": {
+      "name": "Vishakha",
+      "endTime": "12:08"
+    },
+    "yoga": {
+      "name": "Vajra",
+      "endTime": "02:44"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "11:59"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:59 PM to 06:31 PM",
+    "yamaganda": "12:22 PM to 01:55 PM",
+    "gulika": "03:27 PM to 04:59 PM",
+    "abhijit": "11:58 AM to 12:47 PM",
+    "moonrise": "09:18 PM",
+    "moonset": "08:07 AM",
+    "brahmaMuhurta": "04:40 AM to 05:27 AM"
+  },
+  "1277333_12/04/2026": {
+    "date": "12/04/2026",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:32",
+    "tithi": {
+      "name": "Dashami",
+      "endTime": "01:16"
+    },
+    "nakshatra": {
+      "name": "Shravana",
+      "endTime": "03:14"
+    },
+    "yoga": {
+      "name": "Sadhya",
+      "endTime": "06:16"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "01:02"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:59 PM to 06:32 PM",
+    "yamaganda": "12:20 PM to 01:53 PM",
+    "gulika": "03:26 PM to 04:59 PM",
+    "abhijit": "11:56 AM to 12:45 PM",
+    "moonrise": "02:55 AM, Apr 13",
+    "moonset": "02:01 PM",
+    "brahmaMuhurta": "04:36 AM to 05:23 AM"
+  },
+  "1277333_16/05/2026": {
+    "date": "16/05/2026",
+    "locationId": "1277333",
+    "sunrise": "05:54",
+    "sunset": "06:38",
+    "tithi": {
+      "name": "Amavasya",
+      "endTime": "01:30"
+    },
+    "nakshatra": {
+      "name": "Bharani",
+      "endTime": "05:30"
+    },
+    "yoga": {
+      "name": "Saubhagya",
+      "endTime": "10:26"
+    },
+    "karana": {
+      "name": "Chatushpada",
+      "endTime": "03:22"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:05 AM to 10:41 AM",
+    "yamaganda": "01:52 PM to 03:27 PM",
+    "gulika": "05:54 AM to 07:30 AM",
+    "abhijit": "11:51 AM to 12:42 PM",
+    "moonrise": "No Moonrise",
+    "moonset": "06:15 PM",
+    "brahmaMuhurta": "04:24 AM to 05:09 AM"
+  },
+  "1277333_09/06/2026": {
+    "date": "09/06/2026",
+    "locationId": "1277333",
+    "sunrise": "05:53",
+    "sunset": "06:45",
+    "tithi": {
+      "name": "Navami",
+      "endTime": "02:34"
+    },
+    "nakshatra": {
+      "name": "Purva Bhadrapada",
+      "endTime": "09:39"
+    },
+    "yoga": {
+      "name": "Priti",
+      "endTime": "08:19"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "03:05"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:32 PM to 05:09 PM",
+    "yamaganda": "09:06 AM to 10:42 AM",
+    "gulika": "12:19 PM to 01:55 PM",
+    "abhijit": "11:53 AM to 12:45 PM",
+    "moonrise": "01:21 AM, Jun 10",
+    "moonset": "01:05 PM",
+    "brahmaMuhurta": "04:24 AM to 05:08 AM"
+  },
+  "1277333_15/06/2026": {
+    "date": "15/06/2026",
+    "locationId": "1277333",
+    "sunrise": "05:54",
+    "sunset": "06:47",
+    "tithi": {
+      "name": "Amavasya",
+      "endTime": "08:23"
+    },
+    "nakshatra": {
+      "name": "Mrigashira",
+      "endTime": "07:08"
+    },
+    "yoga": {
+      "name": "Shula",
+      "endTime": "08:56"
+    },
+    "karana": {
+      "name": "Nagava",
+      "endTime": "08:23"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "07:30 AM to 09:07 AM",
+    "yamaganda": "10:44 AM to 12:20 PM",
+    "gulika": "01:57 PM to 03:33 PM",
+    "abhijit": "11:54 AM to 12:46 PM",
+    "moonrise": "No Moonrise",
+    "moonset": "07:17 PM",
+    "brahmaMuhurta": "04:25 AM to 05:09 AM"
+  },
+  "1277333_26/06/2026": {
+    "date": "26/06/2026",
+    "locationId": "1277333",
+    "sunrise": "05:56",
+    "sunset": "06:49",
+    "tithi": {
+      "name": "Dwadashi",
+      "endTime": "10:22"
+    },
+    "nakshatra": {
+      "name": "Vishakha",
+      "endTime": "07:16"
+    },
+    "yoga": {
+      "name": "Siddha",
+      "endTime": "11:39"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "09:14"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:46 AM to 12:23 PM",
+    "yamaganda": "03:36 PM to 05:12 PM",
+    "gulika": "07:33 AM to 09:09 AM",
+    "abhijit": "11:57 AM to 12:48 PM",
+    "moonrise": "03:54 PM",
+    "moonset": "03:28 AM, Jun 27",
+    "brahmaMuhurta": "04:27 AM to 05:11 AM"
+  },
+  "1277333_22/07/2026": {
+    "date": "22/07/2026",
+    "locationId": "1277333",
+    "sunrise": "06:03",
+    "sunset": "06:49",
+    "tithi": {
+      "name": "Navami",
+      "endTime": "0x30b"
+    },
+    "nakshatra": {
+      "name": "Swati",
+      "endTime": "11:03"
+    },
+    "yoga": {
+      "name": "Sadhya",
+      "endTime": "06:42"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "06:06"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:26 PM to 02:02 PM",
+    "yamaganda": "07:39 AM to 09:14 AM",
+    "gulika": "10:50 AM to 12:26 PM",
+    "abhijit": "None",
+    "moonrise": "12:58 PM",
+    "moonset": "12:41 AM, Jul 23",
+    "brahmaMuhurta": "04:33 AM to 05:18 AM"
+  },
+  "1277333_28/08/2026": {
+    "date": "28/08/2026",
+    "locationId": "1277333",
+    "sunrise": "06:08",
+    "sunset": "06:33",
+    "tithi": {
+      "name": "Purnima",
+      "endTime": "09:48"
+    },
+    "nakshatra": {
+      "name": "Shatabhisha",
+      "endTime": "03:13"
+    },
+    "yoga": {
+      "name": "Atiganda",
+      "endTime": "07:28"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "09:48"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:48 AM to 12:21 PM",
+    "yamaganda": "03:27 PM to 05:00 PM",
+    "gulika": "07:41 AM to 09:15 AM",
+    "abhijit": "11:56 AM to 12:46 PM",
+    "moonrise": "06:43 PM",
+    "moonset": "No Moonset",
+    "brahmaMuhurta": "04:36 AM to 05:22 AM"
+  },
+  "1277333_10/09/2026": {
+    "date": "10/09/2026",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:24",
+    "tithi": {
+      "name": "Chaturdashi",
+      "endTime": "10:33"
+    },
+    "nakshatra": {
+      "name": "Magha",
+      "endTime": "02:04"
+    },
+    "yoga": {
+      "name": "Siddha",
+      "endTime": "07:17"
+    },
+    "karana": {
+      "name": "Shakuni",
+      "endTime": "10:33"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:49 PM to 03:20 PM",
+    "yamaganda": "06:09 AM to 07:41 AM",
+    "gulika": "09:13 AM to 10:45 AM",
+    "abhijit": "11:52 AM to 12:41 PM",
+    "moonrise": "06:05 AM, Sep 11",
+    "moonset": "05:52 PM",
+    "brahmaMuhurta": "04:35 AM to 05:22 AM"
+  },
+  "1277333_15/09/2026": {
+    "date": "15/09/2026",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:21",
+    "tithi": {
+      "name": "Chaturthi",
+      "endTime": "07:44"
+    },
+    "nakshatra": {
+      "name": "Swati",
+      "endTime": "03:21"
+    },
+    "yoga": {
+      "name": "Indra",
+      "endTime": "12:20"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "07:44"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:18 PM to 04:49 PM",
+    "yamaganda": "09:12 AM to 10:43 AM",
+    "gulika": "12:15 PM to 01:46 PM",
+    "abhijit": "11:50 AM to 12:39 PM",
+    "moonrise": "09:31 AM",
+    "moonset": "09:13 PM",
+    "brahmaMuhurta": "04:34 AM to 05:22 AM"
+  },
+  "1277333_22/09/2026": {
+    "date": "22/09/2026",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:16",
+    "tithi": {
+      "name": "Ekadashi",
+      "endTime": "09:43"
+    },
+    "nakshatra": {
+      "name": "Uttara Ashadha",
+      "endTime": "07:06"
+    },
+    "yoga": {
+      "name": "Atiganda",
+      "endTime": "04:29"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "08:55"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:14 PM to 04:45 PM",
+    "yamaganda": "09:10 AM to 10:41 AM",
+    "gulika": "12:12 PM to 01:43 PM",
+    "abhijit": "11:48 AM to 12:37 PM",
+    "moonrise": "03:19 PM",
+    "moonset": "03:05 AM, Sep 23",
+    "brahmaMuhurta": "04:34 AM to 05:21 AM"
+  },
+  "1277333_11/10/2026": {
+    "date": "11/10/2026",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:03",
+    "tithi": {
+      "name": "Pratipada",
+      "endTime": "09:30"
+    },
+    "nakshatra": {
+      "name": "Chitra",
+      "endTime": "10:32"
+    },
+    "yoga": {
+      "name": "Vaidhriti",
+      "endTime": "09:05"
+    },
+    "karana": {
+      "name": "Kinstughna",
+      "endTime": "09:21"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:34 PM to 06:03 PM",
+    "yamaganda": "12:06 PM to 01:35 PM",
+    "gulika": "03:05 PM to 04:34 PM",
+    "abhijit": "11:42 AM to 12:30 PM",
+    "moonrise": "06:29 AM",
+    "moonset": "06:25 PM",
+    "brahmaMuhurta": "04:33 AM to 05:21 AM"
+  },
+  "1277333_23/10/2026": {
+    "date": "23/10/2026",
+    "locationId": "1277333",
+    "sunrise": "06:11",
+    "sunset": "05:57",
+    "tithi": {
+      "name": "Dwadashi",
+      "endTime": "02:35"
+    },
+    "nakshatra": {
+      "name": "Purva Bhadrapada",
+      "endTime": "09:03"
+    },
+    "yoga": {
+      "name": "Dhruva",
+      "endTime": "10:08"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "02:35"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:36 AM to 12:04 PM",
+    "yamaganda": "03:00 PM to 04:28 PM",
+    "gulika": "07:39 AM to 09:07 AM",
+    "abhijit": "11:40 AM to 12:27 PM",
+    "moonrise": "03:49 PM",
+    "moonset": "04:15 AM, Oct 24",
+    "brahmaMuhurta": "04:33 AM to 05:22 AM"
+  },
+  "1277333_25/10/2026": {
+    "date": "25/10/2026",
+    "locationId": "1277333",
+    "sunrise": "06:11",
+    "sunset": "05:56",
+    "tithi": {
+      "name": "Chaturdashi",
+      "endTime": "11:55"
+    },
+    "nakshatra": {
+      "name": "Revati",
+      "endTime": "07:22"
+    },
+    "yoga": {
+      "name": "Harshana",
+      "endTime": "05:22"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "11:55"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:28 PM to 05:56 PM",
+    "yamaganda": "12:04 PM to 01:32 PM",
+    "gulika": "03:00 PM to 04:28 PM",
+    "abhijit": "11:40 AM to 12:27 PM",
+    "moonrise": "05:11 PM",
+    "moonset": "06:04 AM, Oct 26",
+    "brahmaMuhurta": "04:33 AM to 05:22 AM"
+  },
+  "1277333_03/11/2026": {
+    "date": "03/11/2026",
+    "locationId": "1277333",
+    "sunrise": "06:14",
+    "sunset": "05:52",
+    "tithi": {
+      "name": "Navami",
+      "endTime": "11:54"
+    },
+    "nakshatra": {
+      "name": "Magha",
+      "endTime": "03:26"
+    },
+    "yoga": {
+      "name": "Shukla",
+      "endTime": "09:54"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "11:54"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "02:58 PM to 04:25 PM",
+    "yamaganda": "09:08 AM to 10:36 AM",
+    "gulika": "12:03 PM to 01:30 PM",
+    "abhijit": "11:40 AM to 12:26 PM",
+    "moonrise": "01:52 AM, Nov 04",
+    "moonset": "01:47 PM",
+    "brahmaMuhurta": "04:35 AM to 05:24 AM"
+  },
+  "1277333_17/11/2026": {
+    "date": "17/11/2026",
+    "locationId": "1277333",
+    "sunrise": "06:19",
+    "sunset": "05:50",
+    "tithi": {
+      "name": "Ashtami",
+      "endTime": "06:04"
+    },
+    "nakshatra": {
+      "name": "Dhanishtha",
+      "endTime": "04:34"
+    },
+    "yoga": {
+      "name": "Vriddhi",
+      "endTime": "07:54"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "05:17"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "02:57 PM to 04:24 PM",
+    "yamaganda": "09:12 AM to 10:38 AM",
+    "gulika": "12:04 PM to 01:31 PM",
+    "abhijit": "11:41 AM to 12:28 PM",
+    "moonrise": "12:28 PM",
+    "moonset": "12:25 AM, Nov 18",
+    "brahmaMuhurta": "04:39 AM to 05:29 AM"
+  },
+  "1277333_20/11/2026": {
+    "date": "20/11/2026",
+    "locationId": "1277333",
+    "sunrise": "06:20",
+    "sunset": "05:50",
+    "tithi": {
+      "name": "Dashami",
+      "endTime": "07:15"
+    },
+    "nakshatra": {
+      "name": "Purva Bhadrapada",
+      "endTime": "06:56"
+    },
+    "yoga": {
+      "name": "Harshana",
+      "endTime": "06:40"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "07:15"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:39 AM to 12:05 PM",
+    "yamaganda": "02:58 PM to 04:24 PM",
+    "gulika": "07:47 AM to 09:13 AM",
+    "abhijit": "11:42 AM to 12:28 PM",
+    "moonrise": "02:20 PM",
+    "moonset": "02:52 AM, Nov 21",
+    "brahmaMuhurta": "04:40 AM to 05:30 AM"
+  },
+  "1277333_27/11/2026": {
+    "date": "27/11/2026",
+    "locationId": "1277333",
+    "sunrise": "06:24",
+    "sunset": "05:51",
+    "tithi": {
+      "name": "Tritiya",
+      "endTime": "09:48"
+    },
+    "nakshatra": {
+      "name": "Ardra",
+      "endTime": "03:08"
+    },
+    "yoga": {
+      "name": "Shubha",
+      "endTime": "11:51"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "09:48"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:41 AM to 12:07 PM",
+    "yamaganda": "02:59 PM to 04:25 PM",
+    "gulika": "07:50 AM to 09:16 AM",
+    "abhijit": "11:44 AM to 12:30 PM",
+    "moonrise": "08:47 PM",
+    "moonset": "09:09 AM",
+    "brahmaMuhurta": "04:43 AM to 05:34 AM"
+  },
+  "1277333_02/12/2026": {
+    "date": "02/12/2026",
+    "locationId": "1277333",
+    "sunrise": "06:27",
+    "sunset": "05:51",
+    "tithi": {
+      "name": "Navami",
+      "endTime": "10:51"
+    },
+    "nakshatra": {
+      "name": "Purva Phalguni",
+      "endTime": "08:55"
+    },
+    "yoga": {
+      "name": "Vishkambha",
+      "endTime": "10:32"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "10:58"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:09 PM to 01:35 PM",
+    "yamaganda": "07:52 AM to 09:18 AM",
+    "gulika": "10:43 AM to 12:09 PM",
+    "abhijit": "None",
+    "moonrise": "01:31 AM, Dec 03",
+    "moonset": "01:07 PM",
+    "brahmaMuhurta": "04:46 AM to 05:36 AM"
+  },
+  "1277333_09/12/2026": {
+    "date": "09/12/2026",
+    "locationId": "1277333",
+    "sunrise": "06:30",
+    "sunset": "05:54",
+    "tithi": {
+      "name": "Pratipada",
+      "endTime": "0x30b"
+    },
+    "nakshatra": {
+      "name": "Jyeshtha",
+      "endTime": "09:00"
+    },
+    "yoga": {
+      "name": "Dhriti",
+      "endTime": "08:40"
+    },
+    "karana": {
+      "name": "Kinstughna",
+      "endTime": "07:31"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:12 PM to 01:37 PM",
+    "yamaganda": "07:56 AM to 09:21 AM",
+    "gulika": "10:47 AM to 12:12 PM",
+    "abhijit": "None",
+    "moonrise": "06:38 AM",
+    "moonset": "06:06 PM",
+    "brahmaMuhurta": "04:49 AM to 05:40 AM"
+  },
+  "1277333_25/12/2026": {
+    "date": "25/12/2026",
+    "locationId": "1277333",
+    "sunrise": "06:39",
+    "sunset": "06:01",
+    "tithi": {
+      "name": "Dwitiya",
+      "endTime": "11:25"
+    },
+    "nakshatra": {
+      "name": "Punarvasu",
+      "endTime": "10:50"
+    },
+    "yoga": {
+      "name": "Brahma",
+      "endTime": "08:28"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "01:14"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:54 AM to 12:20 PM",
+    "yamaganda": "03:10 PM to 04:35 PM",
+    "gulika": "08:04 AM to 09:29 AM",
+    "abhijit": "11:57 AM to 12:42 PM",
+    "moonrise": "07:32 PM",
+    "moonset": "07:50 AM",
+    "brahmaMuhurta": "04:58 AM to 05:48 AM"
+  },
+  "1277333_27/12/2026": {
+    "date": "27/12/2026",
+    "locationId": "1277333",
+    "sunrise": "06:40",
+    "sunset": "06:02",
+    "tithi": {
+      "name": "Chaturthi",
+      "endTime": "05:12"
+    },
+    "nakshatra": {
+      "name": "Ashlesha",
+      "endTime": "06:04"
+    },
+    "yoga": {
+      "name": "Vishkambha",
+      "endTime": "08:53"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "05:12"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:36 PM to 06:02 PM",
+    "yamaganda": "12:21 PM to 01:46 PM",
+    "gulika": "03:11 PM to 04:36 PM",
+    "abhijit": "11:58 AM to 12:43 PM",
+    "moonrise": "09:37 PM",
+    "moonset": "09:38 AM",
+    "brahmaMuhurta": "04:58 AM to 05:49 AM"
+  },
+  "1277333_14/01/2027": {
+    "date": "14/01/2027",
+    "locationId": "1277333",
+    "sunrise": "06:45",
+    "sunset": "06:12",
+    "tithi": {
+      "name": "Shashthi",
+      "endTime": "01:58"
+    },
+    "nakshatra": {
+      "name": "Uttara Bhadrapada",
+      "endTime": "11:18"
+    },
+    "yoga": {
+      "name": "Parigha",
+      "endTime": "05:22"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "01:58"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:54 PM to 03:20 PM",
+    "yamaganda": "06:45 AM to 08:11 AM",
+    "gulika": "09:37 AM to 11:03 AM",
+    "abhijit": "12:06 PM to 12:52 PM",
+    "moonrise": "10:51 AM",
+    "moonset": "11:25 PM",
+    "brahmaMuhurta": "05:05 AM to 05:55 AM"
+  },
+  "1277333_25/01/2027": {
+    "date": "25/01/2027",
+    "locationId": "1277333",
+    "sunrise": "06:46",
+    "sunset": "06:17",
+    "tithi": {
+      "name": "Tritiya",
+      "endTime": "08:10"
+    },
+    "nakshatra": {
+      "name": "Purva Phalguni",
+      "endTime": "01:03"
+    },
+    "yoga": {
+      "name": "Shobhana",
+      "endTime": "10:54"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "08:10"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "08:13 AM to 09:39 AM",
+    "yamaganda": "11:06 AM to 12:32 PM",
+    "gulika": "01:58 PM to 03:25 PM",
+    "abhijit": "12:09 PM to 12:55 PM",
+    "moonrise": "09:13 PM",
+    "moonset": "08:56 AM",
+    "brahmaMuhurta": "05:07 AM to 05:56 AM"
+  },
+  "1277333_02/02/2027": {
+    "date": "02/02/2027",
+    "locationId": "1277333",
+    "sunrise": "06:46",
+    "sunset": "06:21",
+    "tithi": {
+      "name": "Ekadashi",
+      "endTime": "11:10"
+    },
+    "nakshatra": {
+      "name": "Jyeshtha",
+      "endTime": "09:21"
+    },
+    "yoga": {
+      "name": "Vyaghata",
+      "endTime": "05:47"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "11:10"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:27 PM to 04:54 PM",
+    "yamaganda": "09:40 AM to 11:06 AM",
+    "gulika": "12:33 PM to 02:00 PM",
+    "abhijit": "12:10 PM to 12:57 PM",
+    "moonrise": "04:11 AM, Feb 03",
+    "moonset": "02:49 PM",
+    "brahmaMuhurta": "05:06 AM to 05:56 AM"
+  },
+  "1277333_06/02/2027": {
+    "date": "06/02/2027",
+    "locationId": "1277333",
+    "sunrise": "06:45",
+    "sunset": "06:23",
+    "tithi": {
+      "name": "Amavasya",
+      "endTime": "09:25"
+    },
+    "nakshatra": {
+      "name": "Shravana",
+      "endTime": "09:19"
+    },
+    "yoga": {
+      "name": "Vyatipata",
+      "endTime": "09:14"
+    },
+    "karana": {
+      "name": "Chatushpada",
+      "endTime": "08:17"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:39 AM to 11:07 AM",
+    "yamaganda": "02:01 PM to 03:28 PM",
+    "gulika": "06:45 AM to 08:12 AM",
+    "abhijit": "12:10 PM to 12:57 PM",
+    "moonrise": "No Moonrise",
+    "moonset": "06:13 PM",
+    "brahmaMuhurta": "05:06 AM to 05:55 AM"
+  },
+  "1277333_06/03/2027": {
+    "date": "06/03/2027",
+    "locationId": "1277333",
+    "sunrise": "06:33",
+    "sunset": "06:29",
+    "tithi": {
+      "name": "Trayodashi",
+      "endTime": "12:03"
+    },
+    "nakshatra": {
+      "name": "Dhanishtha",
+      "endTime": "0x30b"
+    },
+    "yoga": {
+      "name": "Shiva",
+      "endTime": "03:05"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "12:03"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:32 AM to 11:01 AM",
+    "yamaganda": "02:01 PM to 03:30 PM",
+    "gulika": "06:33 AM to 08:02 AM",
+    "abhijit": "12:07 PM to 12:55 PM",
+    "moonrise": "05:40 AM, Mar 07",
+    "moonset": "04:56 PM",
+    "brahmaMuhurta": "04:56 AM to 05:45 AM"
+  },
+  "1277333_16/03/2027": {
+    "date": "16/03/2027",
+    "locationId": "1277333",
+    "sunrise": "06:27",
+    "sunset": "06:30",
+    "tithi": {
+      "name": "Ashtami",
+      "endTime": "08:54"
+    },
+    "nakshatra": {
+      "name": "Mrigashira",
+      "endTime": "08:12"
+    },
+    "yoga": {
+      "name": "Ayushmana",
+      "endTime": "11:50"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "08:54"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:29 PM to 05:00 PM",
+    "yamaganda": "09:28 AM to 10:58 AM",
+    "gulika": "12:28 PM to 01:59 PM",
+    "abhijit": "12:04 PM to 12:52 PM",
+    "moonrise": "12:33 PM",
+    "moonset": "02:00 AM, Mar 17",
+    "brahmaMuhurta": "04:51 AM to 05:39 AM"
+  },
+  "1277333_29/03/2027": {
+    "date": "29/03/2027",
+    "locationId": "1277333",
+    "sunrise": "06:18",
+    "sunset": "06:31",
+    "tithi": {
+      "name": "Saptami",
+      "endTime": "05:10"
+    },
+    "nakshatra": {
+      "name": "Mula",
+      "endTime": "03:18"
+    },
+    "yoga": {
+      "name": "Variyana",
+      "endTime": "0x30b"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "05:10"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "07:50 AM to 09:21 AM",
+    "yamaganda": "10:53 AM to 12:25 PM",
+    "gulika": "01:56 PM to 03:28 PM",
+    "abhijit": "12:00 PM to 12:49 PM",
+    "moonrise": "12:47 AM, Mar 30",
+    "moonset": "11:25 AM",
+    "brahmaMuhurta": "04:44 AM to 05:31 AM"
+  },
+  "1277333_27/04/2027": {
+    "date": "27/04/2027",
+    "locationId": "1277333",
+    "sunrise": "06:01",
+    "sunset": "06:34",
+    "tithi": {
+      "name": "Shashthi",
+      "endTime": "09:57"
+    },
+    "nakshatra": {
+      "name": "Purva Ashadha",
+      "endTime": "02:25"
+    },
+    "yoga": {
+      "name": "Siddha",
+      "endTime": "03:43"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "09:57"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:26 PM to 05:00 PM",
+    "yamaganda": "09:09 AM to 10:43 AM",
+    "gulika": "12:17 PM to 01:52 PM",
+    "abhijit": "11:52 AM to 12:42 PM",
+    "moonrise": "12:12 AM, Apr 28",
+    "moonset": "11:00 AM",
+    "brahmaMuhurta": "04:29 AM to 05:15 AM"
+  },
+  "1277333_28/04/2027": {
+    "date": "28/04/2027",
+    "locationId": "1277333",
+    "sunrise": "06:00",
+    "sunset": "06:34",
+    "tithi": {
+      "name": "Saptami",
+      "endTime": "12:30"
+    },
+    "nakshatra": {
+      "name": "Uttara Ashadha",
+      "endTime": "05:30"
+    },
+    "yoga": {
+      "name": "Sadhya",
+      "endTime": "04:44"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "12:30"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:17 PM to 01:51 PM",
+    "yamaganda": "07:35 AM to 09:09 AM",
+    "gulika": "10:43 AM to 12:17 PM",
+    "abhijit": "None",
+    "moonrise": "12:54 AM, Apr 29",
+    "moonset": "11:51 AM",
+    "brahmaMuhurta": "04:29 AM to 05:15 AM"
+  },
+  "1277333_14/05/2027": {
+    "date": "14/05/2027",
+    "locationId": "1277333",
+    "sunrise": "05:55",
+    "sunset": "06:37",
+    "tithi": {
+      "name": "Navami",
+      "endTime": "07:39"
+    },
+    "nakshatra": {
+      "name": "Magha",
+      "endTime": "12:42"
+    },
+    "yoga": {
+      "name": "Dhruva",
+      "endTime": "08:50"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "08:26"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:41 AM to 12:16 PM",
+    "yamaganda": "03:27 PM to 05:02 PM",
+    "gulika": "07:30 AM to 09:05 AM",
+    "abhijit": "11:51 AM to 12:41 PM",
+    "moonrise": "01:22 PM",
+    "moonset": "01:55 AM, May 15",
+    "brahmaMuhurta": "04:24 AM to 05:09 AM"
+  },
+  "1277333_16/05/2027": {
+    "date": "16/05/2027",
+    "locationId": "1277333",
+    "sunrise": "05:54",
+    "sunset": "06:38",
+    "tithi": {
+      "name": "Ekadashi",
+      "endTime": "05:13"
+    },
+    "nakshatra": {
+      "name": "Uttara Phalguni",
+      "endTime": "11:35"
+    },
+    "yoga": {
+      "name": "Vajra",
+      "endTime": "02:43"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "05:13"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "05:03 PM to 06:38 PM",
+    "yamaganda": "12:16 PM to 01:52 PM",
+    "gulika": "03:27 PM to 05:03 PM",
+    "abhijit": "11:51 AM to 12:42 PM",
+    "moonrise": "03:06 PM",
+    "moonset": "03:15 AM, May 17",
+    "brahmaMuhurta": "04:24 AM to 05:09 AM"
+  },
+  "1277333_27/05/2027": {
+    "date": "27/05/2027",
+    "locationId": "1277333",
+    "sunrise": "05:53",
+    "sunset": "06:41",
+    "tithi": {
+      "name": "Saptami",
+      "endTime": "0x30b"
+    },
+    "nakshatra": {
+      "name": "Dhanishtha",
+      "endTime": "0x30b"
+    },
+    "yoga": {
+      "name": "Indra",
+      "endTime": "02:58"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "05:17"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:53 PM to 03:29 PM",
+    "yamaganda": "05:53 AM to 07:29 AM",
+    "gulika": "09:05 AM to 10:41 AM",
+    "abhijit": "11:51 AM to 12:42 PM",
+    "moonrise": "12:06 AM, May 28",
+    "moonset": "11:21 AM",
+    "brahmaMuhurta": "04:23 AM to 05:08 AM"
+  },
+  "1277333_02/06/2027": {
+    "date": "02/06/2027",
+    "locationId": "1277333",
+    "sunrise": "05:52",
+    "sunset": "06:43",
+    "tithi": {
+      "name": "Dwadashi",
+      "endTime": "08:28"
+    },
+    "nakshatra": {
+      "name": "Ashwini",
+      "endTime": "12:16"
+    },
+    "yoga": {
+      "name": "Shobhana",
+      "endTime": "09:59"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "08:28"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:18 PM to 01:54 PM",
+    "yamaganda": "07:29 AM to 09:05 AM",
+    "gulika": "10:41 AM to 12:18 PM",
+    "abhijit": "None",
+    "moonrise": "04:05 AM, Jun 03",
+    "moonset": "04:19 PM",
+    "brahmaMuhurta": "04:23 AM to 05:08 AM"
+  },
+  "1277333_16/06/2027": {
+    "date": "16/06/2027",
+    "locationId": "1277333",
+    "sunrise": "05:54",
+    "sunset": "06:47",
+    "tithi": {
+      "name": "Trayodashi",
+      "endTime": "03:20"
+    },
+    "nakshatra": {
+      "name": "Vishakha",
+      "endTime": "07:44"
+    },
+    "yoga": {
+      "name": "Shiva",
+      "endTime": "06:09"
+    },
+    "karana": {
+      "name": "Kaulava",
+      "endTime": "02:52"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:20 PM to 01:57 PM",
+    "yamaganda": "07:30 AM to 09:07 AM",
+    "gulika": "10:44 AM to 12:20 PM",
+    "abhijit": "None",
+    "moonrise": "04:35 PM",
+    "moonset": "04:10 AM, Jun 17",
+    "brahmaMuhurta": "04:25 AM to 05:09 AM"
+  },
+  "1277333_26/06/2027": {
+    "date": "26/06/2027",
+    "locationId": "1277333",
+    "sunrise": "05:56",
+    "sunset": "06:49",
+    "tithi": {
+      "name": "Saptami",
+      "endTime": "09:51"
+    },
+    "nakshatra": {
+      "name": "Purva Bhadrapada",
+      "endTime": "07:22"
+    },
+    "yoga": {
+      "name": "Ayushmana",
+      "endTime": "12:24"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "09:08"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:09 AM to 10:46 AM",
+    "yamaganda": "01:59 PM to 03:36 PM",
+    "gulika": "05:56 AM to 07:32 AM",
+    "abhijit": "11:57 AM to 12:48 PM",
+    "moonrise": "11:51 PM",
+    "moonset": "11:35 AM",
+    "brahmaMuhurta": "04:27 AM to 05:11 AM"
+  },
+  "1277333_30/08/2027": {
+    "date": "30/08/2027",
+    "locationId": "1277333",
+    "sunrise": "06:08",
+    "sunset": "06:32",
+    "tithi": {
+      "name": "Trayodashi",
+      "endTime": "06:12"
+    },
+    "nakshatra": {
+      "name": "Ashlesha",
+      "endTime": "01:02"
+    },
+    "yoga": {
+      "name": "Parigha",
+      "endTime": "01:35"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "06:12"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "07:41 AM to 09:14 AM",
+    "yamaganda": "10:47 AM to 12:20 PM",
+    "gulika": "01:53 PM to 03:26 PM",
+    "abhijit": "11:55 AM to 12:45 PM",
+    "moonrise": "05:28 AM, Aug 31",
+    "moonset": "05:26 PM",
+    "brahmaMuhurta": "04:36 AM to 05:22 AM"
+  },
+  "1277333_06/09/2027": {
+    "date": "06/09/2027",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:27",
+    "tithi": {
+      "name": "Shashthi",
+      "endTime": "10:57"
+    },
+    "nakshatra": {
+      "name": "Vishakha",
+      "endTime": "02:59"
+    },
+    "yoga": {
+      "name": "Vaidhriti",
+      "endTime": "03:48"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "10:57"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "07:41 AM to 09:13 AM",
+    "yamaganda": "10:46 AM to 12:18 PM",
+    "gulika": "01:50 PM to 03:23 PM",
+    "abhijit": "11:53 AM to 12:43 PM",
+    "moonrise": "11:10 AM",
+    "moonset": "10:47 PM",
+    "brahmaMuhurta": "04:35 AM to 05:22 AM"
+  },
+  "1277333_26/09/2027": {
+    "date": "26/09/2027",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:13",
+    "tithi": {
+      "name": "Ekadashi",
+      "endTime": "07:49"
+    },
+    "nakshatra": {
+      "name": "Pushya",
+      "endTime": "12:37"
+    },
+    "yoga": {
+      "name": "Shiva",
+      "endTime": "02:35"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "09:11"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:43 PM to 06:13 PM",
+    "yamaganda": "12:11 PM to 01:42 PM",
+    "gulika": "03:12 PM to 04:43 PM",
+    "abhijit": "11:47 AM to 12:35 PM",
+    "moonrise": "03:12 AM, Sep 27",
+    "moonset": "03:15 PM",
+    "brahmaMuhurta": "04:33 AM to 05:21 AM"
+  },
+  "1277333_07/10/2027": {
+    "date": "07/10/2027",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:06",
+    "tithi": {
+      "name": "Ashtami",
+      "endTime": "0x30b"
+    },
+    "nakshatra": {
+      "name": "Purva Ashadha",
+      "endTime": "0x30b"
+    },
+    "yoga": {
+      "name": "Shobhana",
+      "endTime": "12:03"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "05:16"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:37 PM to 03:07 PM",
+    "yamaganda": "06:09 AM to 07:39 AM",
+    "gulika": "09:08 AM to 10:38 AM",
+    "abhijit": "11:44 AM to 12:31 PM",
+    "moonrise": "12:33 PM",
+    "moonset": "12:08 AM, Oct 08",
+    "brahmaMuhurta": "04:33 AM to 05:21 AM"
+  },
+  "1277333_10/10/2027": {
+    "date": "10/10/2027",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:04",
+    "tithi": {
+      "name": "Dashami",
+      "endTime": "11:40"
+    },
+    "nakshatra": {
+      "name": "Shravana",
+      "endTime": "01:25"
+    },
+    "yoga": {
+      "name": "Dhriti",
+      "endTime": "02:54"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "11:40"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:35 PM to 06:04 PM",
+    "yamaganda": "12:07 PM to 01:36 PM",
+    "gulika": "03:05 PM to 04:35 PM",
+    "abhijit": "11:43 AM to 12:30 PM",
+    "moonrise": "02:40 PM",
+    "moonset": "02:35 AM, Oct 11",
+    "brahmaMuhurta": "04:33 AM to 05:21 AM"
+  },
+  "1277333_15/10/2027": {
+    "date": "15/10/2027",
+    "locationId": "1277333",
+    "sunrise": "06:10",
+    "sunset": "06:01",
+    "tithi": {
+      "name": "Purnima",
+      "endTime": "07:16"
+    },
+    "nakshatra": {
+      "name": "Revati",
+      "endTime": "11:29"
+    },
+    "yoga": {
+      "name": "Vyaghata",
+      "endTime": "03:35"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "07:06"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:36 AM to 12:05 PM",
+    "yamaganda": "03:03 PM to 04:32 PM",
+    "gulika": "07:39 AM to 09:08 AM",
+    "abhijit": "11:42 AM to 12:29 PM",
+    "moonrise": "05:43 PM",
+    "moonset": "No Moonset",
+    "brahmaMuhurta": "04:33 AM to 05:21 AM"
+  },
+  "1277333_19/11/2027": {
+    "date": "19/11/2027",
+    "locationId": "1277333",
+    "sunrise": "06:20",
+    "sunset": "05:50",
+    "tithi": {
+      "name": "Shashthi",
+      "endTime": "09:20"
+    },
+    "nakshatra": {
+      "name": "Pushya",
+      "endTime": "12:27"
+    },
+    "yoga": {
+      "name": "Shukla",
+      "endTime": "01:03"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "10:23"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:39 AM to 12:05 PM",
+    "yamaganda": "02:57 PM to 04:24 PM",
+    "gulika": "07:46 AM to 09:12 AM",
+    "abhijit": "11:42 AM to 12:28 PM",
+    "moonrise": "10:59 PM",
+    "moonset": "11:08 AM",
+    "brahmaMuhurta": "04:40 AM to 05:30 AM"
+  },
+  "1277333_27/11/2027": {
+    "date": "27/11/2027",
+    "locationId": "1277333",
+    "sunrise": "06:24",
+    "sunset": "05:50",
+    "tithi": {
+      "name": "Chaturdashi",
+      "endTime": "09:07"
+    },
+    "nakshatra": {
+      "name": "Vishakha",
+      "endTime": "06:05"
+    },
+    "yoga": {
+      "name": "Atiganda",
+      "endTime": "04:06"
+    },
+    "karana": {
+      "name": "Shakuni",
+      "endTime": "09:07"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:15 AM to 10:41 AM",
+    "yamaganda": "01:33 PM to 02:59 PM",
+    "gulika": "06:24 AM to 07:50 AM",
+    "abhijit": "11:44 AM to 12:30 PM",
+    "moonrise": "06:24 AM, Nov 28",
+    "moonset": "05:06 PM",
+    "brahmaMuhurta": "04:43 AM to 05:34 AM"
+  },
+  "1277333_01/12/2027": {
+    "date": "01/12/2027",
+    "locationId": "1277333",
+    "sunrise": "06:26",
+    "sunset": "05:51",
+    "tithi": {
+      "name": "Tritiya",
+      "endTime": "11:39"
+    },
+    "nakshatra": {
+      "name": "Purva Ashadha",
+      "endTime": "11:45"
+    },
+    "yoga": {
+      "name": "Ganda",
+      "endTime": "02:41"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "11:39"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:09 PM to 01:34 PM",
+    "yamaganda": "07:52 AM to 09:17 AM",
+    "gulika": "10:43 AM to 12:09 PM",
+    "abhijit": "None",
+    "moonrise": "09:04 AM",
+    "moonset": "08:41 PM",
+    "brahmaMuhurta": "04:45 AM to 05:36 AM"
+  },
+  "1277333_18/12/2027": {
+    "date": "18/12/2027",
+    "locationId": "1277333",
+    "sunrise": "06:35",
+    "sunset": "05:57",
+    "tithi": {
+      "name": "Panchami",
+      "endTime": "07:57"
+    },
+    "nakshatra": {
+      "name": "Magha",
+      "endTime": "03:30"
+    },
+    "yoga": {
+      "name": "Vishkambha",
+      "endTime": "11:35"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "07:57"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:26 AM to 10:51 AM",
+    "yamaganda": "01:41 PM to 03:07 PM",
+    "gulika": "06:35 AM to 08:00 AM",
+    "abhijit": "11:53 AM to 12:39 PM",
+    "moonrise": "10:47 PM",
+    "moonset": "10:39 AM",
+    "brahmaMuhurta": "04:54 AM to 05:45 AM"
+  },
+  "1277333_03/01/2028": {
+    "date": "03/01/2028",
+    "locationId": "1277333",
+    "sunrise": "06:42",
+    "sunset": "06:05",
+    "tithi": {
+      "name": "Shashthi",
+      "endTime": "04:12"
+    },
+    "nakshatra": {
+      "name": "Purva Bhadrapada",
+      "endTime": "10:15"
+    },
+    "yoga": {
+      "name": "Vyatipata",
+      "endTime": "12:33"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "04:12"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "08:08 AM to 09:33 AM",
+    "yamaganda": "10:59 AM to 12:24 PM",
+    "gulika": "01:49 PM to 03:15 PM",
+    "abhijit": "12:01 PM to 12:47 PM",
+    "moonrise": "10:54 AM",
+    "moonset": "11:17 PM",
+    "brahmaMuhurta": "05:01 AM to 05:52 AM"
+  },
+  "1277333_12/01/2028": {
+    "date": "12/01/2028",
+    "locationId": "1277333",
+    "sunrise": "06:45",
+    "sunset": "06:11",
+    "tithi": {
+      "name": "Purnima",
+      "endTime": "09:32"
+    },
+    "nakshatra": {
+      "name": "Punarvasu",
+      "endTime": "07:21"
+    },
+    "yoga": {
+      "name": "Vaidhriti",
+      "endTime": "05:55"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "09:32"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:28 PM to 01:53 PM",
+    "yamaganda": "08:11 AM to 09:36 AM",
+    "gulika": "11:02 AM to 12:28 PM",
+    "abhijit": "None",
+    "moonrise": "06:30 PM",
+    "moonset": "No Moonset",
+    "brahmaMuhurta": "05:04 AM to 05:55 AM"
+  },
+  "1277333_30/01/2028": {
+    "date": "30/01/2028",
+    "locationId": "1277333",
+    "sunrise": "06:46",
+    "sunset": "06:20",
+    "tithi": {
+      "name": "Chaturthi",
+      "endTime": "0x30b"
+    },
+    "nakshatra": {
+      "name": "Purva Bhadrapada",
+      "endTime": "05:00"
+    },
+    "yoga": {
+      "name": "Parigha",
+      "endTime": "05:12"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "06:00"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:53 PM to 06:20 PM",
+    "yamaganda": "12:33 PM to 02:00 PM",
+    "gulika": "03:26 PM to 04:53 PM",
+    "abhijit": "12:10 PM to 12:56 PM",
+    "moonrise": "08:54 AM",
+    "moonset": "09:14 PM",
+    "brahmaMuhurta": "05:07 AM to 05:56 AM"
+  },
+  "1277333_03/02/2028": {
+    "date": "03/02/2028",
+    "locationId": "1277333",
+    "sunrise": "06:46",
+    "sunset": "06:21",
+    "tithi": {
+      "name": "Saptami",
+      "endTime": "12:21"
+    },
+    "nakshatra": {
+      "name": "Ashwini",
+      "endTime": "11:39"
+    },
+    "yoga": {
+      "name": "Shubha",
+      "endTime": "06:04"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "12:21"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "02:00 PM to 03:27 PM",
+    "yamaganda": "06:46 AM to 08:13 AM",
+    "gulika": "09:40 AM to 11:06 AM",
+    "abhijit": "12:10 PM to 12:57 PM",
+    "moonrise": "11:23 AM",
+    "moonset": "12:27 AM, Feb 04",
+    "brahmaMuhurta": "05:06 AM to 05:56 AM"
+  },
+  "1277333_26/02/2028": {
+    "date": "26/02/2028",
+    "locationId": "1277333",
+    "sunrise": "06:37",
+    "sunset": "06:28",
+    "tithi": {
+      "name": "Pratipada",
+      "endTime": "06:39"
+    },
+    "nakshatra": {
+      "name": "Shatabhisha",
+      "endTime": "08:08"
+    },
+    "yoga": {
+      "name": "Siddha",
+      "endTime": "09:37"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "06:39"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:35 AM to 11:04 AM",
+    "yamaganda": "02:01 PM to 03:30 PM",
+    "gulika": "06:37 AM to 08:06 AM",
+    "abhijit": "12:09 PM to 12:56 PM",
+    "moonrise": "06:55 AM",
+    "moonset": "07:12 PM",
+    "brahmaMuhurta": "05:00 AM to 05:49 AM"
+  },
+  "1277333_30/03/2028": {
+    "date": "30/03/2028",
+    "locationId": "1277333",
+    "sunrise": "06:17",
+    "sunset": "06:31",
+    "tithi": {
+      "name": "Chaturthi",
+      "endTime": "02:29"
+    },
+    "nakshatra": {
+      "name": "Krittika",
+      "endTime": "01:48"
+    },
+    "yoga": {
+      "name": "Priti",
+      "endTime": "02:16"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "02:29"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:56 PM to 03:28 PM",
+    "yamaganda": "06:17 AM to 07:49 AM",
+    "gulika": "09:20 AM to 10:52 AM",
+    "abhijit": "12:00 PM to 12:48 PM",
+    "moonrise": "08:51 AM",
+    "moonset": "10:07 PM",
+    "brahmaMuhurta": "04:43 AM to 05:30 AM"
+  },
+  "1277333_03/04/2028": {
+    "date": "03/04/2028",
+    "locationId": "1277333",
+    "sunrise": "06:14",
+    "sunset": "06:31",
+    "tithi": {
+      "name": "Ashtami",
+      "endTime": "11:59"
+    },
+    "nakshatra": {
+      "name": "Punarvasu",
+      "endTime": "01:00"
+    },
+    "yoga": {
+      "name": "Atiganda",
+      "endTime": "07:10"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "11:59"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "07:46 AM to 09:19 AM",
+    "yamaganda": "10:51 AM to 12:23 PM",
+    "gulika": "01:55 PM to 03:27 PM",
+    "abhijit": "11:58 AM to 12:47 PM",
+    "moonrise": "12:38 PM",
+    "moonset": "01:50 AM, Apr 04",
+    "brahmaMuhurta": "04:41 AM to 05:27 AM"
+  },
+  "1277333_17/04/2028": {
+    "date": "17/04/2028",
+    "locationId": "1277333",
+    "sunrise": "06:06",
+    "sunset": "06:33",
+    "tithi": {
+      "name": "Ashtami",
+      "endTime": "11:10"
+    },
+    "nakshatra": {
+      "name": "Uttara Ashadha",
+      "endTime": "12:13"
+    },
+    "yoga": {
+      "name": "Sadhya",
+      "endTime": "0x30b"
+    },
+    "karana": {
+      "name": "Kaulava",
+      "endTime": "11:10"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "07:39 AM to 09:12 AM",
+    "yamaganda": "10:46 AM to 12:19 PM",
+    "gulika": "01:53 PM to 03:26 PM",
+    "abhijit": "11:54 AM to 12:44 PM",
+    "moonrise": "01:42 AM, Apr 18",
+    "moonset": "12:45 PM",
+    "brahmaMuhurta": "04:33 AM to 05:20 AM"
+  },
+  "1277333_08/05/2028": {
+    "date": "08/05/2028",
+    "locationId": "1277333",
+    "sunrise": "05:56",
+    "sunset": "06:36",
+    "tithi": {
+      "name": "Purnima",
+      "endTime": "01:18"
+    },
+    "nakshatra": {
+      "name": "Swati",
+      "endTime": "05:42"
+    },
+    "yoga": {
+      "name": "Vyatipata",
+      "endTime": "09:40"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "02:22"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "07:31 AM to 09:06 AM",
+    "yamaganda": "10:41 AM to 12:16 PM",
+    "gulika": "01:51 PM to 03:26 PM",
+    "abhijit": "11:51 AM to 12:42 PM",
+    "moonrise": "06:15 PM",
+    "moonset": "No Moonset",
+    "brahmaMuhurta": "04:25 AM to 05:11 AM"
+  },
+  "1277333_13/05/2028": {
+    "date": "13/05/2028",
+    "locationId": "1277333",
+    "sunrise": "05:55",
+    "sunset": "06:37",
+    "tithi": {
+      "name": "Panchami",
+      "endTime": "11:08"
+    },
+    "nakshatra": {
+      "name": "Purva Ashadha",
+      "endTime": "06:11"
+    },
+    "yoga": {
+      "name": "Sadhya",
+      "endTime": "01:58"
+    },
+    "karana": {
+      "name": "Kaulava",
+      "endTime": "10:32"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:05 AM to 10:41 AM",
+    "yamaganda": "01:51 PM to 03:27 PM",
+    "gulika": "05:55 AM to 07:30 AM",
+    "abhijit": "11:51 AM to 12:41 PM",
+    "moonrise": "10:53 PM",
+    "moonset": "09:43 AM",
+    "brahmaMuhurta": "04:24 AM to 05:10 AM"
+  },
+  "1277333_16/05/2028": {
+    "date": "16/05/2028",
+    "locationId": "1277333",
+    "sunrise": "05:54",
+    "sunset": "06:38",
+    "tithi": {
+      "name": "Ashtami",
+      "endTime": "05:27"
+    },
+    "nakshatra": {
+      "name": "Dhanishtha",
+      "endTime": "02:00"
+    },
+    "yoga": {
+      "name": "Brahma",
+      "endTime": "03:35"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "04:12"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:27 PM to 05:03 PM",
+    "yamaganda": "09:05 AM to 10:41 AM",
+    "gulika": "12:16 PM to 01:52 PM",
+    "abhijit": "11:51 AM to 12:42 PM",
+    "moonrise": "12:53 AM, May 17",
+    "moonset": "12:14 PM",
+    "brahmaMuhurta": "04:24 AM to 05:09 AM"
+  },
+  "1277333_03/06/2028": {
+    "date": "03/06/2028",
+    "locationId": "1277333",
+    "sunrise": "05:52",
+    "sunset": "06:43",
+    "tithi": {
+      "name": "Ekadashi",
+      "endTime": "05:25"
+    },
+    "nakshatra": {
+      "name": "Chitra",
+      "endTime": "02:48"
+    },
+    "yoga": {
+      "name": "Vyatipata",
+      "endTime": "11:33"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "06:27"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:05 AM to 10:42 AM",
+    "yamaganda": "01:54 PM to 03:31 PM",
+    "gulika": "05:52 AM to 07:29 AM",
+    "abhijit": "11:52 AM to 12:44 PM",
+    "moonrise": "03:05 PM",
+    "moonset": "03:01 AM, Jun 04",
+    "brahmaMuhurta": "04:23 AM to 05:08 AM"
+  },
+  "1277333_06/07/2028": {
+    "date": "06/07/2028",
+    "locationId": "1277333",
+    "sunrise": "05:59",
+    "sunset": "06:50",
+    "tithi": {
+      "name": "Purnima",
+      "endTime": "11:40"
+    },
+    "nakshatra": {
+      "name": "Mula",
+      "endTime": "09:13"
+    },
+    "yoga": {
+      "name": "Brahma",
+      "endTime": "08:36"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "11:18"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "02:01 PM to 03:37 PM",
+    "yamaganda": "05:59 AM to 07:35 AM",
+    "gulika": "09:12 AM to 10:48 AM",
+    "abhijit": "11:59 AM to 12:50 PM",
+    "moonrise": "06:38 PM",
+    "moonset": "No Moonset",
+    "brahmaMuhurta": "04:30 AM to 05:14 AM"
+  },
+  "1277333_07/07/2028": {
+    "date": "07/07/2028",
+    "locationId": "1277333",
+    "sunrise": "05:59",
+    "sunset": "06:50",
+    "tithi": {
+      "name": "Pratipada",
+      "endTime": "12:45"
+    },
+    "nakshatra": {
+      "name": "Purva Ashadha",
+      "endTime": "10:42"
+    },
+    "yoga": {
+      "name": "Indra",
+      "endTime": "08:15"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "12:09"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:48 AM to 12:25 PM",
+    "yamaganda": "03:37 PM to 05:14 PM",
+    "gulika": "07:35 AM to 09:12 AM",
+    "abhijit": "11:59 AM to 12:50 PM",
+    "moonrise": "07:25 PM",
+    "moonset": "06:17 AM",
+    "brahmaMuhurta": "04:30 AM to 05:14 AM"
+  },
+  "1277333_01/08/2028": {
+    "date": "01/08/2028",
+    "locationId": "1277333",
+    "sunrise": "06:05",
+    "sunset": "06:46",
+    "tithi": {
+      "name": "Ekadashi",
+      "endTime": "08:51"
+    },
+    "nakshatra": {
+      "name": "Jyeshtha",
+      "endTime": "02:11"
+    },
+    "yoga": {
+      "name": "Indra",
+      "endTime": "04:28"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "08:51"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:36 PM to 05:11 PM",
+    "yamaganda": "09:16 AM to 10:51 AM",
+    "gulika": "12:26 PM to 02:01 PM",
+    "abhijit": "12:01 PM to 12:51 PM",
+    "moonrise": "03:41 PM",
+    "moonset": "03:16 AM, Aug 02",
+    "brahmaMuhurta": "04:35 AM to 05:20 AM"
+  },
+  "1277333_23/08/2028": {
+    "date": "23/08/2028",
+    "locationId": "1277333",
+    "sunrise": "06:08",
+    "sunset": "06:36",
+    "tithi": {
+      "name": "Chaturthi",
+      "endTime": "01:55"
+    },
+    "nakshatra": {
+      "name": "Hasta",
+      "endTime": "11:16"
+    },
+    "yoga": {
+      "name": "Sadhya",
+      "endTime": "12:50"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "03:29"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:22 PM to 01:56 PM",
+    "yamaganda": "07:42 AM to 09:15 AM",
+    "gulika": "10:49 AM to 12:22 PM",
+    "abhijit": "None",
+    "moonrise": "08:43 AM",
+    "moonset": "08:51 PM",
+    "brahmaMuhurta": "04:36 AM to 05:22 AM"
+  },
+  "1277333_24/08/2028": {
+    "date": "24/08/2028",
+    "locationId": "1277333",
+    "sunrise": "06:08",
+    "sunset": "06:35",
+    "tithi": {
+      "name": "Panchami",
+      "endTime": "11:09"
+    },
+    "nakshatra": {
+      "name": "Chitra",
+      "endTime": "09:14"
+    },
+    "yoga": {
+      "name": "Shubha",
+      "endTime": "09:13"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "12:28"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:55 PM to 03:29 PM",
+    "yamaganda": "06:08 AM to 07:42 AM",
+    "gulika": "09:15 AM to 10:48 AM",
+    "abhijit": "11:57 AM to 12:47 PM",
+    "moonrise": "09:42 AM",
+    "moonset": "09:39 PM",
+    "brahmaMuhurta": "04:36 AM to 05:22 AM"
+  },
+  "1277333_26/08/2028": {
+    "date": "26/08/2028",
+    "locationId": "1277333",
+    "sunrise": "06:08",
+    "sunset": "06:34",
+    "tithi": {
+      "name": "Saptami",
+      "endTime": "07:32"
+    },
+    "nakshatra": {
+      "name": "Vishakha",
+      "endTime": "07:04"
+    },
+    "yoga": {
+      "name": "Indra",
+      "endTime": "01:18"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "08:10"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:15 AM to 10:48 AM",
+    "yamaganda": "01:54 PM to 03:28 PM",
+    "gulika": "06:08 AM to 07:42 AM",
+    "abhijit": "11:56 AM to 12:46 PM",
+    "moonrise": "11:41 AM",
+    "moonset": "11:21 PM",
+    "brahmaMuhurta": "04:36 AM to 05:22 AM"
+  },
+  "1277333_07/09/2028": {
+    "date": "07/09/2028",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:26",
+    "tithi": {
+      "name": "Tritiya",
+      "endTime": "12:26"
+    },
+    "nakshatra": {
+      "name": "Revati",
+      "endTime": "06:36"
+    },
+    "yoga": {
+      "name": "Vriddhi",
+      "endTime": "04:46"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "12:26"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:50 PM to 03:22 PM",
+    "yamaganda": "06:09 AM to 07:41 AM",
+    "gulika": "09:13 AM to 10:45 AM",
+    "abhijit": "11:53 AM to 12:42 PM",
+    "moonrise": "08:23 PM",
+    "moonset": "08:27 AM",
+    "brahmaMuhurta": "04:35 AM to 05:22 AM"
+  },
+  "1277333_26/09/2028": {
+    "date": "26/09/2028",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:13",
+    "tithi": {
+      "name": "Ashtami",
+      "endTime": "06:58"
+    },
+    "nakshatra": {
+      "name": "Purva Ashadha",
+      "endTime": "05:01"
+    },
+    "yoga": {
+      "name": "Shobhana",
+      "endTime": "04:47"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "06:58"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:12 PM to 04:42 PM",
+    "yamaganda": "09:10 AM to 10:40 AM",
+    "gulika": "12:11 PM to 01:41 PM",
+    "abhijit": "11:47 AM to 12:35 PM",
+    "moonrise": "01:16 PM",
+    "moonset": "12:55 AM, Sep 27",
+    "brahmaMuhurta": "04:33 AM to 05:21 AM"
+  },
+  "1277333_12/10/2028": {
+    "date": "12/10/2028",
+    "locationId": "1277333",
+    "sunrise": "06:10",
+    "sunset": "06:02",
+    "tithi": {
+      "name": "Navami",
+      "endTime": "03:22"
+    },
+    "nakshatra": {
+      "name": "Punarvasu",
+      "endTime": "09:11"
+    },
+    "yoga": {
+      "name": "Shiva",
+      "endTime": "06:19"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "04:13"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:35 PM to 03:04 PM",
+    "yamaganda": "06:10 AM to 07:39 AM",
+    "gulika": "09:08 AM to 10:37 AM",
+    "abhijit": "11:42 AM to 12:30 PM",
+    "moonrise": "01:11 AM, Oct 13",
+    "moonset": "01:20 PM",
+    "brahmaMuhurta": "04:33 AM to 05:21 AM"
+  },
+  "1277333_18/10/2028": {
+    "date": "18/10/2028",
+    "locationId": "1277333",
+    "sunrise": "06:10",
+    "sunset": "05:59",
+    "tithi": {
+      "name": "Amavasya",
+      "endTime": "08:26"
+    },
+    "nakshatra": {
+      "name": "Chitra",
+      "endTime": "05:28"
+    },
+    "yoga": {
+      "name": "Vishkambha",
+      "endTime": "01:26"
+    },
+    "karana": {
+      "name": "Nagava",
+      "endTime": "08:26"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:05 PM to 01:33 PM",
+    "yamaganda": "07:39 AM to 09:07 AM",
+    "gulika": "10:36 AM to 12:05 PM",
+    "abhijit": "None",
+    "moonrise": "No Moonrise",
+    "moonset": "06:03 PM",
+    "brahmaMuhurta": "04:33 AM to 05:22 AM"
+  },
+  "1277333_22/10/2028": {
+    "date": "22/10/2028",
+    "locationId": "1277333",
+    "sunrise": "06:11",
+    "sunset": "05:57",
+    "tithi": {
+      "name": "Panchami",
+      "endTime": "08:54"
+    },
+    "nakshatra": {
+      "name": "Jyeshtha",
+      "endTime": "11:00"
+    },
+    "yoga": {
+      "name": "Shobhana",
+      "endTime": "01:39"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "09:14"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:29 PM to 05:57 PM",
+    "yamaganda": "12:04 PM to 01:32 PM",
+    "gulika": "03:00 PM to 04:29 PM",
+    "abhijit": "11:40 AM to 12:27 PM",
+    "moonrise": "10:13 AM",
+    "moonset": "09:50 PM",
+    "brahmaMuhurta": "04:33 AM to 05:22 AM"
+  },
+  "1277333_13/11/2028": {
+    "date": "13/11/2028",
+    "locationId": "1277333",
+    "sunrise": "06:18",
+    "sunset": "05:50",
+    "tithi": {
+      "name": "Ekadashi",
+      "endTime": "06:41"
+    },
+    "nakshatra": {
+      "name": "Uttara Phalguni",
+      "endTime": "08:27"
+    },
+    "yoga": {
+      "name": "Vishkambha",
+      "endTime": "06:08"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "06:41"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "07:44 AM to 09:11 AM",
+    "yamaganda": "10:37 AM to 12:04 PM",
+    "gulika": "01:30 PM to 02:57 PM",
+    "abhijit": "11:41 AM to 12:27 PM",
+    "moonrise": "03:47 AM, Nov 14",
+    "moonset": "03:03 PM",
+    "brahmaMuhurta": "04:38 AM to 05:28 AM"
+  },
+  "1277333_19/11/2028": {
+    "date": "19/11/2028",
+    "locationId": "1277333",
+    "sunrise": "06:20",
+    "sunset": "05:50",
+    "tithi": {
+      "name": "Tritiya",
+      "endTime": "01:28"
+    },
+    "nakshatra": {
+      "name": "Mula",
+      "endTime": "08:48"
+    },
+    "yoga": {
+      "name": "Dhriti",
+      "endTime": "08:25"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "01:28"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:24 PM to 05:50 PM",
+    "yamaganda": "12:05 PM to 01:31 PM",
+    "gulika": "02:57 PM to 04:24 PM",
+    "abhijit": "11:42 AM to 12:28 PM",
+    "moonrise": "08:53 AM",
+    "moonset": "08:32 PM",
+    "brahmaMuhurta": "04:40 AM to 05:30 AM"
+  },
+  "1277333_13/12/2028": {
+    "date": "13/12/2028",
+    "locationId": "1277333",
+    "sunrise": "06:33",
+    "sunset": "05:55",
+    "tithi": {
+      "name": "Dwadashi",
+      "endTime": "12:55"
+    },
+    "nakshatra": {
+      "name": "Swati",
+      "endTime": "10:19"
+    },
+    "yoga": {
+      "name": "Atiganda",
+      "endTime": "02:20"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "12:55"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:14 PM to 01:39 PM",
+    "yamaganda": "07:58 AM to 09:23 AM",
+    "gulika": "10:49 AM to 12:14 PM",
+    "abhijit": "None",
+    "moonrise": "04:36 AM, Dec 14",
+    "moonset": "03:23 PM",
+    "brahmaMuhurta": "04:52 AM to 05:42 AM"
+  },
+  "1277333_22/12/2028": {
+    "date": "22/12/2028",
+    "locationId": "1277333",
+    "sunrise": "06:38",
+    "sunset": "05:59",
+    "tithi": {
+      "name": "Shashthi",
+      "endTime": "11:30"
+    },
+    "nakshatra": {
+      "name": "Shatabhisha",
+      "endTime": "02:13"
+    },
+    "yoga": {
+      "name": "Siddhi",
+      "endTime": "02:24"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "11:30"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:53 AM to 12:18 PM",
+    "yamaganda": "03:09 PM to 04:34 PM",
+    "gulika": "08:03 AM to 09:28 AM",
+    "abhijit": "11:56 AM to 12:41 PM",
+    "moonrise": "11:06 AM",
+    "moonset": "11:24 PM",
+    "brahmaMuhurta": "04:56 AM to 05:47 AM"
+  },
+  "1277333_23/12/2028": {
+    "date": "23/12/2028",
+    "locationId": "1277333",
+    "sunrise": "06:38",
+    "sunset": "06:00",
+    "tithi": {
+      "name": "Saptami",
+      "endTime": "01:57"
+    },
+    "nakshatra": {
+      "name": "Purva Bhadrapada",
+      "endTime": "05:06"
+    },
+    "yoga": {
+      "name": "Vyatipata",
+      "endTime": "03:13"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "01:57"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:28 AM to 10:54 AM",
+    "yamaganda": "01:44 PM to 03:09 PM",
+    "gulika": "06:38 AM to 08:03 AM",
+    "abhijit": "11:56 AM to 12:42 PM",
+    "moonrise": "11:41 AM",
+    "moonset": "12:09 AM, Dec 24",
+    "brahmaMuhurta": "04:57 AM to 05:47 AM"
+  },
+  "1277333_12/01/2029": {
+    "date": "12/01/2029",
+    "locationId": "1277333",
+    "sunrise": "06:45",
+    "sunset": "06:11",
+    "tithi": {
+      "name": "Trayodashi",
+      "endTime": "11:06"
+    },
+    "nakshatra": {
+      "name": "Jyeshtha",
+      "endTime": "02:55"
+    },
+    "yoga": {
+      "name": "Vriddhi",
+      "endTime": "12:23"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "11:25"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "11:02 AM to 12:28 PM",
+    "yamaganda": "03:20 PM to 04:45 PM",
+    "gulika": "08:11 AM to 09:37 AM",
+    "abhijit": "12:05 PM to 12:51 PM",
+    "moonrise": "05:23 AM, Jan 13",
+    "moonset": "04:04 PM",
+    "brahmaMuhurta": "05:05 AM to 05:55 AM"
+  },
+  "1277333_28/01/2029": {
+    "date": "28/01/2029",
+    "locationId": "1277333",
+    "sunrise": "06:46",
+    "sunset": "06:19",
+    "tithi": {
+      "name": "Trayodashi",
+      "endTime": "03:41"
+    },
+    "nakshatra": {
+      "name": "Ardra",
+      "endTime": "02:47"
+    },
+    "yoga": {
+      "name": "Vaidhriti",
+      "endTime": "07:31"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "03:41"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:52 PM to 06:19 PM",
+    "yamaganda": "12:33 PM to 01:59 PM",
+    "gulika": "03:26 PM to 04:52 PM",
+    "abhijit": "12:10 PM to 12:56 PM",
+    "moonrise": "04:32 PM",
+    "moonset": "05:44 AM, Jan 29",
+    "brahmaMuhurta": "05:07 AM to 05:56 AM"
+  },
+  "1277333_14/02/2029": {
+    "date": "14/02/2029",
+    "locationId": "1277333",
+    "sunrise": "06:42",
+    "sunset": "06:25",
+    "tithi": {
+      "name": "Pratipada",
+      "endTime": "05:48"
+    },
+    "nakshatra": {
+      "name": "Shatabhisha",
+      "endTime": "06:05"
+    },
+    "yoga": {
+      "name": "Parigha",
+      "endTime": "01:34"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "05:48"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:34 PM to 02:02 PM",
+    "yamaganda": "08:10 AM to 09:38 AM",
+    "gulika": "11:06 AM to 12:34 PM",
+    "abhijit": "None",
+    "moonrise": "07:01 AM",
+    "moonset": "07:11 PM",
+    "brahmaMuhurta": "05:04 AM to 05:53 AM"
+  },
+  "1277333_25/02/2029": {
+    "date": "25/02/2029",
+    "locationId": "1277333",
+    "sunrise": "06:38",
+    "sunset": "06:28",
+    "tithi": {
+      "name": "Ekadashi",
+      "endTime": "09:11"
+    },
+    "nakshatra": {
+      "name": "Punarvasu",
+      "endTime": "12:24"
+    },
+    "yoga": {
+      "name": "Ayushmana",
+      "endTime": "01:53"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "09:11"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "04:59 PM to 06:28 PM",
+    "yamaganda": "12:33 PM to 02:01 PM",
+    "gulika": "03:30 PM to 04:59 PM",
+    "abhijit": "12:09 PM to 12:56 PM",
+    "moonrise": "03:13 PM",
+    "moonset": "04:20 AM, Feb 26",
+    "brahmaMuhurta": "05:00 AM to 05:49 AM"
+  },
+  "1277333_02/03/2029": {
+    "date": "02/03/2029",
+    "locationId": "1277333",
+    "sunrise": "06:35",
+    "sunset": "06:29",
+    "tithi": {
+      "name": "Dwitiya",
+      "endTime": "03:18"
+    },
+    "nakshatra": {
+      "name": "Uttara Phalguni",
+      "endTime": "12:24"
+    },
+    "yoga": {
+      "name": "Shula",
+      "endTime": "03:48"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "03:18"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "11:03 AM to 12:32 PM",
+    "yamaganda": "03:30 PM to 04:59 PM",
+    "gulika": "08:04 AM to 09:33 AM",
+    "abhijit": "12:08 PM to 12:56 PM",
+    "moonrise": "08:10 PM",
+    "moonset": "07:31 AM",
+    "brahmaMuhurta": "04:58 AM to 05:46 AM"
+  },
+  "1277333_08/03/2029": {
+    "date": "08/03/2029",
+    "locationId": "1277333",
+    "sunrise": "06:31",
+    "sunset": "06:29",
+    "tithi": {
+      "name": "Navami",
+      "endTime": "12:49"
+    },
+    "nakshatra": {
+      "name": "Mula",
+      "endTime": "02:52"
+    },
+    "yoga": {
+      "name": "Siddhi",
+      "endTime": "07:26"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "12:49"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "02:00 PM to 03:30 PM",
+    "yamaganda": "06:31 AM to 08:01 AM",
+    "gulika": "09:31 AM to 11:01 AM",
+    "abhijit": "12:06 PM to 12:54 PM",
+    "moonrise": "02:07 AM, Mar 09",
+    "moonset": "12:50 PM",
+    "brahmaMuhurta": "04:55 AM to 05:43 AM"
+  },
+  "1277333_19/03/2029": {
+    "date": "19/03/2029",
+    "locationId": "1277333",
+    "sunrise": "06:24",
+    "sunset": "06:30",
+    "tithi": {
+      "name": "Chaturthi",
+      "endTime": "07:37"
+    },
+    "nakshatra": {
+      "name": "Bharani",
+      "endTime": "03:01"
+    },
+    "yoga": {
+      "name": "Vaidhriti",
+      "endTime": "11:23"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "06:27"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "07:55 AM to 09:26 AM",
+    "yamaganda": "10:57 AM to 12:27 PM",
+    "gulika": "01:58 PM to 03:29 PM",
+    "abhijit": "12:03 PM to 12:52 PM",
+    "moonrise": "08:45 AM",
+    "moonset": "09:49 PM",
+    "brahmaMuhurta": "04:49 AM to 05:37 AM"
+  },
+  "1277333_22/03/2029": {
+    "date": "22/03/2029",
+    "locationId": "1277333",
+    "sunrise": "06:22",
+    "sunset": "06:31",
+    "tithi": {
+      "name": "Saptami",
+      "endTime": "12:42"
+    },
+    "nakshatra": {
+      "name": "Rohini",
+      "endTime": "07:42"
+    },
+    "yoga": {
+      "name": "Ayushmana",
+      "endTime": "12:05"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "12:12"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:57 PM to 03:28 PM",
+    "yamaganda": "06:22 AM to 07:53 AM",
+    "gulika": "09:24 AM to 10:55 AM",
+    "abhijit": "12:02 PM to 12:51 PM",
+    "moonrise": "11:08 AM",
+    "moonset": "12:25 AM, Mar 23",
+    "brahmaMuhurta": "04:47 AM to 05:35 AM"
+  },
+  "1277333_03/04/2029": {
+    "date": "03/04/2029",
+    "locationId": "1277333",
+    "sunrise": "06:14",
+    "sunset": "06:31",
+    "tithi": {
+      "name": "Panchami",
+      "endTime": "03:34"
+    },
+    "nakshatra": {
+      "name": "Anuradha",
+      "endTime": "10:27"
+    },
+    "yoga": {
+      "name": "Vyatipata",
+      "endTime": "03:24"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "03:34"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:27 PM to 04:59 PM",
+    "yamaganda": "09:19 AM to 10:51 AM",
+    "gulika": "12:23 PM to 01:55 PM",
+    "abhijit": "11:58 AM to 12:47 PM",
+    "moonrise": "11:03 PM",
+    "moonset": "09:43 AM",
+    "brahmaMuhurta": "04:41 AM to 05:28 AM"
+  },
+  "1277333_13/04/2029": {
+    "date": "13/04/2029",
+    "locationId": "1277333",
+    "sunrise": "06:08",
+    "sunset": "06:32",
+    "tithi": {
+      "name": "Amavasya",
+      "endTime": "03:09"
+    },
+    "nakshatra": {
+      "name": "Revati",
+      "endTime": "03:13"
+    },
+    "yoga": {
+      "name": "Vaidhriti",
+      "endTime": "03:16"
+    },
+    "karana": {
+      "name": "Chatushpada",
+      "endTime": "01:56"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:47 AM to 12:20 PM",
+    "yamaganda": "03:26 PM to 04:59 PM",
+    "gulika": "07:41 AM to 09:14 AM",
+    "abhijit": "11:55 AM to 12:45 PM",
+    "moonrise": "06:04 AM, Apr 14",
+    "moonset": "06:09 PM",
+    "brahmaMuhurta": "04:35 AM to 05:22 AM"
+  },
+  "1277333_24/04/2029": {
+    "date": "24/04/2029",
+    "locationId": "1277333",
+    "sunrise": "06:02",
+    "sunset": "06:33",
+    "tithi": {
+      "name": "Dashami",
+      "endTime": "09:22"
+    },
+    "nakshatra": {
+      "name": "Magha",
+      "endTime": "02:56"
+    },
+    "yoga": {
+      "name": "Vriddhi",
+      "endTime": "07:46"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "09:22"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:26 PM to 05:00 PM",
+    "yamaganda": "09:10 AM to 10:44 AM",
+    "gulika": "12:18 PM to 01:52 PM",
+    "abhijit": "11:53 AM to 12:43 PM",
+    "moonrise": "02:34 PM",
+    "moonset": "03:06 AM, Apr 25",
+    "brahmaMuhurta": "04:30 AM to 05:16 AM"
+  },
+  "1277333_02/05/2029": {
+    "date": "02/05/2029",
+    "locationId": "1277333",
+    "sunrise": "05:59",
+    "sunset": "06:35",
+    "tithi": {
+      "name": "Panchami",
+      "endTime": "03:02"
+    },
+    "nakshatra": {
+      "name": "Mula",
+      "endTime": "05:54"
+    },
+    "yoga": {
+      "name": "Shiva",
+      "endTime": "10:05"
+    },
+    "karana": {
+      "name": "Kaulava",
+      "endTime": "03:35"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:17 PM to 01:51 PM",
+    "yamaganda": "07:33 AM to 09:08 AM",
+    "gulika": "10:42 AM to 12:17 PM",
+    "abhijit": "None",
+    "moonrise": "10:43 PM",
+    "moonset": "09:27 AM",
+    "brahmaMuhurta": "04:27 AM to 05:13 AM"
+  },
+  "1277333_27/05/2029": {
+    "date": "27/05/2029",
+    "locationId": "1277333",
+    "sunrise": "05:53",
+    "sunset": "06:41",
+    "tithi": {
+      "name": "Purnima",
+      "endTime": "12:06"
+    },
+    "nakshatra": {
+      "name": "Vishakha",
+      "endTime": "09:13"
+    },
+    "yoga": {
+      "name": "Parigha",
+      "endTime": "06:21"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "01:38"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "05:05 PM to 06:41 PM",
+    "yamaganda": "12:17 PM to 01:53 PM",
+    "gulika": "03:29 PM to 05:05 PM",
+    "abhijit": "11:51 AM to 12:43 PM",
+    "moonrise": "06:24 PM",
+    "moonset": "No Moonset",
+    "brahmaMuhurta": "04:23 AM to 05:08 AM"
+  },
+  "1277333_30/05/2029": {
+    "date": "30/05/2029",
+    "locationId": "1277333",
+    "sunrise": "05:52",
+    "sunset": "06:42",
+    "tithi": {
+      "name": "Tritiya",
+      "endTime": "05:21"
+    },
+    "nakshatra": {
+      "name": "Purva Ashadha",
+      "endTime": "03:12"
+    },
+    "yoga": {
+      "name": "Shubha",
+      "endTime": "06:09"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "06:06"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:17 PM to 01:54 PM",
+    "yamaganda": "07:29 AM to 09:05 AM",
+    "gulika": "10:41 AM to 12:17 PM",
+    "abhijit": "None",
+    "moonrise": "09:22 PM",
+    "moonset": "08:10 AM",
+    "brahmaMuhurta": "04:23 AM to 05:08 AM"
+  },
+  "1277333_13/06/2029": {
+    "date": "13/06/2029",
+    "locationId": "1277333",
+    "sunrise": "05:53",
+    "sunset": "06:46",
+    "tithi": {
+      "name": "Pratipada",
+      "endTime": "09:55"
+    },
+    "nakshatra": {
+      "name": "Ardra",
+      "endTime": "04:13"
+    },
+    "yoga": {
+      "name": "Ganda",
+      "endTime": "06:33"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "09:55"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:20 PM to 01:56 PM",
+    "yamaganda": "07:30 AM to 09:07 AM",
+    "gulika": "10:43 AM to 12:20 PM",
+    "abhijit": "None",
+    "moonrise": "06:42 AM",
+    "moonset": "07:55 PM",
+    "brahmaMuhurta": "04:24 AM to 05:09 AM"
+  },
+  "1277333_19/06/2029": {
+    "date": "19/06/2029",
+    "locationId": "1277333",
+    "sunrise": "05:54",
+    "sunset": "06:48",
+    "tithi": {
+      "name": "Ashtami",
+      "endTime": "02:16"
+    },
+    "nakshatra": {
+      "name": "Uttara Phalguni",
+      "endTime": "01:18"
+    },
+    "yoga": {
+      "name": "Siddhi",
+      "endTime": "07:31"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "03:23"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:34 PM to 05:11 PM",
+    "yamaganda": "09:08 AM to 10:44 AM",
+    "gulika": "12:21 PM to 01:58 PM",
+    "abhijit": "11:55 AM to 12:47 PM",
+    "moonrise": "12:11 PM",
+    "moonset": "12:26 AM, Jun 20",
+    "brahmaMuhurta": "04:25 AM to 05:10 AM"
+  },
+  "1277333_24/06/2029": {
+    "date": "24/06/2029",
+    "locationId": "1277333",
+    "sunrise": "05:55",
+    "sunset": "06:49",
+    "tithi": {
+      "name": "Trayodashi",
+      "endTime": "01:17"
+    },
+    "nakshatra": {
+      "name": "Anuradha",
+      "endTime": "04:22"
+    },
+    "yoga": {
+      "name": "Sadhya",
+      "endTime": "12:47"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "01:17"
+    },
+    "vara": "Raviwara",
+    "rahuKalam": "05:12 PM to 06:49 PM",
+    "yamaganda": "12:22 PM to 01:59 PM",
+    "gulika": "03:36 PM to 05:12 PM",
+    "abhijit": "11:56 AM to 12:48 PM",
+    "moonrise": "05:10 PM",
+    "moonset": "04:51 AM, Jun 25",
+    "brahmaMuhurta": "04:27 AM to 05:11 AM"
+  },
+  "1277333_14/07/2029": {
+    "date": "14/07/2029",
+    "locationId": "1277333",
+    "sunrise": "06:01",
+    "sunset": "06:50",
+    "tithi": {
+      "name": "Tritiya",
+      "endTime": "05:32"
+    },
+    "nakshatra": {
+      "name": "Ashlesha",
+      "endTime": "10:32"
+    },
+    "yoga": {
+      "name": "Siddhi",
+      "endTime": "07:29"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "06:25"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:13 AM to 10:49 AM",
+    "yamaganda": "02:02 PM to 03:38 PM",
+    "gulika": "06:01 AM to 07:37 AM",
+    "abhijit": "12:00 PM to 12:51 PM",
+    "moonrise": "08:17 AM",
+    "moonset": "08:59 PM",
+    "brahmaMuhurta": "04:31 AM to 05:16 AM"
+  },
+  "1277333_08/08/2029": {
+    "date": "08/08/2029",
+    "locationId": "1277333",
+    "sunrise": "06:06",
+    "sunset": "06:44",
+    "tithi": {
+      "name": "Trayodashi",
+      "endTime": "10:19"
+    },
+    "nakshatra": {
+      "name": "Punarvasu",
+      "endTime": "08:25"
+    },
+    "yoga": {
+      "name": "Vajra",
+      "endTime": "11:26"
+    },
+    "karana": {
+      "name": "Vanija",
+      "endTime": "10:19"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:25 PM to 02:00 PM",
+    "yamaganda": "07:41 AM to 09:16 AM",
+    "gulika": "10:51 AM to 12:25 PM",
+    "abhijit": "None",
+    "moonrise": "05:09 AM, Aug 09",
+    "moonset": "05:19 PM",
+    "brahmaMuhurta": "04:36 AM to 05:21 AM"
+  },
+  "1277333_10/08/2029": {
+    "date": "10/08/2029",
+    "locationId": "1277333",
+    "sunrise": "06:07",
+    "sunset": "06:43",
+    "tithi": {
+      "name": "Amavasya",
+      "endTime": "07:25"
+    },
+    "nakshatra": {
+      "name": "Ashlesha",
+      "endTime": "06:31"
+    },
+    "yoga": {
+      "name": "Vyatipata",
+      "endTime": "06:59"
+    },
+    "karana": {
+      "name": "Nagava",
+      "endTime": "07:25"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:50 AM to 12:25 PM",
+    "yamaganda": "03:34 PM to 05:08 PM",
+    "gulika": "07:41 AM to 09:16 AM",
+    "abhijit": "12:00 PM to 12:50 PM",
+    "moonrise": "No Moonrise",
+    "moonset": "06:53 PM",
+    "brahmaMuhurta": "04:36 AM to 05:21 AM"
+  },
+  "1277333_22/08/2029": {
+    "date": "22/08/2029",
+    "locationId": "1277333",
+    "sunrise": "06:08",
+    "sunset": "06:37",
+    "tithi": {
+      "name": "Trayodashi",
+      "endTime": "06:38"
+    },
+    "nakshatra": {
+      "name": "Shravana",
+      "endTime": "05:39"
+    },
+    "yoga": {
+      "name": "Saubhagya",
+      "endTime": "07:24"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "06:38"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:22 PM to 01:56 PM",
+    "yamaganda": "07:42 AM to 09:15 AM",
+    "gulika": "10:49 AM to 12:22 PM",
+    "abhijit": "None",
+    "moonrise": "05:19 PM",
+    "moonset": "05:17 AM, Aug 23",
+    "brahmaMuhurta": "04:36 AM to 05:22 AM"
+  },
+  "1277333_29/08/2029": {
+    "date": "29/08/2029",
+    "locationId": "1277333",
+    "sunrise": "06:08",
+    "sunset": "06:32",
+    "tithi": {
+      "name": "Panchami",
+      "endTime": "04:12"
+    },
+    "nakshatra": {
+      "name": "Ashwini",
+      "endTime": "06:41"
+    },
+    "yoga": {
+      "name": "Vriddhi",
+      "endTime": "08:47"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "04:12"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:20 PM to 01:53 PM",
+    "yamaganda": "07:41 AM to 09:14 AM",
+    "gulika": "10:47 AM to 12:20 PM",
+    "abhijit": "None",
+    "moonrise": "09:51 PM",
+    "moonset": "10:03 AM",
+    "brahmaMuhurta": "04:36 AM to 05:22 AM"
+  },
+  "1277333_05/09/2029": {
+    "date": "05/09/2029",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:28",
+    "tithi": {
+      "name": "Dwadashi",
+      "endTime": "11:30"
+    },
+    "nakshatra": {
+      "name": "Pushya",
+      "endTime": "05:34"
+    },
+    "yoga": {
+      "name": "Variyana",
+      "endTime": "07:39"
+    },
+    "karana": {
+      "name": "Kaulava",
+      "endTime": "12:09"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:18 PM to 01:51 PM",
+    "yamaganda": "07:41 AM to 09:13 AM",
+    "gulika": "10:46 AM to 12:18 PM",
+    "abhijit": "None",
+    "moonrise": "03:51 AM, Sep 06",
+    "moonset": "03:56 PM",
+    "brahmaMuhurta": "04:35 AM to 05:22 AM"
+  },
+  "1277333_15/09/2029": {
+    "date": "15/09/2029",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:21",
+    "tithi": {
+      "name": "Ashtami",
+      "endTime": "06:21"
+    },
+    "nakshatra": {
+      "name": "Jyeshtha",
+      "endTime": "10:04"
+    },
+    "yoga": {
+      "name": "Priti",
+      "endTime": "07:18"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "06:58"
+    },
+    "vara": "Shaniwara",
+    "rahuKalam": "09:12 AM to 10:43 AM",
+    "yamaganda": "01:46 PM to 03:18 PM",
+    "gulika": "06:09 AM to 07:40 AM",
+    "abhijit": "11:50 AM to 12:39 PM",
+    "moonrise": "12:47 PM",
+    "moonset": "12:27 AM, Sep 16",
+    "brahmaMuhurta": "04:34 AM to 05:22 AM"
+  },
+  "1277333_17/09/2029": {
+    "date": "17/09/2029",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:19",
+    "tithi": {
+      "name": "Dashami",
+      "endTime": "05:13"
+    },
+    "nakshatra": {
+      "name": "Purva Ashadha",
+      "endTime": "09:59"
+    },
+    "yoga": {
+      "name": "Shobhana",
+      "endTime": "02:38"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "05:13"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "07:40 AM to 09:11 AM",
+    "yamaganda": "10:43 AM to 12:14 PM",
+    "gulika": "01:45 PM to 03:17 PM",
+    "abhijit": "11:50 AM to 12:38 PM",
+    "moonrise": "02:32 PM",
+    "moonset": "02:20 AM, Sep 18",
+    "brahmaMuhurta": "04:34 AM to 05:21 AM"
+  },
+  "1277333_18/09/2029": {
+    "date": "18/09/2029",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:19",
+    "tithi": {
+      "name": "Ekadashi",
+      "endTime": "05:22"
+    },
+    "nakshatra": {
+      "name": "Uttara Ashadha",
+      "endTime": "10:40"
+    },
+    "yoga": {
+      "name": "Atiganda",
+      "endTime": "01:50"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "05:22"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:16 PM to 04:47 PM",
+    "yamaganda": "09:11 AM to 10:42 AM",
+    "gulika": "12:14 PM to 01:45 PM",
+    "abhijit": "11:49 AM to 12:38 PM",
+    "moonrise": "03:18 PM",
+    "moonset": "03:13 AM, Sep 19",
+    "brahmaMuhurta": "04:34 AM to 05:21 AM"
+  },
+  "1277333_20/09/2029": {
+    "date": "20/09/2029",
+    "locationId": "1277333",
+    "sunrise": "06:09",
+    "sunset": "06:17",
+    "tithi": {
+      "name": "Trayodashi",
+      "endTime": "06:57"
+    },
+    "nakshatra": {
+      "name": "Dhanishtha",
+      "endTime": "01:18"
+    },
+    "yoga": {
+      "name": "Dhriti",
+      "endTime": "01:11"
+    },
+    "karana": {
+      "name": "Kaulava",
+      "endTime": "06:25"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:44 PM to 03:15 PM",
+    "yamaganda": "06:09 AM to 07:40 AM",
+    "gulika": "09:11 AM to 10:42 AM",
+    "abhijit": "11:49 AM to 12:37 PM",
+    "moonrise": "04:39 PM",
+    "moonset": "04:51 AM, Sep 21",
+    "brahmaMuhurta": "04:34 AM to 05:21 AM"
+  },
+  "1277333_26/10/2029": {
+    "date": "26/10/2029",
+    "locationId": "1277333",
+    "sunrise": "06:12",
+    "sunset": "05:55",
+    "tithi": {
+      "name": "Chaturthi",
+      "endTime": "12:52"
+    },
+    "nakshatra": {
+      "name": "Rohini",
+      "endTime": "04:45"
+    },
+    "yoga": {
+      "name": "Variyana",
+      "endTime": "12:21"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "11:45"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "10:36 AM to 12:03 PM",
+    "yamaganda": "02:59 PM to 04:27 PM",
+    "gulika": "07:40 AM to 09:08 AM",
+    "abhijit": "11:40 AM to 12:27 PM",
+    "moonrise": "08:50 PM",
+    "moonset": "09:13 AM",
+    "brahmaMuhurta": "04:34 AM to 05:23 AM"
+  },
+  "1277333_31/10/2029": {
+    "date": "31/10/2029",
+    "locationId": "1277333",
+    "sunrise": "06:13",
+    "sunset": "05:53",
+    "tithi": {
+      "name": "Navami",
+      "endTime": "04:02"
+    },
+    "nakshatra": {
+      "name": "Ashlesha",
+      "endTime": "11:37"
+    },
+    "yoga": {
+      "name": "Shubha",
+      "endTime": "10:54"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "04:34"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:03 PM to 01:31 PM",
+    "yamaganda": "07:40 AM to 09:08 AM",
+    "gulika": "10:36 AM to 12:03 PM",
+    "abhijit": "None",
+    "moonrise": "01:14 AM, Nov 01",
+    "moonset": "01:09 PM",
+    "brahmaMuhurta": "04:34 AM to 05:24 AM"
+  },
+  "1277333_29/11/2029": {
+    "date": "29/11/2029",
+    "locationId": "1277333",
+    "sunrise": "06:25",
+    "sunset": "05:51",
+    "tithi": {
+      "name": "Ashtami",
+      "endTime": "04:40"
+    },
+    "nakshatra": {
+      "name": "Purva Phalguni",
+      "endTime": "05:32"
+    },
+    "yoga": {
+      "name": "Vaidhriti",
+      "endTime": "12:38"
+    },
+    "karana": {
+      "name": "Kaulava",
+      "endTime": "04:40"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:34 PM to 02:59 PM",
+    "yamaganda": "06:25 AM to 07:51 AM",
+    "gulika": "09:17 AM to 10:42 AM",
+    "abhijit": "11:45 AM to 12:31 PM",
+    "moonrise": "12:53 AM, Nov 30",
+    "moonset": "12:31 PM",
+    "brahmaMuhurta": "04:44 AM to 05:35 AM"
+  },
+  "1277333_11/12/2029": {
+    "date": "11/12/2029",
+    "locationId": "1277333",
+    "sunrise": "06:32",
+    "sunset": "05:54",
+    "tithi": {
+      "name": "Shashthi",
+      "endTime": "09:50"
+    },
+    "nakshatra": {
+      "name": "Dhanishtha",
+      "endTime": "08:59"
+    },
+    "yoga": {
+      "name": "Harshana",
+      "endTime": "05:32"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "09:50"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:04 PM to 04:29 PM",
+    "yamaganda": "09:22 AM to 10:48 AM",
+    "gulika": "12:13 PM to 01:38 PM",
+    "abhijit": "11:50 AM to 12:36 PM",
+    "moonrise": "11:14 AM",
+    "moonset": "11:27 PM",
+    "brahmaMuhurta": "04:51 AM to 05:41 AM"
+  },
+  "1277333_08/01/2030": {
+    "date": "08/01/2030",
+    "locationId": "1277333",
+    "sunrise": "06:44",
+    "sunset": "06:09",
+    "tithi": {
+      "name": "Panchami",
+      "endTime": "03:29"
+    },
+    "nakshatra": {
+      "name": "Shatabhisha",
+      "endTime": "07:11"
+    },
+    "yoga": {
+      "name": "Vyatipata",
+      "endTime": "11:47"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "03:11"
+    },
+    "vara": "Mangalawara",
+    "rahuKalam": "03:17 PM to 04:43 PM",
+    "yamaganda": "09:35 AM to 11:01 AM",
+    "gulika": "12:26 PM to 01:52 PM",
+    "abhijit": "12:04 PM to 12:49 PM",
+    "moonrise": "09:47 AM",
+    "moonset": "10:06 PM",
+    "brahmaMuhurta": "05:03 AM to 05:54 AM"
+  },
+  "1277333_17/01/2030": {
+    "date": "17/01/2030",
+    "locationId": "1277333",
+    "sunrise": "06:46",
+    "sunset": "06:14",
+    "tithi": {
+      "name": "Trayodashi",
+      "endTime": "08:05"
+    },
+    "nakshatra": {
+      "name": "Mrigashira",
+      "endTime": "03:05"
+    },
+    "yoga": {
+      "name": "Indra",
+      "endTime": "03:31"
+    },
+    "karana": {
+      "name": "Kaulava",
+      "endTime": "07:23"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:56 PM to 03:22 PM",
+    "yamaganda": "06:46 AM to 08:12 AM",
+    "gulika": "09:38 AM to 11:04 AM",
+    "abhijit": "12:07 PM to 12:53 PM",
+    "moonrise": "04:16 PM",
+    "moonset": "05:27 AM, Jan 18",
+    "brahmaMuhurta": "05:06 AM to 05:56 AM"
+  },
+  "1277333_18/01/2030": {
+    "date": "18/01/2030",
+    "locationId": "1277333",
+    "sunrise": "06:46",
+    "sunset": "06:14",
+    "tithi": {
+      "name": "Chaturdashi",
+      "endTime": "09:02"
+    },
+    "nakshatra": {
+      "name": "Ardra",
+      "endTime": "04:40"
+    },
+    "yoga": {
+      "name": "Vaidhriti",
+      "endTime": "02:57"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "08:38"
+    },
+    "vara": "Shukrawara",
+    "rahuKalam": "11:04 AM to 12:30 PM",
+    "yamaganda": "03:22 PM to 04:48 PM",
+    "gulika": "08:12 AM to 09:38 AM",
+    "abhijit": "12:07 PM to 12:53 PM",
+    "moonrise": "05:10 PM",
+    "moonset": "06:16 AM, Jan 19",
+    "brahmaMuhurta": "05:06 AM to 05:56 AM"
+  },
+  "1277333_24/01/2030": {
+    "date": "24/01/2030",
+    "locationId": "1277333",
+    "sunrise": "06:46",
+    "sunset": "06:17",
+    "tithi": {
+      "name": "Panchami",
+      "endTime": "04:27"
+    },
+    "nakshatra": {
+      "name": "Uttara Phalguni",
+      "endTime": "04:06"
+    },
+    "yoga": {
+      "name": "Atiganda",
+      "endTime": "03:47"
+    },
+    "karana": {
+      "name": "Taitila",
+      "endTime": "04:27"
+    },
+    "vara": "Guruwara",
+    "rahuKalam": "01:58 PM to 03:24 PM",
+    "yamaganda": "06:46 AM to 08:13 AM",
+    "gulika": "09:39 AM to 11:05 AM",
+    "abhijit": "12:09 PM to 12:55 PM",
+    "moonrise": "10:32 PM",
+    "moonset": "09:55 AM",
+    "brahmaMuhurta": "05:06 AM to 05:56 AM"
+  },
+  "1277333_04/02/2030": {
+    "date": "04/02/2030",
+    "locationId": "1277333",
+    "sunrise": "06:45",
+    "sunset": "06:22",
+    "tithi": {
+      "name": "Dwitiya",
+      "endTime": "08:25"
+    },
+    "nakshatra": {
+      "name": "Shatabhisha",
+      "endTime": "04:38"
+    },
+    "yoga": {
+      "name": "Variyana",
+      "endTime": "08:20"
+    },
+    "karana": {
+      "name": "Balava",
+      "endTime": "08:30"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "08:12 AM to 09:39 AM",
+    "yamaganda": "11:07 AM to 12:34 PM",
+    "gulika": "02:01 PM to 03:28 PM",
+    "abhijit": "12:10 PM to 12:57 PM",
+    "moonrise": "07:40 AM",
+    "moonset": "07:54 PM",
+    "brahmaMuhurta": "05:06 AM to 05:56 AM"
+  },
+  "1277333_18/02/2030": {
+    "date": "18/02/2030",
+    "locationId": "1277333",
+    "sunrise": "06:41",
+    "sunset": "06:26",
+    "tithi": {
+      "name": "Purnima",
+      "endTime": "11:49"
+    },
+    "nakshatra": {
+      "name": "Magha",
+      "endTime": "01:35"
+    },
+    "yoga": {
+      "name": "Atiganda",
+      "endTime": "02:46"
+    },
+    "karana": {
+      "name": "Bava",
+      "endTime": "11:49"
+    },
+    "vara": "Somawara",
+    "rahuKalam": "08:09 AM to 09:37 AM",
+    "yamaganda": "11:05 AM to 12:34 PM",
+    "gulika": "02:02 PM to 03:30 PM",
+    "abhijit": "12:10 PM to 12:57 PM",
+    "moonrise": "06:35 PM",
+    "moonset": "No Moonset",
+    "brahmaMuhurta": "05:03 AM to 05:52 AM"
+  },
+  "1277333_20/02/2030": {
+    "date": "20/02/2030",
+    "locationId": "1277333",
+    "sunrise": "06:40",
+    "sunset": "06:27",
+    "tithi": {
+      "name": "Dwitiya",
+      "endTime": "07:57"
+    },
+    "nakshatra": {
+      "name": "Uttara Phalguni",
+      "endTime": "10:44"
+    },
+    "yoga": {
+      "name": "Dhriti",
+      "endTime": "08:55"
+    },
+    "karana": {
+      "name": "Garaja",
+      "endTime": "07:57"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:33 PM to 02:02 PM",
+    "yamaganda": "08:08 AM to 09:37 AM",
+    "gulika": "11:05 AM to 12:33 PM",
+    "abhijit": "None",
+    "moonrise": "08:25 PM",
+    "moonset": "07:52 AM",
+    "brahmaMuhurta": "05:02 AM to 05:51 AM"
+  },
+  "1277333_27/02/2030": {
+    "date": "27/02/2030",
+    "locationId": "1277333",
+    "sunrise": "06:37",
+    "sunset": "06:28",
+    "tithi": {
+      "name": "Dashami",
+      "endTime": "03:19"
+    },
+    "nakshatra": {
+      "name": "Mula",
+      "endTime": "01:11"
+    },
+    "yoga": {
+      "name": "Siddhi",
+      "endTime": "10:12"
+    },
+    "karana": {
+      "name": "Vishti",
+      "endTime": "03:19"
+    },
+    "vara": "Budhawara",
+    "rahuKalam": "12:32 PM to 02:01 PM",
+    "yamaganda": "08:06 AM to 09:35 AM",
+    "gulika": "11:03 AM to 12:32 PM",
+    "abhijit": "None",
+    "moonrise": "03:15 AM, Feb 28",
+    "moonset": "02:05 PM",
+    "brahmaMuhurta": "05:00 AM to 05:48 AM"
+  }
+}
