@@ -1,6 +1,6 @@
 import { Body, GeoVector, Ecliptic, Observer } from "astronomy-engine";
 import { getAyanamsa } from "./ayanamsa";
-import { Panchangam, PanchangamDetails } from "./types";
+import { Panchangam, PanchangamDetails, MuhurtaTime } from "./types";
 import {
     getTithi, getNakshatra, getYoga, getKarana, getVara,
     getSunrise, getSunset, getMoonrise, getMoonset,
@@ -11,7 +11,10 @@ import {
     findNakshatraTransitions, findYogaTransitions,
     calculateAbhijitMuhurta, calculateBrahmaMuhurta, calculateGovardhanMuhurta,
     calculateYamagandaKalam, calculateGulikaKalam, calculateDurMuhurta,
-    getPlanetaryPosition, calculateChandraBalam, getCurrentHora
+    getPlanetaryPosition, getRahuPosition, getKetuPosition, calculateChandraBalam, getCurrentHora,
+    getMasa, getPaksha, getRitu, getAyana, getSamvat,
+    getNakshatraPada, getRashi, getSunNakshatra, getUdayaLagna, findRashiTransitions,
+    calculateAmritKalam, calculateVarjyam, getSpecialYoga, calculateVimshottariDasha, getFestivals
 } from "./calculations";
 
 export function getPanchangam(date: Date, observer: Observer): Panchangam {
@@ -66,13 +69,22 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
 
     // Enhanced Vedic Features
     const abhijitMuhurta = (sunrise && sunset) ? calculateAbhijitMuhurta(sunrise, sunset) : null;
-    const brahmaMuhurta = sunrise ? calculateBrahmaMuhurta(sunrise) : null;
+
+    // Previous Sunset for Brahma Muhurta
+    let prevSunset: Date | undefined;
+    if (sunrise) {
+        const prevDate = new Date(date);
+        prevDate.setDate(prevDate.getDate() - 1);
+        prevSunset = getSunset(prevDate, observer) || undefined;
+    }
+    const brahmaMuhurta = sunrise ? calculateBrahmaMuhurta(sunrise, prevSunset) : null;
     const govardhanMuhurta = (sunrise && sunset) ? calculateGovardhanMuhurta(sunrise, sunset) : null;
     const yamagandaKalam = (sunrise && sunset) ? calculateYamagandaKalam(sunrise, sunset, getVara(date)) : null;
     const gulikaKalam = (sunrise && sunset) ? calculateGulikaKalam(sunrise, sunset, getVara(date)) : null;
     const durMuhurta = (sunrise && sunset) ? calculateDurMuhurta(sunrise, sunset) : null;
 
     // Planetary positions
+    const rahuPos = getRahuPosition(date, ayanamsa);
     const planetaryPositions = {
         sun: getPlanetaryPosition(Body.Sun, date, ayanamsa),
         moon: getPlanetaryPosition(Body.Moon, date, ayanamsa),
@@ -80,14 +92,97 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
         mercury: getPlanetaryPosition(Body.Mercury, date, ayanamsa),
         jupiter: getPlanetaryPosition(Body.Jupiter, date, ayanamsa),
         venus: getPlanetaryPosition(Body.Venus, date, ayanamsa),
-        saturn: getPlanetaryPosition(Body.Saturn, date, ayanamsa)
+        saturn: getPlanetaryPosition(Body.Saturn, date, ayanamsa),
+        rahu: rahuPos,
+        ketu: getKetuPosition(rahuPos)
     };
 
     const chandrabalam = calculateChandraBalam(moonLon, sunLon);
     const currentHora = getCurrentHora(date, sunrise || date);
 
+    // Calendar Units
+    const tithi = getTithi(sunLon, moonLon);
+    const masa = getMasa(sunLon, moonLon);
+    const paksha = getPaksha(tithi);
+    const ritu = getRitu(sunTrop); // Use Tropical for Drik Ritu (Seasons)
+    const ayana = getAyana(sunTrop); // Use Tropical for Solstice direction
+    const samvat = getSamvat(date, masa.index);
+
+    // Phase 3: Planetary Details
+    const nakshatraPada = getNakshatraPada(moonLon);
+    const moonRashi = getRashi(moonLon);
+    const sunRashi = getRashi(sunLon);
+    const sunNakshatra = getSunNakshatra(sunLon);
+    const udayaLagna = getUdayaLagna(sunrise || date, observer, ayanamsa);
+    const moonRashiTransitions = (sunrise && nextSunrise)
+        ? findRashiTransitions(sunrise, nextSunrise, ayanamsa)
+        : [];
+    // Phase 4: Advanced Muhurta
+    const nakshatraEnd = nakshatraTransitions.length > 0 ? nakshatraTransitions[0].endTime : nextSunrise; // Approximate if not found today
+    const currentNakshatraStart = findNakshatraStart(date, ayanamsa) || date; // Fallback to now if start not found (e.g. earlier than search window)
+
+    // Note: findNakshatraStart scans back 25h. If null, it means start is way back.
+    // For rigorous calculation, we might need extended search.
+    // MVP: If start found, calculate.
+
+    // Varjyam & Amrit Kalam: Check Current, Previous, and Next Nakshatras
+    const amritKalam: MuhurtaTime[] = [];
+    const varjyam: MuhurtaTime[] = [];
+
+    const checkAndAdd = (nakIndex: number, start: Date, end: Date) => {
+        if (!start || !end) return;
+        const v = calculateVarjyam(nakIndex, start, end);
+        varjyam.push(...v);
+        const a = calculateAmritKalam(nakIndex, start, end);
+        if (a) amritKalam.push(a);
+    };
+
+    // 1. Current Nakshatra
+    const currentNakIndex = getNakshatra(moonLon);
+    const nStart = nakshatraStartTime || date; // Fallback
+    const nEnd = nakshatraEndTime || nextSunrise || date; // Fallback
+    checkAndAdd(currentNakIndex, nStart, nEnd);
+
+    // 2. Previous Nakshatra (if current started after sunrise/start of day)
+    // We need the Previous Nakshatra End = Current Nakshatra Start.
+    if (nakshatraStartTime) { // If start is known and valid
+        const prevNakIndex = (currentNakIndex - 1 + 27) % 27;
+        // We need Previous Start.
+        // We can find it by searching backwards from nakshatraStartTime.
+        // Or just assume avg duration? No, precise calculation is needed.
+        // findNakshatraStart(date) returns Current Start.
+        // We need findNakshatraStart(currentStart - 1min).
+        const prevSearchDate = new Date(nakshatraStartTime.getTime() - 60000);
+        const prevStart = findNakshatraStart(prevSearchDate, ayanamsa);
+        if (prevStart) {
+            checkAndAdd(prevNakIndex, prevStart, nakshatraStartTime);
+        }
+    }
+
+    // 3. Next Nakshatra (if current ends today)
+    // nakshatraEndTime is the End of Current.
+    if (nakshatraEndTime) {
+        const nextNakIndex = (currentNakIndex + 1) % 27;
+        // Next Start = Current End.
+        // Next End = findNakshatraEnd(nextStart + 1min).
+        const nextSearchDate = new Date(nakshatraEndTime.getTime() + 60000);
+        const nextEnd = findNakshatraEnd(nextSearchDate, ayanamsa);
+        if (nextEnd) {
+            checkAndAdd(nextNakIndex, nakshatraEndTime, nextEnd);
+        }
+    }
+
+    // Filter out periods completely outside "Today"?
+    // Usually Drik shows periods even if they spill over to next day early morning.
+    // We return all found relevant to the Nakshatras spanning "Today".
+
+    // Sort
+    const sortByStart = (a: MuhurtaTime, b: MuhurtaTime) => a.start.getTime() - b.start.getTime();
+    amritKalam.sort(sortByStart);
+    varjyam.sort(sortByStart);
+
     return {
-        tithi: getTithi(sunLon, moonLon),
+        tithi,
         nakshatra: getNakshatra(moonLon),
         yoga: getYoga(sunLon, moonLon),
         karana: getKarana(sunLon, moonLon),
@@ -108,7 +203,22 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
         tithiTransitions,
         nakshatraTransitions,
         yogaTransitions,
+        moonRashiTransitions,
         // Enhanced Vedic Features
+        amritKalam,
+        varjyam,
+        // Special Yogas
+        specialYogas: getSpecialYoga(getVara(date), currentNakIndex),
+
+        // Phase 6: Dasha System
+        // We calculate Dasha based on the Moon position at the given 'date'.
+        // This signifies: "If a child were born at this time, what is the Dasha?"
+        // Or "What is the ruling Dasha for the day?"
+        vimshottariDasha: calculateVimshottariDasha(moonLon, date),
+
+        // Phase 7: Festivals
+        festivals: getFestivals(masa.index, masa.isAdhika, paksha, tithi),
+
         abhijitMuhurta,
         brahmaMuhurta,
         govardhanMuhurta,
@@ -117,7 +227,19 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
         durMuhurta,
         planetaryPositions,
         chandrabalam,
-        currentHora
+        currentHora,
+        // Phase 3: Planetary Details
+        nakshatraPada,
+        moonRashi,
+        sunRashi,
+        sunNakshatra,
+        udayaLagna,
+        // Phase 2: Calendar Units
+        masa,
+        paksha,
+        ritu,
+        ayana,
+        samvat
     };
 }
 
