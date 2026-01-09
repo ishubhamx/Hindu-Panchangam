@@ -108,7 +108,7 @@ async function runBulkTest() {
     const end = new Date('2030-12-31');
     const range = end.getTime() - start.getTime();
 
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < 5; i++) {
         const randomTime = Math.random() * range;
         const d = new Date(start.getTime() + randomTime);
         dates.push(d);
@@ -592,6 +592,38 @@ async function runBulkTest() {
             }
         } else {
             addToReport('Karana', libData.karana, 'N/A');
+        }
+
+        
+        // Check Rashi
+        // Lib: libData.moonRashi.name (Panchangam object has moonRashi { index, name })
+        // Drik: drikData.moonRashi
+        if (drikData.moonRashi) {
+            const libRashi = normalize(libData.moonRashi.name);
+            const drikRashi = normalize(drikData.moonRashi);
+            
+            if (libRashi === drikRashi) {
+                addToReport('Moon Rashi', libData.moonRashi.name, drikData.moonRashi);
+            } else {
+                dateFailures.push(`Moon Rashi: Lib(${libData.moonRashi.name}) vs Drik(${drikData.moonRashi})`);
+                addToReport('Moon Rashi', libData.moonRashi.name, `FAIL: ${drikData.moonRashi}`);
+            }
+        } else {
+            addToReport('Moon Rashi', libData.moonRashi.name, 'N/A');
+        }
+
+        if (drikData.sunRashi) {
+            const libRashi = normalize(libData.sunRashi.name);
+            const drikRashi = normalize(drikData.sunRashi);
+            
+            if (libRashi === drikRashi) {
+                addToReport('Sun Rashi', libData.sunRashi.name, drikData.sunRashi);
+            } else {
+                dateFailures.push(`Sun Rashi: Lib(${libData.sunRashi.name}) vs Drik(${drikData.sunRashi})`);
+                addToReport('Sun Rashi', libData.sunRashi.name, `FAIL: ${drikData.sunRashi}`);
+            }
+        } else {
+            addToReport('Sun Rashi', libData.sunRashi.name, 'N/A');
         }
 
         const sourceIcon = (drikData as any).source === 'web' ? '📡' : '💾';

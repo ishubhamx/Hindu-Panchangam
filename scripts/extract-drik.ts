@@ -130,8 +130,8 @@ export async function extractDrikData(dateStr: string = '22/06/2025', geonameId:
                 if (k.includes('Amrit Kalam')) amritKalams.push(v);
                 if (k.includes('Varjyam')) varjyams.push(v);
 
-                if (k.includes('Sun Rashi')) tableData['Sun Rashi'] = v;
-                if (k.includes('Moon Rashi')) tableData['Moon Rashi'] = v;
+                if (k.includes('Sun Rashi') || k.includes('Sunsign') || k.includes('Sun Sign')) tableData['Sun Rashi'] = v;
+                if (k.includes('Moon Rashi') || k.includes('Moonsign') || k.includes('Moon Sign')) tableData['Moon Rashi'] = v;
             });
         });
 

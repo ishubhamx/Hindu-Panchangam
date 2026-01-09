@@ -11,7 +11,7 @@ import {
     findNakshatraTransitions, findYogaTransitions,
     calculateAbhijitMuhurta, calculateBrahmaMuhurta, calculateGovardhanMuhurta,
     calculateYamagandaKalam, calculateGulikaKalam, calculateDurMuhurta,
-    getPlanetaryPosition, calculateChandraBalam, getCurrentHora,
+    getPlanetaryPosition, getRahuPosition, getKetuPosition, calculateChandraBalam, getCurrentHora,
     getMasa, getPaksha, getRitu, getAyana, getSamvat,
     getNakshatraPada, getRashi, getSunNakshatra, getUdayaLagna, findRashiTransitions,
     calculateAmritKalam, calculateVarjyam, getSpecialYoga, calculateVimshottariDasha, getFestivals
@@ -84,6 +84,7 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
     const durMuhurta = (sunrise && sunset) ? calculateDurMuhurta(sunrise, sunset) : null;
 
     // Planetary positions
+    const rahuPos = getRahuPosition(date, ayanamsa);
     const planetaryPositions = {
         sun: getPlanetaryPosition(Body.Sun, date, ayanamsa),
         moon: getPlanetaryPosition(Body.Moon, date, ayanamsa),
@@ -91,7 +92,9 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
         mercury: getPlanetaryPosition(Body.Mercury, date, ayanamsa),
         jupiter: getPlanetaryPosition(Body.Jupiter, date, ayanamsa),
         venus: getPlanetaryPosition(Body.Venus, date, ayanamsa),
-        saturn: getPlanetaryPosition(Body.Saturn, date, ayanamsa)
+        saturn: getPlanetaryPosition(Body.Saturn, date, ayanamsa),
+        rahu: rahuPos,
+        ketu: getKetuPosition(rahuPos)
     };
 
     const chandrabalam = calculateChandraBalam(moonLon, sunLon);

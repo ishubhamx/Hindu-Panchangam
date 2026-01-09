@@ -1,5 +1,5 @@
 import { Body, GeoVector, Ecliptic as EclipticFunc, Observer, SearchRiseSet, SiderealTime, e_tilt, MakeTime } from "astronomy-engine";
-import { repeatingKaranaNames, tithiNames, nakshatraNames, yogaNames, rashiNames, horaRulers, masaNames, rituNames, ayanaNames, pakshaNames, samvatsaraNames, varjyamStartGhatis, amritKalamStartGhatis, vimshottariLords, vimshottariDurations } from "./constants";
+import { repeatingKaranaNames, tithiNames, nakshatraNames, yogaNames, rashiNames, horaRulers, masaNames, rituNames, ayanaNames, pakshaNames, samvatsaraNames, varjyamStartGhatis, amritKalamStartGhatis, vimshottariLords, vimshottariDurations, planetExaltation, planetDebilitation, planetOwnSigns } from "./constants";
 import { KaranaTransition, TithiTransition, NakshatraTransition, YogaTransition, PlanetaryPosition, MuhurtaTime, RashiTransition } from "./types";
 
 export function getTithi(sunLon: number, moonLon: number): number {
@@ -294,6 +294,7 @@ export function findYogaEnd(date: Date, ayanamsa: number): Date | null {
 }
 
 export function getPlanetaryPosition(body: Body, date: Date, ayanamsa: number): PlanetaryPosition {
+    // 1. Calculate Position at T
     const vector = GeoVector(body, date, true);
     const ecliptic = EclipticFunc(vector);
     const tropicalLon = ecliptic.elon;
@@ -303,11 +304,102 @@ export function getPlanetaryPosition(body: Body, date: Date, ayanamsa: number): 
     const rashi = Math.floor(longitude / 30);
     const degree = longitude % 30;
 
+    // 2. Calculate Speed & Retrograde (via Finite Difference of 1 hour)
+    // T_minus = date - 30 min, T_plus = date + 30 min
+    const tMinus = new Date(date.getTime() - 30 * 60 * 1000);
+    const tPlus = new Date(date.getTime() + 30 * 60 * 1000);
+
+    const vMinus = GeoVector(body, tMinus, true);
+    const eMinus = EclipticFunc(vMinus).elon;
+
+    const vPlus = GeoVector(body, tPlus, true);
+    const ePlus = EclipticFunc(vPlus).elon;
+
+    // Handle Wrap: 359 -> 1
+    let diff = ePlus - eMinus;
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+
+    // Diff is for 1 hour. Speed per day = Diff * 24.
+    const speed = diff * 24;
+
+    const dignity = getPlanetaryDignity(body, rashi);
+
     return {
         longitude,
         rashi,
         rashiName: rashiNames[rashi],
-        degree
+        degree,
+        isRetrograde: speed < 0,
+        speed,
+        dignity
+    };
+}
+
+function getPlanetaryDignity(planet: string, rashi: number): 'exalted' | 'debilitated' | 'own' | 'neutral' {
+    if (planetExaltation[planet] === rashi) return 'exalted';
+    if (planetDebilitation[planet] === rashi) return 'debilitated';
+    if (planetOwnSigns[planet]?.includes(rashi)) return 'own';
+    return 'neutral';
+}
+
+// Julian Centuries from J2000.0
+function getJulianCenturies(date: Date): number {
+    const jd = (date.getTime() / 86400000) + 2440587.5;
+    return (jd - 2451545.0) / 36525.0;
+}
+
+export function getRahuPosition(date: Date, ayanamsa: number): PlanetaryPosition {
+    // Mean Node of Moon (Meeus, Ch 47)
+    // Ω = 125.04452 - 1934.136261 * T + 0.0020708 * T^2 + T^3 / 450000
+    const T = getJulianCenturies(date);
+
+    let meanNode = 125.04452 - 1934.136261 * T + 0.0020708 * T * T + (T * T * T) / 450000;
+
+    // Normalize to 0-360
+    meanNode = meanNode % 360;
+    if (meanNode < 0) meanNode += 360;
+
+    // True Node vs Mean Node? Drik often uses True Node. 
+    // Task requested "Rahu (Mean Node)". Sticking to Mean.
+
+    // Sidereal Longitude of Rahu
+    const longitude = (meanNode - ayanamsa + 360) % 360;
+    const rashi = Math.floor(longitude / 30);
+    const degree = longitude % 30;
+
+    // Nodes are always retrograde ( Mean Node is always retrograde, True Node varies slightly but general motion is retrograde).
+    // Speed: Derivative of formula. -1934 deg / century. Approx -0.05 deg/day.
+    const speed = -0.05295; // roughly -19 degrees per year
+
+    const dignity = getPlanetaryDignity("Rahu", rashi);
+
+    return {
+        longitude,
+        rashi,
+        rashiName: rashiNames[rashi],
+        degree,
+        isRetrograde: true,
+        speed,
+        dignity
+    };
+}
+
+export function getKetuPosition(rahuPos: PlanetaryPosition): PlanetaryPosition {
+    const ketuLon = (rahuPos.longitude + 180) % 360;
+    const rashi = Math.floor(ketuLon / 30);
+    const degree = ketuLon % 30;
+
+    const dignity = getPlanetaryDignity("Ketu", rashi);
+
+    return {
+        longitude: ketuLon,
+        rashi,
+        rashiName: rashiNames[rashi],
+        degree,
+        isRetrograde: true,
+        speed: rahuPos.speed,
+        dignity
     };
 }
 
