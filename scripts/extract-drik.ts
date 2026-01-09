@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -26,24 +27,38 @@ interface DrikData {
     moonrise: string | null;
     moonset: string | null;
     brahmaMuhurta: string | null;
+    // New Fields
+    sunRashi: string | null;
+    moonRashi: string | null;
+    amritKalam: string[];
+    varjyam: string[];
+    festivals: string[]; // List of festivals
+    source?: 'cache' | 'web';
 }
 
 interface Cache {
     [key: string]: DrikData;
 }
 
+let MEM_CACHE: Cache | null = null;
+
 function loadCache(): Cache {
+    if (MEM_CACHE) return MEM_CACHE;
+
     if (fs.existsSync(CACHE_FILE)) {
         try {
-            return JSON.parse(fs.readFileSync(CACHE_FILE, 'utf-8'));
+            MEM_CACHE = JSON.parse(fs.readFileSync(CACHE_FILE, 'utf-8'));
+            return MEM_CACHE!;
         } catch (e) {
             console.error('Error reading cache:', e);
         }
     }
-    return {};
+    MEM_CACHE = {};
+    return MEM_CACHE;
 }
 
 function saveCache(cache: Cache) {
+    MEM_CACHE = cache; // Update memory
     try {
         fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
     } catch (e) {
@@ -68,7 +83,7 @@ export async function extractDrikData(dateStr: string = '22/06/2025', geonameId:
     const cache = loadCache();
     const cacheKey = `${geonameId}_${dateStr}`;
     if (cache[cacheKey]) {
-        return cache[cacheKey];
+        return { ...cache[cacheKey], source: 'cache' };
     }
 
     // Add delay before fetching to respect rate limits
@@ -90,6 +105,10 @@ export async function extractDrikData(dateStr: string = '22/06/2025', geonameId:
 
         // Extract Keys/Values from rows
         const tableData: { [key: string]: string } = {};
+        const festivals: string[] = []; // Collect festivals
+        const amritKalams: string[] = [];
+        const varjyams: string[] = [];
+
         $('.dpTableRow').each((i, row) => {
             const keys = $(row).find('.dpTableKey');
             const values = $(row).find('.dpTableValue');
@@ -107,8 +126,27 @@ export async function extractDrikData(dateStr: string = '22/06/2025', geonameId:
                 if (k.includes('Moonrise')) tableData['Moonrise'] = v;
                 if (k.includes('Moonset')) tableData['Moonset'] = v;
                 if (k.includes('Brahma Muhurta')) tableData['Brahma Muhurta'] = v;
+
+                if (k.includes('Amrit Kalam')) amritKalams.push(v);
+                if (k.includes('Varjyam')) varjyams.push(v);
+
+                if (k.includes('Sun Rashi')) tableData['Sun Rashi'] = v;
+                if (k.includes('Moon Rashi')) tableData['Moon Rashi'] = v;
             });
         });
+
+        // Extract Festivals (usually list items or specific classes)
+        // Drik often puts festivals in .dpFestivalList or similar
+        $('.dpFestivalContent').each((i, el) => {
+            const text = $(el).text().trim();
+            if (text) festivals.push(text);
+        });
+        // Fallback: Check standard festival container if above fails
+        if (festivals.length === 0) {
+            $('.dpPanchangFestival').each((i, el) => {
+                festivals.push($(el).text().trim());
+            });
+        }
 
         // Use the extracted JS data for core fields (it's reliable)
         const extract = (key: string, type: 'string' | 'int' = 'string') => {
@@ -142,14 +180,25 @@ export async function extractDrikData(dateStr: string = '22/06/2025', geonameId:
                 name: extract('karana_name'),
                 endTime: extract('karana_hhmm')
             },
-            vara: extract('weekday_name'),
+            vara: extract('weekday_name') || tableData['Vara'] || (() => {
+                // Fallback: Compute from Date
+                const [d, m, y] = dateStr.split('/').map(Number);
+                const date = new Date(y, m - 1, d);
+                const days = ['Raviwara', 'Somawara', 'Mangalawara', 'Budhawara', 'Guruwara', 'Shukrawara', 'Shaniwara'];
+                return days[date.getDay()];
+            })(),
             rahuKalam: tableData['Rahu Kalam'] || null,
             yamaganda: tableData['Yamaganda'] || null,
             gulika: tableData['Gulikai'] || null,
             abhijit: tableData['Abhijit'] || null,
             moonrise: tableData['Moonrise'] || null,
             moonset: tableData['Moonset'] || null,
-            brahmaMuhurta: tableData['Brahma Muhurta'] || null
+            brahmaMuhurta: tableData['Brahma Muhurta'] || null,
+            sunRashi: tableData['Sun Rashi'] || null,
+            moonRashi: tableData['Moon Rashi'] || null,
+            amritKalam: amritKalams,
+            varjyam: varjyams,
+            festivals: festivals
         };
 
         // Validate data validity (simple check)
@@ -159,7 +208,7 @@ export async function extractDrikData(dateStr: string = '22/06/2025', geonameId:
             saveCache(cache);
         }
 
-        return data;
+        return { ...data, source: 'web' };
 
     } catch (error) {
         console.error('Error fetching data:', (error as any).message);
