@@ -1,6 +1,6 @@
-import { Body, GeoVector, Ecliptic as EclipticFunc, Observer, SearchRiseSet } from "astronomy-engine";
-import { repeatingKaranaNames, tithiNames, nakshatraNames, yogaNames, rashiNames, horaRulers } from "./constants";
-import { KaranaTransition, TithiTransition, NakshatraTransition, YogaTransition, PlanetaryPosition, MuhurtaTime } from "./types";
+import { Body, GeoVector, Ecliptic as EclipticFunc, Observer, SearchRiseSet, SiderealTime, e_tilt, MakeTime } from "astronomy-engine";
+import { repeatingKaranaNames, tithiNames, nakshatraNames, yogaNames, rashiNames, horaRulers, masaNames, rituNames, ayanaNames, pakshaNames, samvatsaraNames, varjyamStartGhatis, amritKalamStartGhatis, vimshottariLords, vimshottariDurations, planetExaltation, planetDebilitation, planetOwnSigns } from "./constants";
+import { KaranaTransition, TithiTransition, NakshatraTransition, YogaTransition, PlanetaryPosition, MuhurtaTime, RashiTransition } from "./types";
 
 export function getTithi(sunLon: number, moonLon: number): number {
     let longitudeDifference = moonLon - sunLon;
@@ -178,8 +178,9 @@ export function findNakshatraStart(date: Date, ayanamsa: number): Date | null {
         return diff;
     };
 
-    // A nakshatra lasts about a day. Searching from 25 hours before should be safe.
-    const searchStartDate = new Date(date.getTime() - 25 * 60 * 60 * 1000);
+    // A nakshatra lasts about a day (mean 24h 20m, max can be ~26h+).
+    // Searching from 32 hours before ensures we catch the start even for long nakshatras.
+    const searchStartDate = new Date(date.getTime() - 32 * 60 * 60 * 1000);
     return search(nakshatraFunc, searchStartDate);
 }
 
@@ -293,6 +294,7 @@ export function findYogaEnd(date: Date, ayanamsa: number): Date | null {
 }
 
 export function getPlanetaryPosition(body: Body, date: Date, ayanamsa: number): PlanetaryPosition {
+    // 1. Calculate Position at T
     const vector = GeoVector(body, date, true);
     const ecliptic = EclipticFunc(vector);
     const tropicalLon = ecliptic.elon;
@@ -302,11 +304,102 @@ export function getPlanetaryPosition(body: Body, date: Date, ayanamsa: number): 
     const rashi = Math.floor(longitude / 30);
     const degree = longitude % 30;
 
+    // 2. Calculate Speed & Retrograde (via Finite Difference of 1 hour)
+    // T_minus = date - 30 min, T_plus = date + 30 min
+    const tMinus = new Date(date.getTime() - 30 * 60 * 1000);
+    const tPlus = new Date(date.getTime() + 30 * 60 * 1000);
+
+    const vMinus = GeoVector(body, tMinus, true);
+    const eMinus = EclipticFunc(vMinus).elon;
+
+    const vPlus = GeoVector(body, tPlus, true);
+    const ePlus = EclipticFunc(vPlus).elon;
+
+    // Handle Wrap: 359 -> 1
+    let diff = ePlus - eMinus;
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+
+    // Diff is for 1 hour. Speed per day = Diff * 24.
+    const speed = diff * 24;
+
+    const dignity = getPlanetaryDignity(body, rashi);
+
     return {
         longitude,
         rashi,
         rashiName: rashiNames[rashi],
-        degree
+        degree,
+        isRetrograde: speed < 0,
+        speed,
+        dignity
+    };
+}
+
+function getPlanetaryDignity(planet: string, rashi: number): 'exalted' | 'debilitated' | 'own' | 'neutral' {
+    if (planetExaltation[planet] === rashi) return 'exalted';
+    if (planetDebilitation[planet] === rashi) return 'debilitated';
+    if (planetOwnSigns[planet]?.includes(rashi)) return 'own';
+    return 'neutral';
+}
+
+// Julian Centuries from J2000.0
+function getJulianCenturies(date: Date): number {
+    const jd = (date.getTime() / 86400000) + 2440587.5;
+    return (jd - 2451545.0) / 36525.0;
+}
+
+export function getRahuPosition(date: Date, ayanamsa: number): PlanetaryPosition {
+    // Mean Node of Moon (Meeus, Ch 47)
+    // Ω = 125.04452 - 1934.136261 * T + 0.0020708 * T^2 + T^3 / 450000
+    const T = getJulianCenturies(date);
+
+    let meanNode = 125.04452 - 1934.136261 * T + 0.0020708 * T * T + (T * T * T) / 450000;
+
+    // Normalize to 0-360
+    meanNode = meanNode % 360;
+    if (meanNode < 0) meanNode += 360;
+
+    // True Node vs Mean Node? Drik often uses True Node. 
+    // Task requested "Rahu (Mean Node)". Sticking to Mean.
+
+    // Sidereal Longitude of Rahu
+    const longitude = (meanNode - ayanamsa + 360) % 360;
+    const rashi = Math.floor(longitude / 30);
+    const degree = longitude % 30;
+
+    // Nodes are always retrograde ( Mean Node is always retrograde, True Node varies slightly but general motion is retrograde).
+    // Speed: Derivative of formula. -1934 deg / century. Approx -0.05 deg/day.
+    const speed = -0.05295; // roughly -19 degrees per year
+
+    const dignity = getPlanetaryDignity("Rahu", rashi);
+
+    return {
+        longitude,
+        rashi,
+        rashiName: rashiNames[rashi],
+        degree,
+        isRetrograde: true,
+        speed,
+        dignity
+    };
+}
+
+export function getKetuPosition(rahuPos: PlanetaryPosition): PlanetaryPosition {
+    const ketuLon = (rahuPos.longitude + 180) % 360;
+    const rashi = Math.floor(ketuLon / 30);
+    const degree = ketuLon % 30;
+
+    const dignity = getPlanetaryDignity("Ketu", rashi);
+
+    return {
+        longitude: ketuLon,
+        rashi,
+        rashiName: rashiNames[rashi],
+        degree,
+        isRetrograde: true,
+        speed: rahuPos.speed,
+        dignity
     };
 }
 
@@ -314,12 +407,11 @@ export function calculateAbhijitMuhurta(sunrise: Date, sunset: Date): MuhurtaTim
     if (!sunrise || !sunset) return null;
 
     const dayDuration = sunset.getTime() - sunrise.getTime();
-    const noonTime = sunrise.getTime() + (dayDuration / 2);
+    // Rigorous: 8th Muhurta of the 15 segments of Dinamana
+    const muhurtaDuration = dayDuration / 15;
 
-    // Abhijit Muhurta is typically 1 Muhurta (48 minutes) centered around solar noon
-    // So 24 minutes before and after local noon
-    const abhijitStart = new Date(noonTime - 24 * 60 * 1000);
-    const abhijitEnd = new Date(noonTime + 24 * 60 * 1000);
+    const abhijitStart = new Date(sunrise.getTime() + 7 * muhurtaDuration);
+    const abhijitEnd = new Date(sunrise.getTime() + 8 * muhurtaDuration);
 
     return {
         start: abhijitStart,
@@ -327,12 +419,21 @@ export function calculateAbhijitMuhurta(sunrise: Date, sunset: Date): MuhurtaTim
     };
 }
 
-export function calculateBrahmaMuhurta(sunrise: Date): MuhurtaTime | null {
+export function calculateBrahmaMuhurta(sunrise: Date, prevSunset?: Date): MuhurtaTime | null {
     if (!sunrise) return null;
 
-    // Brahma Muhurta is the last 1/8th of the night, approximately 96 minutes before sunrise
-    const brahmaMuhurtaStart = new Date(sunrise.getTime() - 96 * 60 * 1000);
-    const brahmaMuhurtaEnd = new Date(sunrise.getTime() - 48 * 60 * 1000);
+    let muhurtaDuration = 48 * 60 * 1000; // Default approximation
+
+    if (prevSunset) {
+        // Rigorous: Night Duration (Ratri Mana) divided by 15.
+        // Brahma Muhurta is the 14th Muhurta (2nd to last).
+        const nightDuration = sunrise.getTime() - prevSunset.getTime();
+        muhurtaDuration = nightDuration / 15;
+    }
+
+    // It ends 1 Muhurta before Sunrise, starts 2 Muhurtas before.
+    const brahmaMuhurtaEnd = new Date(sunrise.getTime() - 1 * muhurtaDuration);
+    const brahmaMuhurtaStart = new Date(sunrise.getTime() - 2 * muhurtaDuration);
 
     return {
         start: brahmaMuhurtaStart,
@@ -648,4 +749,693 @@ export function findYogaTransitions(startDate: Date, endDate: Date, ayanamsa: nu
         }
     }
     return transitions;
+}
+
+export function getPaksha(tithi: number): string {
+    return (tithi >= 0 && tithi <= 14) ? pakshaNames[0] : pakshaNames[1];
+}
+
+export function getAyana(sunLon: number): string {
+    // Sun tropical longitude.
+    // 0-90: Uttarayana (Spring)
+    // 90-180: Dakshinayana (Summer) 
+    // Wait, Tropical Cancer (90) is start of Dakshinayana.
+    // Tropical Capricorn (270) is start of Uttarayana.
+    // So 270 -> 360 -> 90 is Uttarayana.
+    // 90 -> 180 -> 270 is Dakshinayana.
+
+    if (sunLon >= 90 && sunLon < 270) {
+        return ayanaNames[1]; // Dakshinayana
+    } else {
+        return ayanaNames[0]; // Uttarayana
+    }
+}
+
+export function getRitu(sunLon: number): string {
+    // 6 Ritus, 60 degrees each.
+    // Vasant: 330 - 30 (Pisces - Aries)
+    // Grishma: 30 - 90 (Taurus - Gemini)
+    // Varsha: 90 - 150
+    // Sharad: 150 - 210
+    // Hemant: 210 - 270
+    // Shishir: 270 - 330
+
+    // Normalize to 0-360 starting from 330?
+    // Let's use simple logic
+    if (sunLon >= 330 || sunLon < 30) return rituNames[0]; // Vasant
+    if (sunLon >= 30 && sunLon < 90) return rituNames[1]; // Grishma
+    if (sunLon >= 90 && sunLon < 150) return rituNames[2]; // Varsha
+    if (sunLon >= 150 && sunLon < 210) return rituNames[3]; // Sharad
+    if (sunLon >= 210 && sunLon < 270) return rituNames[4]; // Hemant
+    return rituNames[5]; // Shishir
+}
+
+export function getMasa(sunLon: number, moonLon: number): { index: number, name: string, isAdhika: boolean } {
+    // sunLon and moonLon should be Sidereal
+    // Amanta system: Month is named after the *next* New Moon's Sun Rashi?
+    // Simplified: Look at Sun's Rashi. 
+    // If Sun is in Pisces (330-360), Month is Chaitra (0).
+    // If Sun is in Aries (0-30), Month is Vaishakha (1).
+
+    // Rashi Index = floor(sunLon / 30).
+    // Pisces = 11. Chaitra = 0.
+    // Aries = 0. Vaishakha = 1.
+    // So Masa Index = (SunRashi + 1) % 12.
+
+    const sunRashi = Math.floor(sunLon / 30);
+    const masaIndex = (sunRashi + 1) % 12;
+
+    return {
+        index: masaIndex,
+        name: masaNames[masaIndex],
+        isAdhika: false // TODO: Implementing Adhika detection requires checking two new moons in one rashi is complex.
+    };
+}
+
+export function getSamvat(date: Date, masaIndex: number): { vikram: number, shaka: number, samvatsara: string } {
+    // Shaka Samvat
+    // Year AD - 78 (or 79 if before Chaitra)
+    // We already have masaIndex. If masaIndex >= 0 (Chaitra), it is AD-78.
+    // But masaIndex is based on Sun's Rashi.
+    // If Sun is in Pisces, it is Chaitra. 
+    // This logic holds: New Year starts at Chaitra.
+
+    let yearAD = date.getFullYear();
+    let shaka = yearAD - 78;
+
+    // If Month is Phalguna (11) or Pausha/Magha and it is early in the year...
+    // Actually, "Chaitra" starts when Sun enters Pisces (Minark).
+    // So if Sun Rashi is < 11 (Aquarius) and year is same?
+    // Let's rely on MasaIndex.
+    // If we are in the *end* of the Saka year (Phalguna), we are still in (Year-1).
+    // Chaitra (Index 0) is the start.
+    // But Chaitra usually falls in March/April.
+    // If date is Jan, we are in Pausha/Magha/Phalguna of previous Saka year.
+    // So if date < March 22 approx?
+    // Better: If MasaIndex is > 8 (approx Pausha, Magha, Phalguna) and Month is Jan/Feb/Mar...
+    // Actually simpler:
+    // If (MasaIndex == 11 (Phalguna) || MasaIndex == 10 (Magha) || MasaIndex == 9 (Pausha)), reduce Saka by 1.
+    // Why? Because Chaitra (0) starts roughly March. 
+    // Jan/Feb will be Magha/Phalguna of *previous* Saka year.
+
+    if (masaIndex > 8 && date.getMonth() < 3) {
+        shaka -= 1;
+    }
+
+    const vikram = shaka + 135;
+
+    // Samvatsara
+    // 60 year cycle.
+    // 2026 AD (Jan) -> Shaka 1947.
+    // Drik says "Kalayukta".
+    // Reference: 2023 AD -> Shaka 1945 -> "Shobhakrit" (37).
+    // Shaka 1947 should be 37 + 2 = 39?
+    // 1946 = Krodhi (38).
+    // 1947 = Vishvavasu (39).
+    // 2026 Jan 8 is Shaka 1947.
+    // Wait, Drik says: "Samvatsara: Kalayukta upto 03:07 PM, Apr 25, 2025"?? 
+    // No, screenshot says: "2082 Kalayukta". 
+    // "Shaka Samvat 1947 Vishvavasu".
+    // 1947 -> Vishvavasu. 
+    // My list index 38 is "Krodhi", 39 is "Vishvavasu".
+    // So index = (Shaka - Offset) % 60.
+    // 1945 -> 37.
+    // 1945 - X = 37. X = 1908.
+    // (1947 - 1908) % 60 = 39.
+    // Formula: (Shaka - 12) % 60 ? No. 1908 % 60 = 48.
+    // (Shaka + 9) % 60?
+    // (1945 + 9) % 60 = 1954 % 60 = 34. Close.
+    // Let's find Offset: (1945 + Offset) % 60 = 37.
+    // Offset = 37 - (1945 % 60) = 37 - 25 = 12.
+    // So Index = (Shaka + 12) % 60.
+    // Test: (1947 + 11) % 60 = 1958 % 60 = 38. Correct (Vishvavasu).
+
+    const samvatIndex = (shaka + 11) % 60;
+    const samvatsara = samvatsaraNames[samvatIndex];
+
+    return { vikram, shaka, samvatsara };
+}
+
+export function getNakshatraPada(moonLon: number): number {
+    // Each Nakshatra is 13deg 20min (13.3333 deg)
+    // Each Pada is 1/4th of that = 3deg 20min (3.3333 deg)
+    // Formula: floor(moonLon / 3.3333) % 4 + 1
+
+    // Careful with precision. 3 deg 20 min = 3 + 20/60 = 3.33333333...
+    const padaLen = 3 + (20 / 60);
+    const totalPadas = Math.floor(moonLon / padaLen);
+    return (totalPadas % 4) + 1;
+}
+
+export function getRashi(lon: number): { index: number, name: string } {
+    const index = Math.floor(lon / 30);
+    // Handle edge case just in case 360 -> 12
+    const safeIndex = index % 12;
+    return {
+        index: safeIndex,
+        name: rashiNames[safeIndex]
+    };
+}
+
+export function getSunNakshatra(sunLon: number): { index: number, name: string, pada: number } {
+    // sunLon is Sidereal longitude
+    const index = getNakshatra(sunLon);
+    const pada = getNakshatraPada(sunLon);
+    return {
+        index,
+        name: nakshatraNames[index],
+        pada
+    };
+}
+
+
+
+export function getUdayaLagna(date: Date, observer: Observer, ayanamsa: number): number {
+    // Find the ecliptic longitude that is currently at the eastern horizon (Ascendant)
+
+    // 1. Calculate Local Sidereal Time (RAMC)
+    // SiderealTime returns Greenwich Mean Sidereal Time in hours
+    const gmst = SiderealTime(date);
+    const lmstHours = gmst + (observer.longitude / 15.0);
+    // Normalize to 0-24
+    const lmstNorm = ((lmstHours % 24) + 24) % 24;
+    const ramc = lmstNorm * 15.0; // Convert to degrees
+
+    // 2. Calculate Obliquity of Ecliptic
+    const time = MakeTime(date);
+    const oblInfo = e_tilt(time);
+    const eps = oblInfo.tobl; // True Obliquity in degrees
+
+    const lat = observer.latitude;
+
+    const rad = (deg: number) => deg * Math.PI / 180;
+    const deg = (rad: number) => rad * 180 / Math.PI;
+
+    const sin = Math.sin;
+    const cos = Math.cos;
+    const tan = Math.tan;
+
+    // 3. Formula for Ascendant (Tropical)
+    // tan(lambda) = -cos(RAMC) / (sin(eps)*tan(lat) + cos(eps)*sin(RAMC))
+
+    const theta = rad(ramc);
+    const epsilon = rad(eps);
+    const phi = rad(lat);
+
+    const numerator = cos(theta);
+    const denominator = - (sin(epsilon) * tan(phi) + cos(epsilon) * sin(theta));
+
+    let tropicalAscendant = deg(Math.atan2(numerator, denominator));
+    if (tropicalAscendant < 0) tropicalAscendant += 360;
+
+    // 4. Convert to Sidereal (Nirayana)
+    const siderealAscendant = (tropicalAscendant - ayanamsa + 360) % 360;
+
+    return siderealAscendant;
+}
+
+export function findRashiTransitions(startDate: Date, endDate: Date, ayanamsa: number): RashiTransition[] {
+    const transitions: RashiTransition[] = [];
+    let current = new Date(startDate);
+
+    const getSiderealMoon = (d: Date) => {
+        const m = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
+        return (m - ayanamsa + 360) % 360;
+    };
+
+    let lastRashi = Math.floor(getSiderealMoon(current) / 30);
+
+    while (current < endDate) {
+        const nextRashiEnd = (() => {
+            const moonLonSid = getSiderealMoon(current);
+            const rashiIndex = Math.floor(moonLonSid / 30);
+            const nextRashiLongitude = (rashiIndex + 1) * 30;
+            const targetLon = nextRashiLongitude % 360;
+
+            const rashiFunc = (d: Date): number => {
+                let m = getSiderealMoon(d);
+                let diff = m - targetLon;
+                if (diff > 180) diff -= 360;
+                if (diff < -180) diff += 360;
+                return diff;
+            };
+            return search(rashiFunc, current);
+        })();
+
+        if (!nextRashiEnd || nextRashiEnd > endDate) {
+            transitions.push({
+                rashi: lastRashi,
+                name: rashiNames[lastRashi],
+                endTime: endDate
+            });
+            break;
+        } else {
+            transitions.push({
+                rashi: lastRashi,
+                name: rashiNames[lastRashi],
+                endTime: nextRashiEnd
+            });
+            current = new Date(nextRashiEnd.getTime() + 60 * 1000);
+            lastRashi = Math.floor(getSiderealMoon(current) / 30);
+        }
+    }
+    return transitions;
+}
+
+export function calculateTaraBalam(moonNakshatra: number, birthNakshatra: number): { strength: string, type: string } {
+    // 1-based logic: (Moon - Birth + 1) % 9. 
+    // Nakshatras 0-26.
+
+    // Check inputs
+    if (moonNakshatra < 0 || birthNakshatra < 0) return { strength: "Unknown", type: "Invalid" };
+
+    // Standard formula: Count from Birth to Moon inclusive.
+    // If Moon=0, Birth=0, Count=1.
+    // Logic: (Moon - Birth)
+    let diff = moonNakshatra - birthNakshatra;
+    if (diff < 0) diff += 27;
+
+    // Count is (diff + 1)
+    const count = diff + 1;
+    const remainder = count % 9 || 9; // Map 0 to 9 if any (though mod 9 of 1..27 gives 1..0 -> 1..9)
+    // 1%9=1, 9%9=0 -> 9. 
+
+    // Mapping
+    // 1: Janma (Danger/Mixed)
+    // 2: Sampat (Wealth - Good)
+    // 3: Vipat (Danger - Bad)
+    // 4: Kshema (Well-being - Good)
+    // 5: Pratyak (Obstacles - Bad)
+    // 6: Sadhana (Achievement - Good)
+    // 7: Naidhana (Death/Loss - Bad)
+    // 8: Mitra (Friend - Good)
+    // 9: Parama Mitra (Best Friend - Good)
+
+    const types = [
+        "Ignore", // 0
+        "Janma (Danger to Body)",      // 1
+        "Sampat (Wealth/Prosperity)",  // 2
+        "Vipat (Dangers/Losses)",      // 3
+        "Kshema (Well-being/Safe)",    // 4
+        "Pratyak (Obstacles)",         // 5
+        "Sadhana (Realization/Success)", // 6
+        "Naidhana (Destruction/Death)",  // 7
+        "Mitra (Friendship)",          // 8
+        "Parama Mitra (Supreme Friendship)" // 9
+    ];
+
+    const isGood = [2, 4, 6, 8, 9].includes(remainder);
+    const strength = isGood ? "Good" : "Bad";
+
+    return {
+        strength,
+        type: types[remainder]
+    };
+}
+
+export function calculateChandraBalamFromRashi(moonRashi: number, birthRashi: number): { strength: string, type: string } {
+    // 1-based: (Moon - Birth + 1) % 12
+    // Rashis 0-11.
+
+    if (moonRashi < 0 || birthRashi < 0) return { strength: "Unknown", type: "Invalid" };
+
+    let diff = moonRashi - birthRashi;
+    if (diff < 0) diff += 12;
+    const count = diff + 1;
+
+    // Good: 1, 3, 6, 7, 10, 11
+    // Bad: 2, 4, 5, 8, 9, 12
+    const goodPositions = [1, 3, 6, 7, 10, 11];
+
+    const isGood = goodPositions.includes(count);
+    const strength = isGood ? "Good" : "Bad";
+
+    return {
+        strength,
+        type: `Position ${count} from Birth Rashi`
+    };
+}
+
+export function calculateVarjyam(nakshatraIndex: number, nakshatraStart: Date, nakshatraEnd: Date): MuhurtaTime[] {
+    const results: MuhurtaTime[] = [];
+    if (!nakshatraStart || !nakshatraEnd) return results;
+
+    const durationMillis = nakshatraEnd.getTime() - nakshatraStart.getTime();
+
+    // nakshatraIndex 0-26
+    let startGhatis = varjyamStartGhatis[nakshatraIndex];
+    if (undefined === startGhatis) return results;
+
+    const ghatis = Array.isArray(startGhatis) ? startGhatis : [startGhatis];
+
+    for (const startGhati of ghatis) {
+        const startOffsetMillis = (durationMillis * startGhati) / 60;
+        const durationVarjyamMillis = (durationMillis * 4) / 60; // 4 Ghatis duration
+
+        const varjyamStart = new Date(nakshatraStart.getTime() + startOffsetMillis);
+        const varjyamEnd = new Date(varjyamStart.getTime() + durationVarjyamMillis);
+
+        results.push({
+            start: varjyamStart,
+            end: varjyamEnd
+        });
+    }
+
+    return results;
+}
+
+export function calculateAmritKalam(nakshatraIndex: number, nakshatraStart: Date, nakshatraEnd: Date): MuhurtaTime | null {
+    if (!nakshatraStart || !nakshatraEnd) return null;
+    const durationMillis = nakshatraEnd.getTime() - nakshatraStart.getTime();
+
+    const startGhati = amritKalamStartGhatis[nakshatraIndex];
+    if (undefined === startGhati) return null;
+
+    const startOffsetMillis = (durationMillis * startGhati) / 60;
+    const durationAmritMillis = (durationMillis * 4) / 60; // 4 Ghatis duration
+
+    const amritStart = new Date(nakshatraStart.getTime() + startOffsetMillis);
+    const amritEnd = new Date(amritStart.getTime() + durationAmritMillis);
+
+    return {
+        start: amritStart,
+        end: amritEnd
+    };
+}
+
+export function getSpecialYoga(vara: number, nakshatraIndex: number): { name: string, description: string, isAuspicious: boolean }[] {
+    const yogas: { name: string, description: string, isAuspicious: boolean }[] = [];
+
+    // Vara (0=Sun, 1=Mon, ..., 6=Sat) based on getVara logic (verify getVara returns 0-6).
+    // nakshatraIndex 0-26.
+
+    // 1. Amrit Siddhi Yoga
+    // Sun+Hasta(12), Mon+Mrigashira(4), Tue+Ashwini(0), Wed+Anuradha(16), Thu+Pushya(7), Fri+Revati(26), Sat+Rohini(3)
+    const amritCombinations: { [key: number]: number } = {
+        0: 12, // Sun + Hasta
+        1: 4,  // Mon + Mriga
+        2: 0,  // Tue + Ashwini
+        3: 16, // Wed + Anuradha
+        4: 7,  // Thu + Pushya
+        5: 26, // Fri + Revati
+        6: 3   // Sat + Rohini
+    };
+
+    if (amritCombinations[vara] === nakshatraIndex) {
+        yogas.push({
+            name: "Amrit Siddhi Yoga",
+            description: "Auspicious for most activities, but avoid marriage on Thu-Pushya and journey on Sat-Rohini.",
+            isAuspicious: true
+        });
+    }
+
+    // 2. Ravi Pushya & Guru Pushya
+    if (nakshatraIndex === 7) { // Pushya
+        if (vara === 0) {
+            yogas.push({
+                name: "Ravi Pushya Yoga",
+                description: "Highly auspicious for starting new ventures, buying gold/assets.",
+                isAuspicious: true
+            });
+        }
+        if (vara === 4) {
+            yogas.push({
+                name: "Guru Pushya Yoga",
+                description: "Highly auspicious for spiritual activities, education, and investments.",
+                isAuspicious: true
+            });
+        }
+    }
+
+    // 3. Sarvartha Siddhi Yoga
+    // Combination of Weekday + Nakshatra
+    const sarvarthaCombinations: { [key: number]: number[] } = {
+        0: [0, 7, 11, 12, 18, 20, 25], // Sun: Ashwini, Pushya, U.Phalguni, Hasta, Mula, U.Ashadha, U.Bhadra
+        1: [3, 4, 7, 16, 21],          // Mon: Rohini, Mriga, Pushya, Anuradha, Shravana
+        2: [0, 2, 8, 20],              // Tue: Ashwini, Krittika, Ashlesha, U.Ashadha
+        3: [2, 3, 4, 12, 16],          // Wed: Krittika, Rohini, Mriga, Hasta, Anuradha
+        4: [0, 6, 7, 16, 26],          // Thu: Ashwini, Punarvasu, Pushya, Anuradha, Revati
+        5: [0, 16, 26],                // Fri: Ashwini, Anuradha, Revati
+        6: [3, 14]                     // Sat: Rohini, Swati
+    };
+
+    if (sarvarthaCombinations[vara] && sarvarthaCombinations[vara].includes(nakshatraIndex)) {
+        // Avoid adding duplicate name if it overlaps with Amrit Siddhi (mostly they co-exist)
+        // Usually checked independently.
+        yogas.push({
+            name: "Sarvartha Siddhi Yoga",
+            description: "Success in all endeavors.",
+            isAuspicious: true
+        });
+    }
+
+    return yogas;
+}
+
+export function calculateVimshottariDasha(moonLon: number, birthDate: Date): any { // type DashaResult
+    // 1. Calculate Nakshatra
+    // Each Nakshatra = 13 deg 20 min = 800 min.
+    // 360 deg = 21600 min.
+    const lonMinutes = moonLon * 60;
+    const nakshatraDurationMin = 800; // 13*60 + 20
+
+    const nakshatraIndex = Math.floor(lonMinutes / nakshatraDurationMin);
+    const elapsedInNakshatra = lonMinutes % nakshatraDurationMin;
+    const fractionElapsed = elapsedInNakshatra / nakshatraDurationMin;
+    const fractionRemaining = 1 - fractionElapsed;
+
+    // 2. Identify Lord
+    // Sequence wraps: nakshatraIndex % 9
+    // 0: Ashwini -> Ketu (0)
+    // 1: Bharani -> Venus (1)
+    // ...
+    const lordIndex = nakshatraIndex % 9;
+
+    // Lord Duration in Years
+    const lordDurationYears = vimshottariDurations[lordIndex];
+    const balanceYears = lordDurationYears * fractionRemaining;
+
+    // Balance String: Years, Months, Days
+    const y = Math.floor(balanceYears);
+    const mFraction = (balanceYears - y) * 12;
+    const m = Math.floor(mFraction);
+    const d = Math.round((mFraction - m) * 30);
+
+    const balanceString = `${vimshottariLords[lordIndex]}: ${y}y ${m}m ${d}d`;
+
+    // 3. Construct Full Cycle
+    // Start Date = birthDate
+    // First Dasha ends at birthDate + balanceYears
+
+    const fullCycle: Array<{ planet: string, startTime: Date, endTime: Date }> = [];
+
+    let currentStart = new Date(birthDate);
+    // Add Balance Period
+    const firstEnd = new Date(currentStart.getTime());
+    // Approximate adding years/months/days correctly
+    // Simplification: Add milliseconds? No, use Date manipulations.
+    // Accuracy: balanceYears is fractional years.
+    // 1 Year = 365.25 days approx? Dasha uses 360 days? Or solar years?
+    // Standard practice: Often 365.25 or Gregorian years for simplicity in modern tools.
+    // Let's use Gregorian years logic: value * 365.25 * 24 * 3600 * 1000
+    // Better: Add years and fractional days.
+
+    const addYears = (date: Date, years: number): Date => {
+        return new Date(date.getTime() + years * 31557600000); // 365.25 days
+    };
+
+    let currentEnd = addYears(currentStart, balanceYears);
+
+    fullCycle.push({
+        planet: vimshottariLords[lordIndex],
+        startTime: new Date(currentStart),
+        endTime: new Date(currentEnd)
+    });
+
+    currentStart = currentEnd;
+
+    // Subsequent Dashas
+    for (let i = 1; i < 9; i++) {
+        const nextIndex = (lordIndex + i) % 9;
+        const duration = vimshottariDurations[nextIndex];
+        currentEnd = addYears(currentStart, duration);
+        fullCycle.push({
+            planet: vimshottariLords[nextIndex],
+            startTime: new Date(currentStart),
+            endTime: new Date(currentEnd)
+        });
+        currentStart = currentEnd;
+    }
+
+    // 4. Current Dasha
+    // Find which period current Date (birthDate? No, "now"?)
+    // This function takes "birthDate".
+    // Usually we want to know Dasha *at* birth or for a specific "now" date?
+    // The requirement is "Dasha System".
+    // If calculating for Panchang (NOW), treat Now as BirthDate?
+    // Then Balance is the running dasha.
+    // If we want dasha for a person born today, then "Current Mahadasha" is the first one.
+
+    // Let's assume this function returns the chart starting from Birth.
+    // Caller can determine what "Current" means relative to "Now" if calculating for a past birth.
+    // BUT for "Panchang of Today", it effectively calculates "If a child is born now".
+    // So "Current Dasha" is just the first entry.
+
+    // Antardasha?
+    // 1st Level: Mahadasha.
+    // 2nd Level: Antardasha.
+    // Calculated similarly based on the fraction of the Mahadasha.
+    // For MVP, just Mahadasha is fine as requested ("Vimshottari Dasha" checked, "Antardasha" checked).
+    // Let's compute Antardasha for the *first* Mahadasha (the running one).
+
+    // Antardasha Logic:
+    // Sub-periods follow same sequence (lord, lord+1...), starting from the Mahadasha lord.
+    // Duration = (Mahadasha Years * Antardasha Years) / 120.
+
+    // We need to find where in the first Mahadasha we are.
+    // We are at 'elapsed' part.
+    // Total duration was lordDurationYears.
+    // Elapsed years = lordDurationYears - balanceYears.
+
+    const elapsedYears = lordDurationYears - balanceYears;
+
+    // Find sub-period covering 'elapsedYears'.
+    let runningAntardasha: { planet: string, endTime: Date } | null = null;
+    let adElapsedAccum = 0;
+
+    // Antardasha sequence starts from the Mahadasha Lord itself.
+    const mdLordIndex = lordIndex; // Same as current dasha lord
+
+    for (let j = 0; j < 9; j++) {
+        const adIndex = (mdLordIndex + j) % 9;
+        const adLord = vimshottariLords[adIndex];
+        const adDurationProp = (lordDurationYears * vimshottariDurations[adIndex]) / 120; // Years
+
+        if (elapsedYears < (adElapsedAccum + adDurationProp)) {
+            // Found it!
+            // Calculate when it ends relative to NOW (BirthDate).
+            // It ends at: Start of MD + adElapsedAccum + adDurationProp
+            // But Start of MD was (Now - elapsedYears).
+            // So End = Now - elapsedYears + adElapsedAccum + adDurationProp
+            // Or simpler: Remaining in AD = (adElapsedAccum + adDurationProp) - elapsedYears.
+            // End Date = Now + Remaining.
+            const remainingInAD = (adElapsedAccum + adDurationProp) - elapsedYears;
+            runningAntardasha = {
+                planet: adLord,
+                endTime: addYears(birthDate, remainingInAD)
+            };
+            break;
+        }
+        adElapsedAccum += adDurationProp;
+    }
+
+    return {
+        birthNakshatra: nakshatraNames[nakshatraIndex],
+        nakshatraPada: getNakshatraPada(moonLon),
+        dashaBalance: balanceString,
+        currentMahadasha: {
+            planet: fullCycle[0].planet,
+            endTime: fullCycle[0].endTime
+        },
+        currentAntardasha: runningAntardasha,
+        fullCycle
+    };
+}
+
+export function getFestivals(masaIndex: number, isAdhika: boolean, paksha: string, tithiIndex: number): string[] {
+    const festivals: string[] = [];
+
+    if (isAdhika) {
+        // Usually festivals are not celebrated in Adhika Masa
+        return festivals;
+    }
+
+    // Tithi Index: 1-15 (Shukla), 16-30 (Krishna) 
+    // Wait, my getTithi returns 1-30.
+    // 1-15: Shukla Prathama to Purnima.
+    // 16-30: Krishna Prathama to Amavasya.
+    // Let's verify standard Tithi Enum/Indices.
+    // 1=Prathama, ..., 15=Purnima.
+    // 16=Prathama, ..., 30=Amavasya.
+
+    // Masa 0=Chaitra
+
+    // 1. Ugadi / Gudi Padwa: Chaitra Shukla Prathama (1)
+    if (masaIndex === 0 && tithiIndex === 1) {
+        festivals.push("Ugadi / Gudi Padwa (New Year)");
+    }
+
+    // 2. Rama Navami: Chaitra Shukla Navami (9)
+    if (masaIndex === 0 && tithiIndex === 9) {
+        festivals.push("Rama Navami");
+    }
+
+    // 3. Akshaya Tritiya: Vaishakha (1) Shukla Tritiya (3)
+    if (masaIndex === 1 && tithiIndex === 3) {
+        festivals.push("Akshaya Tritiya");
+    }
+
+    // 4. Guru Purnima: Ashadha (3) Purnima (15)
+    if (masaIndex === 3 && tithiIndex === 15) {
+        festivals.push("Guru Purnima");
+    }
+
+    // 5. Raksha Bandhan: Shravana (4) Purnima (15)
+    if (masaIndex === 4 && tithiIndex === 15) {
+        festivals.push("Raksha Bandhan");
+    }
+
+    // 6. Krishna Janmashtami: Shravana (4) Krishna Ashtami (8 -> 15+8=23)
+    // Note: Some traditions say Bhadrapada Krishna Ashtami (Purnimanta). 
+    // Amanta Shravana Krishna = Purnimanta Bhadrapada Krishna.
+    // So check Masa 4 (Shravana), Tithi 23.
+    if (masaIndex === 4 && tithiIndex === 23) {
+        festivals.push("Krishna Janmashtami");
+    }
+
+    // 7. Ganesh Chaturthi: Bhadrapada (5) Shukla Chaturthi (4)
+    if (masaIndex === 5 && tithiIndex === 4) {
+        festivals.push("Ganesh Chaturthi");
+    }
+
+    // 8. Navaratri Start: Ashwina (6) Shukla Prathama (1)
+    if (masaIndex === 6 && tithiIndex === 1) {
+        festivals.push("Navaratri Ghatasthapana");
+    }
+
+    // 9. Vijaya Dashami (Dussehra): Ashwina (6) Shukla Dashami (10)
+    if (masaIndex === 6 && tithiIndex === 10) {
+        festivals.push("Vijaya Dashami (Dussehra)");
+    }
+
+    // 10. Diwali (Lakshmi Puja): Ashwina (6) Amavasya (30)
+    // End of Ashwina Amanta.
+    if (masaIndex === 6 && tithiIndex === 30) {
+        festivals.push("Diwali (Lakshmi Puja)");
+    }
+
+    // 11. Bali Pratipada (Diwali Day 2): Kartika (7) Shukla Prathama (1)
+    if (masaIndex === 7 && tithiIndex === 1) {
+        festivals.push("Bali Pratipada");
+    }
+
+    // 12. Maha Shivaratri: Magha (10) Krishna Chaturdashi (14 -> 15+14=29)
+    if (masaIndex === 10 && tithiIndex === 29) {
+        festivals.push("Maha Shivaratri");
+    }
+
+    // 13. Holi: Phalguna (11) Purnima (15)
+    if (masaIndex === 11 && tithiIndex === 15) {
+        festivals.push("Holi");
+    }
+
+    // Ekadashi Detection
+    // Checks for 11 or 26
+    if (tithiIndex === 11 || tithiIndex === 26) {
+        const pakshaName = (tithiIndex === 11) ? "Shukla" : "Krishna";
+        const masaName = masaNames[masaIndex];
+        festivals.push(`${masaName} ${pakshaName} Ekadashi`);
+    }
+
+    return festivals;
 }

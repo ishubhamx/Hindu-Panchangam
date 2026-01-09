@@ -13,10 +13,10 @@ export function getAyanamsa(date: Date): number {
 
     const T = (JD - 2451545.0) / 36525.0; // Julian centuries since J2000
 
-    // 23 deg 51' 49.652" (Tuned to match Drik Panchang)
-    // Original Lahiri: 25.532". Diff ~24.12"
+    // 23 deg 51' 25.532" (Standard Swiss Ephemeris Lahiri)
+    // We strictly use the standard value for astronomical accuracy.
     const offsetSeconds = 5029.0966 * T + 1.11161 * T * T;
-    const initialAyanamsaSeconds = (23 * 3600) + (51 * 60) + 49.652;
+    const initialAyanamsaSeconds = (23 * 3600) + (51 * 60) + 25.532;
 
     const ayanamsaSeconds = initialAyanamsaSeconds + offsetSeconds;
 

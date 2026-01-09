@@ -104,3 +104,14 @@ panchangam.html
 *.bak
 *.backup 
 VERIFICATION_RESULTS.md
+verification_results.csv
+VALIDATION_REPORT.md
+
+# Scripts (Local Dev Tools)
+scripts/
+
+# Test Artifacts
+lib_results.json
+python_results.json
+vedicrishi_test.html
+

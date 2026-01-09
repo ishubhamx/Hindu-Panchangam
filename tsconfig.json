@@ -23,6 +23,7 @@
     "node_modules",
     "dist",
     "tests/**/*",
-    "scripts/**/*"
+    "scripts/**/*",
+    "examples/**/*"
   ]
 }
