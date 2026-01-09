@@ -153,3 +153,40 @@ export const vimshottariDurations = [
     19, // Saturn
     17  // Mercury
 ];
+
+// Planetary Dignity Constants
+// Rashi Indices: 0=Aries, ..., 11=Pisces
+export const planetExaltation: Record<string, number> = {
+    "Sun": 0,      // Aries
+    "Moon": 1,     // Taurus
+    "Mars": 9,     // Capricorn
+    "Mercury": 5,  // Virgo
+    "Jupiter": 3,  // Cancer
+    "Venus": 11,   // Pisces
+    "Saturn": 6,   // Libra
+    "Rahu": 1,     // Taurus (Standard view)
+    "Ketu": 7      // Scorpio (Standard view)
+};
+
+export const planetDebilitation: Record<string, number> = {
+    "Sun": 6,      // Libra
+    "Moon": 7,     // Scorpio
+    "Mars": 3,     // Cancer
+    "Mercury": 11, // Pisces
+    "Jupiter": 9,  // Capricorn
+    "Venus": 5,    // Virgo
+    "Saturn": 0,   // Aries
+    "Rahu": 7,     // Scorpio
+    "Ketu": 1      // Taurus
+};
+
+export const planetOwnSigns: Record<string, number[]> = {
+    "Sun": [4],          // Leo
+    "Moon": [3],         // Cancer
+    "Mars": [0, 7],      // Aries, Scorpio
+    "Mercury": [2, 5],   // Gemini, Virgo
+    "Jupiter": [8, 11],  // Sagittarius, Pisces
+    "Venus": [1, 6],     // Taurus, Libra
+    "Saturn": [9, 10],   // Capricorn, Aquarius
+    // Rahu/Ketu co-lordship often debated, omitting 'Own' for now to avoid confusion unless requested.
+};

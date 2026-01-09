@@ -63,6 +63,9 @@ export interface PlanetaryPosition {
     rashi: number;         // Rashi index (0-11: Aries to Pisces)
     rashiName: string;     // Rashi name
     degree: number;        // Degree within the rashi (0-30)
+    isRetrograde: boolean; // True if planet is moving backward
+    speed: number;         // Daily motion in degrees (positive = direct, negative = retrograde)
+    dignity: 'exalted' | 'debilitated' | 'own' | 'neutral';
 }
 
 export interface MuhurtaTime {
@@ -120,6 +123,8 @@ export interface Panchangam {
         jupiter: PlanetaryPosition;
         venus: PlanetaryPosition;
         saturn: PlanetaryPosition;
+        rahu: PlanetaryPosition;
+        ketu: PlanetaryPosition;
     };
     chandrabalam: number;  // Moon strength (0-100)
     currentHora: string;   // Current planetary hour
