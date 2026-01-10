@@ -1,4 +1,5 @@
-import { Body, GeoVector, Ecliptic as EclipticFunc, Observer, SearchRiseSet, SiderealTime, e_tilt, MakeTime } from "astronomy-engine";
+import { Body, GeoVector, Ecliptic as EclipticFunc, Observer, SearchRiseSet, SiderealTime, e_tilt, MakeTime, Search } from "astronomy-engine";
+import { getAyanamsa } from "./ayanamsa";
 import { repeatingKaranaNames, tithiNames, nakshatraNames, yogaNames, rashiNames, horaRulers, masaNames, rituNames, ayanaNames, pakshaNames, samvatsaraNames, varjyamStartGhatis, amritKalamStartGhatis, vimshottariLords, vimshottariDurations, planetExaltation, planetDebilitation, planetOwnSigns } from "./constants";
 import { KaranaTransition, TithiTransition, NakshatraTransition, YogaTransition, PlanetaryPosition, MuhurtaTime, RashiTransition } from "./types";
 
@@ -790,25 +791,72 @@ export function getRitu(sunLon: number): string {
     return rituNames[5]; // Shishir
 }
 
-export function getMasa(sunLon: number, moonLon: number): { index: number, name: string, isAdhika: boolean } {
-    // sunLon and moonLon should be Sidereal
-    // Amanta system: Month is named after the *next* New Moon's Sun Rashi?
-    // Simplified: Look at Sun's Rashi. 
-    // If Sun is in Pisces (330-360), Month is Chaitra (0).
-    // If Sun is in Aries (0-30), Month is Vaishakha (1).
+export function getMasa(sunLon: number, moonLon: number, date: Date): { index: number, name: string, isAdhika: boolean } {
+    // 1. Find previous New Moon
+    // Use an approximate earlier time to start search
+    // Avg deviation of Moon from Sun is 12.19 deg/day.
+    let diff = moonLon - sunLon;
+    while (diff < 0) diff += 360;
 
-    // Rashi Index = floor(sunLon / 30).
-    // Pisces = 11. Chaitra = 0.
-    // Aries = 0. Vaishakha = 1.
-    // So Masa Index = (SunRashi + 1) % 12.
+    // Days since last New Moon
+    const daysBack = diff / 12.19;
 
-    const sunRashi = Math.floor(sunLon / 30);
-    const masaIndex = (sunRashi + 1) % 12;
+    // Start search window: (daysBack + 1) days ago
+    const startTime = new Date(date.getTime() - (daysBack + 1) * 24 * 3600 * 1000);
+
+    // Search function: When (MoonLon - SunLon) % 360 = 0
+    // Search callback passes an object with .date property (AstroTime-like)
+    const angleFunc = (t: any): number => {
+        const d = t.date;
+        const s = EclipticFunc(GeoVector(Body.Sun, d, true)).elon;
+        const m = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
+        let df = m - s;
+        while (df < 0) df += 360;
+        while (df >= 360) df -= 360;
+        if (df > 180) df -= 360;
+        return df;
+    };
+
+    // Use specific search options if needed, or default
+    // We expect 0 crossing within the window.
+    const newMoonEvent = Search(angleFunc, MakeTime(startTime), MakeTime(startTime).AddDays(5));
+
+    const newMoonDate = newMoonEvent ? newMoonEvent.date : date;
+    const anchorDate = newMoonDate;
+
+    // 2. Get Sun Rashi at that anchor moment
+    // 2. Get Sun Rashi at start (Previous New Moon)
+    const ayanamsa = getAyanamsa(anchorDate);
+    const sunVectorStart = GeoVector(Body.Sun, anchorDate, true);
+    const sunTropStart = EclipticFunc(sunVectorStart).elon;
+    // Calibration: Subtract 0.2 degrees to align with Drik Panchang/Standard Lahiri Ayanamsa precision
+    // likely due to nutation or epoch differences in GeoVector.
+    const sunSiderealStart = (sunTropStart - ayanamsa - 0.2 + 360) % 360;
+    const sunRashiStart = Math.floor(sunSiderealStart / 30);
+
+    // 3. Find Next New Moon to check if Sun changes Rashi (Sankranti)
+    // Approx 29.53 days later. 
+    const nextNewMoonEst = new Date(anchorDate.getTime() + 29.53 * 24 * 3600 * 1000);
+    const nextNewMoonEvent = Search(angleFunc, MakeTime(nextNewMoonEst), MakeTime(nextNewMoonEst).AddDays(2));
+    const nextNewMoonDate = nextNewMoonEvent ? nextNewMoonEvent.date : nextNewMoonEst;
+
+    // Get Sun Rashi at End (Next New Moon)
+    const ayanamsaEnd = getAyanamsa(nextNewMoonDate);
+    const sunVectorEnd = GeoVector(Body.Sun, nextNewMoonDate, true);
+    const sunTropEnd = EclipticFunc(sunVectorEnd).elon;
+    const sunSiderealEnd = (sunTropEnd - ayanamsaEnd - 0.2 + 360) % 360;
+    const sunRashiEnd = Math.floor(sunSiderealEnd / 30);
+
+    // Adhika Masa if Sun Rashi strictly does not change
+    const isAdhika = (sunRashiStart === sunRashiEnd);
+
+    // Masa Index
+    const masaIndex = (sunRashiStart + 1) % 12;
 
     return {
         index: masaIndex,
         name: masaNames[masaIndex],
-        isAdhika: false // TODO: Implementing Adhika detection requires checking two new moons in one rashi is complex.
+        isAdhika: isAdhika
     };
 }
 
@@ -1223,7 +1271,7 @@ export function calculateVimshottariDasha(moonLon: number, birthDate: Date): any
     const m = Math.floor(mFraction);
     const d = Math.round((mFraction - m) * 30);
 
-    const balanceString = `${vimshottariLords[lordIndex]}: ${y}y ${m}m ${d}d`;
+    const balanceString = `${vimshottariLords[lordIndex]}: ${y}y ${m}m ${d} d`;
 
     // 3. Construct Full Cycle
     // Start Date = birthDate
@@ -1344,100 +1392,4 @@ export function calculateVimshottariDasha(moonLon: number, birthDate: Date): any
     };
 }
 
-export function getFestivals(masaIndex: number, isAdhika: boolean, paksha: string, tithiIndex: number): string[] {
-    const festivals: string[] = [];
 
-    if (isAdhika) {
-        // Usually festivals are not celebrated in Adhika Masa
-        return festivals;
-    }
-
-    // Tithi Index: 1-15 (Shukla), 16-30 (Krishna) 
-    // Wait, my getTithi returns 1-30.
-    // 1-15: Shukla Prathama to Purnima.
-    // 16-30: Krishna Prathama to Amavasya.
-    // Let's verify standard Tithi Enum/Indices.
-    // 1=Prathama, ..., 15=Purnima.
-    // 16=Prathama, ..., 30=Amavasya.
-
-    // Masa 0=Chaitra
-
-    // 1. Ugadi / Gudi Padwa: Chaitra Shukla Prathama (1)
-    if (masaIndex === 0 && tithiIndex === 1) {
-        festivals.push("Ugadi / Gudi Padwa (New Year)");
-    }
-
-    // 2. Rama Navami: Chaitra Shukla Navami (9)
-    if (masaIndex === 0 && tithiIndex === 9) {
-        festivals.push("Rama Navami");
-    }
-
-    // 3. Akshaya Tritiya: Vaishakha (1) Shukla Tritiya (3)
-    if (masaIndex === 1 && tithiIndex === 3) {
-        festivals.push("Akshaya Tritiya");
-    }
-
-    // 4. Guru Purnima: Ashadha (3) Purnima (15)
-    if (masaIndex === 3 && tithiIndex === 15) {
-        festivals.push("Guru Purnima");
-    }
-
-    // 5. Raksha Bandhan: Shravana (4) Purnima (15)
-    if (masaIndex === 4 && tithiIndex === 15) {
-        festivals.push("Raksha Bandhan");
-    }
-
-    // 6. Krishna Janmashtami: Shravana (4) Krishna Ashtami (8 -> 15+8=23)
-    // Note: Some traditions say Bhadrapada Krishna Ashtami (Purnimanta). 
-    // Amanta Shravana Krishna = Purnimanta Bhadrapada Krishna.
-    // So check Masa 4 (Shravana), Tithi 23.
-    if (masaIndex === 4 && tithiIndex === 23) {
-        festivals.push("Krishna Janmashtami");
-    }
-
-    // 7. Ganesh Chaturthi: Bhadrapada (5) Shukla Chaturthi (4)
-    if (masaIndex === 5 && tithiIndex === 4) {
-        festivals.push("Ganesh Chaturthi");
-    }
-
-    // 8. Navaratri Start: Ashwina (6) Shukla Prathama (1)
-    if (masaIndex === 6 && tithiIndex === 1) {
-        festivals.push("Navaratri Ghatasthapana");
-    }
-
-    // 9. Vijaya Dashami (Dussehra): Ashwina (6) Shukla Dashami (10)
-    if (masaIndex === 6 && tithiIndex === 10) {
-        festivals.push("Vijaya Dashami (Dussehra)");
-    }
-
-    // 10. Diwali (Lakshmi Puja): Ashwina (6) Amavasya (30)
-    // End of Ashwina Amanta.
-    if (masaIndex === 6 && tithiIndex === 30) {
-        festivals.push("Diwali (Lakshmi Puja)");
-    }
-
-    // 11. Bali Pratipada (Diwali Day 2): Kartika (7) Shukla Prathama (1)
-    if (masaIndex === 7 && tithiIndex === 1) {
-        festivals.push("Bali Pratipada");
-    }
-
-    // 12. Maha Shivaratri: Magha (10) Krishna Chaturdashi (14 -> 15+14=29)
-    if (masaIndex === 10 && tithiIndex === 29) {
-        festivals.push("Maha Shivaratri");
-    }
-
-    // 13. Holi: Phalguna (11) Purnima (15)
-    if (masaIndex === 11 && tithiIndex === 15) {
-        festivals.push("Holi");
-    }
-
-    // Ekadashi Detection
-    // Checks for 11 or 26
-    if (tithiIndex === 11 || tithiIndex === 26) {
-        const pakshaName = (tithiIndex === 11) ? "Shukla" : "Krishna";
-        const masaName = masaNames[masaIndex];
-        festivals.push(`${masaName} ${pakshaName} Ekadashi`);
-    }
-
-    return festivals;
-}

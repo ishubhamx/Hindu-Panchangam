@@ -78,6 +78,8 @@ export interface MuhurtaTime {
     end: Date;
 }
 
+import { ChoghadiyaResult, GowriResult } from './muhurta/types';
+
 export interface Panchangam {
     tithi: number;
     nakshatra: number;
@@ -118,6 +120,10 @@ export interface Panchangam {
     yamagandaKalam: MuhurtaTime | null;
     gulikaKalam: MuhurtaTime | null;
     durMuhurta: MuhurtaTime[] | null;
+
+    // Advanced Muhurta (v2.1)
+    choghadiya: ChoghadiyaResult;
+    gowri: GowriResult;
 
     // Special Yogas
     specialYogas: SpecialYogaResult[];
