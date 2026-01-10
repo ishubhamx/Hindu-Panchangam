@@ -613,10 +613,10 @@ export function findKaranaTransitions(startDate: Date, endDate: Date): KaranaTra
         })();
         if (!nextKaranaEnd || nextKaranaEnd > endDate) {
             // Last Karana for the day
-            transitions.push({ name: lastKarana, endTime: endDate });
+            transitions.push({ name: lastKarana, startTime: new Date(current), endTime: endDate });
             break;
         } else {
-            transitions.push({ name: lastKarana, endTime: nextKaranaEnd });
+            transitions.push({ name: lastKarana, startTime: new Date(current), endTime: nextKaranaEnd });
             current = new Date(nextKaranaEnd.getTime() + 60 * 1000); // move 1 min ahead to avoid infinite loop
             lastKarana = getKarana(
                 EclipticFunc(GeoVector(Body.Sun, current, true)).elon,
@@ -654,10 +654,10 @@ export function findTithiTransitions(startDate: Date, endDate: Date): TithiTrans
             return search(tithiFunc, current);
         })();
         if (!nextTithiEnd || nextTithiEnd > endDate) {
-            transitions.push({ index: lastTithi, name: tithiNames[lastTithi] || String(lastTithi), endTime: endDate });
+            transitions.push({ index: lastTithi, name: tithiNames[lastTithi] || String(lastTithi), startTime: new Date(current), endTime: endDate });
             break;
         } else {
-            transitions.push({ index: lastTithi, name: tithiNames[lastTithi] || String(lastTithi), endTime: nextTithiEnd });
+            transitions.push({ index: lastTithi, name: tithiNames[lastTithi] || String(lastTithi), startTime: new Date(current), endTime: nextTithiEnd });
             current = new Date(nextTithiEnd.getTime() + 60 * 1000);
             lastTithi = getTithi(
                 EclipticFunc(GeoVector(Body.Sun, current, true)).elon,
@@ -696,10 +696,10 @@ export function findNakshatraTransitions(startDate: Date, endDate: Date, ayanams
             return search(nakshatraFunc, current);
         })();
         if (!nextNakshatraEnd || nextNakshatraEnd > endDate) {
-            transitions.push({ index: lastNakshatra, name: nakshatraNames[lastNakshatra] || String(lastNakshatra), endTime: endDate });
+            transitions.push({ index: lastNakshatra, name: nakshatraNames[lastNakshatra] || String(lastNakshatra), startTime: new Date(current), endTime: endDate });
             break;
         } else {
-            transitions.push({ index: lastNakshatra, name: nakshatraNames[lastNakshatra] || String(lastNakshatra), endTime: nextNakshatraEnd });
+            transitions.push({ index: lastNakshatra, name: nakshatraNames[lastNakshatra] || String(lastNakshatra), startTime: new Date(current), endTime: nextNakshatraEnd });
             current = new Date(nextNakshatraEnd.getTime() + 60 * 1000);
             lastNakshatra = getNakshatra(getSiderealMoon(current));
         }
@@ -737,10 +737,10 @@ export function findYogaTransitions(startDate: Date, endDate: Date, ayanamsa: nu
             return search(yogaFunc, current);
         })();
         if (!nextYogaEnd || nextYogaEnd > endDate) {
-            transitions.push({ index: lastYoga, name: yogaNames[lastYoga] || String(lastYoga), endTime: endDate });
+            transitions.push({ index: lastYoga, name: yogaNames[lastYoga] || String(lastYoga), startTime: new Date(current), endTime: endDate });
             break;
         } else {
-            transitions.push({ index: lastYoga, name: yogaNames[lastYoga] || String(lastYoga), endTime: nextYogaEnd });
+            transitions.push({ index: lastYoga, name: yogaNames[lastYoga] || String(lastYoga), startTime: new Date(current), endTime: nextYogaEnd });
             current = new Date(nextYogaEnd.getTime() + 60 * 1000);
 
             const s = (EclipticFunc(GeoVector(Body.Sun, current, true)).elon - ayanamsa + 360) % 360;
@@ -986,6 +986,7 @@ export function findRashiTransitions(startDate: Date, endDate: Date, ayanamsa: n
             transitions.push({
                 rashi: lastRashi,
                 name: rashiNames[lastRashi],
+                startTime: new Date(current),
                 endTime: endDate
             });
             break;
@@ -993,6 +994,7 @@ export function findRashiTransitions(startDate: Date, endDate: Date, ayanamsa: n
             transitions.push({
                 rashi: lastRashi,
                 name: rashiNames[lastRashi],
+                startTime: new Date(current),
                 endTime: nextRashiEnd
             });
             current = new Date(nextRashiEnd.getTime() + 60 * 1000);
