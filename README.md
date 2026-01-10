@@ -105,6 +105,25 @@ const html = generateHtmlCalendar(2025, 6, new Observer(12.9716, 77.5946, 920), 
 // Write 'html' string to a .html file
 ```
 
+## Timezone Handling
+
+By default, all `Date` objects returned by this library are in **UTC**.
+
+To output standard JSON with a specific local Timezone (e.g. IST), you can override `Date.prototype.toJSON` at the start of your application:
+
+```typescript
+const tz = "Asia/Kolkata";
+
+// Global override for JSON.stringify to use local time
+Date.prototype.toJSON = function() {
+    return this.toLocaleString('en-IN', { timeZone: tz });
+};
+
+const p = getPanchangam(date, observer);
+console.log(JSON.stringify(p, null, 2)); 
+// Output: "2025-08-14, 5:58:58 am" instead of ISO UTC string
+```
+
 ## Usage in Applications
 
 This library is Isomorphic (Universal), meaning it works seamlessly in **Node.js**, **Browsers**, and **React Native**.

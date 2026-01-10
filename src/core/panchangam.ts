@@ -204,6 +204,13 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
         nakshatraTransitions,
         yogaTransitions,
         moonRashiTransitions,
+
+        // Unified List
+        tithis: tithiTransitions,
+        nakshatras: nakshatraTransitions,
+        yogas: yogaTransitions,
+        karanas: karanaTransitions,
+        rashis: moonRashiTransitions,
         // Enhanced Vedic Features
         amritKalam,
         varjyam,
