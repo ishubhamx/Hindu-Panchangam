@@ -1,29 +1,34 @@
 export interface KaranaTransition {
     name: string;
+    startTime: Date;
     endTime: Date;
 }
 
 export interface TithiTransition {
     index: number;
     name: string;
+    startTime: Date;
     endTime: Date;
 }
 
 export interface NakshatraTransition {
     index: number;
     name: string;
+    startTime: Date;
     endTime: Date;
 }
 
 export interface YogaTransition {
     index: number;
     name: string;
+    startTime: Date;
     endTime: Date;
 }
 
 export interface RashiTransition {
     rashi: number;
     name: string;
+    startTime: Date;
     endTime: Date;
 }
 
@@ -96,6 +101,14 @@ export interface Panchangam {
     nakshatraTransitions: NakshatraTransition[];
     yogaTransitions: YogaTransition[];
     moonRashiTransitions: RashiTransition[];
+
+    // Unified List for Day's Occurrences
+    tithis: TithiTransition[];
+    nakshatras: NakshatraTransition[];
+    yogas: YogaTransition[];
+    karanas: KaranaTransition[];
+    rashis: RashiTransition[];
+
     // Enhanced Vedic Features
     amritKalam: MuhurtaTime[];
     varjyam: MuhurtaTime[];
