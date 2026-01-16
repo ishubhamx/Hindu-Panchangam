@@ -94,6 +94,33 @@ console.log(`Festivals: ${p.festivals.join(', ')}`);
 console.log(`Brahma Muhurta: ${p.brahmaMuhurta?.start.toLocaleTimeString()} - ${p.brahmaMuhurta?.end.toLocaleTimeString()}`);
 ```
 
+### Advanced Muhurta Example (Choghadiya & Gowri)
+
+```typescript
+import { getPanchangam, Observer } from '@ishubhamx/panchangam-js';
+
+const observer = new Observer(19.0760, 72.8777, 10); // Mumbai
+const p = getPanchangam(new Date(), observer);
+
+// Access Choghadiya
+console.log('--- Day Choghadiya ---');
+p.choghadiya.day.forEach(interval => {
+    // Output: "Amrit: 6:00 AM - 7:30 AM (good)"
+    console.log(`${interval.name}: ${interval.startTime.toLocaleTimeString()} - ${interval.endTime.toLocaleTimeString()} (${interval.rating})`);
+});
+
+console.log('--- Night Choghadiya ---');
+p.choghadiya.night.forEach(interval => {
+    console.log(`${interval.name}: ${interval.rating}`);
+});
+
+// Access Gowri Panchangam
+console.log('--- Gowri Panchangam ---');
+p.gowri.day.forEach(interval => {
+    console.log(`${interval.name} (${interval.rating}): ${interval.startTime.toLocaleTimeString()}`);
+});
+```
+
 ### Generating an HTML Calendar
 
 The library includes a utility to generate a monthly HTML calendar view.
