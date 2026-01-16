@@ -45,21 +45,49 @@ export function getKarana(sunLon: number, moonLon: number): string {
     return repeatingKaranaNames[repeatingIndex];
 }
 
-export function getVara(date: Date): number {
+
+/**
+ * Returns the weekday (0=Sunday, ...) based on the Observer's local time.
+ * If no observer is provided, falls back to system local time (not recommended for server-side use).
+ */
+export function getVara(date: Date, observer?: Observer): number {
+    if (observer) {
+        // Shift to observer's local time
+        const tzOffsetMs = (observer.longitude / 15.0) * 3600 * 1000;
+        const localDate = new Date(date.getTime() + tzOffsetMs);
+        return localDate.getUTCDay();
+    }
     return date.getDay();
 }
 
-export function getSunrise(date: Date, observer: Observer): Date | null {
-    const startOfDay = new Date(date);
-    startOfDay.setUTCHours(0, 0, 0, 0);
 
+
+function getStartOfLocalDay(date: Date, observer: Observer): { start: Date, end: Date } {
+    // Approximate Timezone Offset based on Longitude
+    // 15 degrees = 1 hour. East is positive, West is negative.
+    const tzOffsetMs = (observer.longitude / 15.0) * 3600 * 1000;
+
+    // Create a date shifted to "Observer Local Time"
+    const localDate = new Date(date.getTime() + tzOffsetMs);
+    localDate.setUTCHours(0, 0, 0, 0); // Set to Local Midnight
+
+    // Shift back to UTC to get the actual UTC timestamp of Local Midnight
+    const startOfDay = new Date(localDate.getTime() - tzOffsetMs);
+
+    // End of day is 24 hours later
+    const endOfDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000 - 1);
+
+    return { start: startOfDay, end: endOfDay };
+}
+
+export function getSunrise(date: Date, observer: Observer): Date | null {
+    const { start: startOfDay, end: endOfDay } = getStartOfLocalDay(date, observer);
+
+    // Always search forward (+1) from start of the local day
     const time = SearchRiseSet(Body.Sun, observer, 1, startOfDay, 1);
     if (!time) return null;
 
     const sunrise = time.date;
-
-    const endOfDay = new Date(date);
-    endOfDay.setUTCHours(23, 59, 59, 999);
 
     if (sunrise >= startOfDay && sunrise <= endOfDay) {
         return sunrise;
@@ -68,17 +96,15 @@ export function getSunrise(date: Date, observer: Observer): Date | null {
     return null;
 }
 
-export function getSunset(date: Date, observer: Observer): Date | null {
-    const startOfDay = new Date(date);
-    startOfDay.setUTCHours(0, 0, 0, 0);
 
+export function getSunset(date: Date, observer: Observer): Date | null {
+    const { start: startOfDay, end: endOfDay } = getStartOfLocalDay(date, observer);
+
+    // Search for SET (-1) event starting from local midnight
     const time = SearchRiseSet(Body.Sun, observer, -1, startOfDay, 1);
     if (!time) return null;
 
     const sunset = time.date;
-
-    const endOfDay = new Date(date);
-    endOfDay.setUTCHours(23, 59, 59, 999);
 
     if (sunset >= startOfDay && sunset <= endOfDay) {
         return sunset;
@@ -88,40 +114,35 @@ export function getSunset(date: Date, observer: Observer): Date | null {
 }
 
 export function getMoonrise(date: Date, observer: Observer): Date | null {
-    const startOfDay = new Date(date);
-    startOfDay.setUTCHours(0, 0, 0, 0);
+    const { start: startOfDay, end: endOfDay } = getStartOfLocalDay(date, observer);
 
     const time = SearchRiseSet(Body.Moon, observer, 1, startOfDay, 1);
     if (!time) return null;
 
     const moonrise = time.date;
 
-    const endOfDay = new Date(date);
-    endOfDay.setUTCHours(23, 59, 59, 999);
-
     if (moonrise >= startOfDay && moonrise <= endOfDay) {
         return moonrise;
     }
-    return moonrise;
+    return null;
 }
 
 export function getMoonset(date: Date, observer: Observer): Date | null {
-    const startOfDay = new Date(date);
-    startOfDay.setUTCHours(0, 0, 0, 0);
+    const { start: startOfDay, end: endOfDay } = getStartOfLocalDay(date, observer);
 
+    // Search for SET (-1) event starting from local midnight
     const time = SearchRiseSet(Body.Moon, observer, -1, startOfDay, 1);
     if (!time) return null;
 
     const moonset = time.date;
 
-    const endOfDay = new Date(date);
-    endOfDay.setUTCHours(23, 59, 59, 999);
-
     if (moonset >= startOfDay && moonset <= endOfDay) {
         return moonset;
     }
-    return moonset;
+    return null;
 }
+
+
 
 /**
  * A generic search function to find the time when a function f(t) crosses zero.
