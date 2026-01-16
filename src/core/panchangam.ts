@@ -14,8 +14,11 @@ import {
     getPlanetaryPosition, getRahuPosition, getKetuPosition, calculateChandraBalam, getCurrentHora,
     getMasa, getPaksha, getRitu, getAyana, getSamvat,
     getNakshatraPada, getRashi, getSunNakshatra, getUdayaLagna, findRashiTransitions,
-    calculateAmritKalam, calculateVarjyam, getSpecialYoga, calculateVimshottariDasha, getFestivals
+    calculateAmritKalam, calculateVarjyam, getSpecialYoga, calculateVimshottariDasha
 } from "./calculations";
+import { getFestivals } from "./festivals";
+import { calculateChoghadiya } from "./muhurta/choghadiya";
+import { calculateGowriPanchangam } from "./muhurta/gowri";
 
 export function getPanchangam(date: Date, observer: Observer): Panchangam {
     const ayanamsa = getAyanamsa(date);
@@ -45,7 +48,8 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
 
     const yogaEndTime = findYogaEnd(date, ayanamsa);
 
-    const rahuKalam = (sunrise && sunset) ? calculateRahuKalam(sunrise, sunset, getVara(date)) : null;
+
+    const rahuKalam = (sunrise && sunset) ? calculateRahuKalam(sunrise, sunset, getVara(date, observer)) : null;
 
     // For Karana transitions, use sunrise to next day's sunrise
     let nextSunrise: Date | null = null;
@@ -79,8 +83,8 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
     }
     const brahmaMuhurta = sunrise ? calculateBrahmaMuhurta(sunrise, prevSunset) : null;
     const govardhanMuhurta = (sunrise && sunset) ? calculateGovardhanMuhurta(sunrise, sunset) : null;
-    const yamagandaKalam = (sunrise && sunset) ? calculateYamagandaKalam(sunrise, sunset, getVara(date)) : null;
-    const gulikaKalam = (sunrise && sunset) ? calculateGulikaKalam(sunrise, sunset, getVara(date)) : null;
+    const yamagandaKalam = (sunrise && sunset) ? calculateYamagandaKalam(sunrise, sunset, getVara(date, observer)) : null;
+    const gulikaKalam = (sunrise && sunset) ? calculateGulikaKalam(sunrise, sunset, getVara(date, observer)) : null;
     const durMuhurta = (sunrise && sunset) ? calculateDurMuhurta(sunrise, sunset) : null;
 
     // Planetary positions
@@ -102,7 +106,7 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
 
     // Calendar Units
     const tithi = getTithi(sunLon, moonLon);
-    const masa = getMasa(sunLon, moonLon);
+    const masa = getMasa(sunLon, moonLon, date);
     const paksha = getPaksha(tithi);
     const ritu = getRitu(sunTrop); // Use Tropical for Drik Ritu (Seasons)
     const ayana = getAyana(sunTrop); // Use Tropical for Solstice direction
@@ -186,7 +190,8 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
         nakshatra: getNakshatra(moonLon),
         yoga: getYoga(sunLon, moonLon),
         karana: getKarana(sunLon, moonLon),
-        vara: getVara(date),
+
+        vara: getVara(date, observer),
         ayanamsa,
         sunrise,
         sunset,
@@ -215,7 +220,7 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
         amritKalam,
         varjyam,
         // Special Yogas
-        specialYogas: getSpecialYoga(getVara(date), currentNakIndex),
+        specialYogas: getSpecialYoga(getVara(date, observer), currentNakIndex),
 
         // Phase 6: Dasha System
         // We calculate Dasha based on the Moon position at the given 'date'.
@@ -224,7 +229,15 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
         vimshottariDasha: calculateVimshottariDasha(moonLon, date),
 
         // Phase 7: Festivals
-        festivals: getFestivals(masa.index, masa.isAdhika, paksha, tithi),
+        festivals: getFestivals(masa.index, masa.isAdhika, paksha, tithi + 1, getVara(date, observer)),
+
+        // Phase 8: Advanced Muhurta (v2.1)
+        choghadiya: (sunrise && sunset && nextSunrise)
+            ? calculateChoghadiya(sunrise, sunset, nextSunrise, getVara(date, observer))
+            : { day: [], night: [] },
+        gowri: (sunrise && sunset && nextSunrise)
+            ? calculateGowriPanchangam(sunrise, sunset, nextSunrise, getVara(date, observer))
+            : { day: [], night: [] },
 
         abhijitMuhurta,
         brahmaMuhurta,
