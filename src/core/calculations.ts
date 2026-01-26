@@ -62,10 +62,28 @@ export function getVara(date: Date, observer?: Observer): number {
 
 
 
-function getStartOfLocalDay(date: Date, observer: Observer): { start: Date, end: Date } {
-    // Approximate Timezone Offset based on Longitude
-    // 15 degrees = 1 hour. East is positive, West is negative.
-    const tzOffsetMs = (observer.longitude / 15.0) * 3600 * 1000;
+
+interface LocalDayOptions {
+    timezoneOffset?: number; // Timezone Offset in MINUTES (e.g. -480 for UTC-8, 330 for IST)
+}
+
+function getStartOfLocalDay(date: Date, observer: Observer, options?: LocalDayOptions): { start: Date, end: Date } {
+    let tzOffsetMs: number;
+
+    if (options && options.timezoneOffset !== undefined) {
+        // User provided offset in minutes.
+        // Convention: Timezone Offset is usually defined as Local - UTC in minutes?
+        // JS date.getTimezoneOffset() returns UTC - Local in minutes.
+        // Let's assume input 'timezoneOffset' matches standard connection:
+        // +330 for IST (+5:30), -480 for PST (-8:00).
+        // So we add this to UTC timestamp to get Local Time.
+        tzOffsetMs = options.timezoneOffset * 60 * 1000;
+    } else {
+        // Approximate Timezone Offset based on Longitude
+        // 15 degrees = 1 hour. East is positive, West is negative.
+        // Rounding to nearest hour handles cases like Seattle (-122.1 => -8.14 => -8) better than floor/raw.
+        tzOffsetMs = Math.round(observer.longitude / 15.0) * 3600 * 1000;
+    }
 
     // Create a date shifted to "Observer Local Time"
     const localDate = new Date(date.getTime() + tzOffsetMs);
@@ -80,8 +98,8 @@ function getStartOfLocalDay(date: Date, observer: Observer): { start: Date, end:
     return { start: startOfDay, end: endOfDay };
 }
 
-export function getSunrise(date: Date, observer: Observer): Date | null {
-    const { start: startOfDay, end: endOfDay } = getStartOfLocalDay(date, observer);
+export function getSunrise(date: Date, observer: Observer, options?: LocalDayOptions): Date | null {
+    const { start: startOfDay, end: endOfDay } = getStartOfLocalDay(date, observer, options);
 
     // Always search forward (+1) from start of the local day
     const time = SearchRiseSet(Body.Sun, observer, 1, startOfDay, 1);
@@ -97,8 +115,8 @@ export function getSunrise(date: Date, observer: Observer): Date | null {
 }
 
 
-export function getSunset(date: Date, observer: Observer): Date | null {
-    const { start: startOfDay, end: endOfDay } = getStartOfLocalDay(date, observer);
+export function getSunset(date: Date, observer: Observer, options?: LocalDayOptions): Date | null {
+    const { start: startOfDay, end: endOfDay } = getStartOfLocalDay(date, observer, options);
 
     // Search for SET (-1) event starting from local midnight
     const time = SearchRiseSet(Body.Sun, observer, -1, startOfDay, 1);
@@ -113,8 +131,8 @@ export function getSunset(date: Date, observer: Observer): Date | null {
     return null;
 }
 
-export function getMoonrise(date: Date, observer: Observer): Date | null {
-    const { start: startOfDay, end: endOfDay } = getStartOfLocalDay(date, observer);
+export function getMoonrise(date: Date, observer: Observer, options?: LocalDayOptions): Date | null {
+    const { start: startOfDay, end: endOfDay } = getStartOfLocalDay(date, observer, options);
 
     const time = SearchRiseSet(Body.Moon, observer, 1, startOfDay, 1);
     if (!time) return null;
@@ -127,8 +145,8 @@ export function getMoonrise(date: Date, observer: Observer): Date | null {
     return null;
 }
 
-export function getMoonset(date: Date, observer: Observer): Date | null {
-    const { start: startOfDay, end: endOfDay } = getStartOfLocalDay(date, observer);
+export function getMoonset(date: Date, observer: Observer, options?: LocalDayOptions): Date | null {
+    const { start: startOfDay, end: endOfDay } = getStartOfLocalDay(date, observer, options);
 
     // Search for SET (-1) event starting from local midnight
     const time = SearchRiseSet(Body.Moon, observer, -1, startOfDay, 1);
