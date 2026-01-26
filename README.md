@@ -134,21 +134,36 @@ const html = generateHtmlCalendar(2025, 6, new Observer(12.9716, 77.5946, 920), 
 
 ## Timezone Handling
 
-By default, all `Date` objects returned by this library are in **UTC**.
+**Important**: This library does **not** bundle large timezone databases (like `tz-lookup`) to keep the bundle size small.
 
-To output standard JSON with a specific local Timezone (e.g. IST), you can override `Date.prototype.toJSON` at the start of your application:
+### Default Behavior
+If no timezone offset is provided, the library **approximates** the timezone based on Longitude (`Longitude / 15`). This can be inaccurate for Civil Day calculations (e.g., India is 5.5h ahead, but approximation gives 5.0h).
+
+### Best Practice
+You **should** always provide the `timezoneOffset` in the `options` object for accurate Civil Day transitions:
 
 ```typescript
-const tz = "Asia/Kolkata";
+// 1. Get Timezone Offset (Local Time - UTC) in Minutes
+// Method A: Using standard Intl API (Browser/Node)
+const getOffset = (timeZone: string) => {
+    const now = new Date();
+    const str = now.toLocaleString('en-US', { timeZone, timeZoneName: 'longOffset' });
+    const match = str.match(/GMT([+-]\d{2}):(\d{2})/);
+    if (!match) return 0;
+    const sign = match[1].startsWith('+') ? 1 : -1;
+    const hours = parseInt(match[1].slice(1), 10);
+    const minutes = parseInt(match[2], 10);
+    return sign * (hours * 60 + minutes);
+}
 
-// Global override for JSON.stringify to use local time
-Date.prototype.toJSON = function() {
-    return this.toLocaleString('en-IN', { timeZone: tz });
-};
+// Method B: Fixed Constant (e.g. India = +330 minutes)
+const IST_OFFSET = 330; 
 
-const p = getPanchangam(date, observer);
-console.log(JSON.stringify(p, null, 2)); 
-// Output: "2025-08-14, 5:58:58 am" instead of ISO UTC string
+// 2. Pass to Library
+const observer = new Observer(12.9716, 77.5946, 920);
+const panchang = getPanchangam(new Date(), observer, { 
+    timezoneOffset: getOffset('Asia/Kolkata') // or IST_OFFSET
+});
 ```
 
 ## Usage in Applications

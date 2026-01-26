@@ -9,10 +9,26 @@ function comprehensiveExample() {
     const observer = new Observer(12.9716, 77.5946, 920);
     const date = new Date('2025-06-22T06:00:00Z'); // June 22, 2025 at 6:00 AM UTC
 
-    console.log(`📅 Date: ${date.toDateString()}`);
-    console.log(`📍 Location: Bangalore, India (${observer.latitude}°N, ${observer.longitude}°E)\n`);
+    // Explicit Timezone Offset Calculation (Best Practice)
+    // Helper to get offset (e.g. Asia/Kolkata -> 330)
+    const getOffset = (timeZone: string) => {
+        const d = new Date();
+        const str = d.toLocaleString('en-US', { timeZone, timeZoneName: 'longOffset' });
+        const match = str.match(/GMT([+-]\d{2}):(\d{2})/);
+        if (!match) return 0;
+        const sign = match[1].startsWith('+') ? 1 : -1;
+        const hours = parseInt(match[1].slice(1), 10);
+        const minutes = parseInt(match[2], 10);
+        return sign * (hours * 60 + minutes);
+    };
 
-    const panchangam = getPanchangam(date, observer);
+    const IST_OFFSET = getOffset('Asia/Kolkata'); // Should be +330
+
+    console.log(`📅 Date: ${date.toDateString()}`);
+    console.log(`📍 Location: Bangalore, India (${observer.latitude}°N, ${observer.longitude}°E)`);
+    console.log(`🕒 Timezone Offset: ${IST_OFFSET} minutes (IST)\n`);
+
+    const panchangam = getPanchangam(date, observer, { timezoneOffset: IST_OFFSET });
 
     // ========== CORE PANCHANGAM ELEMENTS ==========
     console.log('📊 CORE PANCHANGAM ELEMENTS');

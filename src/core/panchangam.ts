@@ -1,6 +1,6 @@
 import { Body, GeoVector, Ecliptic, Observer } from "astronomy-engine";
 import { getAyanamsa } from "./ayanamsa";
-import { Panchangam, PanchangamDetails, MuhurtaTime } from "./types";
+import { Panchangam, PanchangamDetails, MuhurtaTime, PanchangamOptions } from "./types";
 import {
     getTithi, getNakshatra, getYoga, getKarana, getVara,
     getSunrise, getSunset, getMoonrise, getMoonset,
@@ -20,7 +20,7 @@ import { getFestivals } from "./festivals";
 import { calculateChoghadiya } from "./muhurta/choghadiya";
 import { calculateGowriPanchangam } from "./muhurta/gowri";
 
-export function getPanchangam(date: Date, observer: Observer): Panchangam {
+export function getPanchangam(date: Date, observer: Observer, options?: PanchangamOptions): Panchangam {
     const ayanamsa = getAyanamsa(date);
 
     const sunVector = GeoVector(Body.Sun, date, true);
@@ -34,10 +34,11 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
     const sunLon = (sunTrop - ayanamsa + 360) % 360;
     const moonLon = (moonTrop - ayanamsa + 360) % 360;
 
-    const sunrise = getSunrise(date, observer);
-    const sunset = getSunset(date, observer);
-    const moonrise = getMoonrise(date, observer);
-    const moonset = getMoonset(date, observer);
+    const sunrise = getSunrise(date, observer, options);
+    const sunset = getSunset(date, observer, options);
+    const moonrise = getMoonrise(date, observer, options);
+    const moonset = getMoonset(date, observer, options);
+
 
     const nakshatraStartTime = findNakshatraStart(date, ayanamsa);
     const nakshatraEndTime = findNakshatraEnd(date, ayanamsa);
@@ -56,7 +57,7 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
     if (sunrise) {
         const nextDay = new Date(sunrise.getTime());
         nextDay.setDate(nextDay.getDate() + 1);
-        nextSunrise = getSunrise(nextDay, observer);
+        nextSunrise = getSunrise(nextDay, observer, options);
     }
     const karanaTransitions = (sunrise && nextSunrise)
         ? findKaranaTransitions(sunrise, nextSunrise)
@@ -79,7 +80,7 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
     if (sunrise) {
         const prevDate = new Date(date);
         prevDate.setDate(prevDate.getDate() - 1);
-        prevSunset = getSunset(prevDate, observer) || undefined;
+        prevSunset = getSunset(prevDate, observer, options) || undefined;
     }
     const brahmaMuhurta = sunrise ? calculateBrahmaMuhurta(sunrise, prevSunset) : null;
     const govardhanMuhurta = (sunrise && sunset) ? calculateGovardhanMuhurta(sunrise, sunset) : null;
@@ -126,8 +127,7 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
     const currentNakshatraStart = findNakshatraStart(date, ayanamsa) || date; // Fallback to now if start not found (e.g. earlier than search window)
 
     // Note: findNakshatraStart scans back 25h. If null, it means start is way back.
-    // For rigorous calculation, we might need extended search.
-    // MVP: If start found, calculate.
+    // We calculate from current time if start not found.
 
     // Varjyam & Amrit Kalam: Check Current, Previous, and Next Nakshatras
     const amritKalam: MuhurtaTime[] = [];
@@ -153,9 +153,7 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
         const prevNakIndex = (currentNakIndex - 1 + 27) % 27;
         // We need Previous Start.
         // We can find it by searching backwards from nakshatraStartTime.
-        // Or just assume avg duration? No, precise calculation is needed.
-        // findNakshatraStart(date) returns Current Start.
-        // We need findNakshatraStart(currentStart - 1min).
+        // We search from 1 minute before current start.
         const prevSearchDate = new Date(nakshatraStartTime.getTime() - 60000);
         const prevStart = findNakshatraStart(prevSearchDate, ayanamsa);
         if (prevStart) {
@@ -168,7 +166,7 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
     if (nakshatraEndTime) {
         const nextNakIndex = (currentNakIndex + 1) % 27;
         // Next Start = Current End.
-        // Next End = findNakshatraEnd(nextStart + 1min).
+        // We search from 1 minute after next start to find its end.
         const nextSearchDate = new Date(nakshatraEndTime.getTime() + 60000);
         const nextEnd = findNakshatraEnd(nextSearchDate, ayanamsa);
         if (nextEnd) {
@@ -263,10 +261,10 @@ export function getPanchangam(date: Date, observer: Observer): Panchangam {
     };
 }
 
-export function getPanchangamDetails(date: Date, observer: Observer): PanchangamDetails {
-    const panchangam = getPanchangam(date, observer);
-    const sunrise = getSunrise(date, observer);
-    const sunset = getSunset(date, observer);
+export function getPanchangamDetails(date: Date, observer: Observer, options?: PanchangamOptions): PanchangamDetails {
+    const panchangam = getPanchangam(date, observer, options);
+    const sunrise = getSunrise(date, observer, options);
+    const sunset = getSunset(date, observer, options);
     const nakshatraEndTime = findNakshatraEnd(date, panchangam.ayanamsa);
 
     return {
