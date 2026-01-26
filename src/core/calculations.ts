@@ -57,7 +57,7 @@ export function getVara(date: Date, observer?: Observer): number {
         const localDate = new Date(date.getTime() + tzOffsetMs);
         return localDate.getUTCDay();
     }
-    return date.getDay();
+    return date.getUTCDay();
 }
 
 
@@ -907,7 +907,7 @@ export function getSamvat(date: Date, masaIndex: number): { vikram: number, shak
     // If Sun is in Pisces, it is Chaitra. 
     // This logic holds: New Year starts at Chaitra.
 
-    let yearAD = date.getFullYear();
+    let yearAD = date.getUTCFullYear();
     let shaka = yearAD - 78;
 
     // If Month is Phalguna (11) or Pausha/Magha and it is early in the year...
@@ -925,7 +925,7 @@ export function getSamvat(date: Date, masaIndex: number): { vikram: number, shak
     // Why? Because Chaitra (0) starts roughly March. 
     // Jan/Feb will be Magha/Phalguna of *previous* Saka year.
 
-    if (masaIndex > 8 && date.getMonth() < 3) {
+    if (masaIndex > 8 && date.getUTCMonth() < 3) {
         shaka -= 1;
     }
 

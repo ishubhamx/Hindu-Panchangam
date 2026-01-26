@@ -21,38 +21,36 @@ import { calculateChoghadiya } from "./muhurta/choghadiya";
 import { calculateGowriPanchangam } from "./muhurta/gowri";
 
 export function getPanchangam(date: Date, observer: Observer, options?: PanchangamOptions): Panchangam {
-    const ayanamsa = getAyanamsa(date);
-
-    const sunVector = GeoVector(Body.Sun, date, true);
-    const moonVector = GeoVector(Body.Moon, date, true);
-
-    // Tropical Longitudes
-    const sunTrop = Ecliptic(sunVector).elon;
-    const moonTrop = Ecliptic(moonVector).elon;
-
-    // Sidereal Longitudes
-    const sunLon = (sunTrop - ayanamsa + 360) % 360;
-    const moonLon = (moonTrop - ayanamsa + 360) % 360;
-
     const sunrise = getSunrise(date, observer, options);
     const sunset = getSunset(date, observer, options);
     const moonrise = getMoonrise(date, observer, options);
     const moonset = getMoonset(date, observer, options);
 
+    // Anchor: Use Sunrise for the Panchang Day attributes. Fallback to input date if no sunrise (Polar/Space).
+    // This ensures Tithi, Nakshatra, Vara, etc. are consistent for the civil day.
+    const anchorDate = sunrise || date;
+    const ayanamsa = getAyanamsa(anchorDate);
 
-    const nakshatraStartTime = findNakshatraStart(date, ayanamsa);
-    const nakshatraEndTime = findNakshatraEnd(date, ayanamsa);
+    // Calculate attributes at Anchor (Sunrise)
+    const sunVector = GeoVector(Body.Sun, anchorDate, true);
+    const moonVector = GeoVector(Body.Moon, anchorDate, true);
+    const sunTrop = Ecliptic(sunVector).elon;
+    const moonTrop = Ecliptic(moonVector).elon;
 
-    // Tithi doesn't need Ayanamsa (diff is same)
-    const tithiStartTime = findTithiStart(date);
-    const tithiEndTime = findTithiEnd(date);
+    const sunLon = (sunTrop - ayanamsa + 360) % 360;
+    const moonLon = (moonTrop - ayanamsa + 360) % 360;
 
-    const yogaEndTime = findYogaEnd(date, ayanamsa);
+    const nakshatraStartTime = findNakshatraStart(anchorDate, ayanamsa);
+    const nakshatraEndTime = findNakshatraEnd(anchorDate, ayanamsa);
 
+    const tithiStartTime = findTithiStart(anchorDate);
+    const tithiEndTime = findTithiEnd(anchorDate);
 
-    const rahuKalam = (sunrise && sunset) ? calculateRahuKalam(sunrise, sunset, getVara(date, observer)) : null;
+    const yogaEndTime = findYogaEnd(anchorDate, ayanamsa);
 
-    // For Karana transitions, use sunrise to next day's sunrise
+    const rahuKalam = (sunrise && sunset) ? calculateRahuKalam(sunrise, sunset, getVara(anchorDate, observer)) : null;
+
+    // For transitions, search from Sunrise to Next Sunrise
     let nextSunrise: Date | null = null;
     if (sunrise) {
         const nextDay = new Date(sunrise.getTime());
@@ -72,10 +70,8 @@ export function getPanchangam(date: Date, observer: Observer, options?: Panchang
         ? findYogaTransitions(sunrise, nextSunrise, ayanamsa)
         : [];
 
-    // Enhanced Vedic Features
     const abhijitMuhurta = (sunrise && sunset) ? calculateAbhijitMuhurta(sunrise, sunset) : null;
 
-    // Previous Sunset for Brahma Muhurta
     let prevSunset: Date | undefined;
     if (sunrise) {
         const prevDate = new Date(date);
@@ -84,11 +80,17 @@ export function getPanchangam(date: Date, observer: Observer, options?: Panchang
     }
     const brahmaMuhurta = sunrise ? calculateBrahmaMuhurta(sunrise, prevSunset) : null;
     const govardhanMuhurta = (sunrise && sunset) ? calculateGovardhanMuhurta(sunrise, sunset) : null;
-    const yamagandaKalam = (sunrise && sunset) ? calculateYamagandaKalam(sunrise, sunset, getVara(date, observer)) : null;
-    const gulikaKalam = (sunrise && sunset) ? calculateGulikaKalam(sunrise, sunset, getVara(date, observer)) : null;
+
+    // Vara should be based on Anchor Date (Sunrise)
+    const vara = getVara(anchorDate, observer);
+
+    const yamagandaKalam = (sunrise && sunset) ? calculateYamagandaKalam(sunrise, sunset, vara) : null;
+    const gulikaKalam = (sunrise && sunset) ? calculateGulikaKalam(sunrise, sunset, vara) : null;
     const durMuhurta = (sunrise && sunset) ? calculateDurMuhurta(sunrise, sunset) : null;
 
-    // Planetary positions
+    // Planetary positions at INSTANT (date), not Sunrise
+    // Ayanamsa change in 1 day is small, so using anchor ayanamsa is acceptable for positions too,
+    // or calculate instant ayanamsa. Let's reuse anchor for efficiency as difference is negligible.
     const rahuPos = getRahuPosition(date, ayanamsa);
     const planetaryPositions = {
         sun: getPlanetaryPosition(Body.Sun, date, ayanamsa),
@@ -105,13 +107,13 @@ export function getPanchangam(date: Date, observer: Observer, options?: Panchang
     const chandrabalam = calculateChandraBalam(moonLon, sunLon);
     const currentHora = getCurrentHora(date, sunrise || date);
 
-    // Calendar Units
     const tithi = getTithi(sunLon, moonLon);
-    const masa = getMasa(sunLon, moonLon, date);
+    // Masa/Samvat should be based on Anchor (Day's Month/Year)
+    const masa = getMasa(sunLon, moonLon, anchorDate);
     const paksha = getPaksha(tithi);
-    const ritu = getRitu(sunTrop); // Use Tropical for Drik Ritu (Seasons)
-    const ayana = getAyana(sunTrop); // Use Tropical for Solstice direction
-    const samvat = getSamvat(date, masa.index);
+    const ritu = getRitu(sunTrop);
+    const ayana = getAyana(sunTrop);
+    const samvat = getSamvat(anchorDate, masa.index);
 
     // Phase 3: Planetary Details
     const nakshatraPada = getNakshatraPada(moonLon);
@@ -189,7 +191,7 @@ export function getPanchangam(date: Date, observer: Observer, options?: Panchang
         yoga: getYoga(sunLon, moonLon),
         karana: getKarana(sunLon, moonLon),
 
-        vara: getVara(date, observer),
+        vara,
         ayanamsa,
         sunrise,
         sunset,
@@ -218,23 +220,23 @@ export function getPanchangam(date: Date, observer: Observer, options?: Panchang
         amritKalam,
         varjyam,
         // Special Yogas
-        specialYogas: getSpecialYoga(getVara(date, observer), currentNakIndex),
+        specialYogas: getSpecialYoga(vara, currentNakIndex),
 
         // Phase 6: Dasha System
         // We calculate Dasha based on the Moon position at the given 'date'.
         // This signifies: "If a child were born at this time, what is the Dasha?"
         // Or "What is the ruling Dasha for the day?"
-        vimshottariDasha: calculateVimshottariDasha(moonLon, date),
+        vimshottariDasha: calculateVimshottariDasha(moonLon, anchorDate),
 
         // Phase 7: Festivals
-        festivals: getFestivals(masa.index, masa.isAdhika, paksha, tithi + 1, getVara(date, observer)),
+        festivals: getFestivals(masa.index, masa.isAdhika, paksha, tithi + 1, vara),
 
         // Phase 8: Advanced Muhurta (v2.1)
         choghadiya: (sunrise && sunset && nextSunrise)
-            ? calculateChoghadiya(sunrise, sunset, nextSunrise, getVara(date, observer))
+            ? calculateChoghadiya(sunrise, sunset, nextSunrise, vara)
             : { day: [], night: [] },
         gowri: (sunrise && sunset && nextSunrise)
-            ? calculateGowriPanchangam(sunrise, sunset, nextSunrise, getVara(date, observer))
+            ? calculateGowriPanchangam(sunrise, sunset, nextSunrise, vara)
             : { day: [], night: [] },
 
         abhijitMuhurta,
