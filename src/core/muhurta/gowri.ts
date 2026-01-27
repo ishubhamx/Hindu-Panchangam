@@ -7,14 +7,7 @@ import { GowriInterval, GowriResult, GoodBadRating } from './types';
 // Good: Dhana, Harsha, Sukha, Labha
 // Bad/Neutral: Roga, Shoka, Satru, Visha
 
-const RATINGS: Record<string, GoodBadRating> = {
-    'Udyoga': 'neutral', // Sometimes called Shubha/Udyoga depending on tradition. Actually Gowri has specific keywords.
-    // Let's use the standard list corresponding to Tamil/South Indian tradition usually.
-    // However, common Gowri Panchang terms are:
-    // Shubha, Roga, Udyoga, Laabha, Dhana, Visha, Amrita, Shunya
-    // Wait, let's verify standard Gowri Panchangam keys.
-    // Standard keys often used: Udyoga, Amirtha, Roga, Laabha, Dhana, Visha, Sorrows(Shunya/Shoka), Shubha
-};
+
 
 // Let's use the sequence mapping usually found in Drik Panchang / Apps.
 // Day Sequences:
