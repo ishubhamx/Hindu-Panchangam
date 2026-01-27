@@ -440,36 +440,91 @@ async function runBulkTest() {
         checkPeriod('Amrit Kalam', libData.amritKalam, drikData.amritKalam, 10);
         checkPeriod('Varjyam', libData.varjyam, drikData.varjyam, 10);
 
-        // Check Rashi (Sun/Moon)
-        // Drik might say "Mesha" or "Aries". Lib says names from rashiNames.
         const checkRashi = (type: string, libRashi: { name: string }, drikRashiStr: string | null) => {
             if (!drikRashiStr) return;
-            // Drik: "Dhanu - Purva Ashadha" or just "Dhanu"
-            const drikPart = drikRashiStr.split('-')[0].trim();
-            const libPart = libRashi.name;
 
-            // Manual mapping or fuzzy match
-            const rashiMap: { [key: string]: string } = {
-                'Mesha': 'Aries', 'Vrishabha': 'Taurus', 'Mithuna': 'Gemini', 'Karka': 'Cancer',
-                'Simha': 'Leo', 'Kanya': 'Virgo', 'Tula': 'Libra', 'Vrishchika': 'Scorpio',
-                'Dhanu': 'Sagittarius', 'Makara': 'Capricorn', 'Kumbha': 'Aquarius', 'Meena': 'Pisces'
+            // 1. Parse Drik String
+            let drikNamePart = drikRashiStr.split('-')[0];
+            let transitionTimeMin = 9999;
+
+            if (drikNamePart.includes('upto')) {
+                const parts = drikNamePart.split('upto');
+                drikNamePart = parts[0];
+                const timeStr = parts[1].trim();
+                transitionTimeMin = parseDrikTime(timeStr);
+                // Fix: If original string contained a date different from today, offset the time.
+                const isNextDay = drikRashiStr.includes(',') || drikRashiStr.toLowerCase().includes('tomorrow') || (drikRashiStr.match(/[A-Z][a-z]{2} \d+/) !== null);
+                if (isNextDay) transitionTimeMin += 1440;
+            }
+
+            // Sanitize Drik Name (remove non-alpha)
+            const drikClean = drikNamePart.replace(/[^a-zA-Z]/g, '').toLowerCase();
+            const libName = libRashi.name;
+
+            // 2. Define Maps
+            const RASHI_ENGLISH = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+
+            // Key: English (Lib Output), Value: Set of valid Drik substrings (lowercase)
+            const RASHI_SYNONYMS: Record<string, Set<string>> = {
+                'Aries': new Set(['aries', 'mesha', 'mesh']),
+                'Taurus': new Set(['taurus', 'vrishabha', 'vrishabh']),
+                'Gemini': new Set(['gemini', 'mithuna', 'mithun']),
+                'Cancer': new Set(['cancer', 'karka', 'kark']),
+                'Leo': new Set(['leo', 'simha', 'simh']),
+                'Virgo': new Set(['virgo', 'kanya']),
+                'Libra': new Set(['libra', 'tula']),
+                'Scorpio': new Set(['scorpio', 'vrishchika', 'vrishchik']),
+                'Sagittarius': new Set(['sagittarius', 'dhanu', 'dhanus']),
+                'Capricorn': new Set(['capricorn', 'makara', 'makar']),
+                'Aquarius': new Set(['aquarius', 'kumbha', 'kumbh']),
+                'Pisces': new Set(['pisces', 'meena', 'meen'])
             };
 
-            let expected = rashiMap[drikPart] || drikPart;
-            if (expected !== libPart && !expected.includes(libPart)) {
-                // Try reverse
-                // e.g. Drik "Kumbha", Lib "Aquarius"
-                // Already handled by map.
-                // What if Drik returns English?
-                if (drikPart !== libPart) {
-                    dateFailures.push(`${type}: Lib(${libPart}) vs Drik(${drikPart})`);
-                    addToReport(type, libPart, `FAIL: ${drikPart}`);
-                } else {
-                    addToReport(type, libPart, drikPart);
+            // 3. Helper to find English name from Drik term
+            const getEnglishFromDrik = (drikTerm: string): string | null => {
+                for (const eng of RASHI_ENGLISH) {
+                    if (RASHI_SYNONYMS[eng].has(drikTerm)) return eng;
                 }
-            } else {
-                addToReport(type, libPart, drikPart);
+                return null;
+            };
+
+            // 4. Verify
+            // Case A: Direct Match
+            if (RASHI_SYNONYMS[libName] && RASHI_SYNONYMS[libName].has(drikClean)) {
+                addToReport(type, libName, drikRashiStr);
+                return;
             }
+
+            // Case B: Transition Logic
+            if (transitionTimeMin !== 9999 && transitionTimeMin < 720) {
+                // Drik Rashi ENDED earlier today.
+                // We are at 12:00 PM.
+                // So Lib should match NEXT Rashi.
+
+                // Find what Drik Rashi was
+                const drikEnglish = getEnglishFromDrik(drikClean);
+                if (drikEnglish) {
+                    const idx = RASHI_ENGLISH.indexOf(drikEnglish);
+                    const nextRashi = RASHI_ENGLISH[(idx + 1) % 12];
+
+                    if (libName === nextRashi) {
+                        addToReport(type, libName, `${drikRashiStr} (Wrapped to ${nextRashi})`);
+                        return;
+                    } else {
+                        dateFailures.push(`${type} (Trans): Lib(${libName}) vs Expected(${nextRashi} after ${drikEnglish}) [Orig: ${drikRashiStr}]`);
+                        addToReport(type, libName, `FAIL: ${drikRashiStr}`);
+                        return;
+                    }
+                }
+            }
+
+            // Case C: Mismatch
+            // DEBUG: Print Char Codes
+            const debugChars = (s: string) => s.split('').map(c => c.charCodeAt(0)).join(',');
+            console.log(`DEBUG: Mismatch. Type=${type}. Lib='${libName}' (${debugChars(libName)}). DrikClean='${drikClean}' (${debugChars(drikClean)}). DrikRaw='${drikRashiStr}'.`);
+
+            dateFailures.push(`${type}: Lib(${libName}) vs Drik(${drikClean}) [Orig: ${drikRashiStr}]`);
+            addToReport(type, libName, `FAIL: ${drikRashiStr}`);
         };
 
         checkRashi('Moon Rashi', libData.moonRashi, drikData.moonRashi);
@@ -594,37 +649,9 @@ async function runBulkTest() {
             addToReport('Karana', libData.karana, 'N/A');
         }
 
-        
-        // Check Rashi
-        // Lib: libData.moonRashi.name (Panchangam object has moonRashi { index, name })
-        // Drik: drikData.moonRashi
-        if (drikData.moonRashi) {
-            const libRashi = normalize(libData.moonRashi.name);
-            const drikRashi = normalize(drikData.moonRashi);
-            
-            if (libRashi === drikRashi) {
-                addToReport('Moon Rashi', libData.moonRashi.name, drikData.moonRashi);
-            } else {
-                dateFailures.push(`Moon Rashi: Lib(${libData.moonRashi.name}) vs Drik(${drikData.moonRashi})`);
-                addToReport('Moon Rashi', libData.moonRashi.name, `FAIL: ${drikData.moonRashi}`);
-            }
-        } else {
-            addToReport('Moon Rashi', libData.moonRashi.name, 'N/A');
-        }
 
-        if (drikData.sunRashi) {
-            const libRashi = normalize(libData.sunRashi.name);
-            const drikRashi = normalize(drikData.sunRashi);
-            
-            if (libRashi === drikRashi) {
-                addToReport('Sun Rashi', libData.sunRashi.name, drikData.sunRashi);
-            } else {
-                dateFailures.push(`Sun Rashi: Lib(${libData.sunRashi.name}) vs Drik(${drikData.sunRashi})`);
-                addToReport('Sun Rashi', libData.sunRashi.name, `FAIL: ${drikData.sunRashi}`);
-            }
-        } else {
-            addToReport('Sun Rashi', libData.sunRashi.name, 'N/A');
-        }
+
+        // Old Rashi Checks Removed (Redundant)
 
         const sourceIcon = (drikData as any).source === 'web' ? '📡' : '💾';
         if (dateFailures.length === 0) {
@@ -659,6 +686,7 @@ async function runBulkTest() {
     console.log(`Failed: ${failed}`);
 
     if (failures.length === 0) console.log('🎉 All dates verified successfully!');
+    console.log(`\n📄 CSV Report saved to: ${process.cwd()}/verification_results.csv`);
 
     // Write Report
     const header = '| Date | Field | Lib Output | Drik Output |\n|---|---|---|---|\n';

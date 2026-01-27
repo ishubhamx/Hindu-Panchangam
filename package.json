@@ -12,13 +12,9 @@
     "test": "jest",
     "build": "tsc",
     "prepublishOnly": "npm run build",
-    "generate": "ts-node src/index.ts",
-    "validate": "ts-node scripts/validate.ts",
-    "validate-comparison": "ts-node scripts/validate-comparison.ts",
-    "debug": "ts-node scripts/debug.ts",
-    "simple-test": "ts-node scripts/simple-test.ts",
     "vedic-example": "ts-node scripts/comprehensive-example.ts",
-    "bulk-verify": "ts-node scripts/bulk-verify.ts"
+    "bulk-verify": "ts-node scripts/bulk-verify.ts",
+    "build-web": "npx esbuild web/main.ts --bundle --outfile=web/bundle.js --format=iife --platform=browser --target=es2020"
   },
   "keywords": [
     "panchangam",
@@ -57,12 +53,14 @@
     "@types/jest": "^30.0.0",
     "@types/luxon": "^3.6.2",
     "@types/node": "^24.0.3",
+    "@types/tz-lookup": "^6.1.2",
     "axios": "^1.10.0",
     "cheerio": "^1.1.2",
     "jest": "^30.2.0",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "tz-lookup": "^6.1.25"
   },
   "engines": {
     "node": ">=14.0.0"
