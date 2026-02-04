@@ -1,0 +1,104 @@
+.app-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg-primary);
+    transition: background 0.3s ease;
+}
+
+.app-main {
+    flex: 1;
+    max-width: 1600px;
+    width: 100%;
+    margin: 0 auto;
+    padding: var(--space-lg) var(--space-xl);
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: minmax(600px, 1fr) minmax(400px, 500px);
+    gap: var(--space-xl);
+    align-items: start;
+}
+
+/* Month navigation controls */
+.month-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-lg);
+    padding: var(--space-md) 0;
+}
+
+.nav-button {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-xl);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.nav-button:hover {
+    background: var(--color-bg-card-hover);
+    border-color: var(--color-accent-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 160, 64, 0.2);
+}
+
+.nav-button:active {
+    transform: translateY(0);
+}
+
+.month-year-display {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    min-width: 280px;
+    text-align: center;
+    background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    
+    .app-main {
+        padding: var(--space-md);
+    }
+}
+
+@media (max-width: 768px) {
+    .app-main {
+        padding: var(--space-sm);
+    }
+
+    .month-controls {
+        gap: var(--space-md);
+        margin-bottom: var(--space-md);
+    }
+
+    .month-year-display {
+        font-size: var(--font-size-xl);
+        min-width: auto;
+    }
+
+    .nav-button {
+        width: 40px;
+        height: 40px;
+        font-size: var(--font-size-lg);
+    }
+}

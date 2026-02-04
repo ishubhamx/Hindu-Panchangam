@@ -1,68 +1,32 @@
 {
-  "name": "@ishubhamx/panchangam-js",
-  "version": "2.0.0",
-  "description": "Enhanced Indian Panchangam (Hindu Calendar) library with comprehensive Vedic features including Muhurta calculations, planetary positions, Rashi placements, and auspicious/inauspicious time calculations using Swiss Ephemeris",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
-  "files": [
-    "dist/src/**/*",
-    "README.md"
+  "name": "hindu-panchangam",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hindu Panchangam Monorepo - Library and Web Application",
+  "workspaces": [
+    "packages/*"
   ],
   "scripts": {
-    "test": "jest",
-    "build": "tsc",
-    "prepublishOnly": "npm run build",
-    "vedic-example": "ts-node scripts/comprehensive-example.ts",
-    "bulk-verify": "ts-node scripts/bulk-verify.ts",
-    "build-web": "npx esbuild web/main.ts --bundle --outfile=web/bundle.js --format=iife --platform=browser --target=es2020"
+    "build": "npm run build --workspaces",
+    "build:core": "npm run build -w @panchangam/core",
+    "build:web": "npm run build -w @panchangam/web",
+    "dev": "npm run dev -w @panchangam/web",
+    "test": "npm run test -w @panchangam/core",
+    "lint": "npm run lint --workspaces --if-present",
+    "clean": "rm -rf packages/*/dist packages/*/node_modules node_modules",
+    "deploy": "npm run deploy -w @panchangam/web"
   },
-  "keywords": [
-    "panchangam",
-    "hindu-calendar",
-    "indian-calendar",
-    "tithi",
-    "nakshatra",
-    "yoga",
-    "karana",
-    "vara",
-    "muhurta",
-    "rashi",
-    "planetary-positions",
-    "vedic-astrology",
-    "brahma-muhurta",
-    "abhijit-muhurta",
-    "rahu-kalam",
-    "yamaganda-kalam",
-    "gulika-kalam",
-    "chandra-balam",
-    "hora",
-    "astronomy",
-    "swiss-ephemeris"
-  ],
-  "author": "",
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/ishubhamx/Hindu-Panchangam.git"
   },
-  "dependencies": {
-    "astronomy-engine": "^2.1.19",
-    "luxon": "^3.6.1"
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^30.0.0",
-    "@types/luxon": "^3.6.2",
-    "@types/node": "^24.0.3",
-    "@types/tz-lookup": "^6.1.2",
-    "axios": "^1.10.0",
-    "cheerio": "^1.1.2",
-    "jest": "^30.2.0",
-    "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3",
-    "tz-lookup": "^6.1.25"
-  },
-  "engines": {
-    "node": ">=14.0.0"
+    "typescript": "^5.8.3"
   }
 }

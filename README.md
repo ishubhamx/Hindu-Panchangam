@@ -39,7 +39,11 @@ A professional, rigorously tested TypeScript/JavaScript library for calculating 
   - **Sarvartha Siddhi Yoga**
   - **Guru/Ravi Pushya**
 - **Festivals**:
-  - Major festivals (Diwali, Rama Navami, etc.) deteced automatically based on Tithi/Masa.
+  - Major festivals (Diwali, Rama Navami, etc.) detected automatically based on Tithi/Masa.
+
+### Day Interpretation Rules
+- **Sunrise Anchoring**: All daily attributes (Tithi, Nakshatra, Yoga, Karana, Vara) are calculated at the exact moment of **Sunrise** for the given location, strictly following standard Panchangam rules.
+- **Instantaneous Values**: Planetary positions and Ascendant (Lagna) are calculated for the *exact input time* provided.
 
 ## Accuracy & Validation
 
@@ -139,8 +143,9 @@ const html = generateHtmlCalendar(2025, 6, new Observer(12.9716, 77.5946, 920), 
 ### Default Behavior
 If no timezone offset is provided, the library **approximates** the timezone based on Longitude (`Longitude / 15`). This can be inaccurate for Civil Day calculations (e.g., India is 5.5h ahead, but approximation gives 5.0h).
 
-### Best Practice
-You **should** always provide the `timezoneOffset` in the `options` object for accurate Civil Day transitions:
+### Best Practice (Critical for Accuracy)
+You **MUST** provide the `timezoneOffset` in the `options` object to ensure the library calculates the Panchang for the correct Civil Day. 
+Since Tithi and Nakshatra are anchored to the local Sunrise, an incorrect offset can shift the Sunrise time, potentially leading to off-by-one-day errors.
 
 ```typescript
 // 1. Get Timezone Offset (Local Time - UTC) in Minutes
@@ -165,6 +170,37 @@ const panchang = getPanchangam(new Date(), observer, {
     timezoneOffset: getOffset('Asia/Kolkata') // or IST_OFFSET
 });
 ```
+
+## Date Format Best Practices
+
+**Important**: JavaScript Date parsing is inconsistent across browsers and environments. Always use **ISO 8601 format** to avoid unexpected behavior.
+
+### ✅ Recommended Formats
+```typescript
+// ISO 8601 with timezone offset
+const date = new Date("2026-01-17T00:05:00-08:00");  // Pacific Time
+const date = new Date("2026-01-17T10:30:00+05:30"); // India Time
+
+// Explicit UTC construction
+const date = new Date(Date.UTC(2026, 0, 17, 8, 5, 0)); // 8:05 UTC
+```
+
+### ❌ Avoid Non-Standard Formats
+```typescript
+// These may parse inconsistently across environments:
+const date = new Date("2026-01-17 00:05:00 GMT-0800"); // Space instead of T
+const date = new Date("Jan 17, 2026 00:05:00");        // Locale-dependent
+```
+
+### Verification
+Always verify your Date is parsed correctly:
+```typescript
+const date = new Date("2026-01-17T00:05:00-08:00");
+console.log(date.toISOString()); 
+// Expected: 2026-01-17T08:05:00.000Z (00:05 PST = 08:05 UTC)
+```
+
+If the output doesn't match the expected UTC time, your date string was not parsed correctly.
 
 ## Usage in Applications
 

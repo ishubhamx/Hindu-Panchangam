@@ -65,7 +65,7 @@ export function getKundli(date: Date, observer: Observer, config: KundliConfig =
 
         // Find the house where startLon <= pLon < endLon
         // Handle wrapping 360 case carefully
-        const house = houses.find(h => {
+        const house = houses.find((h: Bhava) => {
             // Normal case: Start < End (e.g., 30 to 60)
             if (h.startLongitude < h.endLongitude) {
                 return pLon >= h.startLongitude && pLon < h.endLongitude;

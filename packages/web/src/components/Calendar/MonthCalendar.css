@@ -1,0 +1,293 @@
+/* MonthCalendar - Modern Hindu Calendar Grid */
+
+.month-calendar {
+    width: 100%;
+    padding: var(--space-md);
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--glass-border);
+    transition: background 0.3s ease;
+}
+
+/* Month header */
+.month-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.hindu-month {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+}
+
+.festival-summary {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px var(--space-xs);
+    background: rgba(147, 51, 234, 0.12);
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(147, 51, 234, 0.25);
+}
+
+.festival-summary .festival-icon {
+    font-size: 0.85rem;
+}
+
+.festival-summary .festival-text {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-accent-secondary);
+}
+
+/* Weekday headers */
+.weekday-headers {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--space-xs);
+    margin-bottom: var(--space-sm);
+    padding: var(--space-xs);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-md);
+}
+
+.weekday-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: var(--space-xs);
+    transition: transform 0.2s ease;
+}
+
+.weekday-label:hover {
+    transform: scale(1.05);
+}
+
+.weekday-icon {
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
+.weekday-text {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+}
+
+.weekday-label.sunday .weekday-text {
+    color: #ff6b6b;
+}
+
+.weekday-label.saturday .weekday-text {
+    color: #ffd93d;
+}
+
+/* Calendar grid */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--space-xs);
+}
+
+/* Empty cells */
+.day-cell.empty {
+    background: rgba(255, 255, 255, 0.015);
+    border: 1px dashed rgba(255, 255, 255, 0.04);
+    cursor: default;
+    pointer-events: none;
+    min-height: 80px;
+}
+
+.day-cell.empty.trailing {
+    opacity: 0.5;
+}
+
+/* Skeleton loading */
+.day-cell-skeleton {
+    min-height: 80px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.04) 0%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(255, 255, 255, 0.04) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeleton-text {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.1) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+    border-radius: var(--radius-sm);
+    width: 150px;
+    height: 1.5em;
+}
+
+/* Loading state */
+.month-calendar.loading {
+    opacity: 0.8;
+}
+
+.month-calendar.loading .calendar-grid {
+    animation: none;
+}
+
+/* Calendar legend */
+.calendar-legend {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+.legend-color.purnima {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 200, 0.4),
+        rgba(255, 255, 200, 0.2)
+    );
+    border: 1px solid rgba(255, 255, 200, 0.5);
+}
+
+.legend-color.amavasya {
+    background: linear-gradient(
+        135deg,
+        rgba(60, 60, 80, 0.6),
+        rgba(40, 40, 60, 0.4)
+    );
+    border: 1px solid rgba(100, 100, 120, 0.5);
+}
+
+.legend-color.ekadashi {
+    background: rgba(74, 222, 128, 0.2);
+    border-left: 3px solid #4ade80;
+}
+
+.legend-color.festival {
+    background: linear-gradient(
+        135deg,
+        rgba(147, 51, 234, 0.4),
+        rgba(147, 51, 234, 0.2)
+    );
+    border: 1px solid rgba(147, 51, 234, 0.5);
+}
+
+.legend-text {
+    font-size: 0.7rem;
+    color: var(--color-text-tertiary);
+    font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .month-calendar {
+        padding: var(--space-md);
+    }
+
+    .month-header {
+        flex-direction: column;
+        gap: var(--space-sm);
+        text-align: center;
+    }
+
+    .month-name {
+        font-size: 1.5rem;
+    }
+
+    .calendar-grid {
+        gap: var(--space-xs);
+    }
+
+    .weekday-headers {
+        gap: var(--space-xs);
+        padding: var(--space-xs);
+    }
+
+    .weekday-icon {
+        display: none;
+    }
+
+    .weekday-text {
+        font-size: 0.65rem;
+    }
+
+    .calendar-legend {
+        gap: var(--space-md);
+    }
+
+    .legend-text {
+        font-size: 0.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .month-calendar {
+        padding: var(--space-sm);
+    }
+
+    .month-name {
+        font-size: 1.25rem;
+    }
+
+    .hindu-month {
+        font-size: 0.75rem;
+    }
+
+    .calendar-grid {
+        gap: 4px;
+    }
+
+    .weekday-text {
+        font-size: 0.55rem;
+    }
+
+    .day-cell.empty {
+        min-height: 60px;
+    }
+
+    .day-cell-skeleton {
+        min-height: 60px;
+    }
+
+    .calendar-legend {
+        display: none;
+    }
+}

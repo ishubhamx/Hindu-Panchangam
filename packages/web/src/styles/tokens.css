@@ -1,0 +1,187 @@
+/* Design Tokens - Modern Panchang Calendar */
+
+:root {
+    /* Colors - Deep Dark with Glass Effect */
+    --color-bg-primary: #020204;
+    --color-bg-secondary: #08080c;
+    --color-bg-card: rgba(12, 12, 18, 0.85);
+    --color-bg-card-hover: rgba(18, 18, 26, 0.9);
+
+    /* Gradients inspired by sky/celestial theme */
+    --gradient-sunrise: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 50%, #6bcf7f 100%);
+    --gradient-sunset: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%);
+    --gradient-twilight: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-day: linear-gradient(135deg, #56ccf2 0%, #2f80ed 100%);
+    --gradient-night: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+
+    /* Accent colors */
+    --color-accent-primary: #ffc670;
+    --color-accent-secondary: #ffaa40;
+    --color-accent-tertiary: #ff9020;
+
+    /* Text colors */
+    --color-text-primary: #f8f9fa;
+    --color-text-secondary: #adb5bd;
+    --color-text-tertiary: #868e96;
+    --color-text-muted: #6c757d;
+    --color-text-inverse: #212529;
+
+    /* Special day colors */
+    --color-festival: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --color-amavasya: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+    --color-purnima: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    --color-ekadashi: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    --color-today: rgba(255, 198, 112, 0.15);
+
+    /* Borders */
+    --color-border: rgba(255, 255, 255, 0.06);
+    --color-border-hover: rgba(255, 255, 255, 0.12);
+
+    /* Glass effect - frosted dark glass */
+    --glass-bg: rgba(255, 255, 255, 0.02);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --glass-backdrop: blur(12px);
+
+    /* Typography */
+    --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-family-display: 'Outfit', 'Inter', sans-serif;
+
+    /* Font sizes - modular scale */
+    --font-size-xs: 0.75rem;
+    /* 12px */
+    --font-size-sm: 0.875rem;
+    /* 14px */
+    --font-size-base: 1rem;
+    /* 16px */
+    --font-size-lg: 1.125rem;
+    /* 18px */
+    --font-size-xl: 1.25rem;
+    /* 20px */
+    --font-size-2xl: 1.5rem;
+    /* 24px */
+    --font-size-3xl: 2rem;
+    /* 32px */
+    --font-size-4xl: 2.5rem;
+    /* 40px */
+    --font-size-5xl: 3rem;
+    /* 48px */
+
+    /* Font weights */
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Line heights */
+    --line-height-tight: 1.2;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.75;
+
+    /* Spacing - 4px base unit */
+    --space-xs: 0.25rem;
+    /* 4px */
+    --space-sm: 0.5rem;
+    /* 8px */
+    --space-md: 1rem;
+    /* 16px */
+    --space-lg: 1.5rem;
+    /* 24px */
+    --space-xl: 2rem;
+    /* 32px */
+    --space-2xl: 3rem;
+    /* 48px */
+    --space-3xl: 4rem;
+    /* 64px */
+
+    /* Border radius */
+    --radius-sm: 0.25rem;
+    /* 4px */
+    --radius-md: 0.5rem;
+    /* 8px */
+    --radius-lg: 0.75rem;
+    /* 12px */
+    --radius-xl: 1rem;
+    /* 16px */
+    --radius-2xl: 1.5rem;
+    /* 24px */
+    --radius-full: 9999px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.3);
+    --shadow-glow: 0 0 20px rgba(255, 198, 112, 0.25);
+    --shadow-glow-intense: 0 0 30px rgba(255, 198, 112, 0.4);
+
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Z-index layers */
+    --z-base: 1;
+    --z-dropdown: 100;
+    --z-sticky: 200;
+    --z-modal: 300;
+    --z-tooltip: 400;
+
+    /* Breakpoints (for reference in JS) */
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+}
+
+/* Light Theme - Warm amber shade palette */
+[data-theme="light"] {
+    /* Background colors - warm amber tinted */
+    --color-bg-primary: #f5efe6;
+    --color-bg-secondary: #ebe4d8;
+    --color-bg-card: rgba(255, 248, 240, 0.9);
+    --color-bg-card-hover: rgba(255, 245, 232, 0.95);
+
+    /* Gradients - warm amber tones */
+    --gradient-sunrise: linear-gradient(135deg, #ff8a65 0%, #ffc670 50%, #81c784 100%);
+    --gradient-sunset: linear-gradient(135deg, #ffc670 0%, #ff9020 100%);
+    --gradient-twilight: linear-gradient(135deg, #ffaa40 0%, #ffc670 100%);
+    --gradient-day: linear-gradient(135deg, #ffe0b2 0%, #ffc670 100%);
+    --gradient-night: linear-gradient(135deg, #8d6e63 0%, #a1887f 100%);
+
+    /* Accent colors - same warm amber as dark theme */
+    --color-accent-primary: #ffc670;
+    --color-accent-secondary: #ffaa40;
+    --color-accent-tertiary: #ff9020;
+
+    /* Text colors - darker for contrast */
+    --color-text-primary: #1a1612;
+    --color-text-secondary: #4a4035;
+    --color-text-tertiary: #6a5a4a;
+    --color-text-muted: #8a7a6a;
+    --color-text-inverse: #ffffff;
+
+    /* Special day colors */
+    --color-festival: linear-gradient(135deg, #ff9020 0%, #ff6b35 100%);
+    --color-amavasya: linear-gradient(135deg, #8d6e63 0%, #6d4c41 100%);
+    --color-purnima: linear-gradient(135deg, #fff8e1 0%, #ffc670 100%);
+    --color-ekadashi: linear-gradient(135deg, #ffe0b2 0%, #ffcc80 100%);
+    --color-today: rgba(255, 198, 112, 0.25);
+
+    /* Borders */
+    --color-border: rgba(139, 90, 43, 0.12);
+    --color-border-hover: rgba(139, 90, 43, 0.2);
+
+    /* Glass effect - warm amber tinted glass */
+    --glass-bg: rgba(255, 248, 240, 0.6);
+    --glass-border: rgba(139, 90, 43, 0.1);
+
+    /* Shadows - warm amber glow */
+    --shadow-sm: 0 1px 3px rgba(139, 90, 43, 0.08);
+    --shadow-md: 0 4px 6px rgba(139, 90, 43, 0.1);
+    --shadow-lg: 0 10px 15px rgba(139, 90, 43, 0.12);
+    --shadow-xl: 0 20px 25px rgba(139, 90, 43, 0.15);
+    --shadow-glow: 0 0 20px rgba(255, 198, 112, 0.3);
+    --shadow-glow-intense: 0 0 30px rgba(255, 198, 112, 0.45);
+}

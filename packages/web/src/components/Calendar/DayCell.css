@@ -1,0 +1,235 @@
+/* DayCell - Modern Hindu Calendar Day Card */
+
+.day-cell {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: var(--space-xs);
+    min-height: 80px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+.day-cell:hover {
+    transform: translateY(-1px);
+    border-color: var(--color-border-hover);
+    background: var(--color-bg-card-hover);
+}
+/* Top row with moon phase */
+.cell-top {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    font-size: 0.65rem;
+}
+
+.moon-icon {
+    font-size: 0.9rem;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+    opacity: 0.75;
+}
+
+/* Date number - main focus */
+.date-number {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-text-primary);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+}
+
+.day-cell:hover .date-number {
+    transform: scale(1.05);
+}
+
+/* Tithi name */
+.tithi-name {
+    font-size: 0.6rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-transform: capitalize;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* Day type variations */
+.day-sunday .date-number {
+    color: #ff6b6b;
+}
+
+.day-saturday .date-number {
+    color: #ffd93d;
+}
+
+/* Festival badge */
+.festival-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 0.7rem;
+}
+
+.festival-icon {
+    font-size: 0.8rem;
+}
+
+.festival-count {
+    font-size: 0.55rem;
+    font-weight: 600;
+    background: var(--color-accent-primary);
+    color: #fff;
+    padding: 1px 4px;
+    border-radius: 8px;
+}
+
+/* Today state */
+.day-cell.is-today {
+    background: linear-gradient(
+        145deg,
+        rgba(255, 160, 64, 0.25),
+        rgba(255, 160, 64, 0.1)
+    );
+    border-color: var(--color-accent-primary);
+}
+
+.day-cell.is-today .date-number {
+    color: var(--color-accent-primary);
+}
+
+.today-ring {
+    position: absolute;
+    inset: -1px;
+    border: 2px solid var(--color-accent-primary);
+    border-radius: var(--radius-md);
+    pointer-events: none;
+    box-shadow: 0 0 8px rgba(255, 160, 64, 0.4);
+}
+
+/* Selected state */
+.day-cell.is-selected {
+    background: linear-gradient(
+        145deg,
+        rgba(255, 160, 64, 0.3),
+        rgba(255, 160, 64, 0.12)
+    );
+    border-color: rgba(255, 160, 64, 0.7);
+    box-shadow: 0 2px 8px rgba(255, 160, 64, 0.3);
+}
+
+/* Special days */
+.day-cell.has-festival {
+    background: linear-gradient(
+        145deg,
+        rgba(147, 51, 234, 0.18),
+        rgba(147, 51, 234, 0.06)
+    );
+}
+
+.day-cell.is-purnima {
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 200, 0.12),
+        rgba(255, 255, 200, 0.04)
+    );
+}
+
+.day-cell.is-purnima .date-number {
+    color: #fffde7;
+    text-shadow: 0 0 6px rgba(255, 255, 200, 0.4);
+}
+
+.day-cell.is-amavasya {
+    background: linear-gradient(
+        145deg,
+        rgba(60, 60, 80, 0.35),
+        rgba(40, 40, 60, 0.15)
+    );
+}
+
+.day-cell.is-amavasya .date-number {
+    color: var(--color-text-tertiary);
+}
+
+.day-cell.is-ekadashi {
+    border-left: 2px solid #4ade80;
+}
+
+/* Special glows */
+.special-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-md);
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.purnima-glow {
+    box-shadow: inset 0 0 20px rgba(255, 255, 200, 0.15);
+}
+
+.amavasya-glow {
+    box-shadow: inset 0 0 20px rgba(0, 0, 20, 0.25);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .day-cell {
+        min-height: 70px;
+        padding: 4px;
+    }
+
+    .date-number {
+        font-size: 1.2rem;
+    }
+
+    .cell-top {
+        display: none;
+    }
+
+    .tithi-name {
+        font-size: 0.55rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .day-cell {
+        min-height: 55px;
+        padding: 3px;
+        gap: 1px;
+        border-radius: var(--radius-sm);
+    }
+
+    .date-number {
+        font-size: 1rem;
+    }
+
+    .tithi-name {
+        font-size: 0.5rem;
+    }
+
+    .festival-badge {
+        top: 2px;
+        right: 2px;
+    }
+
+    .festival-icon {
+        font-size: 0.6rem;
+    }
+}
