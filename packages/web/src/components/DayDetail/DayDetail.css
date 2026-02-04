@@ -1,0 +1,295 @@
+.day-detail {
+    padding: var(--space-lg);
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Hero Section */
+.hero-section {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+    padding: var(--space-md);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--glass-border);
+    transition: background 0.3s ease;
+}
+
+.hero-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-sm);
+}
+
+.date-display {
+    text-align: left;
+    flex: 1;
+    min-width: 0;
+}
+
+.moon-phase-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    flex-shrink: 0;
+}
+
+.tithi-display {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+.weekday {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    margin-bottom: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.date-main {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    font-family: var(--font-family-display);
+    background: linear-gradient(135deg, #ff9933, #ff6600, #ffcc00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--space-xs);
+    line-height: 1.2;
+}
+
+.festivals-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.festival-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-md);
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    box-shadow: 0 4px 15px rgba(238, 90, 36, 0.4);
+}
+
+.festival-tag::before {
+    content: '🎉';
+}
+
+.samvat-info,
+.masa-paksha {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-xs);
+    flex-wrap: wrap;
+}
+
+.samvat-item,
+.masa,
+.paksha {
+    padding: 2px var(--space-xs);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+}
+
+.samvat-separator,
+.separator {
+    opacity: 0.5;
+}
+
+/* Timeline Section */
+.timeline-section {
+    margin-bottom: var(--space-md);
+}
+
+.timeline-comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+/* Panchang Cards Grid */
+.panchang-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+}
+
+/* Additional Info */
+.additional-info {
+    padding: var(--space-md);
+    background: linear-gradient(145deg, rgba(26, 26, 46, 0.6), rgba(15, 15, 30, 0.8));
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.additional-info h3 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-lg);
+    text-align: center;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.planets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--space-md);
+}
+
+.planet-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-md);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all var(--transition-base);
+}
+
+.planet-item:hover {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.planet-icon {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--space-xs);
+}
+
+.planet-name {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xs);
+}
+
+.planet-rashi {
+    font-size: var(--font-size-base);
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-medium);
+}
+
+.planet-degrees {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    margin-top: var(--space-xs);
+}
+
+/* Loading States */
+.hero-skeleton {
+    height: 120px;
+    border-radius: var(--radius-xl);
+    margin-bottom: var(--space-lg);
+}
+
+.timeline-skeleton {
+    height: 80px;
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-lg);
+}
+
+.card-skeleton {
+    height: 100px;
+    border-radius: var(--radius-lg);
+}
+
+/* Responsive - for when sidebar becomes full width on mobile */
+@media (max-width: 1200px) {
+    .day-detail {
+        padding: var(--space-lg);
+    }
+
+    .hero-section {
+        padding: var(--space-lg);
+    }
+
+    .date-main {
+        font-size: var(--font-size-3xl);
+    }
+
+    .panchang-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .day-detail {
+        padding: var(--space-md);
+    }
+
+    .hero-content {
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+
+    .date-display {
+        text-align: center;
+    }
+
+    .festivals-list {
+        justify-content: center;
+    }
+
+    .date-main {
+        font-size: var(--font-size-2xl);
+    }
+
+    .panchang-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-sm);
+    }
+
+    .planets-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Features Grid - Two Column Layout */
+.features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.features-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+@media (max-width: 900px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}

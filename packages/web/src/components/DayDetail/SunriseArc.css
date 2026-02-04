@@ -1,0 +1,224 @@
+.sunrise-arc {
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+}
+
+.sunrise-arc.apple-style {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.arc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.arc-title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.arc-subtitle {
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+    font-style: italic;
+}
+
+/* SVG Styling */
+.sun-arc-svg {
+    width: 100%;
+    height: auto;
+    max-width: 400px;
+    margin: 0 auto var(--spacing-md);
+    display: block;
+}
+
+/* Arc paths */
+.arc-background {
+    stroke: rgba(255, 255, 255, 0.08);
+    stroke-linecap: round;
+}
+
+.arc-daylight {
+    stroke: url(#sunriseGradient);
+    stroke-linecap: round;
+    animation: drawArc 1.5s ease-out forwards;
+}
+
+/* Gradient definition (inline in SVG or via defs) */
+@supports (stroke: url(#sunriseGradient)) {
+    .arc-daylight {
+        stroke: linear-gradient(90deg,
+                var(--accent-sunrise-start),
+                var(--accent-sunrise-mid),
+                var(--accent-sunset-end));
+    }
+}
+
+/* Fallback gradient colors */
+.arc-daylight {
+    stroke: #ffd89b;
+}
+
+/* Markers */
+.marker-dot {
+    fill: var(--bg-card);
+    stroke-width: 2;
+    transition: all var(--transition-normal);
+}
+
+.sunrise-dot {
+    stroke: var(--accent-sunrise-start);
+    fill: var(--accent-sunrise-start);
+}
+
+.sunset-dot {
+    stroke: var(--accent-sunset-end);
+    fill: var(--accent-sunset-end);
+}
+
+.marker-time {
+    font-size: 11px;
+    fill: var(--text-secondary);
+    text-anchor: middle;
+    font-family: var(--font-primary);
+}
+
+/* Sun indicator */
+.sun-indicator {
+    /* No animation */
+}
+
+.sun-glow {
+    fill: var(--accent-sunrise-mid);
+    opacity: 0.3;
+    filter: blur(4px);
+}
+
+.sun-core {
+    fill: var(--accent-sunrise-end);
+    stroke: #fff;
+    stroke-width: 2;
+}
+
+.sun-line {
+    stroke: rgba(255, 255, 255, 0.2);
+    stroke-width: 1;
+}
+
+/* Horizon line */
+.horizon-line {
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 1;
+}
+
+/* Timeline info */
+.timeline-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.time-point {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    flex: 1;
+}
+
+.time-point .icon {
+    font-size: 24px;
+}
+
+.time-point .label {
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.time-point .time {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.daylight-duration {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.duration-value {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-sunrise-mid), var(--accent-sunset-end));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.duration-label {
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Animations */
+@keyframes drawArc {
+    from {
+        stroke-dasharray: 0 1000;
+    }
+
+    to {
+        stroke-dasharray: var(--dasharray);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .timeline-info {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .time-point {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .daylight-duration {
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        gap: var(--spacing-sm);
+    }
+}

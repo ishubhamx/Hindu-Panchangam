@@ -1,0 +1,230 @@
+.sunrise-timeline-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    color: var(--color-text-primary);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--glass-border);
+    overflow: hidden;
+    margin-bottom: var(--space-md);
+    transition: background 0.3s ease;
+    min-height: 240px;
+}
+
+.sunrise-timeline-container.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.loading-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    opacity: 0.7;
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.timeline-icon {
+    font-size: var(--font-size-base);
+}
+
+.timeline-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    background: linear-gradient(135deg, #FFD700, #FF8C00, #FF6347);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.current-time-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px var(--space-xs);
+    background: rgba(255, 198, 112, 0.15);
+    border: 1px solid rgba(255, 198, 112, 0.25);
+    border-radius: var(--radius-full);
+    font-size: 0.65rem;
+    font-family: var(--font-family-mono);
+    color: var(--color-accent-primary);
+}
+
+.timeline-graph-wrapper {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    min-height: 160px;
+    overflow: visible;
+}
+
+.timeline-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* Stars - static */
+.star {
+    opacity: 0.5;
+}
+
+.star:nth-child(odd) {
+    opacity: 0.6;
+}
+
+.star:nth-child(3n) {
+    opacity: 0.4;
+}
+
+.horizon-line {
+    stroke: rgba(255, 255, 255, 0.25);
+    stroke-width: 2;
+    stroke-dasharray: none;
+}
+
+.sun-path-fill {
+    fill: url(#sunGradient);
+    opacity: 0.8;
+}
+
+.sun-path-stroke {
+    fill: none;
+    stroke: #FFD700;
+    stroke-width: 3;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+}
+
+.moon-path-fill {
+    fill: url(#moonGradient);
+    opacity: 0.6;
+}
+
+.moon-path-stroke {
+    fill: none;
+    stroke: rgba(200, 200, 255, 0.8);
+    stroke-width: 2;
+    stroke-dasharray: 8 4;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 4px rgba(180, 180, 255, 0.5));
+}
+
+.current-time-line {
+    stroke: rgba(255, 198, 112, 0.8);
+    stroke-width: 2;
+    stroke-dasharray: 6 4;
+}
+
+.time-grid-label {
+    fill: rgba(255, 255, 255, 0.4);
+    font-size: 11px;
+    font-family: var(--font-family-mono);
+}
+
+.event-label {
+    fill: var(--color-text-primary);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.moon-label {
+    fill: #a0a0ff !important;
+}
+
+/* Sun icon - static */
+.sun-icon {
+    /* No animation */
+}
+
+.sun-outer-glow {
+    opacity: 0.4;
+}
+
+.celestial-emoji {
+    fill: white;
+}
+
+/* Moon icon - static */
+.moon-icon {
+    /* No animation */
+}
+
+/* Legend */
+.timeline-legend {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    border-top: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.65rem;
+    color: var(--color-text-tertiary);
+}
+
+.legend-line {
+    width: 16px;
+    height: 2px;
+    border-radius: 1px;
+}
+
+.sun-line {
+    background: linear-gradient(90deg, #FFD700, #FF8C00);
+}
+
+.moon-line {
+    background: linear-gradient(90deg, #a0a0ff, #7070cc);
+}
+
+.legend-dot {
+    width: 8px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.current-dot {
+    background: linear-gradient(135deg, #ffc670, #ff9020);
+    box-shadow: 0 0 8px rgba(255, 198, 112, 0.6);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .timeline-header {
+        flex-direction: column;
+        gap: var(--space-sm);
+        align-items: flex-start;
+    }
+
+    .timeline-graph-wrapper {
+        height: 220px;
+    }
+
+    .timeline-legend {
+        flex-wrap: wrap;
+        gap: var(--space-md);
+    }
+}

@@ -1,0 +1,63 @@
+.moon-phase-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    position: relative;
+}
+
+.moon-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255, 253, 231, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.moon-phase-container.animate .moon-glow {
+    /* Static glow - no animation */
+    opacity: 0.6;
+}
+
+.moon-svg {
+    filter: drop-shadow(0 0 15px rgba(255, 253, 231, 0.3));
+}
+
+.moon-phase-container.animate .moon-svg {
+    /* No floating animation */
+}
+
+.moon-lit {
+    transition: d 0.5s ease-out;
+}
+
+.moon-dark {
+    opacity: 0.95;
+}
+
+.moon-craters {
+    transition: opacity 0.3s ease;
+}
+
+.moon-phase-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    text-align: center;
+}
+
+.phase-name {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    text-transform: capitalize;
+}
+
+.illumination {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}

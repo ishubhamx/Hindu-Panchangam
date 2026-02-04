@@ -1,0 +1,182 @@
+.muhurta-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    background: var(--color-bg-card);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border);
+}
+
+.muhurta-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.muhurta-title .icon {
+    font-size: var(--font-size-xl);
+}
+
+.muhurta-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.muhurta-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-lg);
+    border-left: 3px solid transparent;
+    animation: slideInRight 0.3s ease-out forwards;
+    opacity: 0;
+    transform: translateX(-10px);
+}
+
+.muhurta-item.good {
+    border-left-color: #4ade80;
+    background: linear-gradient(90deg, rgba(74, 222, 128, 0.1) 0%, transparent 100%);
+}
+
+.muhurta-item.bad {
+    border-left-color: #f87171;
+    background: linear-gradient(90deg, rgba(248, 113, 113, 0.1) 0%, transparent 100%);
+}
+
+.muhurta-item.neutral {
+    border-left-color: #fbbf24;
+    background: linear-gradient(90deg, rgba(251, 191, 36, 0.1) 0%, transparent 100%);
+}
+
+.muhurta-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.muhurta-icon {
+    font-size: var(--font-size-lg);
+}
+
+.muhurta-name {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    flex: 1;
+}
+
+.muhurta-badge {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.muhurta-badge.good {
+    background: rgba(74, 222, 128, 0.2);
+    color: #4ade80;
+}
+
+.muhurta-badge.bad {
+    background: rgba(248, 113, 113, 0.2);
+    color: #f87171;
+}
+
+.muhurta-time {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.time-separator {
+    color: var(--color-text-muted);
+}
+
+.time-na {
+    font-style: italic;
+    color: var(--color-text-muted);
+}
+
+.muhurta-bar-container {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-full);
+    position: relative;
+    overflow: hidden;
+}
+
+.muhurta-bar {
+    position: absolute;
+    height: 100%;
+    border-radius: var(--radius-full);
+    transition: all 0.5s ease-out;
+}
+
+.muhurta-bar.good {
+    background: linear-gradient(90deg, #4ade80, #22c55e);
+    box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+}
+
+.muhurta-bar.bad {
+    background: linear-gradient(90deg, #f87171, #ef4444);
+    box-shadow: 0 0 10px rgba(248, 113, 113, 0.5);
+}
+
+.sunrise-sunset-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border);
+}
+
+.sun-time {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.sun-icon {
+    font-size: var(--font-size-2xl);
+}
+
+.sun-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.sun-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sun-value {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.sunset .sun-info {
+    text-align: right;
+}
+
+@keyframes slideInRight {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

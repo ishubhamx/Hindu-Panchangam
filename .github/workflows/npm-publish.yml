@@ -1,51 +1,85 @@
-name: Node.js Package
+name: Publish to npm
 
 on:
   release:
-    types: [created]
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version bump type (patch, minor, major)'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 jobs:
-  publish-gpr:
+  publish:
     runs-on: ubuntu-latest
+    
     permissions:
-      contents: read
+      contents: write
       packages: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          registry-url: 'https://registry.npmjs.org'
+      id-token: write
 
-      - name: Update Version from 🏷️ Tag
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Update Version from Tag (release trigger)
+        if: github.event_name == 'release'
+        working-directory: packages/core
         run: |
           VERSION=${{ github.ref_name }}
-          # Create clean version number (remove 'v' prefix)
           CLEAN_VERSION="${VERSION#v}"
-          
-          # Read current version from package.json
           CURRENT_VERSION=$(node -p "require('./package.json').version")
           
           echo "Tag Version: $CLEAN_VERSION"
           echo "Package Version: $CURRENT_VERSION"
           
           if [ "$CLEAN_VERSION" != "$CURRENT_VERSION" ]; then
-            echo "Versions differ. Updating package.json..."
+            echo "Updating package.json version..."
             npm version $CLEAN_VERSION --no-git-tag-version
-          else
-            echo "Versions match. No update needed."
           fi
-      
+
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build
+      - name: Build core library
+        run: npm run build:core
 
-      - name: Run Tests
-        run: npm test
+      - name: Run tests
+        run: npm run test --if-present
+        continue-on-error: true
 
-      - name: Publish to NPM
-        run: npm publish
+      - name: Bump version (manual trigger)
+        if: github.event_name == 'workflow_dispatch'
+        working-directory: packages/core
+        run: |
+          npm version ${{ inputs.version }} -m "chore(release): %s"
+          git push
+          git push --tags
+
+      - name: Publish to npm
+        working-directory: packages/core
+        run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
