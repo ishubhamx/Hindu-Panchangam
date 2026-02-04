@@ -1,11 +1,6 @@
 name: Deploy to Firebase Hosting
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'packages/**'
   workflow_dispatch:
 
 jobs:
