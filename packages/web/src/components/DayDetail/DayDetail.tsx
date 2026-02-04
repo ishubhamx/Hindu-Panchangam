@@ -1,5 +1,5 @@
 import React from 'react';
-import { tithiNames, nakshatraNames, yogaNames } from '@panchangam/core';
+import { tithiNames, nakshatraNames, yogaNames } from '@ishubhamx/panchangam-js';
 import type { DayDetailProps } from '../../types';
 import { SunriseTimeline } from './SunriseTimeline';
 import { PanchangCard } from './PanchangCard';
