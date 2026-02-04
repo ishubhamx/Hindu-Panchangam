@@ -1,0 +1,118 @@
+.hora-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.hora-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.hora-header-icon {
+    font-size: var(--font-size-base);
+}
+
+.hora-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.current-hora {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.02)
+    );
+    border-left: 3px solid var(--hora-color, #ffc670);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-sm);
+}
+
+.hora-icon {
+    font-size: 1.5rem;
+}
+
+.hora-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.hora-name {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.hora-quality {
+    font-size: 0.7rem;
+    font-weight: var(--font-weight-medium);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    display: inline-block;
+    width: fit-content;
+}
+
+.hora-quality.auspicious,
+.hora-quality.most-auspicious {
+    background: rgba(76, 175, 80, 0.2);
+    color: #81c784;
+}
+
+.hora-quality.mixed {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffd54f;
+}
+
+.hora-quality.inauspicious {
+    background: rgba(244, 67, 54, 0.2);
+    color: #e57373;
+}
+
+.hora-description {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-md) 0;
+    line-height: 1.4;
+}
+
+.upcoming-horas {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+}
+
+.upcoming-label {
+    font-size: 0.7rem;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.upcoming-hora {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border-left: 2px solid var(--hora-color, #ffc670);
+}

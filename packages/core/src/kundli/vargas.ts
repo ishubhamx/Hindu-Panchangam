@@ -20,7 +20,7 @@ function createVargaChart(ascendantLength: number, planets: Record<string, { lon
 
     for (const [pName, pData] of Object.entries(dPlanets)) {
         const pRashi = pData.rashi;
-        const house = houses.find(h => h.rashi === pRashi);
+        const house = houses.find((h: Bhava) => h.rashi === pRashi);
         if (house) house.planets.push(pName);
     }
 

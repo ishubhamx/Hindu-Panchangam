@@ -1,0 +1,169 @@
+.planetary-positions {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.positions-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.positions-icon {
+    font-size: var(--font-size-base);
+}
+
+.positions-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.positions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-sm);
+}
+
+.planet-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-sm);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.planet-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.planet-card.exalted {
+    border-color: rgba(76, 175, 80, 0.3);
+    background: rgba(76, 175, 80, 0.05);
+}
+
+.planet-card.debilitated {
+    border-color: rgba(244, 67, 54, 0.3);
+    background: rgba(244, 67, 54, 0.05);
+}
+
+.planet-card.own {
+    border-color: rgba(255, 193, 7, 0.3);
+    background: rgba(255, 193, 7, 0.05);
+}
+
+.planet-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.planet-icon {
+    font-size: 1.1rem;
+}
+
+.planet-names {
+    display: flex;
+    flex-direction: column;
+}
+
+.planet-name {
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.planet-sanskrit {
+    font-size: 0.6rem;
+    color: var(--color-text-tertiary);
+}
+
+.planet-position {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.rashi-icon {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.rashi-name {
+    font-size: 0.7rem;
+    color: var(--color-text-secondary);
+}
+
+.planet-details {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.planet-degree {
+    font-size: 0.65rem;
+    font-family: var(--font-family-mono);
+    color: var(--color-text-tertiary);
+}
+
+.retrograde-badge {
+    font-size: 0.7rem;
+    color: #e74c3c;
+    font-weight: var(--font-weight-bold);
+    background: rgba(231, 76, 60, 0.15);
+    padding: 1px 4px;
+    border-radius: var(--radius-sm);
+}
+
+.dignity-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 0.5rem;
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 2px 4px;
+    border-radius: var(--radius-sm);
+}
+
+.dignity-badge.exalted {
+    background: rgba(76, 175, 80, 0.2);
+    color: #81c784;
+}
+
+.dignity-badge.debilitated {
+    background: rgba(244, 67, 54, 0.2);
+    color: #e57373;
+}
+
+.dignity-badge.own {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffd54f;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .positions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 400px) {
+    .positions-grid {
+        grid-template-columns: 1fr;
+    }
+}

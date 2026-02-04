@@ -1,0 +1,54 @@
+/* Month view container */
+.month-view {
+    min-width: 0; /* Prevent grid blowout */
+}
+
+/* Day detail sidebar */
+.day-view {
+    position: sticky;
+    top: calc(70px + var(--space-md));
+    max-height: calc(100vh - 90px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: var(--radius-xl);
+    background: var(--color-bg-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--color-border);
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* Hide scrollbar but keep functionality */
+.day-view::-webkit-scrollbar {
+    width: 0;
+    display: none;
+}
+
+.day-view {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .day-view {
+        position: static;
+        max-height: none;
+        margin-top: var(--space-lg);
+        overflow: visible;
+    }
+
+    .month-view {
+        order: 1;
+    }
+
+    .day-view {
+        order: 2;
+    }
+}
+
+/* Panchang Timeline - Bottom Section */
+.timeline-section-bottom {
+    margin-top: var(--space-lg);
+    width: 100%;
+}
