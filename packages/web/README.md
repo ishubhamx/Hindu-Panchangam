@@ -42,8 +42,8 @@ A beautiful, modern calendar interface for the Hindu Panchang web application bu
 ### Installation
 
 ```bash
-# Navigate to web directory
-cd /Users/shubham/Desktop/Work/Hindu-Panchangam/web
+# Navigate to web directory from project root
+cd packages/web
 
 # Install dependencies
 npm install
@@ -223,9 +223,9 @@ import {
 ### Issue: "Cannot find module '@ishubhamx/panchangam-js'"
 **Solution**: Ensure parent library is built:
 ```bash
-cd /Users/shubham/Desktop/Work/Hindu-Panchangam
+# From project root
 npm run build
-cd web
+cd packages/web
 npm install
 ```
 
