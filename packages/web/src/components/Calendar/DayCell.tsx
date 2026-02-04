@@ -1,5 +1,5 @@
 import React from 'react';
-import { tithiNames } from '@panchangam/core';
+import { tithiNames } from '@ishubhamx/panchangam-js';
 import type { DayCellProps } from '../../types';
 import './DayCell.css';
 
