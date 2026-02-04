@@ -2,6 +2,17 @@
 
 A professional, rigorously tested TypeScript/JavaScript library for calculating Indian Panchangam (Hindu Calendar) elements. Built on high-precision Swiss Ephemeris calculations (`astronomy-engine`) and validated against Drik Panchang data.
 
+🌐 **Live Demo**: [hindu-panchang-c1a81.web.app](https://hindu-panchang-c1a81.web.app)
+
+## 📦 Packages
+
+This is a monorepo containing:
+
+| Package | Description | npm |
+|---------|-------------|-----|
+| [@panchangam/core](./packages/core) | Core calculation library | [![npm](https://img.shields.io/npm/v/@ishubhamx/panchangam-js)](https://www.npmjs.com/package/@ishubhamx/panchangam-js) |
+| [@panchangam/web](./packages/web) | Modern React web application | - |
+
 ## Features
 
 ### Core Panchangam Elements
@@ -206,7 +217,25 @@ If the output doesn't match the expected UTC time, your date string was not pars
 
 This library is Isomorphic (Universal), meaning it works seamlessly in **Node.js**, **Browsers**, and **React Native**.
 
-### 🌐 Web Applications (React, Next.js, Vue)
+### 🌐 Web Application
+
+Check out our official web app built with React + Vite:
+
+- **Live**: [hindu-panchang-c1a81.web.app](https://hindu-panchang-c1a81.web.app)
+- **Source**: [packages/web](./packages/web)
+
+Features:
+- 📅 Monthly calendar with Tithi, Nakshatra, and Moon phases
+- 🌅 Sunrise/Sunset timeline visualization
+- 📊 Panchang timeline chart (Tithi, Nakshatra, Yoga, Karana transitions)
+- 🌓 Moon phase visualization
+- ⏰ Muhurta timelines (Choghadiya, Gowri)
+- 🚫 Inauspicious periods (Rahu Kalam, Yamaganda, Gulika)
+- 🎉 Festival detection
+- 🌙 Dark/Light theme support
+- 📍 Location selector with timezone
+
+### Custom Web Integration (React, Next.js, Vue)
 
 The library relies on the `Observer` class from `astronomy-engine`, which is lightweight and browser-compatible.
 
@@ -329,18 +358,65 @@ interface Panchangam {
 
 ## Development
 
-If you want to contribute or run the tests locally:
+This project uses npm workspaces for monorepo management.
 
-1.  **Clone the repo**
-2.  **Install dependencies**:
-    ```bash
-    npm install
-    ```
-3.  **Run Tests**:
-    ```bash
-    npm test
-    ```
-    This runs the full Jest test suite, including astronomical validations and real-data regression tests.
+### Prerequisites
+
+- Node.js >= 18.0.0
+- npm >= 8.0.0
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/ishubhamx/Hindu-Panchangam.git
+cd Hindu-Panchangam
+
+# Install all dependencies
+npm install
+
+# Build all packages
+npm run build
+```
+
+### Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run build` | Build all packages |
+| `npm run build:core` | Build core library only |
+| `npm run build:web` | Build web app only |
+| `npm run dev` | Start web development server |
+| `npm run test` | Run core library tests |
+| `npm run lint` | Lint all packages |
+| `npm run deploy` | Deploy web app to Firebase |
+
+### Project Structure
+
+```
+Hindu-Panchangam/
+├── package.json              # Root workspace config
+├── packages/
+│   ├── core/                 # @panchangam/core - Calculation library
+│   │   ├── src/
+│   │   ├── tests/
+│   │   └── package.json
+│   └── web/                  # @panchangam/web - React web app
+│       ├── src/
+│       ├── firebase.json
+│       └── package.json
+├── examples/                 # Usage examples
+├── scripts/                  # Utility scripts
+└── doc/                      # Documentation
+```
+
+### Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
