@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Observer, getPanchangam, getSunrise } from '@panchangam/core';
+import { Observer, getPanchangam, getSunrise } from '@ishubhamx/panchangam-js';
 import type { Location, DayData } from '../types';
 import { getTimezoneOffset } from '../utils/timezone';
 import { getDaysInMonth } from 'date-fns';
