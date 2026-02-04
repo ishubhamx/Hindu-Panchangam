@@ -8,10 +8,10 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces",
-    "build:core": "npm run build -w @panchangam/core",
+    "build:core": "npm run build -w @ishubhamx/panchangam-js",
     "build:web": "npm run build -w @panchangam/web",
     "dev": "npm run dev -w @panchangam/web",
-    "test": "npm run test -w @panchangam/core",
+    "test": "npm run test -w @ishubhamx/panchangam-js",
     "lint": "npm run lint --workspaces --if-present",
     "clean": "rm -rf packages/*/dist packages/*/node_modules node_modules",
     "deploy": "npm run deploy -w @panchangam/web"
