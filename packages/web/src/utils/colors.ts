@@ -1,4 +1,4 @@
-import type { Panchangam } from '@panchangam/core';
+import type { Panchangam } from '@ishubhamx/panchangam-js';
 
 /**
  * Get color for a day based on its Panchang data
