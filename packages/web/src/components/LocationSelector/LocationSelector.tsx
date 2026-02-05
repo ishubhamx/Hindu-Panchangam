@@ -50,7 +50,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({
     const [searchResults, setSearchResults] = useState<Location[]>([]);
     const [isSearching, setIsSearching] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-    const searchTimeoutRef = useRef<NodeJS.Timeout>();
+    const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Close dropdown on outside click
     useEffect(() => {
