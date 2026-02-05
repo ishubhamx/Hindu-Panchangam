@@ -97,31 +97,37 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
                 </div>
             </div>
 
-            {/* Enhanced Horizontal Timeline */}
-            <div className="timeline-section glass-card">
-                <SunriseTimeline
+            {/* Combined Timelines Section */}
+            <div className="timelines-section">
+                {/* Sun & Moon Timeline */}
+                <div className="timeline-section glass-card">
+                    <SunriseTimeline
+                        sunrise={panchang.sunrise}
+                        sunset={panchang.sunset}
+                        moonrise={panchang.moonrise}
+                        moonset={panchang.moonset}
+                        tithi={panchang.tithi}
+                        paksha={panchang.paksha}
+                        currentTime={new Date()}
+                        timezone={timezone}
+                    />
+                </div>
+
+                {/* Muhurta Timeline - Auspicious Periods */}
+                <MuhurtaTimeline
+                    rahuKalam={panchang.rahuKalamStart && panchang.rahuKalamEnd ? { 
+                        start: panchang.rahuKalamStart, 
+                        end: panchang.rahuKalamEnd 
+                    } : null}
+                    yamaganda={panchang.yamagandaKalam}
+                    gulika={panchang.gulikaKalam}
+                    abhijit={panchang.abhijitMuhurta}
+                    brahmaMuhurta={panchang.brahmaMuhurta}
                     sunrise={panchang.sunrise}
                     sunset={panchang.sunset}
-                    moonrise={panchang.moonrise}
-                    moonset={panchang.moonset}
-                    tithi={panchang.tithi}
-                    paksha={panchang.paksha}
-                    currentTime={new Date()}
                     timezone={timezone}
                 />
             </div>
-
-            {/* Muhurta Timeline - Auspicious Periods */}
-            <MuhurtaTimeline
-                rahuKalam={panchang.rahuKalam}
-                yamaganda={panchang.yamaganda}
-                gulika={panchang.gulika}
-                abhijit={panchang.abhijitMuhurta}
-                brahmaMuhurta={panchang.brahmaMuhurta}
-                sunrise={panchang.sunrise}
-                sunset={panchang.sunset}
-                timezone={timezone}
-            />
 
             {/* Panchang Cards Grid */}
             <div className="panchang-grid">
@@ -182,9 +188,12 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
                 <div className="features-column">
                     {/* Inauspicious Timings */}
                     <InauspiciousTimings
-                        rahuKalam={panchang.rahuKalam}
-                        yamaganda={panchang.yamaganda}
-                        gulika={panchang.gulika}
+                        rahuKalam={panchang.rahuKalamStart && panchang.rahuKalamEnd ? { 
+                            start: panchang.rahuKalamStart, 
+                            end: panchang.rahuKalamEnd 
+                        } : null}
+                        yamaganda={panchang.yamagandaKalam}
+                        gulika={panchang.gulikaKalam}
                         durMuhurta={panchang.durMuhurta}
                         timezone={timezone}
                     />
