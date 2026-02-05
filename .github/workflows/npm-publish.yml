@@ -59,16 +59,16 @@ jobs:
       - name: Bump version and push
         run: |
           cd packages/core
-          if [ "${{ inputs.version_type }}" = "custom" ]; then
-            NEW_VERSION=${{ inputs.custom_version }}
-            npm version $NEW_VERSION --no-git-tag-version
+          if [ "${{ inputs.version_type }}" = "custom" ] && [ -n "${{ inputs.custom_version }}" ]; then
+            NEW_VERSION="${{ inputs.custom_version }}"
+            npm version "$NEW_VERSION" --no-git-tag-version
           else
             NEW_VERSION=$(npm version ${{ inputs.version_type }} --no-git-tag-version | sed 's/v//')
           fi
           
           # Update root package.json version to match
           cd ../..
-          npm version $NEW_VERSION --no-git-tag-version --allow-same-version
+          npm version "$NEW_VERSION" --no-git-tag-version --allow-same-version
           
           # Commit and tag
           git add .
