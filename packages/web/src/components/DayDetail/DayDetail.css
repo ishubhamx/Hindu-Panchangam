@@ -116,9 +116,17 @@
     opacity: 0.5;
 }
 
+/* Combined Timelines Section */
+.timelines-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
 /* Timeline Section */
 .timeline-section {
-    margin-bottom: var(--space-md);
+    /* margin-bottom: var(--space-md); - removed, handled by parent */
 }
 
 .timeline-comparison-grid {
