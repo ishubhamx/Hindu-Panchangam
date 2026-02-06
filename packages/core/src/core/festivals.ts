@@ -229,6 +229,32 @@ export function getFestivals(options: FestivalCalculationOptions): Festival[] {
         festivals.push(createFestival("Hanuman Jayanti", 'jayanti', {
             description: "Birth of Lord Hanuman"
         }));
+        festivals.push(createFestival("Chaitra Purnima", 'minor'));
+    }
+
+    // Sheetala Ashtami - Chaitra Krishna Ashtami
+    if (masaIndex === 0 && udayaTithi === 23) {
+        festivals.push(createFestival("Sheetala Ashtami (Basoda)", 'vrat', {
+            description: "Worship of Goddess Sheetala for good health",
+            isFastingDay: true,
+            regional: ['North', 'Rajasthan']
+        }));
+    }
+
+    // Gangaur - Chaitra Shukla Tritiya
+    if (masaIndex === 0 && udayaTithi === 3) {
+        festivals.push(createFestival("Gangaur", 'vrat', {
+            description: "Worship of Goddess Gauri",
+            regional: ['Rajasthan', 'MP']
+        }));
+    }
+
+    // Yamuna Chhath - Chaitra Shukla Shashthi
+    if (masaIndex === 0 && udayaTithi === 6) {
+        festivals.push(createFestival("Yamuna Chhath (Yamuna Jayanti)", 'jayanti', {
+            description: "Goddess Yamuna descended on earth",
+            regional: ['Brij']
+        }));
     }
 
     // Akshaya Tritiya - Vaishakha Shukla Tritiya
@@ -244,6 +270,83 @@ export function getFestivals(options: FestivalCalculationOptions): Festival[] {
     if (masaIndex === 1 && udayaTithi === 15) {
         festivals.push(createFestival("Buddha Purnima", 'major', {
             description: "Birth of Gautama Buddha"
+        }));
+        festivals.push(createFestival("Kurma Jayanti", 'jayanti', {
+            description: "Birth anniversary of Kurma Avatar"
+        }));
+    }
+
+    // Ganga Saptami - Vaishakha Shukla Saptami
+    if (masaIndex === 1 && udayaTithi === 7) {
+        festivals.push(createFestival("Ganga Saptami", 'minor', {
+            description: "Rebirth of Goddess Ganga"
+        }));
+    }
+
+    // Sita Navami - Vaishakha Shukla Navami
+    if (masaIndex === 1 && udayaTithi === 9) {
+        festivals.push(createFestival("Sita Navami (Janaki Jayanti)", 'jayanti', {
+            description: "Birth anniversary of Goddess Sita",
+            observances: ["Married women observe fast"]
+        }));
+    }
+
+    // Narasimha Jayanti - Vaishakha Shukla Chaturdashi
+    if (masaIndex === 1 && udayaTithi === 14) {
+        festivals.push(createFestival("Narasimha Jayanti", 'jayanti', {
+            description: "Appearance of Narasimha Avatar",
+            observances: ["One-day fast"]
+        }));
+    }
+
+    // ===== JYESHTHA (Masa 2) =====
+
+    // Narada Jayanti - Jyeshtha Krishna Prathama
+    if (masaIndex === 2 && udayaTithi === 16) {
+        festivals.push(createFestival("Narada Jayanti", 'jayanti', {
+            description: "Birth anniversary of Devrishi Narada Muni"
+        }));
+    }
+
+    // Ganga Dussehra - Jyeshtha Shukla Dashami
+    if (masaIndex === 2 && udayaTithi === 10) {
+        festivals.push(createFestival("Ganga Dussehra", 'minor', {
+            description: "Descent of Ganga to Earth"
+        }));
+    }
+
+    // Mahesh Navami - Jyeshtha Shukla Navami
+    if (masaIndex === 2 && udayaTithi === 9) {
+        festivals.push(createFestival("Mahesh Navami", 'minor', {
+            description: "Worship of Lord Shiva and Goddess Parvati"
+        }));
+    }
+
+    // Gayatri Jayanti - Jyeshtha Shukla Ekadashi (alternate tradition)
+    if (masaIndex === 2 && udayaTithi === 11) {
+        festivals.push(createFestival("Gayatri Jayanti (Jyeshtha)", 'jayanti', {
+            description: "Celebration of Goddess Gayatri"
+        }));
+    }
+
+    // Vat Savitri Vrat - Jyeshtha Amavasya (Amanta)
+    if (masaIndex === 2 && udayaTithi === 30) {
+        festivals.push(createFestival("Vat Savitri Vrat", 'vrat', {
+            description: "Married women fast for husband's well-being",
+            regional: ['Maharashtra', 'Gujarat'],
+            isFastingDay: true
+        }));
+        festivals.push(createFestival("Shani Jayanti", 'jayanti', {
+            description: "Birth anniversary of Lord Shani"
+        }));
+    }
+
+    // Vat Purnima - Jyeshtha Purnima
+    if (masaIndex === 2 && udayaTithi === 15) {
+        festivals.push(createFestival("Vat Purnima", 'vrat', {
+            description: "Married women fast for husband's longevity",
+            regional: ['North'],
+            isFastingDay: true
         }));
     }
 
@@ -261,6 +364,41 @@ export function getFestivals(options: FestivalCalculationOptions): Festival[] {
             description: "Day to honor spiritual and academic teachers",
             observances: ["Guru worship", "Prayers"]
         }));
+        festivals.push(createFestival("Vyasa Puja", 'jayanti', {
+            description: "Birth anniversary of Sage Vyasa"
+        }));
+        festivals.push(createFestival("Kokila Vrat", 'vrat', {
+            isFastingDay: true
+        }));
+    }
+
+    // ===== SHRAVANA (Masa 4) =====
+
+    // Hariyali Teej - Shravana Shukla Tritiya
+    if (masaIndex === 4 && udayaTithi === 3) {
+        festivals.push(createFestival("Hariyali Teej", 'vrat', {
+            description: "Monsoon festival of greenery and swings",
+            regional: ['North'],
+            isFastingDay: true
+        }));
+    }
+
+    // Nag Panchami - Shravana Shukla Panchami
+    if (masaIndex === 4 && udayaTithi === 5) {
+        festivals.push(createFestival("Nag Panchami", 'minor', {
+            description: "Serpent worship"
+        }));
+        festivals.push(createFestival("Kalki Jayanti", 'jayanti'));
+    }
+
+    // Varalakshmi Vrat - Shravana Shukla Shukravar (Friday before Purnima)
+    // Note: This requires day-of-week calculation which we approximate to Shukla Dwadashi
+    if (masaIndex === 4 && udayaTithi === 12) {
+        festivals.push(createFestival("Varalakshmi Vratam", 'vrat', {
+            description: "Worship of Goddess Lakshmi for wealth and prosperity",
+            regional: ['South', 'Karnataka', 'Andhra'],
+            isFastingDay: true
+        }));
     }
 
     // Raksha Bandhan - Shravana Purnima
@@ -271,7 +409,21 @@ export function getFestivals(options: FestivalCalculationOptions): Festival[] {
         }));
         festivals.push(createFestival("Gayatri Jayanti", 'jayanti'));
         festivals.push(createFestival("Hayagriva Jayanti", 'jayanti'));
+        festivals.push(createFestival("Narali Purnima", 'minor', {
+            description: "Coconut offering to sea god",
+            regional: ['Maharashtra', 'Konkan']
+        }));
     }
+
+    // Kajari Teej - Shravana/Bhadrapada Krishna Tritiya
+    if (masaIndex === 4 && udayaTithi === 18) {
+        festivals.push(createFestival("Kajari Teej", 'vrat', {
+            description: "Third Teej festival",
+            regional: ['North'],
+            isFastingDay: true
+        }));
+    }
+
 
     // Krishna Janmashtami - Shravana Krishna Ashtami
     if (masaIndex === 4 && udayaTithi === 23) {
@@ -537,6 +689,123 @@ export function getFestivals(options: FestivalCalculationOptions): Festival[] {
     // Ranga Panchami - Phalguna Krishna Panchami
     if (masaIndex === 11 && udayaTithi === 20) {
         festivals.push(createFestival("Ranga Panchami", 'minor'));
+    }
+
+    // ===== ADDITIONAL FESTIVALS FROM DRIK PANCHANG =====
+
+    // Dahi Handi - Day after Janmashtami (Bhadrapada Krishna Navami)
+    if (masaIndex === 5 && udayaTithi === 24) {
+        festivals.push(createFestival("Dahi Handi", 'major', {
+            description: "Breaking of curd pot, Krishna's childhood celebration",
+            regional: ['Maharashtra']
+        }));
+    }
+
+    // Durva Ashtami - Bhadrapada Shukla Ashtami
+    if (masaIndex === 5 && udayaTithi === 8) {
+        festivals.push(createFestival("Durva Ashtami", 'vrat', {
+            description: "Offering Durva grass to Ganesha"
+        }));
+    }
+
+    // Jivitputrika Vrat - Ashwin Krishna Ashtami
+    if (masaIndex === 6 && udayaTithi === 23) {
+        festivals.push(createFestival("Jivitputrika Vrat (Jitiya)", 'vrat', {
+            description: "Mothers fast for well-being of children",
+            regional: ['Bihar', 'Jharkhand', 'UP'],
+            isFastingDay: true
+        }));
+    }
+
+    // Upang Lalita Vrat - Ashwin Shukla Panchami
+    if (masaIndex === 6 && udayaTithi === 5) {
+        festivals.push(createFestival("Upang Lalita Vrat", 'vrat', {
+            description: "Navaratri observance"
+        }));
+    }
+
+    // Kojagara Puja - Ashwin Purnima
+    if (masaIndex === 6 && udayaTithi === 15) {
+        festivals.push(createFestival("Kojagara Puja", 'minor', {
+            description: "Night vigil for Lakshmi worship",
+            regional: ['Bengal', 'Odisha']
+        }));
+    }
+
+    // Gopashtami - Kartik Shukla Ashtami
+    if (masaIndex === 7 && udayaTithi === 8) {
+        festivals.push(createFestival("Gopashtami", 'minor', {
+            description: "Krishna becomes cowherd, cow worship"
+        }));
+    }
+
+    // Kansa Vadh - Kartik Shukla Dashami
+    if (masaIndex === 7 && udayaTithi === 10) {
+        festivals.push(createFestival("Kansa Vadh", 'minor', {
+            description: "Krishna slaying of Kansa"
+        }));
+    }
+
+    // Kalabhairav Jayanti - Margashirsha Krishna Ashtami
+    if (masaIndex === 8 && udayaTithi === 23) {
+        festivals.push(createFestival("Kalabhairav Jayanti", 'jayanti', {
+            description: "Birth of Lord Kalabhairava"
+        }));
+    }
+
+    // Vivah Panchami - Margashirsha Shukla Panchami
+    if (masaIndex === 8 && udayaTithi === 5) {
+        festivals.push(createFestival("Vivah Panchami", 'minor', {
+            description: "Marriage anniversary of Rama and Sita"
+        }));
+    }
+
+    // Annapurna Jayanti - Margashirsha Purnima
+    if (masaIndex === 8 && udayaTithi === 15) {
+        festivals.push(createFestival("Annapurna Jayanti", 'jayanti', {
+            description: "Birthday of Goddess Annapurna"
+        }));
+    }
+
+    // Saphala Ekadashi is already covered by Ekadashi logic
+
+    // Banada Ashtami - Paush Shukla Ashtami
+    if (masaIndex === 9 && udayaTithi === 8) {
+        festivals.push(createFestival("Banada Ashtami", 'vrat', {
+            description: "Shakambari Navratri observance"
+        }));
+    }
+
+    // Shakambhari Purnima / Pausha Purnima - Paush Purnima
+    if (masaIndex === 9 && udayaTithi === 15) {
+        festivals.push(createFestival("Pausha Purnima", 'minor', {
+            description: "Sacred bathing day"
+        }));
+        festivals.push(createFestival("Shakambhari Purnima", 'jayanti', {
+            description: "End of Shakambari Navratri"
+        }));
+    }
+
+    // Sakat Chauth - Magha Krishna Chaturthi
+    if (masaIndex === 10 && udayaTithi === 19) {
+        festivals.push(createFestival("Sakat Chauth (Sankashti)", 'vrat', {
+            description: "Ganesha worship for removing obstacles",
+            isFastingDay: true
+        }));
+    }
+
+    // Bhishma Ashtami - Magha Shukla Ashtami
+    if (masaIndex === 10 && udayaTithi === 8) {
+        festivals.push(createFestival("Bhishma Ashtami", 'minor', {
+            description: "Death anniversary of Bhishma Pitamaha"
+        }));
+    }
+
+    // Phulera Dooj - Phalguna Shukla Dwitiya
+    if (masaIndex === 11 && udayaTithi === 2) {
+        festivals.push(createFestival("Phulera Dooj", 'minor', {
+            description: "Start of Holi festivities, flower offerings"
+        }));
     }
 
     // ===== EKADASHI & PRADOSHAM =====
