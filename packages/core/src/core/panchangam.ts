@@ -228,8 +228,21 @@ export function getPanchangam(date: Date, observer: Observer, options?: Panchang
         // Or "What is the ruling Dasha for the day?"
         vimshottariDasha: calculateVimshottariDasha(moonLon, anchorDate),
 
-        // Phase 7: Festivals
-        festivals: getFestivals(masa.index, masa.isAdhika, paksha, tithi + 1, vara),
+        // Phase 7: Festivals (v3.0.0 API with Udaya Tithi)
+        festivals: getFestivals({
+            date,
+            observer,
+            sunrise: sunrise || date,
+            sunset: sunset || undefined,
+            masa,
+            paksha,
+            tithi: tithi + 1,
+            nakshatra: currentNakIndex,
+            vara,
+            includeSolarFestivals: true,
+            includeMultiDaySpans: true,
+            calendarType: 'amanta'
+        }),
 
         // Phase 8: Advanced Muhurta (v2.1)
         choghadiya: (sunrise && sunset && nextSunrise)

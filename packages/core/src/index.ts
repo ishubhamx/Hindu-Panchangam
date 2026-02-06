@@ -15,3 +15,6 @@ export * from './matching/types';
 export * from './core/shoola';
 export * from './core/chandrashtama';
 export * from './core/tarabalam';
+// Festival API v3.0.0
+export * from './types/festivals';
+export * from './core/udaya-tithi';
