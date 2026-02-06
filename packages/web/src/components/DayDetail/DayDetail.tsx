@@ -1,15 +1,29 @@
-import React from 'react';
-import { tithiNames, nakshatraNames, yogaNames } from '@ishubhamx/panchangam-js';
+import React, { useMemo, useState } from 'react';
+import {
+    tithiNames,
+    nakshatraNames,
+    yogaNames,
+    getSankrantiForDate,
+    getPanchak,
+    getAyanamsa
+} from '@ishubhamx/panchangam-js';
 import type { DayDetailProps } from '../../types';
+import { PanchangTimeline } from './PanchangTimeline';
 import { SunriseTimeline } from './SunriseTimeline';
 import { PanchangCard } from './PanchangCard';
 import { InauspiciousTimings } from './InauspiciousTimings';
 import { HoraCard } from './HoraCard';
 import { UpcomingFestivals } from './UpcomingFestivals';
 import { PlanetaryPositions } from './PlanetaryPositions';
+import { SankrantiPanchakInfo } from './SankrantiPanchakInfo';
 import { MoonPhase } from '../MoonPhase';
 import { MuhurtaTimeline } from '../MuhurtaTimeline';
+import { ShoolaCompass } from '../features/Shoola';
+import { TarabalamWheel } from '../features/Tarabalam';
+import { ChandrashtamaAlert } from '../features/Chandrashtama';
+import { BirthDataModal, loadBirthData } from '../BirthDataModal';
 import { formatTime } from '../../utils/colors';
+import { getTimezoneOffset } from '../../utils/timezone';
 import './DayDetail.css';
 
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -18,11 +32,57 @@ const MONTHS = [
     'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
+// UI Mappings for Ritu (Seasons)
+const RITU_DETAILS: Record<string, { english: string, emoji: string }> = {
+    "Vasant": { english: "Spring", emoji: "🌸" },
+    "Grishma": { english: "Summer", emoji: "☀️" },
+    "Varsha": { english: "Monsoon", emoji: "🌧️" },
+    "Sharad": { english: "Autumn", emoji: "🍂" },
+    "Hemant": { english: "Pre-Winter", emoji: "❄️" },
+    "Shishir": { english: "Winter", emoji: "⛄" }
+};
+
+const AYANA_EMOJIS: Record<string, string> = {
+    "Uttarayana": "⬆️",
+    "Dakshinayana": "⬇️"
+};
+
+interface BirthData {
+    birthRashi: number;
+    birthNakshatra: number;
+}
+
 /**
  * DayDetail - Detailed view for a selected day
  * UX: Hero section, sunrise timeline, Panchang cards grid
  */
 export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, monthData }) => {
+    // Birth data state for personalized Vedic features
+    const [birthData, setBirthData] = useState<BirthData | null>(() => {
+        const saved = loadBirthData();
+        return saved ? { birthRashi: saved.birthRashi, birthNakshatra: saved.birthNakshatra } : null;
+    });
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Calculate Sankranti and Panchak for the selected date
+    const { sankranti, panchakInfo } = useMemo(() => {
+        if (!panchang) return { sankranti: null, panchakInfo: null };
+
+        const timezoneOffset = getTimezoneOffset(timezone, date);
+        const ayanamsa = getAyanamsa(date);
+
+        // Check for Sankranti on this day
+        const sankrantiResult = getSankrantiForDate(date, ayanamsa, timezoneOffset);
+
+        // Check for Panchak based on current Nakshatra
+        const panchakResult = getPanchak(panchang.nakshatra);
+
+        return {
+            sankranti: sankrantiResult,
+            panchakInfo: panchakResult
+        };
+    }, [date, panchang, timezone]);
+
     if (!panchang) {
         return (
             <div className="day-detail loading">
@@ -49,16 +109,37 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
 
     const festivals = panchang.festivals || [];
 
+    // Derived Vedic Data from Library
+    const rituName = panchang.ritu || "Vasant";
+    const ayanaName = panchang.ayana || "Uttarayana";
+
+    const ritu = {
+        name: rituName,
+        ...RITU_DETAILS[rituName] || { english: "", emoji: "✨" }
+    };
+    const ayana = {
+        name: ayanaName,
+        emoji: AYANA_EMOJIS[ayanaName] || "↕️"
+    };
+
     return (
         <div className="day-detail">
             {/* Hero Section */}
+            {/* Hero Section */}
             <div className="hero-section">
-                <div className="hero-content">
-                    <div className="date-display">
-                        <div className="weekday">{weekday}</div>
-                        <div className="date-main">
-                            {month} {day}, {year}
+                <div className="hero-top-row">
+                    <div className="hero-left-content">
+                        {/* Primary: Tithi */}
+                        <div className="tithi-main">
+                            {tithiName}
                         </div>
+
+                        {/* Secondary: Date & Weekday */}
+                        <div className="date-secondary">
+                            <span className="weekday-badge">{weekday}</span>
+                            <span className="date-text">{month} {day}, {year}</span>
+                        </div>
+
                         {festivals.length > 0 && (
                             <div className="festivals-list">
                                 {festivals.map((festival: string, i: number) => (
@@ -68,34 +149,86 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
                         )}
                     </div>
 
-                    <div className="moon-phase-container">
-                        <MoonPhase tithi={panchang.tithi} paksha={panchang.paksha} />
-                        <div className="tithi-display">{tithiName}</div>
+                    <div className="hero-right-content">
+                        <div className="moon-phase-wrapper">
+                            <MoonPhase tithi={panchang.tithi} paksha={panchang.paksha} />
+                            <div className="paksha-label">{panchang.paksha} Paksha</div>
+                        </div>
                     </div>
                 </div>
 
-                <div className="samvat-info">
-                    {panchang.samvat && (
-                        <>
-                            <span className="samvat-item">Vikram Samvat {panchang.samvat.vikram}</span>
-                            <span className="samvat-separator">•</span>
-                            <span className="samvat-item">Shaka Samvat {panchang.samvat.shaka}</span>
-                        </>
+                {/* Quick Stats Grid */}
+                <div className="hero-stats-grid">
+                    <div className="stat-item">
+                        <span className="stat-icon">⭐</span>
+                        <div className="stat-content">
+                            <span className="stat-label">Nakshatra</span>
+                            <span className="stat-value">{nakshatraName}</span>
+                        </div>
+                    </div>
+                    {/* NEW: Moon Rashi */}
+                    {panchang.moonRashi && (
+                        <div className="stat-item">
+                            <span className="stat-icon">🌙</span>
+                            <div className="stat-content">
+                                <span className="stat-label">Moon Sign</span>
+                                <span className="stat-value">{panchang.moonRashi.name}</span>
+                            </div>
+                        </div>
                     )}
+                    <div className="stat-item">
+                        <span className="stat-icon">🧠</span>
+                        <div className="stat-content">
+                            <span className="stat-label">Yoga</span>
+                            <span className="stat-value">{yogaName}</span>
+                        </div>
+                    </div>
+                    <div className="stat-item">
+                        <span className="stat-icon">🌅</span>
+                        <div className="stat-content">
+                            <span className="stat-label">Sunrise</span>
+                            <span className="stat-value">{formatTime(panchang.sunrise, timezone)}</span>
+                        </div>
+                    </div>
+                    <div className="stat-item">
+                        <span className="stat-icon">🌇</span>
+                        <div className="stat-content">
+                            <span className="stat-label">Sunset</span>
+                            <span className="stat-value">{formatTime(panchang.sunset, timezone)}</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="masa-paksha">
-                    {panchang.masa && (
-                        <span className="masa">{panchang.masa.name} {panchang.masa.isAdhika ? '(Adhika)' : ''}</span>
-                    )}
-                    {panchang.paksha && (
-                        <>
-                            <span className="separator">•</span>
-                            <span className="paksha">{panchang.paksha} Paksha</span>
-                        </>
+                <div className="hero-footer">
+                    <div className="info-pill">
+                        <span className="label">Masa</span>
+                        <span className="value">{panchang.masa?.name} {panchang.masa?.isAdhika ? '(Adhika)' : ''}</span>
+                    </div>
+                    {/* NEW: Ritu */}
+                    <div className="info-pill">
+                        <span className="label">Ritu</span>
+                        <span className="value">{ritu.emoji} {ritu.name}</span>
+                    </div>
+                    {/* NEW: Ayana */}
+                    <div className="info-pill">
+                        <span className="label">Ayana</span>
+                        <span className="value">{ayana.emoji} {ayana.name}</span>
+                    </div>
+                    {panchang.samvat && (
+                        <div className="info-pill">
+                            <span className="label">Samvat</span>
+                            <span className="value">{panchang.samvat.vikram}</span>
+                        </div>
                     )}
                 </div>
             </div>
+
+            {/* Sankranti & Panchak Alerts */}
+            <SankrantiPanchakInfo
+                sankranti={sankranti}
+                panchak={panchakInfo}
+                timezone={timezone}
+            />
 
             {/* Combined Timelines Section */}
             <div className="timelines-section">
@@ -113,11 +246,10 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
                     />
                 </div>
 
-                {/* Muhurta Timeline - Auspicious Periods */}
                 <MuhurtaTimeline
-                    rahuKalam={panchang.rahuKalamStart && panchang.rahuKalamEnd ? { 
-                        start: panchang.rahuKalamStart, 
-                        end: panchang.rahuKalamEnd 
+                    rahuKalam={panchang.rahuKalamStart && panchang.rahuKalamEnd ? {
+                        start: panchang.rahuKalamStart,
+                        end: panchang.rahuKalamEnd
                     } : null}
                     yamaganda={panchang.yamagandaKalam}
                     gulika={panchang.gulikaKalam}
@@ -127,6 +259,11 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
                     sunset={panchang.sunset}
                     timezone={timezone}
                 />
+
+                {/* Panchang Timeline - Detailed Transitions */}
+                <div className="timeline-section glass-card">
+                    <PanchangTimeline panchang={panchang} timezone={timezone} />
+                </div>
             </div>
 
             {/* Panchang Cards Grid */}
@@ -188,9 +325,9 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
                 <div className="features-column">
                     {/* Inauspicious Timings */}
                     <InauspiciousTimings
-                        rahuKalam={panchang.rahuKalamStart && panchang.rahuKalamEnd ? { 
-                            start: panchang.rahuKalamStart, 
-                            end: panchang.rahuKalamEnd 
+                        rahuKalam={panchang.rahuKalamStart && panchang.rahuKalamEnd ? {
+                            start: panchang.rahuKalamStart,
+                            end: panchang.rahuKalamEnd
                         } : null}
                         yamaganda={panchang.yamagandaKalam}
                         gulika={panchang.gulikaKalam}
@@ -214,13 +351,67 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
                             selectedDate={date}
                         />
                     )}
+
+                    {/* Disha Shoola - Direction Dosha */}
+                    <ShoolaCompass vara={panchang.vara} />
                 </div>
+            </div>
+
+            {/* Vedic Features - Tarabalam & Chandrashtama */}
+            <div className="vedic-features-grid">
+                {birthData ? (
+                    <>
+                        {/* Tarabalam - Nakshatra Strength */}
+                        <TarabalamWheel
+                            birthNakshatra={birthData.birthNakshatra}
+                            currentNakshatra={panchang.nakshatra}
+                        />
+
+                        {/* Chandrashtama - Moon 8th House */}
+                        {panchang.moonRashi && (
+                            <ChandrashtamaAlert
+                                birthRashi={birthData.birthRashi}
+                                currentMoonRashi={panchang.moonRashi.index}
+                            />
+                        )}
+                    </>
+                ) : (
+                    <div className="birth-data-prompt">
+                        <div className="prompt-icon">🌙</div>
+                        <p>Set your birth data to see personalized Tarabalam & Chandrashtama</p>
+                        <button
+                            className="set-birth-btn"
+                            onClick={() => setIsModalOpen(true)}
+                        >
+                            Set Birth Data
+                        </button>
+                    </div>
+                )}
+
+                {/* Settings button when birth data exists */}
+                {birthData && (
+                    <button
+                        className="edit-birth-btn"
+                        onClick={() => setIsModalOpen(true)}
+                        title="Edit birth data"
+                    >
+                        ⚙️ Edit Birth Data
+                    </button>
+                )}
             </div>
 
             {/* Planetary Positions - Full Width */}
             {panchang.planetaryPositions && (
                 <PlanetaryPositions positions={panchang.planetaryPositions} />
             )}
+
+            {/* Birth Data Modal */}
+            <BirthDataModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSave={(data) => setBirthData({ birthRashi: data.birthRashi, birthNakshatra: data.birthNakshatra })}
+                initialData={null}
+            />
         </div>
     );
 };

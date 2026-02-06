@@ -1,0 +1,129 @@
+.sankranti-panchak-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.info-card {
+    border-radius: 12px;
+    padding: 16px;
+    backdrop-filter: blur(10px);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Sankranti Card - Golden/Orange theme */
+.sankranti-card {
+    background: linear-gradient(135deg, 
+        rgba(255, 193, 7, 0.15) 0%, 
+        rgba(255, 152, 0, 0.1) 100%);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    box-shadow: 0 4px 20px rgba(255, 193, 7, 0.1);
+}
+
+/* Panchak Card - Red/Warning theme */
+.panchak-card {
+    background: linear-gradient(135deg, 
+        rgba(244, 67, 54, 0.12) 0%, 
+        rgba(233, 30, 99, 0.08) 100%);
+    border: 1px solid rgba(244, 67, 54, 0.25);
+    box-shadow: 0 4px 20px rgba(244, 67, 54, 0.08);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.card-icon {
+    font-size: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.sankranti-card .card-title {
+    color: #f59e0b;
+}
+
+.panchak-card .card-title {
+    color: #ef4444;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.primary-info {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.primary-info strong {
+    color: var(--text-primary);
+}
+
+.time-info,
+.punya-kalam {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+}
+
+.label {
+    color: var(--text-muted);
+}
+
+.value {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.punya-kalam {
+    background: rgba(255, 193, 7, 0.1);
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-top: 4px;
+}
+
+.description {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0;
+    padding: 8px 12px;
+    background: rgba(244, 67, 54, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid rgba(244, 67, 54, 0.3);
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+    .sankranti-panchak-container {
+        flex-direction: row;
+    }
+
+    .info-card {
+        flex: 1;
+    }
+}

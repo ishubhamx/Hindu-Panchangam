@@ -32,6 +32,25 @@ export interface RashiTransition {
     endTime: Date;
 }
 
+export interface SankrantiInfo {
+    rashi: number;           // Rashi Sun is entering (0-11)
+    rashiName: string;       // Name of the Rashi
+    name: string;            // Sankranti name (e.g., "Makar Sankranti")
+    exactTime: Date;         // Exact moment of ingress
+    punyaKalam: {            // Auspicious window around Sankranti
+        start: Date;
+        end: Date;
+    } | null;
+}
+
+export interface PanchakInfo {
+    isPanchak: boolean;      // True if currently in Panchak period
+    nakshatra: number;       // Current Nakshatra index (22-26 during Panchak)
+    nakshatraName: string;   // Nakshatra name
+    type: string;            // Type of Panchak (Mrityu, Agni, Raja, Chora, Roga)
+    description: string;     // Brief description of what to avoid
+}
+
 export interface SpecialYogaResult {
     name: string;
     description: string;

@@ -1,0 +1,79 @@
+/* Page Layouts */
+.day-view-page,
+.month-view-page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-md);
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* View Controls (Shared) */
+.view-controls {
+    margin-bottom: var(--space-xl);
+    display: flex;
+    justify-content: center;
+}
+
+.day-navigation,
+.month-controls-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    background: var(--glass-bg);
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(8px);
+}
+
+.date-picker-wrapper {
+    position: relative;
+}
+
+.date-input {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--color-text-primary);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-md);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-base);
+    color-scheme: dark;
+}
+
+.date-input:focus {
+    outline: 2px solid var(--color-accent-primary);
+    border-color: transparent;
+}
+
+.month-year-display {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    color: var(--color-text-primary);
+    min-width: 140px;
+    text-align: center;
+}
+
+/* Day View Container */
+.day-view-container {
+    max-width: 800px;
+    /* Limit width for readability */
+    margin: 0 auto;
+}
+
+/* Month View Page specific */
+.month-calendar-container {
+    background: var(--glass-bg);
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg);
+    border: 1px solid var(--glass-border);
+}
+
+.loading-state {
+    text-align: center;
+    padding: var(--space-xl);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-lg);
+}

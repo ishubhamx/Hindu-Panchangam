@@ -1,0 +1,289 @@
+/* Tarabalam Wheel - Nakshatra Strength Visualization */
+
+.tarabalam-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg);
+    backdrop-filter: blur(10px);
+}
+
+.tarabalam-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+}
+
+.tarabalam-header h3 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.tara-badge {
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.tara-badge.auspicious {
+    background: rgba(74, 222, 128, 0.15);
+    color: #4ade80;
+    border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.tara-badge.inauspicious {
+    background: rgba(248, 113, 113, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(248, 113, 113, 0.3);
+}
+
+/* Tara Wheel Container */
+.tara-wheel-container {
+    display: flex;
+    justify-content: center;
+    padding: var(--space-md);
+}
+
+.tara-wheel {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+/* Wheel segments */
+.tara-segment {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-xs);
+    transition: all var(--transition-base);
+    cursor: default;
+}
+
+.tara-segment:hover {
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+.tara-segment.good {
+    background: rgba(74, 222, 128, 0.1);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    color: #4ade80;
+}
+
+.tara-segment.bad {
+    background: rgba(248, 113, 113, 0.1);
+    border: 1px solid rgba(248, 113, 113, 0.3);
+    color: #f87171;
+}
+
+.tara-segment.current {
+    box-shadow: 0 0 20px rgba(255, 198, 112, 0.5);
+    border-color: var(--color-accent-primary);
+    transform: scale(1.15);
+    z-index: 5;
+}
+
+.tara-segment.current::after {
+    content: '★';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    font-size: 14px;
+    color: var(--color-accent-primary);
+}
+
+/* Segment positions (arranged in a circle) */
+.tara-segment:nth-child(1) {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.tara-segment:nth-child(2) {
+    top: 15%;
+    right: 10%;
+}
+
+.tara-segment:nth-child(3) {
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+.tara-segment:nth-child(4) {
+    bottom: 15%;
+    right: 10%;
+}
+
+.tara-segment:nth-child(5) {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.tara-segment:nth-child(6) {
+    bottom: 15%;
+    left: 10%;
+}
+
+.tara-segment:nth-child(7) {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.tara-segment:nth-child(8) {
+    top: 15%;
+    left: 10%;
+}
+
+.tara-segment:nth-child(9) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.tara-segment.current:nth-child(1) {
+    transform: translateX(-50%) scale(1.15);
+}
+
+.tara-segment.current:nth-child(3) {
+    transform: translateY(-50%) scale(1.15);
+}
+
+.tara-segment.current:nth-child(5) {
+    transform: translateX(-50%) scale(1.15);
+}
+
+.tara-segment.current:nth-child(7) {
+    transform: translateY(-50%) scale(1.15);
+}
+
+.tara-segment.current:nth-child(9) {
+    transform: translate(-50%, -50%) scale(1.15);
+}
+
+.tara-number {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    line-height: 1;
+}
+
+.tara-name {
+    font-size: 9px;
+    opacity: 0.8;
+    text-align: center;
+    line-height: 1.2;
+    margin-top: 2px;
+}
+
+/* Center info */
+.wheel-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70px;
+    height: 70px;
+    background: var(--color-bg-secondary);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--color-border);
+    z-index: 2;
+}
+
+.wheel-center-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+}
+
+.wheel-center-value {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+/* Info section */
+.tarabalam-info {
+    margin-top: var(--space-lg);
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+}
+
+.tara-description {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+}
+
+.tara-nakshatras {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border);
+}
+
+.nakshatra-info {
+    text-align: center;
+}
+
+.nakshatra-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-xs);
+}
+
+.nakshatra-value {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+}
+
+/* Legend */
+.tara-legend {
+    display: flex;
+    gap: var(--space-lg);
+    margin-top: var(--space-md);
+    justify-content: center;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+}
+
+.legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.legend-dot.good {
+    background: #4ade80;
+}
+
+.legend-dot.bad {
+    background: #f87171;
+}

@@ -16,9 +16,46 @@
 
 .content-grid {
     display: grid;
-    grid-template-columns: minmax(600px, 1fr) minmax(400px, 500px);
+    grid-template-columns: minmax(600px, 1fr) minmax(420px, 600px);
     gap: var(--space-xl);
     align-items: start;
+}
+
+/* View Switcher Controls */
+.layout-view-controls {
+    max-width: 1600px;
+    width: 100%;
+    margin: 0 auto;
+    padding: var(--space-md) var(--space-xl);
+    display: flex;
+    justify-content: center;
+}
+
+.display-tabs {
+    display: flex;
+    background: var(--glass-bg);
+    padding: 4px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--glass-border);
+}
+
+.view-tab {
+    padding: 8px 24px;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    transition: all 0.2s ease;
+}
+
+.view-tab:hover {
+    color: var(--color-text-primary);
+}
+
+.view-tab.active {
+    background: var(--color-accent-primary);
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Month navigation controls */
@@ -75,7 +112,7 @@
         grid-template-columns: 1fr;
         gap: var(--space-lg);
     }
-    
+
     .app-main {
         padding: var(--space-md);
     }
