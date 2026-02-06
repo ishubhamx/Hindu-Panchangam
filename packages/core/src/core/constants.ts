@@ -54,6 +54,11 @@ export const ayanaNames = [
     "Uttarayana", "Dakshinayana"
 ];
 
+// Day of week names (0 = Sunday, 6 = Saturday)
+export const dayNames = [
+    "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+];
+
 export const pakshaNames = [
     "Shukla", "Krishna"
 ];
@@ -65,6 +70,23 @@ export const samvatsaraNames = [
     "Hemalamba", "Vilambi", "Vikari", "Sharvari", "Plava", "Shubhakrit", "Shobhakrit", "Krodhi", "Vishvavasu", "Parabhava",
     "Plavanga", "Kilaka", "Saumya", "Sadharana", "Virodhikrit", "Paridhavi", "Pramadicha", "Ananda", "Rakshasa", "Nala",
     "Pingala", "Kalayukti", "Siddharthi", "Raudra", "Durmati", "Dundubhi", "Rudhirodgari", "Raktakshi", "Krodhana", "Akshaya"
+];
+
+// Sankranti names for each Rashi (Sun's ingress into Rashi)
+// Index 0 = Aries (Mesh Sankranti), Index 9 = Capricorn (Makar Sankranti)
+export const sankrantiNames = [
+    "Mesh Sankranti",      // 0: Aries - Hindu New Year in some traditions
+    "Vrishabh Sankranti",  // 1: Taurus
+    "Mithun Sankranti",    // 2: Gemini
+    "Kark Sankranti",      // 3: Cancer - Summer Solstice region
+    "Simha Sankranti",     // 4: Leo
+    "Kanya Sankranti",     // 5: Virgo
+    "Tula Sankranti",      // 6: Libra - Start of Dakshinayana
+    "Vrischik Sankranti",  // 7: Scorpio
+    "Dhanu Sankranti",     // 8: Sagittarius
+    "Makar Sankranti",     // 9: Capricorn - Most celebrated, start of Uttarayana
+    "Kumbh Sankranti",     // 10: Aquarius
+    "Meen Sankranti"       // 11: Pisces
 ];
 
 // Varjyam Start Times (in Ghatis) for each Nakshatra (0-26)
