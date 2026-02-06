@@ -1,5 +1,12 @@
-import React from 'react';
-import { tithiNames, nakshatraNames, yogaNames } from '@ishubhamx/panchangam-js';
+import React, { useMemo } from 'react';
+import {
+    tithiNames,
+    nakshatraNames,
+    yogaNames,
+    getSankrantiForDate,
+    getPanchak,
+    getAyanamsa
+} from '@ishubhamx/panchangam-js';
 import type { DayDetailProps } from '../../types';
 import { SunriseTimeline } from './SunriseTimeline';
 import { PanchangCard } from './PanchangCard';
@@ -7,9 +14,11 @@ import { InauspiciousTimings } from './InauspiciousTimings';
 import { HoraCard } from './HoraCard';
 import { UpcomingFestivals } from './UpcomingFestivals';
 import { PlanetaryPositions } from './PlanetaryPositions';
+import { SankrantiPanchakInfo } from './SankrantiPanchakInfo';
 import { MoonPhase } from '../MoonPhase';
 import { MuhurtaTimeline } from '../MuhurtaTimeline';
 import { formatTime } from '../../utils/colors';
+import { getTimezoneOffset } from '../../utils/timezone';
 import './DayDetail.css';
 
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -23,6 +32,25 @@ const MONTHS = [
  * UX: Hero section, sunrise timeline, Panchang cards grid
  */
 export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, monthData }) => {
+    // Calculate Sankranti and Panchak for the selected date
+    const { sankranti, panchakInfo } = useMemo(() => {
+        if (!panchang) return { sankranti: null, panchakInfo: null };
+
+        const timezoneOffset = getTimezoneOffset(timezone, date);
+        const ayanamsa = getAyanamsa(date);
+
+        // Check for Sankranti on this day
+        const sankrantiResult = getSankrantiForDate(date, ayanamsa, timezoneOffset);
+
+        // Check for Panchak based on current Nakshatra
+        const panchakResult = getPanchak(panchang.nakshatra);
+
+        return {
+            sankranti: sankrantiResult,
+            panchakInfo: panchakResult
+        };
+    }, [date, panchang, timezone]);
+
     if (!panchang) {
         return (
             <div className="day-detail loading">
@@ -97,6 +125,13 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
                 </div>
             </div>
 
+            {/* Sankranti & Panchak Alerts */}
+            <SankrantiPanchakInfo
+                sankranti={sankranti}
+                panchak={panchakInfo}
+                timezone={timezone}
+            />
+
             {/* Combined Timelines Section */}
             <div className="timelines-section">
                 {/* Sun & Moon Timeline */}
@@ -115,9 +150,9 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
 
                 {/* Muhurta Timeline - Auspicious Periods */}
                 <MuhurtaTimeline
-                    rahuKalam={panchang.rahuKalamStart && panchang.rahuKalamEnd ? { 
-                        start: panchang.rahuKalamStart, 
-                        end: panchang.rahuKalamEnd 
+                    rahuKalam={panchang.rahuKalamStart && panchang.rahuKalamEnd ? {
+                        start: panchang.rahuKalamStart,
+                        end: panchang.rahuKalamEnd
                     } : null}
                     yamaganda={panchang.yamagandaKalam}
                     gulika={panchang.gulikaKalam}
@@ -188,9 +223,9 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
                 <div className="features-column">
                     {/* Inauspicious Timings */}
                     <InauspiciousTimings
-                        rahuKalam={panchang.rahuKalamStart && panchang.rahuKalamEnd ? { 
-                            start: panchang.rahuKalamStart, 
-                            end: panchang.rahuKalamEnd 
+                        rahuKalam={panchang.rahuKalamStart && panchang.rahuKalamEnd ? {
+                            start: panchang.rahuKalamStart,
+                            end: panchang.rahuKalamEnd
                         } : null}
                         yamaganda={panchang.yamagandaKalam}
                         gulika={panchang.gulikaKalam}

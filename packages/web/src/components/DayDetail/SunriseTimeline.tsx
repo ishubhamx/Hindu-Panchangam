@@ -52,10 +52,25 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
         }
     };
 
-    // Get minutes from midnight for a date - works with the Date object's local time
-    // The sunrise/sunset dates from panchang are already computed for the location
+    // Get minutes from midnight for a date in the target timezone
     const getMinutesFromMidnight = (date: Date): number => {
-        return date.getHours() * 60 + date.getMinutes();
+        try {
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hourCycle: 'h23',
+                timeZone: timezone,
+            });
+            const parts = formatter.formatToParts(date);
+            const hourPart = parts.find(p => p.type === 'hour');
+            const minutePart = parts.find(p => p.type === 'minute');
+            const hour = parseInt(hourPart?.value || '0', 10);
+            const minute = parseInt(minutePart?.value || '0', 10);
+            return hour * 60 + minute;
+        } catch (e) {
+            console.error('Error converting time to timezone:', e);
+            return date.getHours() * 60 + date.getMinutes();
+        }
     };
 
     // Get current time in the target timezone as minutes from midnight
@@ -86,14 +101,28 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
 
     // Calculate sun path using sine curve (astronomical approximation)
     const sunData = useMemo(() => {
-        if (!sunrise || !sunset) return null;
+        if (!sunrise || !sunset) {
+            console.log('SunriseTimeline: sunrise or sunset is null', { sunrise, sunset });
+            return null;
+        }
 
         try {
             const sunriseMin = getMinutesFromMidnight(sunrise);
             const sunsetMin = getMinutesFromMidnight(sunset);
             
+            console.log('SunriseTimeline: calculated minutes', { 
+                sunriseMin, 
+                sunsetMin, 
+                sunrise: sunrise.toString(), 
+                sunset: sunset.toString(),
+                timezone 
+            });
+            
             // Safety check for invalid times
-            if (sunsetMin <= sunriseMin) return null;
+            if (sunsetMin <= sunriseMin) {
+                console.warn('SunriseTimeline: Invalid sun times - sunset before or equal to sunrise', { sunriseMin, sunsetMin });
+                return null;
+            }
             
             const noonMin = (sunriseMin + sunsetMin) / 2;
             const dayDuration = sunsetMin - sunriseMin;

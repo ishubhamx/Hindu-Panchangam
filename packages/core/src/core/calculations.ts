@@ -1,7 +1,7 @@
+import { getAyanamsa } from './ayanamsa.js';
 import { Body, GeoVector, Ecliptic as EclipticFunc, Observer, SearchRiseSet, SiderealTime, e_tilt, MakeTime, Search } from "astronomy-engine";
-import { getAyanamsa } from "./ayanamsa";
-import { repeatingKaranaNames, tithiNames, nakshatraNames, yogaNames, rashiNames, horaRulers, masaNames, rituNames, ayanaNames, pakshaNames, samvatsaraNames, varjyamStartGhatis, amritKalamStartGhatis, vimshottariLords, vimshottariDurations, planetExaltation, planetDebilitation, planetOwnSigns } from "./constants";
-import { KaranaTransition, TithiTransition, NakshatraTransition, YogaTransition, PlanetaryPosition, MuhurtaTime, RashiTransition } from "./types";
+import { repeatingKaranaNames, tithiNames, nakshatraNames, yogaNames, rashiNames, horaRulers, masaNames, rituNames, ayanaNames, pakshaNames, samvatsaraNames, sankrantiNames, varjyamStartGhatis, amritKalamStartGhatis, vimshottariLords, vimshottariDurations, planetExaltation, planetDebilitation, planetOwnSigns } from "./constants";
+import { KaranaTransition, TithiTransition, NakshatraTransition, YogaTransition, PlanetaryPosition, MuhurtaTime, RashiTransition, SankrantiInfo, PanchakInfo } from "./types";
 
 export function getTithi(sunLon: number, moonLon: number): number {
     let longitudeDifference = moonLon - sunLon;
@@ -996,6 +996,225 @@ export function getSunNakshatra(sunLon: number): { index: number, name: string, 
 }
 
 
+/**
+ * Find the next Sankranti (Sun's ingress into a Rashi) from a given date.
+ * Sankranti marks the Sun entering a new sidereal zodiac sign.
+ * 
+ * @param date - Starting date to search from
+ * @param ayanamsa - Ayanamsa value for sidereal calculation
+ * @returns SankrantiInfo with exact time, rashi, and punya kalam
+ */
+export function findNextSankranti(date: Date, ayanamsa: number): SankrantiInfo | null {
+    // Get current sidereal Sun position
+    const sunVector = GeoVector(Body.Sun, date, true);
+    const sunTrop = EclipticFunc(sunVector).elon;
+    const sunSidereal = (sunTrop - ayanamsa + 360) % 360;
+    const currentRashi = Math.floor(sunSidereal / 30);
+
+    // Next Rashi boundary
+    const nextRashi = (currentRashi + 1) % 12;
+    const targetLongitude = nextRashi * 30;
+
+    // Binary search for exact moment Sun crosses the boundary
+    // Sun moves ~1 degree per day, so Rashi transit can be up to 30+ days away
+    const sankrantiFunc = (d: Date): number => {
+        const sv = GeoVector(Body.Sun, d, true);
+        const st = EclipticFunc(sv).elon;
+        let sidereal = (st - ayanamsa + 360) % 360;
+
+        // Handle wrap-around at 360/0
+        let diff = sidereal - targetLongitude;
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+
+        return diff;
+    };
+
+    // Extended search: 40 days (Sun takes ~30 days per Rashi)
+    let lo = date.getTime();
+    let hi = lo + 40 * 24 * 60 * 60 * 1000;
+
+    let fLo = sankrantiFunc(new Date(lo));
+    let fHi = sankrantiFunc(new Date(hi));
+
+    // If no sign change, Sankranti not in this window
+    if (fLo * fHi >= 0) {
+        return null;
+    }
+
+    // Binary search for zero crossing
+    for (let i = 0; i < 50; i++) {
+        const mid = (lo + hi) / 2;
+        const fMid = sankrantiFunc(new Date(mid));
+
+        if (Math.abs(fMid) < 0.00001) {
+            break;
+        }
+
+        if (fLo * fMid < 0) {
+            hi = mid;
+            fHi = fMid;
+        } else {
+            lo = mid;
+            fLo = fMid;
+        }
+    }
+
+    const exactTime = new Date((lo + hi) / 2);
+
+    // Calculate Punya Kalam (auspicious window around Sankranti)
+    // Typically 16 Ghatis (6h 24min) before and after for most Sankrantis
+    // Makar Sankranti has special 40 Ghati (16h) punya kalam
+    const punyaDurationMs = nextRashi === 9
+        ? 16 * 60 * 60 * 1000  // 16 hours for Makar Sankranti
+        : 6.4 * 60 * 60 * 1000; // 6h 24m for others
+
+    const punyaKalam = {
+        start: new Date(exactTime.getTime() - punyaDurationMs),
+        end: new Date(exactTime.getTime() + punyaDurationMs)
+    };
+
+    return {
+        rashi: nextRashi,
+        rashiName: rashiNames[nextRashi],
+        name: sankrantiNames[nextRashi],
+        exactTime,
+        punyaKalam
+    };
+}
+
+/**
+ * Find all Sankrantis within a date range.
+ * 
+ * @param startDate - Start of date range
+ * @param endDate - End of date range  
+ * @param ayanamsa - Ayanamsa value for sidereal calculation
+ * @returns Array of SankrantiInfo objects
+ */
+export function findSankrantisInRange(startDate: Date, endDate: Date, ayanamsa: number): SankrantiInfo[] {
+    const sankrantis: SankrantiInfo[] = [];
+    let current = new Date(startDate);
+
+    while (current < endDate) {
+        // Recalculate ayanamsa for current date for accuracy
+        const currentAyanamsa = getAyanamsa(current);
+        const next = findNextSankranti(current, currentAyanamsa);
+        if (!next || next.exactTime > endDate) break;
+
+        sankrantis.push(next);
+        // Move 25 days past this Sankranti (Sun takes ~30 days per Rashi)
+        current = new Date(next.exactTime.getTime() + 25 * 24 * 60 * 60 * 1000);
+    }
+
+    return sankrantis;
+}
+
+/**
+ * Check if a given date falls on a Sankranti day (within the same civil day).
+ * 
+ * @param date - Date to check
+ * @param ayanamsa - Ayanamsa value
+ * @param timezoneOffsetMinutes - Timezone offset in minutes for civil day calculation
+ * @returns SankrantiInfo if Sankranti occurs on this day, null otherwise
+ */
+export function getSankrantiForDate(date: Date, ayanamsa: number, timezoneOffsetMinutes: number = 0): SankrantiInfo | null {
+    // Calculate local midnight start and end
+    const localOffset = timezoneOffsetMinutes * 60 * 1000;
+    const utcMidnight = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+    const localDayStart = new Date(utcMidnight.getTime() - localOffset);
+    const localDayEnd = new Date(localDayStart.getTime() + 24 * 60 * 60 * 1000);
+
+    // Search backwards 35 days to catch any Sankranti (Sun takes ~30 days per Rashi)
+    const searchStart = new Date(localDayStart.getTime() - 35 * 24 * 60 * 60 * 1000);
+
+    // Recalculate ayanamsa for the search start date
+    const searchAyanamsa = getAyanamsa(searchStart);
+    let current = new Date(searchStart);
+
+    // Iterate through potential Sankrantis until we pass the target day
+    while (current < localDayEnd) {
+        const currentAyanamsa = getAyanamsa(current);
+        const next = findNextSankranti(current, currentAyanamsa);
+        if (!next) return null;
+
+        // Check if this Sankranti falls within the civil day
+        if (next.exactTime >= localDayStart && next.exactTime < localDayEnd) {
+            return next;
+        }
+
+        // If we've passed the target day, no Sankranti today
+        if (next.exactTime >= localDayEnd) {
+            return null;
+        }
+
+        // Move past this Sankranti
+        current = new Date(next.exactTime.getTime() + 25 * 24 * 60 * 60 * 1000);
+    }
+
+    return null;
+}
+
+/**
+ * Check if the current Moon Nakshatra falls in Panchak period.
+ * Panchak occurs when Moon transits through the last 5 Nakshatras:
+ * Dhanishta (22), Shatabhisha (23), Purva Bhadrapada (24), Uttara Bhadrapada (25), Revati (26)
+ * 
+ * Each Panchak Nakshatra is associated with specific doshas:
+ * - Dhanishta: Mrityu Panchak (death-related activities avoided)
+ * - Shatabhisha: Agni Panchak (fire-related activities avoided)
+ * - Purva Bhadrapada: Raja Panchak (government/legal matters avoided)
+ * - Uttara Bhadrapada: Chora Panchak (theft-related fears, travel avoided)
+ * - Revati: Roga Panchak (health-related activities avoided)
+ * 
+ * @param moonNakshatraIndex - Current Moon Nakshatra (0-26)
+ * @returns PanchakInfo with type and activity recommendations
+ */
+export function getPanchak(moonNakshatraIndex: number): PanchakInfo {
+    const panchakNakshatras = [22, 23, 24, 25, 26]; // Dhanishta through Revati
+
+    if (!panchakNakshatras.includes(moonNakshatraIndex)) {
+        return {
+            isPanchak: false,
+            nakshatra: moonNakshatraIndex,
+            nakshatraName: nakshatraNames[moonNakshatraIndex],
+            type: "None",
+            description: "No Panchak - all activities permitted"
+        };
+    }
+
+    const panchakTypes: { [key: number]: { type: string, description: string } } = {
+        22: {
+            type: "Mrityu Panchak",
+            description: "Avoid funerals, death-related ceremonies, and starting long journeys"
+        },
+        23: {
+            type: "Agni Panchak",
+            description: "Avoid fire-related ceremonies, roof construction, and inflammable materials"
+        },
+        24: {
+            type: "Raja Panchak",
+            description: "Avoid government dealings, legal matters, and confrontations with authority"
+        },
+        25: {
+            type: "Chora Panchak",
+            description: "Avoid long travel, valuable transactions, and leaving valuables unattended"
+        },
+        26: {
+            type: "Roga Panchak",
+            description: "Avoid starting medical treatments, surgeries, and health-related decisions"
+        }
+    };
+
+    const info = panchakTypes[moonNakshatraIndex];
+
+    return {
+        isPanchak: true,
+        nakshatra: moonNakshatraIndex,
+        nakshatraName: nakshatraNames[moonNakshatraIndex],
+        type: info.type,
+        description: info.description
+    };
+}
 
 export function getUdayaLagna(date: Date, observer: Observer, ayanamsa: number): number {
     // Find the ecliptic longitude that is currently at the eastern horizon (Ascendant)
