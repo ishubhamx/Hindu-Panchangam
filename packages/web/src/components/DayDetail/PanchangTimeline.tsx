@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import './PanchangTimeline.css';
 
 interface TimelineSegment {
@@ -112,13 +113,13 @@ export const PanchangTimeline: React.FC<PanchangTimelineProps> = ({ panchang, ti
     const hourMarkers = useMemo(() => {
         if (!sunrise || !nextSunrise) return [];
         const markers: Array<{ hour: number; position: number; isNoon: boolean }> = [];
-        
+
         const firstHour = new Date(sunrise);
         firstHour.setMinutes(0, 0, 0);
         if (firstHour <= sunrise) {
             firstHour.setHours(firstHour.getHours() + 1);
         }
-        
+
         let currentHour = new Date(firstHour);
         while (currentHour < nextSunrise) {
             const hour = currentHour.getHours();
@@ -129,7 +130,7 @@ export const PanchangTimeline: React.FC<PanchangTimelineProps> = ({ panchang, ti
             });
             currentHour = new Date(currentHour.getTime() + 60 * 60 * 1000);
         }
-        
+
         return markers;
     }, [sunrise, nextSunrise]);
 
@@ -218,15 +219,15 @@ export const PanchangTimeline: React.FC<PanchangTimelineProps> = ({ panchang, ti
                     {/* Time Scale */}
                     <div className="time-scale">
                         <div className="timeline-baseline"></div>
-                        
+
                         {/* Sunrise */}
                         <div className="sun-marker sunrise-marker" style={{ left: '0%' }}>
                             <div className="sun-icon-wrapper sunrise-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-                                    <circle cx="12" cy="12" r="4"/>
-                                    <path d="M12 16v4"/>
-                                    <path d="M8 20h8"/>
+                                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+                                    <circle cx="12" cy="12" r="4" />
+                                    <path d="M12 16v4" />
+                                    <path d="M8 20h8" />
                                 </svg>
                             </div>
                             <span className="sun-time">{formatTime(sunrise)}</span>
@@ -234,8 +235,8 @@ export const PanchangTimeline: React.FC<PanchangTimelineProps> = ({ panchang, ti
 
                         {/* Hour markers */}
                         {hourMarkers.map((marker, i) => (
-                            <div 
-                                key={i} 
+                            <div
+                                key={i}
                                 className={`hour-marker ${marker.isNoon ? 'noon' : ''}`}
                                 style={{ left: `${marker.position}%` }}
                             >
@@ -249,10 +250,10 @@ export const PanchangTimeline: React.FC<PanchangTimelineProps> = ({ panchang, ti
                             <div className="sun-marker sunset-marker" style={{ left: `${sunsetPosition}%` }}>
                                 <div className="sun-icon-wrapper sunset-icon">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-                                        <circle cx="12" cy="12" r="4"/>
-                                        <path d="M12 16v4"/>
-                                        <path d="M8 20h8"/>
+                                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+                                        <circle cx="12" cy="12" r="4" />
+                                        <path d="M12 16v4" />
+                                        <path d="M8 20h8" />
                                     </svg>
                                 </div>
                             </div>
@@ -262,10 +263,10 @@ export const PanchangTimeline: React.FC<PanchangTimelineProps> = ({ panchang, ti
                         <div className="sun-marker sunrise-marker" style={{ left: '100%' }}>
                             <div className="sun-icon-wrapper sunrise-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-                                    <circle cx="12" cy="12" r="4"/>
-                                    <path d="M12 16v4"/>
-                                    <path d="M8 20h8"/>
+                                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+                                    <circle cx="12" cy="12" r="4" />
+                                    <path d="M12 16v4" />
+                                    <path d="M8 20h8" />
                                 </svg>
                             </div>
                             <span className="sun-time">{formatTime(nextSunrise)}</span>
@@ -325,7 +326,7 @@ export const PanchangTimeline: React.FC<PanchangTimelineProps> = ({ panchang, ti
 
                     {/* Current Time Indicator */}
                     {currentTimePosition !== null && (
-                        <div 
+                        <div
                             className="current-time-indicator"
                             style={{ left: `${currentTimePosition}%` }}
                         >
@@ -337,9 +338,9 @@ export const PanchangTimeline: React.FC<PanchangTimelineProps> = ({ panchang, ti
                 </div>
             </div>
 
-            {/* Tooltip */}
-            {tooltip && (
-                <div 
+            {/* Tooltip - Portal to body to avoid stacking context issues */}
+            {tooltip && createPortal(
+                <div
                     className="segment-tooltip"
                     style={{
                         left: tooltip.x,
@@ -357,7 +358,8 @@ export const PanchangTimeline: React.FC<PanchangTimelineProps> = ({ panchang, ti
                     {tooltip.isPrimary && (
                         <div className="tooltip-primary-note">Active at Sunrise</div>
                     )}
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );

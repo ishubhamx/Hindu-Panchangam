@@ -9,7 +9,7 @@
     border-radius: var(--radius-lg);
     border: 1px solid var(--glass-border);
     overflow: hidden;
-    margin-bottom: var(--space-md);
+
     transition: background 0.3s ease;
     min-height: 240px;
 }

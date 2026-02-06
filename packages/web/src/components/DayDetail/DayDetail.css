@@ -5,115 +5,200 @@
 }
 
 /* Hero Section */
+/* Hero Section */
 .hero-section {
-    text-align: center;
+    text-align: left;
     margin-bottom: var(--space-lg);
-    padding: var(--space-md);
+    padding: var(--space-lg);
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: var(--radius-xl);
     border: 1px solid var(--glass-border);
     transition: background 0.3s ease;
-}
-
-.hero-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--space-md);
-    margin-bottom: var(--space-sm);
-}
-
-.date-display {
-    text-align: left;
-    flex: 1;
-    min-width: 0;
-}
-
-.moon-phase-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: var(--space-xs);
-    flex-shrink: 0;
+    gap: var(--space-md);
+    position: relative;
+    overflow: hidden;
 }
 
-.tithi-display {
-    font-size: var(--font-size-xs);
-    color: var(--color-text-secondary);
-    font-weight: var(--font-weight-medium);
+/* Add a subtle highlight gradient effect */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ff9933, #ff6b6b, #764ba2);
 }
 
-.weekday {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
-    margin-bottom: 2px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+.hero-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-lg);
 }
 
-.date-main {
+.hero-left-content {
+    flex: 1;
+}
+
+.tithi-main {
     font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-bold);
+    line-height: 1.2;
+    font-weight: 800;
     font-family: var(--font-family-display);
-    background: linear-gradient(135deg, #ff9933, #ff6600, #ffcc00);
+    background: linear-gradient(135deg, #FFD700, #FFA500);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: var(--space-xs);
-    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.date-secondary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    margin-bottom: var(--space-sm);
+}
+
+.weekday-badge {
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-primary);
 }
 
 .festivals-list {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-sm);
-    margin-top: var(--space-md);
+    margin-top: var(--space-sm);
 }
 
 .festival-tag {
     display: inline-flex;
     align-items: center;
     gap: var(--space-xs);
-    padding: var(--space-xs) var(--space-md);
-    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-    color: white;
+    padding: 2px 10px;
+    background: rgba(255, 107, 107, 0.15);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    color: #ff8e8e;
     border-radius: var(--radius-full);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    box-shadow: 0 4px 15px rgba(238, 90, 36, 0.4);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
 }
 
-.festival-tag::before {
-    content: '🎉';
+.hero-right-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
-.samvat-info,
-.masa-paksha {
+.moon-phase-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    background: rgba(0, 0, 0, 0.2);
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(4px);
+}
+
+.paksha-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    font-weight: 500;
+}
+
+/* Quick Stats Grid */
+.hero-stats-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--glass-border);
+    margin: var(--space-sm) 0;
+    overflow-x: auto;
+    /* Allow horizontal scroll if really tight on intermediate screens */
+}
+
+.stat-item {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: var(--space-xs);
-    font-size: var(--font-size-xs);
-    color: var(--color-text-secondary);
-    margin-top: var(--space-xs);
+    gap: var(--space-sm);
+}
+
+.stat-icon {
+    font-size: 1.2rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-tertiary);
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 0.9rem;
+    color: var(--color-text-primary);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.hero-footer {
+    display: flex;
+    gap: var(--space-sm);
     flex-wrap: wrap;
+    margin-top: var(--space-xs);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--glass-border);
 }
 
-.samvat-item,
-.masa,
-.paksha {
-    padding: 2px var(--space-xs);
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: var(--radius-sm);
+.info-pill {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 4px 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    border: 1px solid var(--glass-border);
+}
+
+.info-pill .label {
+    color: var(--color-text-tertiary);
     font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-.samvat-separator,
-.separator {
-    opacity: 0.5;
+.info-pill .value {
+    color: var(--color-text-secondary);
+    font-weight: 500;
 }
 
 /* Combined Timelines Section */
@@ -125,9 +210,7 @@
 }
 
 /* Timeline Section */
-.timeline-section {
-    /* margin-bottom: var(--space-md); - removed, handled by parent */
-}
+
 
 .timeline-comparison-grid {
     display: grid;
@@ -268,6 +351,16 @@
         font-size: var(--font-size-2xl);
     }
 
+    /* Multi-row for stats on mobile */
+    .hero-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-sm);
+        margin-top: var(--space-md);
+        margin-bottom: var(--space-md);
+        overflow-x: visible;
+    }
+
     .panchang-grid {
         grid-template-columns: 1fr;
         gap: var(--space-sm);
@@ -300,4 +393,65 @@
     .features-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* Vedic Features Grid - Tarabalam & Chandrashtama */
+.vedic-features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+/* Birth Data Prompt */
+.birth-data-prompt {
+    padding: var(--space-xl);
+    background: var(--glass-bg);
+    border: 1px dashed var(--glass-border);
+    border-radius: var(--radius-xl);
+    text-align: center;
+}
+
+.prompt-icon {
+    font-size: 48px;
+    margin-bottom: var(--space-md);
+}
+
+.birth-data-prompt p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-lg);
+    font-size: var(--font-size-sm);
+}
+
+.set-birth-btn {
+    padding: var(--space-md) var(--space-xl);
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    border: none;
+    border-radius: var(--radius-lg);
+    color: white;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.set-birth-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+.edit-birth-btn {
+    padding: var(--space-sm) var(--space-md);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.edit-birth-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--color-text-primary);
 }
