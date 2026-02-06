@@ -89,14 +89,62 @@
 .festival-tag {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-xs);
-    padding: 2px 10px;
-    background: rgba(255, 107, 107, 0.15);
-    border: 1px solid rgba(255, 107, 107, 0.3);
-    color: #ff8e8e;
+    gap: 6px;
+    padding: 4px 12px;
     border-radius: var(--radius-full);
     font-size: var(--font-size-xs);
     font-weight: 600;
+    transition: all var(--transition-base);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text-secondary);
+}
+
+.festival-tag:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Category Specific Styles */
+.festival-tag.category-major {
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.2) 0%, rgba(192, 57, 43, 0.2) 100%);
+    border-color: rgba(231, 76, 60, 0.4);
+    color: #ff9f89;
+}
+
+.festival-tag.category-vrat {
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.2) 0%, rgba(39, 174, 96, 0.2) 100%);
+    border-color: rgba(46, 204, 113, 0.4);
+    color: #a2f9c3;
+}
+
+.festival-tag.category-ekadashi {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.2) 0%, rgba(41, 128, 185, 0.2) 100%);
+    border-color: rgba(52, 152, 219, 0.4);
+    color: #9cdbff;
+}
+
+.festival-tag.category-jayanti {
+    background: linear-gradient(135deg, rgba(155, 89, 182, 0.2) 0%, rgba(142, 68, 173, 0.2) 100%);
+    border-color: rgba(155, 89, 182, 0.4);
+    color: #e0b3ff;
+}
+
+.festival-tag.category-solar {
+    background: linear-gradient(135deg, rgba(241, 196, 15, 0.2) 0%, rgba(243, 156, 18, 0.2) 100%);
+    border-color: rgba(241, 196, 15, 0.4);
+    color: #ffeaa7;
+}
+
+.fasting-icon {
+    font-size: 0.9rem;
+    animation: pulse-ring 2s infinite ease-in-out;
+}
+
+@keyframes pulse-ring {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
 }
 
 .hero-right-content {

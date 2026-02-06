@@ -5,7 +5,8 @@ import {
     yogaNames,
     getSankrantiForDate,
     getPanchak,
-    getAyanamsa
+    getAyanamsa,
+    type Festival
 } from '@ishubhamx/panchangam-js';
 import type { DayDetailProps } from '../../types';
 import { PanchangTimeline } from './PanchangTimeline';
@@ -107,7 +108,7 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
     const yogaName = yogaNames[panchang.yoga] || `Yoga ${panchang.yoga}`;
     const karanaName = panchang.karana || '-';
 
-    const festivals = panchang.festivals || [];
+    const festivals: Festival[] = panchang.festivals || [];
 
     // Derived Vedic Data from Library
     const rituName = panchang.ritu || "Vasant";
@@ -142,8 +143,11 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
 
                         {festivals.length > 0 && (
                             <div className="festivals-list">
-                                {festivals.map((festival: string, i: number) => (
-                                    <span key={i} className="festival-tag">{festival}</span>
+                                {festivals.map((festival: Festival, i: number) => (
+                                    <span key={i} className={`festival-tag category-${festival.category}`}>
+                                        {festival.name}
+                                        {festival.isFastingDay && <span className="fasting-icon"> 🥗</span>}
+                                    </span>
                                 ))}
                             </div>
                         )}

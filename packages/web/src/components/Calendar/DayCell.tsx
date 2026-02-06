@@ -1,5 +1,5 @@
 import React from 'react';
-import { tithiNames } from '@ishubhamx/panchangam-js';
+import { tithiNames, type Festival } from '@ishubhamx/panchangam-js';
 import type { DayCellProps } from '../../types';
 import './DayCell.css';
 
@@ -52,8 +52,9 @@ export const DayCell: React.FC<DayCellProps> = ({
     const tithiIndex = panchang.tithi;
     const tithiName = tithiNames[tithiIndex] || '';
     const moonIcon = getMoonIcon(tithiIndex);
-    const festivals = panchang.festivals || [];
+    const festivals: Festival[] = panchang.festivals || [];
     const hasFestival = festivals.length > 0;
+    const festivalNames = festivals.map(f => f.name).join(', ');
 
     // Special days (using 0-29 indexing)
     const isAmavasya = tithiIndex === 29 || tithiName.toLowerCase().includes('amavasya');
@@ -87,7 +88,7 @@ export const DayCell: React.FC<DayCellProps> = ({
 
             {/* Festival indicator */}
             {hasFestival && (
-                <div className="festival-badge" title={festivals.join(', ')}>
+                <div className="festival-badge" title={festivalNames}>
                     <span className="festival-icon">🎉</span>
                     {festivals.length > 1 && <span className="festival-count">+{festivals.length - 1}</span>}
                 </div>

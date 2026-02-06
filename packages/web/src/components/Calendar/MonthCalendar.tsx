@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { type Festival } from '@ishubhamx/panchangam-js';
 import { DayCell } from './DayCell';
 import type { MonthCalendarProps } from '../../types';
 import { isToday } from '../../utils/colors';
@@ -45,8 +46,8 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
 
     // Get Hindu month name from the first panchang data
     const hinduMonth = useMemo(() => {
-        if (monthData.length > 0 && monthData[0].panchang?.hinduMonth) {
-            return monthData[0].panchang.hinduMonth;
+        if (monthData.length > 0 && monthData[0].panchang?.masa?.name) {
+            return monthData[0].panchang.masa.name;
         }
         return HINDU_MONTHS[month];
     }, [monthData, month]);
@@ -54,7 +55,8 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
     // Count festivals in the month
     const festivalCount = useMemo(() => {
         return monthData.reduce((count, day) => {
-            return count + (day.panchang?.festivals?.length || 0);
+            const dayFestivals: Festival[] = day.panchang?.festivals || [];
+            return count + dayFestivals.length;
         }, 0);
     }, [monthData]);
 
@@ -97,8 +99,8 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
             {/* Weekday headers with planetary icons */}
             <div className="weekday-headers">
                 {WEEKDAY_LABELS.map((day, index) => (
-                    <div 
-                        key={day.short} 
+                    <div
+                        key={day.short}
                         className={`weekday-label ${index === 0 ? 'sunday' : index === 6 ? 'saturday' : ''}`}
                         title={day.full}
                     >

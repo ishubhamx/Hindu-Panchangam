@@ -6,9 +6,14 @@ export interface Location {
     timezone: string;
 }
 
+import type { Festival } from '@ishubhamx/panchangam-js';
+
 export interface DayData {
     date: Date;
-    panchang: any; // Panchangam type from library
+    panchang: {
+        festivals: Festival[];
+        [key: string]: any;
+    };
 }
 
 export interface MonthData {

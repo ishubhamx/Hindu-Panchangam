@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { type Festival } from '@ishubhamx/panchangam-js';
 import type { MonthData, DayData } from '../../types';
 import './UpcomingFestivals.css';
 
@@ -60,14 +61,14 @@ export const UpcomingFestivals: React.FC<UpcomingFestivalsProps> = ({
             if (day.panchang?.festivals && day.panchang.festivals.length > 0) {
                 const dayDate = new Date(day.date);
                 dayDate.setHours(0, 0, 0, 0);
-                
+
                 // Only include today and future festivals
                 if (dayDate >= today) {
                     const daysAway = Math.ceil((dayDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-                    
-                    day.panchang.festivals.forEach((festival: string) => {
+
+                    day.panchang.festivals.forEach((festival: Festival) => {
                         festivals.push({
-                            name: festival,
+                            name: festival.name,
                             date: dayDate,
                             daysAway
                         });
@@ -85,9 +86,9 @@ export const UpcomingFestivals: React.FC<UpcomingFestivalsProps> = ({
     }
 
     const formatDate = (date: Date): string => {
-        return date.toLocaleDateString('en-IN', { 
-            day: 'numeric', 
-            month: 'short' 
+        return date.toLocaleDateString('en-IN', {
+            day: 'numeric',
+            month: 'short'
         });
     };
 
@@ -106,7 +107,7 @@ export const UpcomingFestivals: React.FC<UpcomingFestivalsProps> = ({
 
             <div className="festivals-list">
                 {upcomingFestivals.map((festival, index) => (
-                    <div 
+                    <div
                         key={`${festival.name}-${index}`}
                         className={`festival-item ${festival.daysAway === 0 ? 'today' : ''}`}
                     >
