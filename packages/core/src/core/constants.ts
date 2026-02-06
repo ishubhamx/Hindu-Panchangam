@@ -212,3 +212,147 @@ export const planetOwnSigns: Record<string, number[]> = {
     "Saturn": [9, 10],   // Capricorn, Aquarius
     // Rahu/Ketu co-lordship often debated, omitting 'Own' for now to avoid confusion unless requested.
 };
+
+// Solar Festival Configurations (Sankranti-based)
+export const SOLAR_FESTIVALS: Record<number, Array<{
+    name: string;
+    type: 'single' | 'span';
+    spanDays?: number;
+    dayNames?: string[];
+    regional?: string[];
+    description?: string;
+}>> = {
+    // Capricorn (Makar) - Rashi 9
+    9: [
+        {
+            name: "Makar Sankranti",
+            type: "span",
+            spanDays: 4,
+            dayNames: ["Bhogi", "Makar Sankranti (Pongal)", "Mattu Pongal", "Kaanum Pongal"],
+            regional: ["South", "Maharashtra", "Gujarat", "Punjab"],
+            description: "Harvest festival marking Sun's northward journey"
+        }
+    ],
+    // Aries (Mesha) - Rashi 0
+    0: [
+        {
+            name: "Vishu",
+            type: "single",
+            regional: ["Kerala", "Malayalam"],
+            description: "Malayalam New Year"
+        },
+        {
+            name: "Tamil Puthandu",
+            type: "single",
+            regional: ["Tamil Nadu"],
+            description: "Tamil New Year"
+        },
+        {
+            name: "Vaisakhi / Baisakhi",
+            type: "single",
+            regional: ["Punjab", "North"],
+            description: "Punjabi New Year and harvest festival"
+        }
+    ]
+};
+
+// Sankranti Names by Rashi
+export const SANKRANTI_NAMES = [
+    "Mesha Sankranti",      // 0 - Aries
+    "Vrishabha Sankranti",  // 1 - Taurus
+    "Mithuna Sankranti",    // 2 - Gemini
+    "Karka Sankranti",      // 3 - Cancer
+    "Simha Sankranti",      // 4 - Leo
+    "Kanya Sankranti",      // 5 - Virgo
+    "Tula Sankranti",       // 6 - Libra
+    "Vrishchika Sankranti", // 7 - Scorpio
+    "Dhanu Sankranti",      // 8 - Sagittarius
+    "Makar Sankranti",      // 9 - Capricorn
+    "Kumbha Sankranti",     // 10 - Aquarius
+    "Meena Sankranti"       // 11 - Pisces
+];
+
+/**
+ * Multi-Day Festival Spans Configuration
+ * 
+ * These festivals span multiple consecutive Tithis.
+ */
+export const MULTI_DAY_FESTIVALS: Record<string, {
+    name: string;
+    masaIndex: number;
+    startTithi: number;
+    endTithi: number;
+    spanDays: number;
+    dailyNames: string[];
+    description: string;
+}> = {
+    // Navaratri: Ashwina Shukla Prathama (1) to Navami (9) - 9 days
+    "navaratri": {
+        name: "Navaratri",
+        masaIndex: 6,  // Ashwina
+        startTithi: 1, // Shukla Prathama
+        endTithi: 9,   // Shukla Navami
+        spanDays: 9,
+        dailyNames: [
+            "Ghatasthapana (Day 1)",
+            "Dwitiya (Day 2)",
+            "Tritiya (Day 3)",
+            "Chaturthi (Day 4)",
+            "Panchami (Day 5)",
+            "Shashthi (Day 6)",
+            "Saptami (Day 7)",
+            "Durga Ashtami (Day 8)",
+            "Maha Navami (Day 9)"
+        ],
+        description: "Nine nights of Durga worship"
+    },
+
+    // Ganesh Utsav: Bhadrapada Shukla Chaturthi (4) to Chaturdashi (14) - 10 days
+    "ganesh_utsav": {
+        name: "Ganesh Utsav",
+        masaIndex: 5,  // Bhadrapada
+        startTithi: 4, // Shukla Chaturthi
+        endTithi: 14,  // Shukla Chaturdashi
+        spanDays: 10,
+        dailyNames: [
+            "Ganesh Chaturthi (Day 1)",
+            "Ganesh Panchami (Day 2)",
+            "Shashthi (Day 3)",
+            "Saptami (Day 4)",
+            "Ashtami (Day 5)",
+            "Navami (Day 6)",
+            "Dashami (Day 7)",
+            "Ekadashi (Day 8)",
+            "Dwadashi (Day 9)",
+            "Anant Chaturdashi (Day 10)"
+        ],
+        description: "Ten days of Ganesha celebration"
+    },
+
+    // Pitru Paksha: Bhadrapada Purnima (15) to Amavasya (30) - 15 days
+    "pitru_paksha": {
+        name: "Pitru Paksha",
+        masaIndex: 5,  // Bhadrapada
+        startTithi: 16, // Krishna Prathama (after Purnima)
+        endTithi: 30,   // Amavasya
+        spanDays: 15,
+        dailyNames: [
+            "Prathama Shraddha (Day 1)",
+            "Dwitiya Shraddha (Day 2)",
+            "Tritiya Shraddha (Day 3)",
+            "Chaturthi Shraddha (Day 4)",
+            "Panchami Shraddha (Day 5)",
+            "Shashthi Shraddha (Day 6)",
+            "Saptami Shraddha (Day 7)",
+            "Ashtami Shraddha (Day 8)",
+            "Navami Shraddha (Day 9)",
+            "Dashami Shraddha (Day 10)",
+            "Ekadashi Shraddha (Day 11)",
+            "Dwadashi Shraddha (Day 12)",
+            "Trayodashi Shraddha (Day 13)",
+            "Chaturdashi Shraddha (Day 14)",
+            "Sarva Pitru Amavasya (Day 15)"
+        ],
+        description: "Fifteen days of ancestor worship"
+    }
+};
