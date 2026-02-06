@@ -18,16 +18,16 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
 }) => {
     // Real-time clock update
     const [currentTime, setCurrentTime] = useState(initialTime || new Date());
-    
+
     useEffect(() => {
         // Update every minute for real-time tracking
         const interval = setInterval(() => {
             setCurrentTime(new Date());
         }, 60000); // Update every minute
-        
+
         // Also update immediately when component mounts
         setCurrentTime(new Date());
-        
+
         return () => clearInterval(interval);
     }, []);
 
@@ -109,27 +109,27 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
         try {
             const sunriseMin = getMinutesFromMidnight(sunrise);
             const sunsetMin = getMinutesFromMidnight(sunset);
-            
-            console.log('SunriseTimeline: calculated minutes', { 
-                sunriseMin, 
-                sunsetMin, 
-                sunrise: sunrise.toString(), 
+
+            console.log('SunriseTimeline: calculated minutes', {
+                sunriseMin,
+                sunsetMin,
+                sunrise: sunrise.toString(),
                 sunset: sunset.toString(),
-                timezone 
+                timezone
             });
-            
+
             // Safety check for invalid times
             if (sunsetMin <= sunriseMin) {
                 console.warn('SunriseTimeline: Invalid sun times - sunset before or equal to sunrise', { sunriseMin, sunsetMin });
                 return null;
             }
-            
+
             const noonMin = (sunriseMin + sunsetMin) / 2;
             const dayDuration = sunsetMin - sunriseMin;
 
             // Generate smooth path points
             const points: { x: number; y: number }[] = [];
-            
+
             for (let min = sunriseMin; min <= sunsetMin; min += 2) {
                 const x = minutesToX(min);
                 // Sine curve for sun altitude
@@ -144,7 +144,7 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
             // Create smooth path
             let pathD = `M ${points[0].x} ${HORIZON_Y}`;
             pathD += ` L ${points[0].x} ${points[0].y}`;
-            
+
             for (let i = 1; i < points.length; i++) {
                 pathD += ` L ${points[i].x} ${points[i].y}`;
             }
@@ -184,21 +184,32 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
         }
     }, [sunrise, sunset, currentTime, timezone]);
 
-    // Calculate moon path - Fixed alignment
+    // Calculate moon path - Robust handling for missing rise/set
     const moonData = useMemo(() => {
-        if (!moonrise || !moonset) return null;
+        // If BOTH are missing, return null
+        if (!moonrise && !moonset) return null;
 
         try {
-            const moonriseMin = getMinutesFromMidnight(moonrise);
-            const moonsetMin = getMinutesFromMidnight(moonset);
+            // Helper: default to boundaries if event is missing
+            // If moonrise missing -> implies rose yesterday, visible from start of day
+            const moonriseMin = moonrise ? getMinutesFromMidnight(moonrise) : 0;
+
+            // If moonset missing -> implies sets tomorrow, visible until end of day
+            const moonsetMin = moonset ? getMinutesFromMidnight(moonset) : 24 * 60;
+
             const currentMin = getCurrentMinutesInTimezone();
-            
+
             // Determine if moon arc wraps around midnight
+            // Note: If we defaulted to 0 or 24*60, wrapsAround logic handles it naturally?
+            // Case 1: Rise=12:00, Set=Missing(24:00). wraps=false. Correct.
+            // Case 2: Rise=Missing(0), Set=12:00. wraps=false (12<0 is false). Correct.
+            // Case 3: Rise=18:00, Set=06:00. wraps=true. Correct.
             const wrapsAround = moonsetMin < moonriseMin;
-            
+
             // Calculate total duration of moon visibility
-            const totalDuration = wrapsAround 
-                ? (24 * 60 - moonriseMin) + moonsetMin 
+            // If specific events are missing, duration might be approx, but visually consistent
+            const totalDuration = wrapsAround
+                ? (24 * 60 - moonriseMin) + moonsetMin
                 : moonsetMin - moonriseMin;
 
             // Safety check
@@ -207,7 +218,7 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
             // Helper to get moon altitude at a given minute
             const getMoonAltitude = (min: number): number => {
                 let elapsed: number;
-                
+
                 if (wrapsAround) {
                     if (min >= moonriseMin) {
                         elapsed = min - moonriseMin;
@@ -223,7 +234,7 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
                         return -1; // Moon not visible
                     }
                 }
-                
+
                 const progress = elapsed / totalDuration;
                 return Math.sin(progress * Math.PI) * (MAX_ALTITUDE - 15);
             };
@@ -238,7 +249,7 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
 
             // Generate moon path segments
             const paths: string[] = [];
-            
+
             if (wrapsAround) {
                 // Segment 1: moonrise to midnight
                 const seg1Points: { x: number; y: number }[] = [];
@@ -248,7 +259,7 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
                         seg1Points.push({ x: minutesToX(min), y: HORIZON_Y - alt });
                     }
                 }
-                
+
                 if (seg1Points.length > 0) {
                     let d = `M ${minutesToX(moonriseMin)} ${HORIZON_Y}`;
                     for (const pt of seg1Points) {
@@ -261,7 +272,7 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
                     }
                     paths.push(d);
                 }
-                
+
                 // Segment 2: midnight to moonset
                 const seg2Points: { x: number; y: number }[] = [];
                 for (let min = 0; min <= moonsetMin; min += 2) {
@@ -270,11 +281,11 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
                         seg2Points.push({ x: minutesToX(min), y: HORIZON_Y - alt });
                     }
                 }
-                
+
                 if (seg2Points.length > 0) {
                     // Start from left edge continuing the arc
                     const firstAlt = getMoonAltitude(0);
-                    let d = firstAlt >= 0 
+                    let d = firstAlt >= 0
                         ? `M ${minutesToX(0)} ${HORIZON_Y - firstAlt}`
                         : `M ${seg2Points[0].x} ${seg2Points[0].y}`;
                     for (const pt of seg2Points) {
@@ -292,7 +303,7 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
                         points.push({ x: minutesToX(min), y: HORIZON_Y - alt });
                     }
                 }
-                
+
                 if (points.length > 0) {
                     let d = `M ${minutesToX(moonriseMin)} ${HORIZON_Y}`;
                     for (const pt of points) {
@@ -398,7 +409,7 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
                             <stop offset="0%" stopColor="rgba(255, 200, 50, 0.6)" />
                             <stop offset="100%" stopColor="rgba(255, 150, 0, 0.1)" />
                         </linearGradient>
-                        
+
                         {/* Moon gradient */}
                         <linearGradient id="moonGradient" x1="0" x2="0" y1="0" y2="1">
                             <stop offset="0%" stopColor="rgba(200, 200, 255, 0.4)" />
@@ -407,19 +418,19 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
 
                         {/* Sun glow filter */}
                         <filter id="sunGlow" x="-50%" y="-50%" width="200%" height="200%">
-                            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                            <feGaussianBlur stdDeviation="4" result="coloredBlur" />
                             <feMerge>
-                                <feMergeNode in="coloredBlur"/>
-                                <feMergeNode in="SourceGraphic"/>
+                                <feMergeNode in="coloredBlur" />
+                                <feMergeNode in="SourceGraphic" />
                             </feMerge>
                         </filter>
 
                         {/* Moon glow filter */}
                         <filter id="moonGlow" x="-50%" y="-50%" width="200%" height="200%">
-                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                            <feGaussianBlur stdDeviation="3" result="coloredBlur" />
                             <feMerge>
-                                <feMergeNode in="coloredBlur"/>
-                                <feMergeNode in="SourceGraphic"/>
+                                <feMergeNode in="coloredBlur" />
+                                <feMergeNode in="SourceGraphic" />
                             </feMerge>
                         </filter>
 
@@ -447,37 +458,37 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
                     ))}
 
                     {/* Horizon line */}
-                    <line 
-                        x1={PADDING} 
-                        y1={HORIZON_Y} 
-                        x2={WIDTH - PADDING} 
-                        y2={HORIZON_Y} 
+                    <line
+                        x1={PADDING}
+                        y1={HORIZON_Y}
+                        x2={WIDTH - PADDING}
+                        y2={HORIZON_Y}
                         className="horizon-line"
                     />
 
                     {/* Ground gradient */}
-                    <rect 
-                        x={PADDING} 
-                        y={HORIZON_Y} 
-                        width={WIDTH - 2 * PADDING} 
-                        height={HEIGHT - HORIZON_Y - 40} 
+                    <rect
+                        x={PADDING}
+                        y={HORIZON_Y}
+                        width={WIDTH - 2 * PADDING}
+                        height={HEIGHT - HORIZON_Y - 40}
                         fill="rgba(40, 60, 40, 0.3)"
                         rx="4"
                     />
 
                     {/* Sun path fill */}
                     {sunData && (
-                        <path 
-                            d={sunData.pathD} 
-                            fill="url(#sunGradient)" 
+                        <path
+                            d={sunData.pathD}
+                            fill="url(#sunGradient)"
                             className="sun-path-fill"
                         />
                     )}
 
                     {/* Sun path stroke */}
                     {sunData && (
-                        <path 
-                            d={sunData.pathD.split(' L ').slice(1, -1).map((p, i) => (i === 0 ? 'M ' : 'L ') + p).join(' ')} 
+                        <path
+                            d={sunData.pathD.split(' L ').slice(1, -1).map((p, i) => (i === 0 ? 'M ' : 'L ') + p).join(' ')}
                             fill="none"
                             stroke="#FFD700"
                             strokeWidth="3"
@@ -490,11 +501,11 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
                     {moonData?.paths.map((d, i) => (
                         <g key={i}>
                             <path d={d} fill="url(#moonGradient)" className="moon-path-fill" />
-                            <path 
-                                d={d} 
-                                fill="none" 
-                                stroke="rgba(200, 200, 255, 0.8)" 
-                                strokeWidth="2" 
+                            <path
+                                d={d}
+                                fill="none"
+                                stroke="rgba(200, 200, 255, 0.8)"
+                                strokeWidth="2"
                                 strokeDasharray="8 4"
                                 className="moon-path-stroke"
                             />
@@ -602,9 +613,9 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
 
                     {/* Moon icon at current position */}
                     {moonData && (
-                        <g 
-                            transform={`translate(${moonData.moonX}, ${moonData.isMoonVisible ? moonData.moonY : HORIZON_Y + 25})`} 
-                            filter="url(#moonGlow)" 
+                        <g
+                            transform={`translate(${moonData.moonX}, ${moonData.isMoonVisible ? moonData.moonY : HORIZON_Y + 25})`}
+                            filter="url(#moonGlow)"
                             className="moon-icon"
                             opacity={moonData.isMoonVisible ? 1 : 0.4}
                         >
@@ -614,11 +625,11 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
                             <clipPath id="moonClip">
                                 <circle r="12" />
                             </clipPath>
-                            <rect 
-                                x={-12 + 24 * moonPhase} 
-                                y="-12" 
-                                width="24" 
-                                height="24" 
+                            <rect
+                                x={-12 + 24 * moonPhase}
+                                y="-12"
+                                width="24"
+                                height="24"
                                 fill="rgba(30, 30, 50, 0.8)"
                                 clipPath="url(#moonClip)"
                             />

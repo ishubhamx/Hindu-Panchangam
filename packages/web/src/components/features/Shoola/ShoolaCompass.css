@@ -1,0 +1,248 @@
+/* Shoola Compass - Direction Dosha Visualization */
+
+.shoola-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg);
+    backdrop-filter: blur(10px);
+}
+
+.shoola-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.shoola-header h3 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.shoola-header .day-badge {
+    background: var(--gradient-twilight);
+    color: white;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-full);
+}
+
+/* Compass Container */
+.compass-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-md);
+}
+
+.compass {
+    position: relative;
+    width: 180px;
+    height: 180px;
+}
+
+/* Compass Ring */
+.compass-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border: 2px solid var(--color-border);
+    box-shadow:
+        0 0 30px rgba(0, 0, 0, 0.3),
+        inset 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Direction Labels */
+.direction {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    transition: all var(--transition-base);
+}
+
+.direction-label {
+    font-size: var(--font-size-lg);
+    margin-bottom: 2px;
+}
+
+.direction-name {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-normal);
+    opacity: 0.7;
+}
+
+/* Position directions */
+.direction.north {
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.direction.south {
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.direction.east {
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.direction.west {
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Safe direction style */
+.direction.safe {
+    color: #4ade80;
+}
+
+.direction.safe .direction-label {
+    text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+}
+
+/* Danger direction style */
+.direction.danger {
+    color: #f87171;
+    animation: pulse-danger 2s ease-in-out infinite;
+}
+
+.direction.danger .direction-label {
+    text-shadow: 0 0 15px rgba(248, 113, 113, 0.7);
+}
+
+@keyframes pulse-danger {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translateX(-50%) scale(1.05);
+    }
+}
+
+.direction.danger.east,
+.direction.danger.west {
+    animation-name: pulse-danger-horizontal;
+}
+
+@keyframes pulse-danger-horizontal {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translateY(-50%) scale(1.05);
+    }
+}
+
+/* Center dot */
+.compass-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: var(--color-accent-primary);
+    border-radius: 50%;
+    box-shadow:
+        0 0 10px var(--color-accent-primary),
+        0 0 20px rgba(255, 198, 112, 0.5);
+}
+
+/* Danger indicator line */
+.danger-line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, #f87171 100%);
+    transform-origin: left center;
+    opacity: 0.6;
+    border-radius: 2px;
+}
+
+.danger-line.north {
+    transform: rotate(-90deg);
+}
+
+.danger-line.south {
+    transform: rotate(90deg);
+}
+
+.danger-line.east {
+    transform: rotate(0deg);
+}
+
+.danger-line.west {
+    transform: rotate(180deg);
+}
+
+/* Footer info */
+.shoola-footer {
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border);
+}
+
+.shoola-warning {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: rgba(248, 113, 113, 0.1);
+    border: 1px solid rgba(248, 113, 113, 0.2);
+    border-radius: var(--radius-lg);
+    color: #fca5a5;
+    font-size: var(--font-size-sm);
+}
+
+.shoola-warning-icon {
+    font-size: var(--font-size-lg);
+}
+
+.safe-directions {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+    flex-wrap: wrap;
+}
+
+.safe-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+    background: rgba(74, 222, 128, 0.1);
+    border: 1px solid rgba(74, 222, 128, 0.2);
+    border-radius: var(--radius-full);
+    color: #86efac;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+}
