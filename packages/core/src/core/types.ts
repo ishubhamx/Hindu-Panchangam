@@ -1,3 +1,5 @@
+import type { Festival } from '../types/festivals.js';
+
 export interface KaranaTransition {
     name: string;
     startTime: Date;
@@ -155,8 +157,8 @@ export interface Panchangam {
     // Dasha
     vimshottariDasha: DashaResult;
 
-    // Festivals
-    festivals: string[];
+    // Festivals (v3.0.0 - structured Festival objects)
+    festivals: Festival[];
 
     planetaryPositions: {
         sun: PlanetaryPosition;

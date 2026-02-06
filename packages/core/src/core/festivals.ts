@@ -1,473 +1,586 @@
+/**
+ * Festival Calculation Logic - v3.0.0
+ * 
+ * Complete redesign with Udaya Tithi support, proper categorization,
+ * and multi-day festival spans.
+ */
 
-import { masaNames } from './constants';
+import type { Festival, FestivalCalculationOptions, FestivalCategory } from '../types/festivals.js';
+import { masaNames, SOLAR_FESTIVALS, SANKRANTI_NAMES, MULTI_DAY_FESTIVALS } from './constants.js';
+import { getTithiAtSunrise } from './udaya-tithi.js';
+import { getSankrantiForDate } from './calculations.js';
+import { getAyanamsa } from './ayanamsa.js';
 
+/**
+ * Ekadashi Names by Masa and Paksha
+ */
 export const EKADASHI_NAMES: { [key: string]: string } = {
     // Chaitra (0)
     "0-Shukla": "Kamada Ekadashi",
     "0-Krishna": "Varuthini Ekadashi",
-
     // Vaishakha (1)
     "1-Shukla": "Mohini Ekadashi",
     "1-Krishna": "Apara Ekadashi",
-
     // Jyeshtha (2)
     "2-Shukla": "Nirjala Ekadashi",
     "2-Krishna": "Yogini Ekadashi",
-
     // Ashadha (3)
     "3-Shukla": "Devshayani Ekadashi",
     "3-Krishna": "Kamika Ekadashi",
-
     // Shravana (4)
     "4-Shukla": "Shravana Putrada Ekadashi",
     "4-Krishna": "Aja Ekadashi",
-
     // Bhadrapada (5)
     "5-Shukla": "Parsva Ekadashi",
     "5-Krishna": "Indira Ekadashi",
-
     // Ashwina (6)
     "6-Shukla": "Papankusha Ekadashi",
     "6-Krishna": "Rama Ekadashi",
-
     // Kartika (7)
     "7-Shukla": "Devutthana Ekadashi",
     "7-Krishna": "Utpanna Ekadashi",
-
     // Margashirsha (8)
-    "8-Shukla": "Mokshada Ekadashi", // Vaikuntha Ekadashi
+    "8-Shukla": "Mokshada Ekadashi",
     "8-Krishna": "Saphala Ekadashi",
-
     // Pausha (9)
     "9-Shukla": "Pausha Putrada Ekadashi",
     "9-Krishna": "Shattila Ekadashi",
-
     // Magha (10)
     "10-Shukla": "Jaya Ekadashi",
     "10-Krishna": "Vijaya Ekadashi",
-
     // Phalguna (11)
     "11-Shukla": "Amalaki Ekadashi",
     "11-Krishna": "Papmochani Ekadashi",
 };
 
+/**
+ * Get Ekadashi name for a given Masa and Paksha
+ */
 export function getEkadashiName(masaIndex: number, paksha: string): string {
     const key = `${masaIndex}-${paksha}`;
     return EKADASHI_NAMES[key] || `${masaNames[masaIndex]} ${paksha} Ekadashi`;
 }
 
-export function getFestivals(masaIndex: number, isAdhika: boolean, paksha: string, tithiIndex: number, vara?: number): string[] {
-    const festivals: string[] = [];
+/**
+ * Get Solar Calendar Festivals (Sankranti-based)
+ */
+function getSolarFestivals(
+    date: Date,
+    options: FestivalCalculationOptions
+): Festival[] {
+    const festivals: Festival[] = [];
 
-    if (isAdhika) {
-        // Usually festivals are not celebrated in Adhika Masa (except maybe Adhika Masa specific ones)
-        // For now, adhering to main festivals only.
+    if (!options.includeSolarFestivals) {
         return festivals;
     }
 
-    // Tithi Indices: 
-    // 1..15 are Shukla (if Paksha is Shukla) or Krishna (if Paksha is Krishna)?
-    // Note: getTithi in calculations.ts returns 1..30.
-    // 1..15 = Shukla
-    // 16..30 = Krishna
-    // My previous logic in calculations.ts assumed getTithi returns 1 based on Sun/Moon angle.
-    // 0-12 deg = Tithi 1. 0-180 deg = 1-15 (Shukla). 180-360 deg = 16-30 (Krishna).
+    const timezoneOffsetMinutes = -date.getTimezoneOffset();
+    const ayanamsa = getAyanamsa(date);
+    const sankranti = getSankrantiForDate(date, ayanamsa, timezoneOffsetMinutes);
 
-    // However, the `paksha` argument passed here is derived from tithi.
-    // If tithiIndex is 1..15, paksha is Shukla.
-    // If tithiIndex is 16..30, paksha is Krishna.
-
-    // We need 'Lunar Day Number' within Paksha for some comparisons (Prathama=1, etc.)
-    // But `tithiIndex` is absolute 1-30.
-
-    // 1. Ugadi / Gudi Padwa: Chaitra (0) Shukla Prathama (1)
-    if (masaIndex === 0 && tithiIndex === 1) {
-        festivals.push("Ugadi / Gudi Padwa (New Year)");
+    if (!sankranti) {
+        return festivals;
     }
 
-    // 2. Rama Navami: Chaitra (0) Shukla Navami (9)
-    if (masaIndex === 0 && tithiIndex === 9) {
-        festivals.push("Rama Navami");
+    const rashiIndex = sankranti.rashi;
+    const solarFestivalConfigs = SOLAR_FESTIVALS[rashiIndex];
+
+    if (!solarFestivalConfigs) {
+        return festivals;
     }
 
-    // 3. Akshaya Tritiya: Vaishakha (1) Shukla Tritiya (3)
-    if (masaIndex === 1 && tithiIndex === 3) {
-        festivals.push("Akshaya Tritiya");
-        festivals.push("Parashurama Jayanti");
-    }
-
-    // Ganga Saptami: Vaishakha (1) Shukla Saptami (7)
-    if (masaIndex === 1 && tithiIndex === 7) {
-        festivals.push("Ganga Saptami");
-    }
-
-    // Sita Navami: Vaishakha (1) Shukla Navami (9)
-    if (masaIndex === 1 && tithiIndex === 9) {
-        festivals.push("Sita Navami");
-    }
-
-    // Narada Jayanti: Vaishakha (1) Krishna Prathama (16)
-    // (Jyeshtha Krishna 1 in Purnimanta)
-    if (masaIndex === 1 && tithiIndex === 16) {
-        festivals.push("Narada Jayanti");
-    }
-
-    // 4. Guru Purnima: Ashadha (3) Purnima (15)
-    if (masaIndex === 3 && tithiIndex === 15) {
-        festivals.push("Guru Purnima");
-    }
-
-    // --- Jyeshtha Festivals ---
-
-    // Vat Savitri Vrat (Amavasya): Jyeshtha (2) Amavasya (30)
-    // Also Shani Jayanti
-    if (masaIndex === 2 && tithiIndex === 30) {
-        festivals.push("Vat Savitri Vrat (Amavasya)");
-        festivals.push("Shani Jayanti");
-    }
-
-    // Mahesh Navami: Jyeshtha (2) Shukla Navami (9)
-    if (masaIndex === 2 && tithiIndex === 9) {
-        festivals.push("Mahesh Navami");
-    }
-
-    // Ganga Dussehra: Jyeshtha (2) Shukla Dashami (10)
-    if (masaIndex === 2 && tithiIndex === 10) {
-        festivals.push("Ganga Dussehra");
-    }
-
-    // Vat Purnima Vrat: Jyeshtha (2) Purnima (15)
-    if (masaIndex === 2 && tithiIndex === 15) {
-        festivals.push("Vat Purnima Vrat");
-    }
-
-    // 5. Raksha Bandhan: Shravana (4) Purnima (15)
-    if (masaIndex === 4 && tithiIndex === 15) {
-        festivals.push("Raksha Bandhan");
-    }
-
-    // 6. Krishna Janmashtami: Shravana (4) Krishna Ashtami (23)
-    // Krishna Paksha starts at 16. Ashtami is 8th day. 15+8 = 23.
-    if (masaIndex === 4 && tithiIndex === 23) {
-        festivals.push("Krishna Janmashtami");
-    }
-
-    // 7. Ganesh Chaturthi: Bhadrapada (5) Shukla Chaturthi (4)
-    if (masaIndex === 5 && tithiIndex === 4) {
-        festivals.push("Ganesh Chaturthi");
-    }
-
-    // 8. Navaratri Start: Ashwina (6) Shukla Prathama (1)
-    if (masaIndex === 6 && tithiIndex === 1) {
-        festivals.push("Navaratri Ghatasthapana");
-    }
-
-    // 9. Vijaya Dashami: Ashwina (6) Shukla Dashami (10)
-    if (masaIndex === 6 && tithiIndex === 10) {
-        festivals.push("Vijaya Dashami (Dussehra)");
-    }
-
-    // 10. Diwali (Lakshmi Puja): Ashwina (6) Amavasya (30)
-    // Amavasya is Tithi 30.
-    if (masaIndex === 6 && tithiIndex === 30) {
-        festivals.push("Diwali (Lakshmi Puja)");
-    }
-
-    // 11. Bali Pratipada: Kartika (7) Shukla Prathama (1)
-    if (masaIndex === 7 && tithiIndex === 1) {
-        festivals.push("Bali Pratipada");
-    }
-
-    // 12. Maha Shivaratri: Magha (10) Krishna Chaturdashi (29)
-    // Krishna Chaturdashi is 14th day of dark phase. 15+14 = 29.
-    if (masaIndex === 10 && tithiIndex === 29) {
-        festivals.push("Maha Shivaratri");
-    }
-
-    // 13. Holi: Phalguna (11) Purnima (15)
-    if (masaIndex === 11 && tithiIndex === 15) {
-        festivals.push("Holi / Holika Dahan");
-    }
-
-    // --- North Indian / Purnimanta Chaitra Festivals (Fall in Amanta Phalguna Krishna) ---
-
-    // Ranga Panchami: Phalguna (11) Krishna Panchami (20)
-    if (masaIndex === 11 && tithiIndex === 20) {
-        festivals.push("Ranga Panchami");
-    }
-
-    // Sheetala Ashtami: Phalguna (11) Krishna Ashtami (23)
-    if (masaIndex === 11 && tithiIndex === 23) {
-        festivals.push("Sheetala Ashtami");
-    }
-
-    // --- Chaitra Shukla Festivals ---
-
-    // Chaitra Navratri Ghatasthapana: Chaitra (0) Shukla Prathama (1)
-    if (masaIndex === 0 && tithiIndex === 1) {
-        festivals.push("Chaitra Navratri Ghatasthapana");
-    }
-
-    // Gangaur: Chaitra (0) Shukla Tritiya (3)
-    if (masaIndex === 0 && tithiIndex === 3) {
-        festivals.push("Gangaur");
-    }
-
-    // Yamuna Chhath: Chaitra (0) Shukla Shashthi (6)
-    if (masaIndex === 0 && tithiIndex === 6) {
-        festivals.push("Yamuna Chhath");
-    }
-
-    // --- New Minor Major Festivals ---
-
-    // Hanuman Jayanti: Chaitra (0) Purnima (15)
-    if (masaIndex === 0 && tithiIndex === 15) {
-        festivals.push("Hanuman Jayanti");
-    }
-
-    // Narasimha Jayanti: Vaishakha (1) Shukla Chaturdashi (14)
-    if (masaIndex === 1 && tithiIndex === 14) {
-        festivals.push("Narasimha Jayanti");
-    }
-
-    // Buddha Purnima: Vaishakha (1) Purnima (15)
-    if (masaIndex === 1 && tithiIndex === 15) {
-        festivals.push("Buddha Purnima");
-    }
-
-    // Vat Savitri Vrat: Jyeshtha (2) Amavasya (30) (Purnimanta tradition follows this on Amavasya)
-    if (masaIndex === 2 && tithiIndex === 30) {
-        festivals.push("Vat Savitri Vrat");
-    }
-
-    // Jagannath Rathyatra: Ashadha (3) Shukla Dwitiya (2)
-    if (masaIndex === 3 && tithiIndex === 2) {
-        festivals.push("Jagannath Rathyatra");
-    }
-
-    // --- Shravana Festivals ---
-
-    // Hariyali Teej: Shravana (4) Shukla Tritiya (3)
-    if (masaIndex === 4 && tithiIndex === 3) {
-        festivals.push("Hariyali Teej");
-    }
-
-    // Nag Panchami: Shravana (4) Shukla Panchami (5)
-    if (masaIndex === 4 && tithiIndex === 5) {
-        festivals.push("Nag Panchami");
-        festivals.push("Kalki Jayanti");
-    }
-
-    // Shravana Putrada Ekadashi (already handled in Ekadashi map)
-
-    // Varalakshmi Vrat (Friday before Shravana Purnima)
-    // Handled in existing logic using varalakshmi logic below?
-    // Let's check below.
-
-    // Hayagriva Jayanti, Gayatri Jayanti, Narali Purnima: Shravana (4) Purnima (15)
-    // Also Raksha Bandhan (already there)
-    if (masaIndex === 4 && tithiIndex === 15) {
-        // Raksha Bandhan is already pushed above.
-        festivals.push("Gayatri Jayanti (Shravana)");
-        festivals.push("Hayagriva Jayanti");
-        festivals.push("Narali Purnima");
-    }
-
-    // --- Bhadrapada Festivals ---
-
-    // Kajari Teej: Bhadrapada (5) Krishna Tritiya (18)
-    // (Shravana Krishna 3 in Amanta, but usually celebrated as Bhadrapada Krishna 3 in PurnimantaNorth)
-    // Drik says: "Next Teej after Hariyali Teej... fifteen days... Bhadrapada Krishna Paksha (Purnimanta) / Shravana Krishna (Amanta)"
-    // So in Amanta system (ours), it is Shravana (4) Krishna Tritiya (18).
-    if (masaIndex === 4 && tithiIndex === 18) {
-        festivals.push("Kajari Teej");
-    }
-
-    // Jivitputrika Vrat: Ashwina Krishna Ashtami (Purnimanta) -> Bhadrapada Krishna Ashtami (Amanta)
-    // Masa = 5 (Bhadrapada), Tithi = 16+8 = 23 (Krishna Ashtami)
-    if (masaIndex === 5 && tithiIndex === 23) {
-        festivals.push("Jivitputrika Vrat");
-    }
-
-    // Aja Ekadashi: Shravana (4) Krishna 11 (26) (Handled)
-
-    // Hartalika Teej: Bhadrapada (5) Shukla Tritiya (3)
-    if (masaIndex === 5 && tithiIndex === 3) {
-        festivals.push("Hartalika Teej");
-        festivals.push("Gowri Habba");
-    }
-
-    // Ganesh Chaturthi: Bhadrapada (5) Shukla Chaturthi (4) (Already added)
-
-    // Rishi Panchami: Bhadrapada (5) Shukla Panchami (5)
-    if (masaIndex === 5 && tithiIndex === 5) {
-        festivals.push("Rishi Panchami");
-    }
-
-    // Radha Ashtami: Bhadrapada (5) Shukla Ashtami (8)
-    if (masaIndex === 5 && tithiIndex === 8) {
-        festivals.push("Radha Ashtami");
-    }
-
-    // Parsva Ekadashi (Handled)
-
-    // Vamana Jayanti: Bhadrapada (5) Shukla Dwadashi (12)
-    if (masaIndex === 5 && tithiIndex === 12) {
-        festivals.push("Vamana Jayanti");
-    }
-
-    // Anant Chaturdashi / Ganesh Visarjan: Bhadrapada (5) Shukla Chaturdashi (14)
-    if (masaIndex === 5 && tithiIndex === 14) {
-        festivals.push("Anant Chaturdashi");
-        festivals.push("Ganesh Visarjan");
-    }
-
-    // Pitru Paksha Begins: Bhadrapada (5) Purnima (15) (Usually Purnima Shraddha)
-    // But main period is Krishna Paksha of Ashwina (Amanta: Bhadrapada Krishna).
-    // Let's mark Purnima Shraddha.
-    if (masaIndex === 5 && tithiIndex === 15) {
-        festivals.push("Purnima Shraddha (Pitru Paksha Begins)");
-    }
-
-    // Sarva Pitru Amavasya: Bhadrapada (5) Amavasya (30)
-    // (Ashwina Krishna 30 Purnimanta)
-    if (masaIndex === 5 && tithiIndex === 30) {
-        festivals.push("Sarva Pitru Amavasya (Mahalaya)");
-    }
-
-    // --- Ashwin Festivals ---
-
-    // Navaratri Ghatasthapana: Ashwina (6) Shukla 1 (Already added)
-
-    // Saraswati Avahan: Ashwina (6) Shukla ... depends on Nakshatra (Moola).
-    // Skipping logic based *only* on Tithi for now. 
-    // Drik says "Ashanina Shukla Saptami" or "Moola Nakshatra".
-    // Usually Saptami/Ashtami/Navami are main days.
-
-    // Durga Ashtami: Ashwina (6) Shukla Ashtami (8)
-    if (masaIndex === 6 && tithiIndex === 8) {
-        festivals.push("Durga Ashtami");
-    }
-
-    // Maha Navami: Ashwina (6) Shukla Navami (9)
-    if (masaIndex === 6 && tithiIndex === 9) {
-        festivals.push("Maha Navami");
-    }
-
-    // Vijaya Dashami: Ashwina (6) Shukla 10 (Already added)
-
-    // Papankusha Ekadashi (Handled)
-
-    // Sharad Purnima: Ashwina (6) Purnima (15)
-    // Also Valmiki Jayanti
-    if (masaIndex === 6 && tithiIndex === 15) {
-        festivals.push("Sharad Purnima");
-        festivals.push("Valmiki Jayanti");
-    }
-
-    // Karwa Chauth: Ashwina (6) Krishna Chaturthi (19)
-    // (Kartika Krishna 4 Purnimanta)
-    if (masaIndex === 6 && tithiIndex === 19) {
-        festivals.push("Karwa Chauth");
-    }
-
-    // Ahoi Ashtami: Ashwina (6) Krishna Ashtami (23)
-    if (masaIndex === 6 && tithiIndex === 23) {
-        festivals.push("Ahoi Ashtami");
-    }
-
-    // Rama Ekadashi (Handled)
-
-    // Dhanteras: Ashwina (6) Krishna Trayodashi (28)
-    if (masaIndex === 6 && tithiIndex === 28) {
-        festivals.push("Dhanteras");
-    }
-
-    // Naraka Chaturdashi: Ashwina (6) Krishna Chaturdashi (29)
-    if (masaIndex === 6 && tithiIndex === 29) {
-        festivals.push("Naraka Chaturdashi");
-    }
-
-    // Diwali (Lakshmi Puja): Ashwina (6) Amavasya (30) (Already added)
-
-    // Varalakshmi Vrat: Shravana (4) Friday before Purnima.
-    // Usually falls on Shukla Krat (Eighth?) no, it's strictly Friday before Purnima.
-    // This is tricky with just Tithi. We need to check if current day is Friday, 
-    // AND if Purnima is nearby (within 7 days).
-    // Or simpler: It occurs on the Friday of Shravana Shukla Paksha close to Purnima.
-    // Most texts say: Second Friday of Shravana? No. "Last Friday before Shravana Purnima".
-    // If today is Friday (vara=5) and we are in Shravana Shukla Paksha?
-    // How to know if it's the *last* Friday?
-    // If tithi is 9, 10, 11, 12, 13, 14? 
-    // If we are at Tithi 15 (Purnima), looking back is hard without next/prev checks.
-    // Approximation: If Vara=5 (Fri) and Tithi is between Shukla Dashami(10) and Chaturdashi(14)?
-    // Or closer? Purnima can be Fri. If Purnima is Fri, is it that day? Usually yes.
-    // Let's assume Shravana Shukla Friday is widely auspicious, 
-    // but the specific Vrat is the one nearest Purnima.
-    // Range: Tithi 8 to 15.
-    if (masaIndex === 4 && tithiIndex >= 8 && tithiIndex <= 15 && vara === 5) {
-        festivals.push("Varalakshmi Vrat (Likely)");
-    }
-
-
-
-    // Govardhan Puja: Kartika (7) Shukla Prathama (1)
-    if (masaIndex === 7 && tithiIndex === 1) {
-        festivals.push("Govardhan Puja");
-    }
-
-    // Bhai Dooj: Kartika (7) Shukla Dwitiya (2)
-    if (masaIndex === 7 && tithiIndex === 2) {
-        festivals.push("Bhai Dooj");
-    }
-
-    // Chhath Puja: Kartika (7) Shukla Shashthi (6)
-    if (masaIndex === 7 && tithiIndex === 6) {
-        festivals.push("Chhath Puja");
-    }
-
-    // Tulasi Vivah: Kartika (7) Shukla Dwadashi (12)
-    if (masaIndex === 7 && tithiIndex === 12) {
-        festivals.push("Tulasi Vivah");
-    }
-
-    // Kartik Purnima (Dev Diwali): Kartika (7) Purnima (15)
-    if (masaIndex === 7 && tithiIndex === 15) {
-        festivals.push("Kartik Purnima / Dev Diwali");
-    }
-
-    // Gita Jayanti: Margashirsha (8) Shukla Ekadashi (11) (Mokshada)
-    if (masaIndex === 8 && tithiIndex === 11) {
-        festivals.push("Gita Jayanti");
-    }
-
-    // Dattatreya Jayanti: Margashirsha (8) Purnima (15)
-    if (masaIndex === 8 && tithiIndex === 15) {
-        festivals.push("Dattatreya Jayanti");
-    }
-
-    // Vasant Panchami: Magha (10) Shukla Panchami (5)
-    if (masaIndex === 10 && tithiIndex === 5) {
-        festivals.push("Vasant Panchami");
-    }
-
-    // Ratha Saptami: Magha (10) Shukla Saptami (7)
-    if (masaIndex === 10 && tithiIndex === 7) {
-        festivals.push("Ratha Saptami");
-    }
-
-    // Ekadashi Detection
-    // Absolute Tithi 11 (Shukla Ekadashi) or 26 (Krishna Ekadashi)
-    if (tithiIndex === 11 || tithiIndex === 26) {
-        const name = getEkadashiName(masaIndex, paksha);
-        festivals.push(name);
-    }
-
-    // Pradosham Detection (Trayodashi - 13 or 28)
-    if (tithiIndex === 13 || tithiIndex === 28) {
-        const pakshaName = (tithiIndex === 13) ? "Shukla" : "Krishna";
-        festivals.push(`Pradosham (${pakshaName})`);
+    for (const config of solarFestivalConfigs) {
+        if (config.type === 'span' && config.spanDays && config.dayNames) {
+            const sankrantiTime = sankranti.exactTime.getTime();
+            const currentTime = date.getTime();
+            const daysDiff = Math.floor((currentTime - sankrantiTime) / (24 * 60 * 60 * 1000));
+
+            if (daysDiff >= -1 && daysDiff < config.spanDays - 1) {
+                const dayIndex = daysDiff + 1;
+                if (dayIndex >= 0 && dayIndex < config.spanDays) {
+                    const dayName = config.dayNames[dayIndex];
+                    festivals.push({
+                        name: dayName,
+                        type: 'span',
+                        category: 'solar',
+                        date,
+                        description: config.description,
+                        regional: config.regional,
+                        spanDays: config.spanDays,
+                        dailyNames: config.dayNames
+                    });
+                }
+            }
+        } else {
+            festivals.push({
+                name: config.name,
+                type: 'single',
+                category: 'solar',
+                date,
+                description: config.description,
+                regional: config.regional
+            });
+        }
     }
 
     return festivals;
+}
+
+/**
+ * Get Multi-Day Festival Span Information
+ */
+function getMultiDayFestivals(
+    masaIndex: number,
+    udayaTithi: number,
+    date: Date,
+    options: FestivalCalculationOptions
+): Festival[] {
+    const festivals: Festival[] = [];
+
+    if (!options.includeMultiDaySpans) {
+        return festivals;
+    }
+
+    for (const [key, config] of Object.entries(MULTI_DAY_FESTIVALS)) {
+        if (config.masaIndex !== masaIndex) {
+            continue;
+        }
+
+        if (udayaTithi >= config.startTithi && udayaTithi <= config.endTithi) {
+            const dayIndex = udayaTithi - config.startTithi;
+            const dailyName = config.dailyNames[dayIndex] || `${config.name} Day ${dayIndex + 1}`;
+
+            festivals.push({
+                name: dailyName,
+                type: 'span',
+                category: 'major',
+                date,
+                tithi: udayaTithi,
+                masa: masaNames[masaIndex],
+                spanDays: config.spanDays,
+                dailyNames: config.dailyNames,
+                description: `${config.description} (Day ${dayIndex + 1} of ${config.spanDays})`
+            });
+        }
+    }
+
+    return festivals;
+}
+
+/**
+ * Main Festival Calculation Function (v3.0.0)
+ * 
+ * Uses Udaya Tithi (sunrise Tithi) for accurate festival detection.
+ * Returns structured Festival objects instead of strings.
+ */
+export function getFestivals(options: FestivalCalculationOptions): Festival[] {
+    const festivals: Festival[] = [];
+
+    const { date, observer, sunrise, masa, paksha, tithi: civilTithi } = options;
+
+    // Skip Adhika Masa (no major festivals in extra month)
+    if (masa.isAdhika) {
+        return festivals;
+    }
+
+    // Calculate Udaya Tithi (Tithi at sunrise)
+    const udayaTithi = getTithiAtSunrise(date, sunrise, observer);
+    const masaIndex = masa.index;
+
+    // Helper to create festival object
+    const createFestival = (
+        name: string,
+        category: FestivalCategory,
+        metadata?: Partial<Festival>
+    ): Festival => ({
+        name,
+        type: 'single',
+        category,
+        date,
+        tithi: udayaTithi,
+        paksha,
+        masa: masa.name,
+        ...metadata
+    });
+
+    // ===== MAJOR FESTIVALS =====
+
+    // Ugadi / Gudi Padwa - Chaitra Shukla Prathama
+    if (masaIndex === 0 && udayaTithi === 1) {
+        festivals.push(createFestival("Ugadi / Gudi Padwa", 'major', {
+            description: "Hindu New Year",
+            observances: ["New Year celebrations", "Panchanga reading"],
+            regional: ['South', 'Maharashtra']
+        }));
+        festivals.push(createFestival("Chaitra Navratri Ghatasthapana", 'major'));
+    }
+
+    // Rama Navami - Chaitra Shukla Navami
+    if (masaIndex === 0 && udayaTithi === 9) {
+        festivals.push(createFestival("Rama Navami", 'major', {
+            description: "Birth of Lord Rama",
+            observances: ["Rama Katha", "Chariot processions"],
+            isFastingDay: true
+        }));
+    }
+
+    // Hanuman Jayanti - Chaitra Purnima
+    if (masaIndex === 0 && udayaTithi === 15) {
+        festivals.push(createFestival("Hanuman Jayanti", 'jayanti', {
+            description: "Birth of Lord Hanuman"
+        }));
+    }
+
+    // Akshaya Tritiya - Vaishakha Shukla Tritiya
+    if (masaIndex === 1 && udayaTithi === 3) {
+        festivals.push(createFestival("Akshaya Tritiya", 'major', {
+            description: "Auspicious day for new beginnings",
+            observances: ["Gold purchases", "Charity"]
+        }));
+        festivals.push(createFestival("Parashurama Jayanti", 'jayanti'));
+    }
+
+    // Buddha Purnima - Vaishakha Purnima
+    if (masaIndex === 1 && udayaTithi === 15) {
+        festivals.push(createFestival("Buddha Purnima", 'major', {
+            description: "Birth of Gautama Buddha"
+        }));
+    }
+
+    // Jagannath Rathyatra - Ashadha Shukla Dwitiya
+    if (masaIndex === 3 && udayaTithi === 2) {
+        festivals.push(createFestival("Jagannath Rathyatra", 'major', {
+            description: "Annual chariot festival of Lord Jagannath",
+            regional: ['Odisha', 'East']
+        }));
+    }
+
+    // Guru Purnima - Ashadha Purnima
+    if (masaIndex === 3 && udayaTithi === 15) {
+        festivals.push(createFestival("Guru Purnima", 'major', {
+            description: "Day to honor spiritual and academic teachers",
+            observances: ["Guru worship", "Prayers"]
+        }));
+    }
+
+    // Raksha Bandhan - Shravana Purnima
+    if (masaIndex === 4 && udayaTithi === 15) {
+        festivals.push(createFestival("Raksha Bandhan", 'major', {
+            description: "Festival celebrating brother-sister bond",
+            observances: ["Rakhi tying"]
+        }));
+        festivals.push(createFestival("Gayatri Jayanti", 'jayanti'));
+        festivals.push(createFestival("Hayagriva Jayanti", 'jayanti'));
+    }
+
+    // Krishna Janmashtami - Shravana Krishna Ashtami
+    if (masaIndex === 4 && udayaTithi === 23) {
+        festivals.push(createFestival("Krishna Janmashtami", 'major', {
+            description: "Birth of Lord Krishna",
+            observances: ["Fasting", "Midnight celebrations", "Dahi Handi"],
+            isFastingDay: true
+        }));
+    }
+
+    // Ganesh Chaturthi - Bhadrapada Shukla Chaturthi
+    if (masaIndex === 5 && udayaTithi === 4) {
+        festivals.push(createFestival("Ganesh Chaturthi", 'major', {
+            description: "Birth of Lord Ganesha",
+            observances: ["Ganesha idol worship", "Modak offerings"],
+            regional: ['Maharashtra', 'Karnataka']
+        }));
+    }
+
+    // Anant Chaturdashi - Bhadrapada Shukla Chaturdashi
+    if (masaIndex === 5 && udayaTithi === 14) {
+        festivals.push(createFestival("Anant Chaturdashi", 'major'));
+        festivals.push(createFestival("Ganesh Visarjan", 'major', {
+            description: "Immersion of Ganesha idols"
+        }));
+    }
+
+    // Sarva Pitru Amavasya / Mahalaya - Bhadrapada Amavasya
+    if (masaIndex === 5 && udayaTithi === 30) {
+        festivals.push(createFestival("Sarva Pitru Amavasya (Mahalaya)", 'major', {
+            description: "Last day of Pitru Paksha",
+            observances: ["Ancestor worship", "Tarpan"]
+        }));
+    }
+
+    // Navaratri Ghatasthapana - Ashwina Shukla Prathama
+    if (masaIndex === 6 && udayaTithi === 1) {
+        festivals.push(createFestival("Navaratri Ghatasthapana", 'major', {
+            description: "Start of 9-day Durga worship",
+            observances: ["Kalash sthapana", "Fasting begins"]
+        }));
+    }
+
+    // Durga Ashtami - Ashwina Shukla Ashtami
+    if (masaIndex === 6 && udayaTithi === 8) {
+        festivals.push(createFestival("Durga Ashtami (Maha Ashtami)", 'major', {
+            observances: ["Durga puja", "Kumari puja"]
+        }));
+    }
+
+    // Maha Navami - Ashwina Shukla Navami
+    if (masaIndex === 6 && udayaTithi === 9) {
+        festivals.push(createFestival("Maha Navami", 'major', {
+            observances: ["Durga worship", "Ayudha puja"]
+        }));
+    }
+
+    // Vijaya Dashami / Dussehra - Ashwina Shukla Dashami
+    if (masaIndex === 6 && udayaTithi === 10) {
+        festivals.push(createFestival("Vijaya Dashami (Dussehra)", 'major', {
+            description: "Victory of good over evil",
+            observances: ["Ravana effigy burning", "Vijayadashami puja"]
+        }));
+    }
+
+    // Sharad Purnima - Ashwina Purnima
+    if (masaIndex === 6 && udayaTithi === 15) {
+        festivals.push(createFestival("Sharad Purnima", 'major', {
+            description: "Harvest festival, full moon night"
+        }));
+        festivals.push(createFestival("Valmiki Jayanti", 'jayanti'));
+    }
+
+    // Karwa Chauth - Ashwina Krishna Chaturthi
+    if (masaIndex === 6 && udayaTithi === 19) {
+        festivals.push(createFestival("Karwa Chauth", 'vrat', {
+            description: "Fasting for husband's longevity",
+            isFastingDay: true,
+            regional: ['North']
+        }));
+    }
+
+    // Dhanteras - Ashwina Krishna Trayodashi
+    if (masaIndex === 6 && udayaTithi === 28) {
+        festivals.push(createFestival("Dhanteras", 'major', {
+            description: "Festival of wealth",
+            observances: ["Gold/utensil purchases", "Lakshmi puja"]
+        }));
+    }
+
+    // Naraka Chaturdashi / Choti Diwali - Ashwina Krishna Chaturdashi
+    if (masaIndex === 6 && udayaTithi === 29) {
+        festivals.push(createFestival("Naraka Chaturdashi (Choti Diwali)", 'major', {
+            observances: ["Oil bath", "Lamps"]
+        }));
+    }
+
+    // Diwali - Ashwina Amavasya
+    if (masaIndex === 6 && udayaTithi === 30) {
+        festivals.push(createFestival("Diwali (Lakshmi Puja)", 'major', {
+            description: "Festival of Lights",
+            observances: ["Lakshmi puja", "Fireworks", "Lamps", "Sweets"]
+        }));
+    }
+
+    // Govardhan Puja / Bali Pratipada - Kartika Shukla Prathama
+    if (masaIndex === 7 && udayaTithi === 1) {
+        festivals.push(createFestival("Govardhan Puja", 'major'));
+        festivals.push(createFestival("Bali Pratipada", 'major'));
+    }
+
+    // Bhai Dooj - Kartika Shukla Dwitiya
+    if (masaIndex === 7 && udayaTithi === 2) {
+        festivals.push(createFestival("Bhai Dooj", 'major', {
+            description: "Sister-brother bond celebration"
+        }));
+    }
+
+    // Chhath Puja - Kartika Shukla Shashthi
+    if (masaIndex === 7 && udayaTithi === 6) {
+        festivals.push(createFestival("Chhath Puja", 'major', {
+            description: "Sun god worship",
+            regional: ['Bihar', 'Jharkhand', 'UP'],
+            observances: ["Fasting", "Arghya to Sun"]
+        }));
+    }
+
+    // Kartik Purnima / Dev Diwali - Kartika Purnima
+    if (masaIndex === 7 && udayaTithi === 15) {
+        festivals.push(createFestival("Kartik Purnima / Dev Diwali", 'major', {
+            observances: ["River bathing", "Diyas"]
+        }));
+    }
+
+    // Dattatreya Jayanti - Margashirsha Purnima
+    if (masaIndex === 8 && udayaTithi === 15) {
+        festivals.push(createFestival("Dattatreya Jayanti", 'jayanti'));
+    }
+
+    // Vasant Panchami - Magha Shukla Panchami
+    if (masaIndex === 10 && udayaTithi === 5) {
+        festivals.push(createFestival("Vasant Panchami", 'major', {
+            description: "Welcoming spring, Saraswati worship",
+            observances: ["Saraswati puja", "Yellow clothes"]
+        }));
+    }
+
+    // Maha Shivaratri - Magha Krishna Chaturdashi
+    if (masaIndex === 10 && udayaTithi === 29) {
+        festivals.push(createFestival("Maha Shivaratri", 'major', {
+            description: "Great night of Shiva",
+            observances: ["Fasting", "All-night vigil", "Shiva puja"],
+            isFastingDay: true
+        }));
+    }
+
+    // Holi / Holika Dahan - Phalguna Purnima
+    if (masaIndex === 11 && udayaTithi === 15) {
+        festivals.push(createFestival("Holi / Holika Dahan", 'major', {
+            description: "Festival of colors",
+            observances: ["Bonfire", "Colors next day"]
+        }));
+    }
+
+    // ===== MINOR FESTIVALS =====
+
+    // Ganga Saptami - Vaishakha Shukla Saptami
+    if (masaIndex === 1 && udayaTithi === 7) {
+        festivals.push(createFestival("Ganga Saptami", 'minor'));
+    }
+
+    // Vat Savitri Vrat - Jyeshtha Amavasya
+    if (masaIndex === 2 && udayaTithi === 30) {
+        festivals.push(createFestival("Vat Savitri Vrat", 'vrat', {
+            regional: ['Maharashtra', 'Gujarat'],
+            isFastingDay: true
+        }));
+        festivals.push(createFestival("Shani Jayanti", 'jayanti'));
+    }
+
+    // Vat Purnima - Jyeshtha Purnima
+    if (masaIndex === 2 && udayaTithi === 15) {
+        festivals.push(createFestival("Vat Purnima", 'vrat', {
+            regional: ['North'],
+            isFastingDay: true
+        }));
+    }
+
+    // Ganga Dussehra - Jyeshtha Shukla Dashami
+    if (masaIndex === 2 && udayaTithi === 10) {
+        festivals.push(createFestival("Ganga Dussehra", 'minor'));
+    }
+
+    // Hariyali Teej - Shravana Shukla Tritiya
+    if (masaIndex === 4 && udayaTithi === 3) {
+        festivals.push(createFestival("Hariyali Teej", 'vrat', {
+            regional: ['North'],
+            isFastingDay: true
+        }));
+    }
+
+    // Nag Panchami - Shravana Shukla Panchami
+    if (masaIndex === 4 && udayaTithi === 5) {
+        festivals.push(createFestival("Nag Panchami", 'minor', {
+            description: "Serpent worship"
+        }));
+        festivals.push(createFestival("Kalki Jayanti", 'jayanti'));
+    }
+
+    // Hartalika Teej - Bhadrapada Shukla Tritiya
+    if (masaIndex === 5 && udayaTithi === 3) {
+        festivals.push(createFestival("Hartalika Teej", 'vrat', { isFastingDay: true }));
+        festivals.push(createFestival("Gowri Habba", 'vrat', { regional: ['Karnataka'] }));
+    }
+
+    // Rishi Panchami - Bhadrapada Shukla Panchami
+    if (masaIndex === 5 && udayaTithi === 5) {
+        festivals.push(createFestival("Rishi Panchami", 'vrat'));
+    }
+
+    // Radha Ashtami - Bhadrapada Shukla Ashtami
+    if (masaIndex === 5 && udayaTithi === 8) {
+        festivals.push(createFestival("Radha Ashtami", 'jayanti'));
+    }
+
+    // Vamana Jayanti - Bhadrapada Shukla Dwadashi
+    if (masaIndex === 5 && udayaTithi === 12) {
+        festivals.push(createFestival("Vamana Jayanti", 'jayanti'));
+    }
+
+    // Purnima Shraddha - Bhadrapada Purnima
+    if (masaIndex === 5 && udayaTithi === 15) {
+        festivals.push(createFestival("Purnima Shraddha", 'minor', {
+            description: "Start of Pitru Paksha"
+        }));
+    }
+
+    // Ahoi Ashtami - Ashwina Krishna Ashtami
+    if (masaIndex === 6 && udayaTithi === 23) {
+        festivals.push(createFestival("Ahoi Ashtami", 'vrat', {
+            regional: ['North'],
+            isFastingDay: true
+        }));
+    }
+
+    // Tulasi Vivah - Kartika Shukla Dwadashi
+    if (masaIndex === 7 && udayaTithi === 12) {
+        festivals.push(createFestival("Tulasi Vivah", 'minor'));
+    }
+
+    // Gita Jayanti - Margashirsha Shukla Ekadashi
+    if (masaIndex === 8 && udayaTithi === 11) {
+        festivals.push(createFestival("Gita Jayanti", 'minor'));
+    }
+
+    // Ratha Saptami - Magha Shukla Saptami
+    if (masaIndex === 10 && udayaTithi === 7) {
+        festivals.push(createFestival("Ratha Saptami", 'minor', {
+            description: "Sun's chariot turning north"
+        }));
+    }
+
+    // Ranga Panchami - Phalguna Krishna Panchami
+    if (masaIndex === 11 && udayaTithi === 20) {
+        festivals.push(createFestival("Ranga Panchami", 'minor'));
+    }
+
+    // ===== EKADASHI & PRADOSHAM =====
+
+    // Ekadashi - Tithi 11 (Shukla) or 26 (Krishna)
+    if (udayaTithi === 11 || udayaTithi === 26) {
+        const ekadashiName = getEkadashiName(masaIndex, paksha);
+        festivals.push(createFestival(ekadashiName, 'ekadashi', {
+            isFastingDay: true,
+            observances: ["Fasting", "Vishnu worship"]
+        }));
+    }
+
+    // Pradosham - Tithi 13 (Shukla) or 28 (Krishna)
+    if (udayaTithi === 13 || udayaTithi === 28) {
+        const pradoshamType = (udayaTithi === 13) ? "Shukla" : "Krishna";
+        festivals.push(createFestival(`Pradosham (${pradoshamType})`, 'pradosham', {
+            description: "Auspicious time for Shiva worship",
+            observances: ["Evening Shiva puja"]
+        }));
+    }
+
+    // ===== MULTI-DAY FESTIVAL SPANS =====
+    const multiDayFestivals = getMultiDayFestivals(masaIndex, udayaTithi, date, options);
+    festivals.push(...multiDayFestivals);
+
+    // ===== SOLAR FESTIVALS =====
+    const solarFestivals = getSolarFestivals(date, options);
+    festivals.push(...solarFestivals);
+
+    return festivals;
+}
+
+/**
+ * Legacy function for backward compatibility
+ * @deprecated Use getFestivals() with FestivalCalculationOptions instead
+ */
+export function getFestivalsLegacy(
+    masaIndex: number,
+    isAdhika: boolean,
+    paksha: string,
+    tithiIndex: number,
+    vara?: number
+): string[] {
+    // This is kept for reference only
+    return [];
 }
