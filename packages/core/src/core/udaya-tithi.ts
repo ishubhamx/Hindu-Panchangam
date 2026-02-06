@@ -21,7 +21,8 @@ export function getTithiAtSunrise(date: Date, sunrise: Date, observer: Observer)
     const sunLon = EclipticFunc(sunVector).elon;
     const moonLon = EclipticFunc(moonVector).elon;
 
-    return getTithi(sunLon, moonLon);
+    // getTithi returns 0-indexed (0-29), convert to 1-indexed (1-30)
+    return getTithi(sunLon, moonLon) + 1;
 }
 
 /**
