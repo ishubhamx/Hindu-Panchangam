@@ -3,28 +3,8 @@ import { tithiNames } from '@ishubhamx/panchangam-js';
 import type { DayCellProps } from '../../types';
 import './DayCell.css';
 
-// Moon phase icons based on tithi (0-29 index)
-// Shukla: 0-14 (0=Prathama to 14=Purnima)
-// Krishna: 15-29 (15=Prathama to 29=Amavasya)
-const getMoonIcon = (tithi: number): string => {
-    // Shukla Paksha (waxing moon, index 0-14)
-    if (tithi <= 14) {
-        if (tithi <= 2) return '🌑';  // New moon / early crescent
-        if (tithi <= 5) return '🌒';  // Waxing crescent
-        if (tithi <= 8) return '🌓';  // First quarter
-        if (tithi <= 11) return '🌔'; // Waxing gibbous
-        return '🌕';                   // Full moon (12-14)
-    }
-    // Krishna Paksha (waning moon, index 15-29)
-    else {
-        const krishnaTithi = tithi - 15; // 0-14 within Krishna
-        if (krishnaTithi <= 2) return '🌕';  // Just after full moon
-        if (krishnaTithi <= 5) return '🌖';  // Waning gibbous
-        if (krishnaTithi <= 8) return '🌗';  // Last quarter
-        if (krishnaTithi <= 11) return '🌘'; // Waning crescent
-        return '🌑';                          // New moon (12-14)
-    }
-};
+import { getMoonIcon } from '../../utils/tithiUtils';
+import { getFestivalIcon } from '../../utils/festivalIcons';
 
 // Get day type for styling
 const getDayType = (date: Date): 'sunday' | 'saturday' | 'weekday' => {
@@ -54,6 +34,13 @@ export const DayCell: React.FC<DayCellProps> = ({
     const moonIcon = getMoonIcon(tithiIndex);
     const festivals = panchang.festivals || [];
     const hasFestival = festivals.length > 0;
+
+    // Helper to get festival names
+    const getFestivalNames = (fests: any[]): string[] => {
+        return fests.map(f => typeof f === 'string' ? f : f.name);
+    };
+
+    const festivalNames = getFestivalNames(festivals);
 
     // Special days (using 0-29 indexing)
     const isAmavasya = tithiIndex === 29 || tithiName.toLowerCase().includes('amavasya');
@@ -87,8 +74,8 @@ export const DayCell: React.FC<DayCellProps> = ({
 
             {/* Festival indicator */}
             {hasFestival && (
-                <div className="festival-badge" title={festivals.join(', ')}>
-                    <span className="festival-icon">🎉</span>
+                <div className="festival-badge" title={festivalNames.join(', ')}>
+                    <span className="festival-icon">{getFestivalIcon(festivalNames[0])}</span>
                     {festivals.length > 1 && <span className="festival-count">+{festivals.length - 1}</span>}
                 </div>
             )}

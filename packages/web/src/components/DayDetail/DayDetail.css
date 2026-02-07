@@ -89,14 +89,19 @@
 .festival-tag {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-xs);
-    padding: 2px 10px;
-    background: rgba(255, 107, 107, 0.15);
-    border: 1px solid rgba(255, 107, 107, 0.3);
-    color: #ff8e8e;
-    border-radius: var(--radius-full);
-    font-size: var(--font-size-xs);
-    font-weight: 600;
+    gap: 0.35rem;
+    padding: 0.25rem 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--color-text-primary);
+    backdrop-filter: blur(4px);
+}
+
+.festival-icon-small {
+    font-size: 1rem;
+    line-height: 1;
 }
 
 .hero-right-content {

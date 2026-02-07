@@ -24,6 +24,7 @@ import { ChandrashtamaAlert } from '../features/Chandrashtama';
 import { BirthDataModal, loadBirthData } from '../BirthDataModal';
 import { formatTime } from '../../utils/colors';
 import { getTimezoneOffset } from '../../utils/timezone';
+import { getFestivalIcon } from '../../utils/festivalIcons';
 import './DayDetail.css';
 
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -142,9 +143,15 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
 
                         {festivals.length > 0 && (
                             <div className="festivals-list">
-                                {festivals.map((festival: string, i: number) => (
-                                    <span key={i} className="festival-tag">{festival}</span>
-                                ))}
+                                {festivals.map((festival: any, i: number) => {
+                                    const name = typeof festival === 'string' ? festival : festival.name;
+                                    const icon = getFestivalIcon(name);
+                                    return (
+                                        <span key={i} className="festival-tag">
+                                            <span className="festival-icon-small">{icon}</span> {name}
+                                        </span>
+                                    );
+                                })}
                             </div>
                         )}
                     </div>
