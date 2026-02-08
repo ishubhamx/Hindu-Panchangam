@@ -1,5 +1,5 @@
 
-import { getPanchangam, Observer } from '../src/index';
+import { getPanchangam, Observer } from '../packages/core/src/index';
 // @ts-ignore
 import https from 'https';
 

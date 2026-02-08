@@ -5,11 +5,11 @@
  * and multi-day festival spans.
  */
 
-import type { Festival, FestivalCalculationOptions, FestivalCategory } from '../types/festivals.js';
-import { masaNames, SOLAR_FESTIVALS, SANKRANTI_NAMES, MULTI_DAY_FESTIVALS } from './constants.js';
-import { getTithiAtSunrise, getTithiAtTime } from './udaya-tithi.js';
-import { getSankrantiForDate, getPaksha, getMasa } from './calculations.js';
-import { getAyanamsa } from './ayanamsa.js';
+import type { Festival, FestivalCalculationOptions, FestivalCategory } from '../types/festivals';
+import { masaNames, SOLAR_FESTIVALS, SANKRANTI_NAMES, MULTI_DAY_FESTIVALS } from './constants';
+import { getTithiAtSunrise, getTithiAtTime } from './udaya-tithi';
+import { getSankrantiForDate, getPaksha, getMasa } from './calculations';
+import { getAyanamsa } from './ayanamsa';
 import { Observer, GeoVector, Body, Ecliptic as EclipticFunc } from 'astronomy-engine';
 
 /**
