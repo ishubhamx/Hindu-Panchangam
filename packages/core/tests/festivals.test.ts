@@ -1,94 +1,129 @@
 
-import { getFestivals, getEkadashiName } from '../src/core/festivals';
+import { getFestivalsByTithi, getEkadashiName } from '../src/core/festivals';
 
-describe('Festival Algorithms', () => {
+describe('Festival Detection (v3.0.0 — Tithi-based)', () => {
 
     test('Major Festivals Detection', () => {
         // Ugadi: Chaitra (0) Shukla Prathama (1)
-        expect(getFestivals(0, false, 'Shukla', 1)).toContain('Ugadi / Gudi Padwa (New Year)');
+        expect(getFestivalsByTithi(0, false, 1, 'Shukla')).toContain('Ugadi / Gudi Padwa');
 
         // Rama Navami: Chaitra (0) Shukla Navami (9)
-        expect(getFestivals(0, false, 'Shukla', 9)).toContain('Rama Navami');
+        expect(getFestivalsByTithi(0, false, 9, 'Shukla')).toContain('Rama Navami');
 
         // Diwali: Ashwina (6) Amavasya (30)
-        expect(getFestivals(6, false, 'Krishna', 30)).toContain('Diwali (Lakshmi Puja)');
+        expect(getFestivalsByTithi(6, false, 30, 'Krishna')).toContain('Diwali (Lakshmi Puja)');
 
         // Maha Shivaratri: Magha (10) Krishna Chaturdashi (29)
-        expect(getFestivals(10, false, 'Krishna', 29)).toContain('Maha Shivaratri');
+        expect(getFestivalsByTithi(10, false, 29, 'Krishna')).toContain('Maha Shivaratri');
     });
 
     test('Ekadashi Naming', () => {
-        // Vaikuntha / Mokshada Ekadashi: Margashirsha (8) Shukla (11)
-        const mokshada = getFestivals(8, false, 'Shukla', 11);
+        // Mokshada Ekadashi: Margashirsha (8) Shukla (11)
+        const mokshada = getFestivalsByTithi(8, false, 11, 'Shukla');
         expect(mokshada).toContain('Mokshada Ekadashi');
 
         // Nirjala Ekadashi: Jyeshtha (2) Shukla (11)
-        expect(getFestivals(2, false, 'Shukla', 11)).toContain('Nirjala Ekadashi');
+        expect(getFestivalsByTithi(2, false, 11, 'Shukla')).toContain('Nirjala Ekadashi');
 
         // Yogini Ekadashi: Jyeshtha (2) Krishna (26)
-        expect(getFestivals(2, false, 'Krishna', 26)).toContain('Yogini Ekadashi');
+        expect(getFestivalsByTithi(2, false, 26, 'Krishna')).toContain('Yogini Ekadashi');
 
-        // Generic fallback check (if map is missing)
-        // Testing hypothetical future month or just structure
+        // getEkadashiName direct test
         expect(getEkadashiName(0, 'Shukla')).toBe('Kamada Ekadashi');
     });
 
     test('Pradosham Detection', () => {
         // Shukla Trayodashi (13)
-        expect(getFestivals(0, false, 'Shukla', 13)).toContain('Pradosham (Shukla)');
+        expect(getFestivalsByTithi(0, false, 13, 'Shukla')).toContain('Pradosham (Shukla)');
 
         // Krishna Trayodashi (28)
-        expect(getFestivals(4, false, 'Krishna', 28)).toContain('Pradosham (Krishna)');
+        expect(getFestivalsByTithi(4, false, 28, 'Krishna')).toContain('Pradosham (Krishna)');
     });
 
     test('No Festivals in Adhika Masa', () => {
-        // Adhika Chaitra Shukla Prathama
-        // Usually no festivals
-        const festivals = getFestivals(0, true, 'Shukla', 1);
+        const festivals = getFestivalsByTithi(0, true, 1, 'Shukla');
         expect(festivals).toEqual([]);
     });
 
     test('Multiple Festivals on Same Day', () => {
-        // Example: If a day is both an Ekadashi and has another event?
-        // Currently rare in our list, but let's check basic array return
-        const res = getFestivals(0, false, 'Shukla', 1);
+        // Chaitra Shukla Prathama has Ugadi + Navratri Ghatasthapana
+        const res = getFestivalsByTithi(0, false, 1, 'Shukla');
         expect(Array.isArray(res)).toBe(true);
-        expect(res.length).toBeGreaterThan(0);
+        expect(res.length).toBeGreaterThan(1);
+        expect(res).toContain('Ugadi / Gudi Padwa');
+        expect(res).toContain('Chaitra Navratri Ghatasthapana');
     });
 
     test('Extended Festival Coverage', () => {
         // Hanuman Jayanti: Chaitra (0) Purnima (15)
-        expect(getFestivals(0, false, 'Shukla', 15)).toContain('Hanuman Jayanti');
+        expect(getFestivalsByTithi(0, false, 15, 'Shukla')).toContain('Hanuman Jayanti');
 
         // Buddha Purnima: Vaishakha (1) Purnima (15)
-        expect(getFestivals(1, false, 'Shukla', 15)).toContain('Buddha Purnima');
+        expect(getFestivalsByTithi(1, false, 15, 'Shukla')).toContain('Buddha Purnima');
 
         // Nag Panchami: Shravana (4) Shukla Panchami (5)
-        expect(getFestivals(4, false, 'Shukla', 5)).toContain('Nag Panchami');
+        expect(getFestivalsByTithi(4, false, 5, 'Shukla')).toContain('Nag Panchami');
 
         // Karwa Chauth: Ashwina (6) Krishna Chaturthi (19)
-        expect(getFestivals(6, false, 'Krishna', 19)).toContain('Karwa Chauth');
+        expect(getFestivalsByTithi(6, false, 19, 'Krishna')).toContain('Karwa Chauth');
 
         // Dhanteras: Ashwina (6) Krishna Trayodashi (28)
-        expect(getFestivals(6, false, 'Krishna', 28)).toContain('Dhanteras');
+        expect(getFestivalsByTithi(6, false, 28, 'Krishna')).toContain('Dhanteras');
 
         // Vasant Panchami: Magha (10) Shukla Panchami (5)
-        expect(getFestivals(10, false, 'Shukla', 5)).toContain('Vasant Panchami');
+        expect(getFestivalsByTithi(10, false, 5, 'Shukla')).toContain('Vasant Panchami');
     });
 
-    test('Varalakshmi Vrat Detection', () => {
-        // Shravana (4) Shukla Paksha.
-        // Needs to be Friday (vara=5).
-        // Tithi range check (8-15).
+    test('Holi Detection', () => {
+        // Holika Dahan is on Phalguna Purnima (tithi 15)
+        expect(getFestivalsByTithi(11, false, 15, 'Shukla')).toContain('Holika Dahan');
+        // Holi (color festival) is on Krishna Pratipada (tithi 16) in Phalguna
+        expect(getFestivalsByTithi(11, false, 16, 'Krishna')).toContain('Holi');
+    });
 
-        // Case 1: Friday + Tithi 12 -> Should be detected
-        expect(getFestivals(4, false, 'Shukla', 12, 5)).toContain('Varalakshmi Vrat (Likely)');
+    test('Ganesh Chaturthi Detection', () => {
+        expect(getFestivalsByTithi(5, false, 4, 'Shukla')).toContain('Ganesh Chaturthi');
+    });
 
-        // Case 2: Thursday (vara=4) + Tithi 12 -> Should NOT be detected
-        expect(getFestivals(4, false, 'Shukla', 12, 4)).not.toContain('Varalakshmi Vrat (Likely)');
+    test('Krishna Janmashtami Detection', () => {
+        expect(getFestivalsByTithi(4, false, 23, 'Krishna')).toContain('Krishna Janmashtami');
+    });
 
-        // Case 3: Friday + Tithi 2 (Too early) -> Should NOT be detected
-        expect(getFestivals(4, false, 'Shukla', 2, 5)).not.toContain('Varalakshmi Vrat (Likely)');
+    test('Raksha Bandhan Detection', () => {
+        expect(getFestivalsByTithi(4, false, 15, 'Shukla')).toContain('Raksha Bandhan');
+    });
+
+    test('Navaratri & Dussehra Detection', () => {
+        expect(getFestivalsByTithi(6, false, 1, 'Shukla')).toContain('Navaratri Ghatasthapana');
+        expect(getFestivalsByTithi(6, false, 8, 'Shukla')).toContain('Durga Ashtami (Maha Ashtami)');
+        expect(getFestivalsByTithi(6, false, 10, 'Shukla')).toContain('Vijaya Dashami (Dussehra)');
+    });
+
+    test('Diwali Week Detection', () => {
+        expect(getFestivalsByTithi(6, false, 28, 'Krishna')).toContain('Dhanteras');
+        expect(getFestivalsByTithi(6, false, 29, 'Krishna')).toContain('Naraka Chaturdashi (Choti Diwali)');
+        expect(getFestivalsByTithi(6, false, 30, 'Krishna')).toContain('Diwali (Lakshmi Puja)');
+        expect(getFestivalsByTithi(7, false, 1, 'Shukla')).toContain('Govardhan Puja');
+        expect(getFestivalsByTithi(7, false, 2, 'Shukla')).toContain('Bhai Dooj');
+    });
+
+    test('No Duplicate Festival Names', () => {
+        // Verify no festival appears twice for any given tithi
+        // (These were previously duplicated in the MINOR FESTIVALS section)
+        const testCases = [
+            { masa: 1, tithi: 7, paksha: 'Shukla' },   // Ganga Saptami
+            { masa: 2, tithi: 30, paksha: 'Krishna' },  // Vat Savitri
+            { masa: 2, tithi: 15, paksha: 'Shukla' },   // Vat Purnima
+            { masa: 2, tithi: 10, paksha: 'Shukla' },   // Ganga Dussehra
+            { masa: 4, tithi: 3, paksha: 'Shukla' },    // Hariyali Teej
+            { masa: 4, tithi: 5, paksha: 'Shukla' },    // Nag Panchami
+        ];
+
+        for (const { masa, tithi, paksha } of testCases) {
+            const festivals = getFestivalsByTithi(masa, false, tithi, paksha);
+            const uniqueNames = new Set(festivals);
+            expect(festivals.length).toBe(uniqueNames.size);
+        }
     });
 
 });

@@ -16,6 +16,7 @@ import { HoraCard } from './HoraCard';
 import { UpcomingFestivals } from './UpcomingFestivals';
 import { PlanetaryPositions } from './PlanetaryPositions';
 import { SankrantiPanchakInfo } from './SankrantiPanchakInfo';
+import { FestivalSection } from './FestivalSection';
 import { MoonPhase } from '../MoonPhase';
 import { MuhurtaTimeline } from '../MuhurtaTimeline';
 import { ShoolaCompass } from '../features/Shoola';
@@ -143,15 +144,21 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
 
                         {festivals.length > 0 && (
                             <div className="festivals-list">
-                                {festivals.map((festival: any, i: number) => {
+                                {festivals.slice(0, 3).map((festival: any, i: number) => {
                                     const name = typeof festival === 'string' ? festival : festival.name;
                                     const icon = getFestivalIcon(name);
+                                    const category = (typeof festival === 'object' && festival.category) || 'minor';
                                     return (
-                                        <span key={i} className="festival-tag">
+                                        <span key={i} className={`festival-tag festival-tag--${category}`}>
                                             <span className="festival-icon-small">{icon}</span> {name}
                                         </span>
                                     );
                                 })}
+                                {festivals.length > 3 && (
+                                    <span className="festival-tag festival-tag--more">
+                                        +{festivals.length - 3} more
+                                    </span>
+                                )}
                             </div>
                         )}
                     </div>
@@ -229,6 +236,11 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
                     )}
                 </div>
             </div>
+
+            {/* Festival Section - Detailed cards for all festivals */}
+            {festivals.length > 0 && (
+                <FestivalSection festivals={festivals} />
+            )}
 
             {/* Sankranti & Panchak Alerts */}
             <SankrantiPanchakInfo

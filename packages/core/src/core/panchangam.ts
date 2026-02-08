@@ -20,7 +20,49 @@ import { getFestivals } from "./festivals";
 import { calculateChoghadiya } from "./muhurta/choghadiya";
 import { calculateGowriPanchangam } from "./muhurta/gowri";
 
+/**
+ * Validates inputs for getPanchangam / getPanchangamDetails.
+ * @throws {Error} If any input is invalid.
+ */
+function validateInputs(date: Date, observer: Observer, options?: PanchangamOptions): void {
+    // Date validation
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+        throw new Error('Invalid date: expected a valid Date object.');
+    }
+
+    // Observer validation
+    if (observer == null || typeof observer !== 'object') {
+        throw new Error('Invalid observer: expected an Observer object with latitude, longitude, and height.');
+    }
+    if (typeof observer.latitude !== 'number' || !isFinite(observer.latitude) ||
+        observer.latitude < -90 || observer.latitude > 90) {
+        throw new Error(`Invalid observer latitude: ${observer.latitude}. Must be between -90 and 90.`);
+    }
+    if (typeof observer.longitude !== 'number' || !isFinite(observer.longitude) ||
+        observer.longitude < -180 || observer.longitude > 180) {
+        throw new Error(`Invalid observer longitude: ${observer.longitude}. Must be between -180 and 180.`);
+    }
+    if (typeof observer.height !== 'number' || !isFinite(observer.height) ||
+        observer.height < -500 || observer.height > 100000) {
+        throw new Error(`Invalid observer height: ${observer.height}. Must be between -500 and 100000 meters.`);
+    }
+
+    // Options validation
+    if (options != null) {
+        if (typeof options !== 'object') {
+            throw new Error('Invalid options: expected a PanchangamOptions object.');
+        }
+        if (options.timezoneOffset != null) {
+            if (typeof options.timezoneOffset !== 'number' || !isFinite(options.timezoneOffset) ||
+                options.timezoneOffset < -720 || options.timezoneOffset > 840) {
+                throw new Error(`Invalid timezoneOffset: ${options.timezoneOffset}. Must be between -720 and 840 minutes.`);
+            }
+        }
+    }
+}
+
 export function getPanchangam(date: Date, observer: Observer, options?: PanchangamOptions): Panchangam {
+    validateInputs(date, observer, options);
     const sunrise = getSunrise(date, observer, options);
     const sunset = getSunset(date, observer, options);
     const moonrise = getMoonrise(date, observer, options);
@@ -236,6 +278,7 @@ export function getPanchangam(date: Date, observer: Observer, options?: Panchang
             sunset: sunset || undefined,
             masa,
             paksha,
+            // tithi from getTithi() is 0-indexed (0-29). Festivals expect 1-indexed (1-30).
             tithi: tithi + 1,
             nakshatra: currentNakIndex,
             vara,
@@ -277,6 +320,7 @@ export function getPanchangam(date: Date, observer: Observer, options?: Panchang
 }
 
 export function getPanchangamDetails(date: Date, observer: Observer, options?: PanchangamOptions): PanchangamDetails {
+    validateInputs(date, observer, options);
     const panchangam = getPanchangam(date, observer, options);
     const sunrise = getSunrise(date, observer, options);
     const sunset = getSunset(date, observer, options);

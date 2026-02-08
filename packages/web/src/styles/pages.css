@@ -71,6 +71,10 @@
     border: 1px solid var(--glass-border);
 }
 
+.month-festivals-container {
+    margin-top: var(--space-lg);
+}
+
 .loading-state {
     text-align: center;
     padding: var(--space-xl);

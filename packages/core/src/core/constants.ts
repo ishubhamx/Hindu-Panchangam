@@ -233,6 +233,15 @@ export const SOLAR_FESTIVALS: Record<number, Array<{
             description: "Harvest festival marking Sun's northward journey"
         }
     ],
+    // Leo (Simha) - Rashi 4
+    4: [
+        {
+            name: "Onam (Simha Sankranti)",
+            type: "single",
+            regional: ["Kerala"],
+            description: "Kerala harvest festival — Thiruvonam"
+        }
+    ],
     // Aries (Mesha) - Rashi 0
     0: [
         {
@@ -327,6 +336,27 @@ export const MULTI_DAY_FESTIVALS: Record<string, {
             "Anant Chaturdashi (Day 10)"
         ],
         description: "Ten days of Ganesha celebration"
+    },
+
+    // Chaitra Navratri: Chaitra Shukla Prathama (1) to Navami (9) - 9 days
+    "chaitra_navaratri": {
+        name: "Chaitra Navratri",
+        masaIndex: 0,  // Chaitra
+        startTithi: 1, // Shukla Prathama
+        endTithi: 9,   // Shukla Navami
+        spanDays: 9,
+        dailyNames: [
+            "Chaitra Navratri Day 1 (Ghatasthapana)",
+            "Chaitra Navratri Day 2 (Brahmacharini)",
+            "Chaitra Navratri Day 3 (Chandraghanta)",
+            "Chaitra Navratri Day 4 (Kushmanda)",
+            "Chaitra Navratri Day 5 (Skandamata)",
+            "Chaitra Navratri Day 6 (Katyayani)",
+            "Chaitra Navratri Day 7 (Kaalratri)",
+            "Chaitra Navratri Day 8 (Mahagauri)",
+            "Chaitra Navratri Day 9 (Siddhidatri / Rama Navami)"
+        ],
+        description: "Nine nights of Goddess worship in Chaitra"
     },
 
     // Pitru Paksha: Bhadrapada Purnima (15) to Amavasya (30) - 15 days

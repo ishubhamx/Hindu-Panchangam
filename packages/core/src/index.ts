@@ -17,4 +17,5 @@ export * from './core/chandrashtama';
 export * from './core/tarabalam';
 // Festival API v3.0.0
 export * from './types/festivals';
+export { getFestivals, getFestivalsByTithi, getEkadashiName } from './core/festivals';
 export * from './core/udaya-tithi';

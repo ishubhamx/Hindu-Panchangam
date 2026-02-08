@@ -202,8 +202,6 @@ export const BirthDataModal: React.FC<BirthDataModalProps> = ({
         onClose();
     };
 
-    console.log('BirthDataModal isOpen:', isOpen);
-
     if (!isOpen) return null;
 
     return createPortal(

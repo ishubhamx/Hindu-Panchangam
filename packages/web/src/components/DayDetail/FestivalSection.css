@@ -1,0 +1,388 @@
+/* FestivalSection - Stunning Festival Display for Day View */
+
+.festival-section {
+    margin-bottom: var(--space-lg);
+    animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Section Header */
+.festival-section-header {
+    margin-bottom: var(--space-md);
+}
+
+.festival-section-title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.festival-section-icon {
+    font-size: 1.4rem;
+    filter: drop-shadow(0 2px 6px rgba(255, 160, 64, 0.4));
+    animation: gentleGlow 3s ease-in-out infinite;
+}
+
+@keyframes gentleGlow {
+    0%, 100% { filter: drop-shadow(0 2px 6px rgba(255, 160, 64, 0.3)); }
+    50% { filter: drop-shadow(0 2px 12px rgba(255, 160, 64, 0.6)); }
+}
+
+.festival-section-title {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    font-family: var(--font-family-display);
+    background: linear-gradient(135deg, #ffc670, #ff9020);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+}
+
+.festival-section-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, rgba(255, 198, 112, 0.2), rgba(255, 144, 32, 0.2));
+    border: 1px solid rgba(255, 198, 112, 0.3);
+    border-radius: var(--radius-full);
+    color: var(--color-accent-primary);
+}
+
+/* Cards Container */
+.festival-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+/* ═══════════════════════════════════════
+   HERO CARD - Major Festivals
+   ═══════════════════════════════════════ */
+
+.festival-hero-card {
+    position: relative;
+    padding: var(--space-lg);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-left: 4px solid var(--cat-color, #ffc670);
+}
+
+.festival-hero-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--cat-glow, rgba(255, 198, 112, 0.15));
+    border-color: var(--cat-color, #ffc670);
+}
+
+.festival-hero-glow {
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--cat-glow, rgba(255, 198, 112, 0.08)) 0%, transparent 70%);
+    pointer-events: none;
+    animation: slowPulse 4s ease-in-out infinite;
+}
+
+@keyframes slowPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+.festival-hero-content {
+    position: relative;
+    display: flex;
+    gap: var(--space-lg);
+    align-items: flex-start;
+}
+
+.festival-hero-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    flex-shrink: 0;
+    animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+.festival-hero-icon {
+    font-size: 2rem;
+}
+
+.festival-hero-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.festival-hero-name {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    font-family: var(--font-family-display);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-xs) 0;
+    line-height: 1.3;
+}
+
+.festival-hero-description {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin: 0 0 var(--space-sm) 0;
+}
+
+.festival-hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-sm);
+}
+
+/* Category badges */
+.festival-category-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.festival-category-badge.major {
+    background: linear-gradient(135deg, rgba(255, 198, 112, 0.2), rgba(255, 144, 32, 0.15));
+    color: #ffc670;
+    border: 1px solid rgba(255, 198, 112, 0.3);
+}
+
+.festival-fasting-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    background: rgba(74, 222, 128, 0.12);
+    color: #4ade80;
+    border: 1px solid rgba(74, 222, 128, 0.25);
+}
+
+.festival-tithi-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-text-tertiary);
+    border: 1px solid var(--glass-border);
+}
+
+/* Observances */
+.festival-observances {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: var(--space-xs);
+}
+
+.observance-tag {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+}
+
+/* Regional */
+.festival-regional {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+}
+
+.regional-label {
+    font-size: 0.65rem;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.regional-tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-full);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--glass-border);
+}
+
+/* ═══════════════════════════════════════
+   COMPACT CARD - Minor Festivals
+   ═══════════════════════════════════════ */
+
+.festival-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-sm);
+}
+
+.festival-card {
+    position: relative;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.festival-card:hover {
+    transform: translateY(-1px);
+    border-color: var(--cat-color, rgba(255, 255, 255, 0.15));
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.festival-card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--cat-color, #667eea);
+    border-radius: 3px 0 0 3px;
+}
+
+.festival-card-content {
+    padding: var(--space-sm) var(--space-md);
+}
+
+.festival-card-top {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: 4px;
+}
+
+.festival-card-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.festival-card-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.festival-card-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.festival-category-tag {
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.festival-card-desc {
+    font-size: 0.7rem;
+    color: var(--color-text-tertiary);
+    line-height: 1.4;
+    margin: 0 0 4px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.festival-card-badges {
+    display: flex;
+    gap: var(--space-xs);
+    flex-wrap: wrap;
+}
+
+.badge-fasting {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+    background: rgba(74, 222, 128, 0.1);
+    color: #4ade80;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+}
+
+.badge-paksha {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-text-tertiary);
+    border-radius: var(--radius-full);
+    font-weight: 500;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+
+@media (max-width: 768px) {
+    .festival-hero-content {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+
+    .festival-hero-icon-wrapper {
+        width: 44px;
+        height: 44px;
+    }
+
+    .festival-hero-icon {
+        font-size: 1.5rem;
+    }
+
+    .festival-hero-name {
+        font-size: var(--font-size-lg);
+    }
+
+    .festival-cards-grid {
+        grid-template-columns: 1fr;
+    }
+}
