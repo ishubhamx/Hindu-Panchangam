@@ -1,6 +1,6 @@
 import { Observer, GeoVector, Body, Ecliptic as EclipticFunc } from 'astronomy-engine';
-import { getTithi, getPaksha } from './calculations.js';
-import { getAyanamsa } from './ayanamsa.js';
+import { getTithi, getPaksha } from './calculations';
+import { getAyanamsa } from './ayanamsa';
 
 /**
  * Get the 1-indexed Tithi (1-30) at an arbitrary point in time.

@@ -1,4 +1,4 @@
-import { getPanchangam, Observer, tithiNames, nakshatraNames } from '../index';
+import { getPanchangam, Observer, tithiNames, nakshatraNames } from '../packages/core/src/index';
 
 // 1. Setup - Bangalore
 const observer = new Observer(12.9716, 77.5946, 920);

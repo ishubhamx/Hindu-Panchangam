@@ -1,4 +1,4 @@
-import { getPanchangam, Observer, nakshatraNames, tithiNames, yogaNames } from '../index';
+import { getPanchangam, Observer, nakshatraNames, tithiNames, yogaNames } from '../packages/core/src/index';
 
 // Example: Mumbai (19.0760° N, 72.8777° E, 10m elevation)
 const observer = new Observer(19.0760, 72.8777, 10);

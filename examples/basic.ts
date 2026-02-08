@@ -1,4 +1,4 @@
-import { getPanchangam, Observer, rashiNames, yogaNames } from '../dist/src/index';
+import { getPanchangam, Observer, rashiNames, yogaNames } from '../packages/core/src/index';
 
 const observer = new Observer(12.9716, 77.5946, 920);
 
