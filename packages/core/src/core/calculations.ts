@@ -1,8 +1,49 @@
 import { getAyanamsa } from './ayanamsa.js';
 import { Body, GeoVector, Ecliptic as EclipticFunc, Observer, SearchRiseSet, SiderealTime, e_tilt, MakeTime, Search } from "astronomy-engine";
 import { repeatingKaranaNames, tithiNames, nakshatraNames, yogaNames, rashiNames, horaRulers, masaNames, rituNames, ayanaNames, pakshaNames, samvatsaraNames, sankrantiNames, varjyamStartGhatis, amritKalamStartGhatis, vimshottariLords, vimshottariDurations, planetExaltation, planetDebilitation, planetOwnSigns } from "./constants";
-import { KaranaTransition, TithiTransition, NakshatraTransition, YogaTransition, PlanetaryPosition, MuhurtaTime, RashiTransition, SankrantiInfo, PanchakInfo } from "./types";
+import { KaranaTransition, TithiTransition, NakshatraTransition, YogaTransition, PlanetaryPosition, MuhurtaTime, RashiTransition, SankrantiInfo, PanchakInfo, DashaResult } from "./types";
 
+// ===== Named Constants =====
+/** Milliseconds in one day */
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+/** Milliseconds in one hour */
+const MS_PER_HOUR = 60 * 60 * 1000;
+/** Milliseconds in one minute */
+const MS_PER_MINUTE = 60 * 1000;
+/** Maximum iterations for binary search convergence */
+const BINARY_SEARCH_MAX_ITERATIONS = 20;
+/** Lookahead window for binary search (2 days in ms) */
+const BINARY_SEARCH_LOOKAHEAD_MS = 2 * MS_PER_DAY;
+/** Lookback window for finding nakshatra start (32 hours in ms) */
+const NAKSHATRA_LOOKBACK_MS = 32 * MS_PER_HOUR;
+/** Julian Day of Unix Epoch (1970-01-01T00:00:00 UTC) */
+const JD_UNIX_EPOCH = 2440587.5;
+/** Julian Day of J2000.0 epoch */
+const JD_J2000 = 2451545.0;
+/** Days per Julian century */
+const DAYS_PER_CENTURY = 36525.0;
+/** Milliseconds per Gregorian year (365.25 days) */
+const MS_PER_YEAR = 365.25 * MS_PER_DAY;
+/** Sankranti search window (40 days in ms) */
+const SANKRANTI_SEARCH_WINDOW_MS = 40 * MS_PER_DAY;
+/** Sankranti search lookback (35 days in ms) */
+const SANKRANTI_LOOKBACK_MS = 35 * MS_PER_DAY;
+/** Advance to next Sankranti (~25 days in ms) */
+const SANKRANTI_ADVANCE_MS = 25 * MS_PER_DAY;
+/** Finite difference half-window for speed calculation (30 minutes in ms) */
+const SPEED_CALC_HALF_WINDOW_MS = 30 * MS_PER_MINUTE;
+
+/**
+ * Calculate Tithi (lunar day) from Sun and Moon sidereal longitudes.
+ * 
+ * @param sunLon - Sidereal longitude of the Sun (0-360)
+ * @param moonLon - Sidereal longitude of the Moon (0-360)
+ * @returns Tithi index, **0-indexed** (0-29).
+ *   0-14 = Shukla Prathama to Purnima,
+ *   15-29 = Krishna Prathama to Amavasya.
+ *   Use `getTithiAtSunrise()` from udaya-tithi.ts for 1-indexed (1-30) values
+ *   required by festival detection.
+ */
 export function getTithi(sunLon: number, moonLon: number): number {
     let longitudeDifference = moonLon - sunLon;
     if (longitudeDifference < 0) {
@@ -53,7 +94,7 @@ export function getKarana(sunLon: number, moonLon: number): string {
 export function getVara(date: Date, observer?: Observer): number {
     if (observer) {
         // Shift to observer's local time
-        const tzOffsetMs = (observer.longitude / 15.0) * 3600 * 1000;
+        const tzOffsetMs = (observer.longitude / 15.0) * MS_PER_HOUR;
         const localDate = new Date(date.getTime() + tzOffsetMs);
         return localDate.getUTCDay();
     }
@@ -77,12 +118,12 @@ function getStartOfLocalDay(date: Date, observer: Observer, options?: LocalDayOp
         // Let's assume input 'timezoneOffset' matches standard connection:
         // +330 for IST (+5:30), -480 for PST (-8:00).
         // So we add this to UTC timestamp to get Local Time.
-        tzOffsetMs = options.timezoneOffset * 60 * 1000;
+        tzOffsetMs = options.timezoneOffset * MS_PER_MINUTE;
     } else {
         // Approximate Timezone Offset based on Longitude
         // 15 degrees = 1 hour. East is positive, West is negative.
         // Rounding to nearest hour handles cases like Seattle (-122.1 => -8.14 => -8) better than floor/raw.
-        tzOffsetMs = Math.round(observer.longitude / 15.0) * 3600 * 1000;
+        tzOffsetMs = Math.round(observer.longitude / 15.0) * MS_PER_HOUR;
     }
 
     // Create a date shifted to "Observer Local Time"
@@ -93,7 +134,7 @@ function getStartOfLocalDay(date: Date, observer: Observer, options?: LocalDayOp
     const startOfDay = new Date(localDate.getTime() - tzOffsetMs);
 
     // End of day is 24 hours later
-    const endOfDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000 - 1);
+    const endOfDay = new Date(startOfDay.getTime() + MS_PER_DAY - 1);
 
     return { start: startOfDay, end: endOfDay };
 }
@@ -168,7 +209,7 @@ export function getMoonset(date: Date, observer: Observer, options?: LocalDayOpt
  */
 function search(f: (date: Date) => number, startDate: Date): Date | null {
     let a = startDate;
-    let b = new Date(startDate.getTime() + 2 * 24 * 60 * 60 * 1000); // Look ahead 2 days
+    let b = new Date(startDate.getTime() + BINARY_SEARCH_LOOKAHEAD_MS);
 
     let fa = f(a);
     let fb = f(b);
@@ -177,7 +218,7 @@ function search(f: (date: Date) => number, startDate: Date): Date | null {
         return null;
     }
 
-    for (let i = 0; i < 20; i++) { // 20 iterations are enough for high precision
+    for (let i = 0; i < BINARY_SEARCH_MAX_ITERATIONS; i++) {
         const m = new Date((a.getTime() + b.getTime()) / 2);
         const fm = f(m);
         if (fm * fa < 0) {
@@ -220,7 +261,7 @@ export function findNakshatraStart(date: Date, ayanamsa: number): Date | null {
 
     // A nakshatra lasts about a day (mean 24h 20m, max can be ~26h+).
     // Searching from 32 hours before ensures we catch the start even for long nakshatras.
-    const searchStartDate = new Date(date.getTime() - 32 * 60 * 60 * 1000);
+    const searchStartDate = new Date(date.getTime() - NAKSHATRA_LOOKBACK_MS);
     return search(nakshatraFunc, searchStartDate);
 }
 
@@ -272,7 +313,7 @@ export function findTithiStart(date: Date): Date | null {
     }
 
     // A tithi is slightly less than a day. Searching from 25h before is safe.
-    const searchStartDate = new Date(date.getTime() - 25 * 60 * 60 * 1000);
+    const searchStartDate = new Date(date.getTime() - 25 * MS_PER_HOUR);
     return search(tithiFunc, searchStartDate);
 }
 
@@ -346,8 +387,8 @@ export function getPlanetaryPosition(body: Body, date: Date, ayanamsa: number): 
 
     // 2. Calculate Speed & Retrograde (via Finite Difference of 1 hour)
     // T_minus = date - 30 min, T_plus = date + 30 min
-    const tMinus = new Date(date.getTime() - 30 * 60 * 1000);
-    const tPlus = new Date(date.getTime() + 30 * 60 * 1000);
+    const tMinus = new Date(date.getTime() - SPEED_CALC_HALF_WINDOW_MS);
+    const tPlus = new Date(date.getTime() + SPEED_CALC_HALF_WINDOW_MS);
 
     const vMinus = GeoVector(body, tMinus, true);
     const eMinus = EclipticFunc(vMinus).elon;
@@ -385,8 +426,8 @@ function getPlanetaryDignity(planet: string, rashi: number): 'exalted' | 'debili
 
 // Julian Centuries from J2000.0
 function getJulianCenturies(date: Date): number {
-    const jd = (date.getTime() / 86400000) + 2440587.5;
-    return (jd - 2451545.0) / 36525.0;
+    const jd = (date.getTime() / (MS_PER_DAY)) + JD_UNIX_EPOCH;
+    return (jd - JD_J2000) / DAYS_PER_CENTURY;
 }
 
 export function getRahuPosition(date: Date, ayanamsa: number): PlanetaryPosition {
@@ -462,7 +503,7 @@ export function calculateAbhijitMuhurta(sunrise: Date, sunset: Date): MuhurtaTim
 export function calculateBrahmaMuhurta(sunrise: Date, prevSunset?: Date): MuhurtaTime | null {
     if (!sunrise) return null;
 
-    let muhurtaDuration = 48 * 60 * 1000; // Default approximation
+    let muhurtaDuration = 48 * MS_PER_MINUTE; // Default approximation
 
     if (prevSunset) {
         // Rigorous: Night Duration (Ratri Mana) divided by 15.
@@ -582,7 +623,7 @@ export function getCurrentHora(date: Date, sunrise: Date): string {
     // If the time is before sunrise, use the previous day's calculation
     if (millisecondsFromSunrise < 0) {
         // Calculate previous day's sunrise
-        const prevDay = new Date(date.getTime() - 24 * 60 * 60 * 1000);
+        const prevDay = new Date(date.getTime() - MS_PER_DAY);
         const prevDayOfWeek = prevDay.getDay();
         const hoursFromPrevSunrise = Math.abs(millisecondsFromSunrise) / (1000 * 60 * 60);
 
@@ -657,7 +698,7 @@ export function findKaranaTransitions(startDate: Date, endDate: Date): KaranaTra
             break;
         } else {
             transitions.push({ name: lastKarana, startTime: new Date(current), endTime: nextKaranaEnd });
-            current = new Date(nextKaranaEnd.getTime() + 60 * 1000); // move 1 min ahead to avoid infinite loop
+            current = new Date(nextKaranaEnd.getTime() + MS_PER_MINUTE); // move 1 min ahead to avoid infinite loop
             lastKarana = getKarana(
                 EclipticFunc(GeoVector(Body.Sun, current, true)).elon,
                 EclipticFunc(GeoVector(Body.Moon, current, true)).elon
@@ -698,7 +739,7 @@ export function findTithiTransitions(startDate: Date, endDate: Date): TithiTrans
             break;
         } else {
             transitions.push({ index: lastTithi, name: tithiNames[lastTithi] || String(lastTithi), startTime: new Date(current), endTime: nextTithiEnd });
-            current = new Date(nextTithiEnd.getTime() + 60 * 1000);
+            current = new Date(nextTithiEnd.getTime() + MS_PER_MINUTE);
             lastTithi = getTithi(
                 EclipticFunc(GeoVector(Body.Sun, current, true)).elon,
                 EclipticFunc(GeoVector(Body.Moon, current, true)).elon
@@ -740,7 +781,7 @@ export function findNakshatraTransitions(startDate: Date, endDate: Date, ayanams
             break;
         } else {
             transitions.push({ index: lastNakshatra, name: nakshatraNames[lastNakshatra] || String(lastNakshatra), startTime: new Date(current), endTime: nextNakshatraEnd });
-            current = new Date(nextNakshatraEnd.getTime() + 60 * 1000);
+            current = new Date(nextNakshatraEnd.getTime() + MS_PER_MINUTE);
             lastNakshatra = getNakshatra(getSiderealMoon(current));
         }
     }
@@ -781,7 +822,7 @@ export function findYogaTransitions(startDate: Date, endDate: Date, ayanamsa: nu
             break;
         } else {
             transitions.push({ index: lastYoga, name: yogaNames[lastYoga] || String(lastYoga), startTime: new Date(current), endTime: nextYogaEnd });
-            current = new Date(nextYogaEnd.getTime() + 60 * 1000);
+            current = new Date(nextYogaEnd.getTime() + MS_PER_MINUTE);
 
             const s = (EclipticFunc(GeoVector(Body.Sun, current, true)).elon - ayanamsa + 360) % 360;
             const m = (EclipticFunc(GeoVector(Body.Moon, current, true)).elon - ayanamsa + 360) % 360;
@@ -837,12 +878,6 @@ export function getMasa(sunLon: number, moonLon: number, date: Date): { index: n
     let diff = moonLon - sunLon;
     while (diff < 0) diff += 360;
 
-    // Days since last New Moon
-    const daysBack = diff / 12.19;
-
-    // Start search window: (daysBack + 1) days ago
-    const startTime = new Date(date.getTime() - (daysBack + 1) * 24 * 3600 * 1000);
-
     // Search function: When (MoonLon - SunLon) % 360 = 0
     // Search callback passes an object with .date property (AstroTime-like)
     const angleFunc = (t: any): number => {
@@ -856,26 +891,32 @@ export function getMasa(sunLon: number, moonLon: number, date: Date): { index: n
         return df;
     };
 
-    // Use specific search options if needed, or default
-    // We expect 0 crossing within the window.
-    const newMoonEvent = Search(angleFunc, MakeTime(startTime), MakeTime(startTime).AddDays(5));
+    // Days since last New Moon
+    const daysBack = diff / 12.19;
 
-    const newMoonDate = newMoonEvent ? newMoonEvent.date : date;
+    let newMoonDate: Date;
+
+    // In the Amanta system the last day of the month is Amavasya (new-moon day).
+    // The civil day on which the new moon occurs belongs to the ENDING month,
+    // not the new one.  Therefore we always search backward for the *previous*
+    // new moon to anchor the month.  A forward search here would incorrectly
+    // assign Amavasya to the next month.
+    const startTime = new Date(date.getTime() - (daysBack + 1) * MS_PER_DAY);
+    const backwardEvent = Search(angleFunc, MakeTime(startTime), MakeTime(startTime).AddDays(5));
+    newMoonDate = backwardEvent ? backwardEvent.date : date;
+
     const anchorDate = newMoonDate;
 
-    // 2. Get Sun Rashi at that anchor moment
     // 2. Get Sun Rashi at start (Previous New Moon)
     const ayanamsa = getAyanamsa(anchorDate);
     const sunVectorStart = GeoVector(Body.Sun, anchorDate, true);
     const sunTropStart = EclipticFunc(sunVectorStart).elon;
-    // Calibration: Subtract 0.2 degrees to align with Drik Panchang/Standard Lahiri Ayanamsa precision
-    // likely due to nutation or epoch differences in GeoVector.
-    const sunSiderealStart = (sunTropStart - ayanamsa - 0.2 + 360) % 360;
+    const sunSiderealStart = (sunTropStart - ayanamsa + 360) % 360;
     const sunRashiStart = Math.floor(sunSiderealStart / 30);
 
     // 3. Find Next New Moon to check if Sun changes Rashi (Sankranti)
     // Approx 29.53 days later. 
-    const nextNewMoonEst = new Date(anchorDate.getTime() + 29.53 * 24 * 3600 * 1000);
+    const nextNewMoonEst = new Date(anchorDate.getTime() + 29.53 * MS_PER_DAY);
     const nextNewMoonEvent = Search(angleFunc, MakeTime(nextNewMoonEst), MakeTime(nextNewMoonEst).AddDays(2));
     const nextNewMoonDate = nextNewMoonEvent ? nextNewMoonEvent.date : nextNewMoonEst;
 
@@ -883,7 +924,7 @@ export function getMasa(sunLon: number, moonLon: number, date: Date): { index: n
     const ayanamsaEnd = getAyanamsa(nextNewMoonDate);
     const sunVectorEnd = GeoVector(Body.Sun, nextNewMoonDate, true);
     const sunTropEnd = EclipticFunc(sunVectorEnd).elon;
-    const sunSiderealEnd = (sunTropEnd - ayanamsaEnd - 0.2 + 360) % 360;
+    const sunSiderealEnd = (sunTropEnd - ayanamsaEnd + 360) % 360;
     const sunRashiEnd = Math.floor(sunSiderealEnd / 30);
 
     // Adhika Masa if Sun Rashi strictly does not change
@@ -1032,7 +1073,7 @@ export function findNextSankranti(date: Date, ayanamsa: number): SankrantiInfo |
 
     // Extended search: 40 days (Sun takes ~30 days per Rashi)
     let lo = date.getTime();
-    let hi = lo + 40 * 24 * 60 * 60 * 1000;
+    let hi = lo + SANKRANTI_SEARCH_WINDOW_MS;
 
     let fLo = sankrantiFunc(new Date(lo));
     let fHi = sankrantiFunc(new Date(hi));
@@ -1066,8 +1107,8 @@ export function findNextSankranti(date: Date, ayanamsa: number): SankrantiInfo |
     // Typically 16 Ghatis (6h 24min) before and after for most Sankrantis
     // Makar Sankranti has special 40 Ghati (16h) punya kalam
     const punyaDurationMs = nextRashi === 9
-        ? 16 * 60 * 60 * 1000  // 16 hours for Makar Sankranti
-        : 6.4 * 60 * 60 * 1000; // 6h 24m for others
+        ? 16 * MS_PER_HOUR  // 16 hours for Makar Sankranti
+        : 6.4 * MS_PER_HOUR; // 6h 24m for others
 
     const punyaKalam = {
         start: new Date(exactTime.getTime() - punyaDurationMs),
@@ -1103,7 +1144,7 @@ export function findSankrantisInRange(startDate: Date, endDate: Date, ayanamsa: 
 
         sankrantis.push(next);
         // Move 25 days past this Sankranti (Sun takes ~30 days per Rashi)
-        current = new Date(next.exactTime.getTime() + 25 * 24 * 60 * 60 * 1000);
+        current = new Date(next.exactTime.getTime() + SANKRANTI_ADVANCE_MS);
     }
 
     return sankrantis;
@@ -1119,13 +1160,13 @@ export function findSankrantisInRange(startDate: Date, endDate: Date, ayanamsa: 
  */
 export function getSankrantiForDate(date: Date, ayanamsa: number, timezoneOffsetMinutes: number = 0): SankrantiInfo | null {
     // Calculate local midnight start and end
-    const localOffset = timezoneOffsetMinutes * 60 * 1000;
+    const localOffset = timezoneOffsetMinutes * MS_PER_MINUTE;
     const utcMidnight = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
     const localDayStart = new Date(utcMidnight.getTime() - localOffset);
-    const localDayEnd = new Date(localDayStart.getTime() + 24 * 60 * 60 * 1000);
+    const localDayEnd = new Date(localDayStart.getTime() + MS_PER_DAY);
 
     // Search backwards 35 days to catch any Sankranti (Sun takes ~30 days per Rashi)
-    const searchStart = new Date(localDayStart.getTime() - 35 * 24 * 60 * 60 * 1000);
+    const searchStart = new Date(localDayStart.getTime() - SANKRANTI_LOOKBACK_MS);
 
     // Recalculate ayanamsa for the search start date
     const searchAyanamsa = getAyanamsa(searchStart);
@@ -1148,7 +1189,7 @@ export function getSankrantiForDate(date: Date, ayanamsa: number, timezoneOffset
         }
 
         // Move past this Sankranti
-        current = new Date(next.exactTime.getTime() + 25 * 24 * 60 * 60 * 1000);
+        current = new Date(next.exactTime.getTime() + SANKRANTI_ADVANCE_MS);
     }
 
     return null;
@@ -1303,7 +1344,7 @@ export function findRashiTransitions(startDate: Date, endDate: Date, ayanamsa: n
                 startTime: new Date(current),
                 endTime: nextRashiEnd
             });
-            current = new Date(nextRashiEnd.getTime() + 60 * 1000);
+            current = new Date(nextRashiEnd.getTime() + MS_PER_MINUTE);
             lastRashi = Math.floor(getSiderealMoon(current) / 30);
         }
     }
@@ -1500,7 +1541,7 @@ export function getSpecialYoga(vara: number, nakshatraIndex: number): { name: st
     return yogas;
 }
 
-export function calculateVimshottariDasha(moonLon: number, birthDate: Date): any { // type DashaResult
+export function calculateVimshottariDasha(moonLon: number, birthDate: Date): DashaResult {
     // 1. Calculate Nakshatra
     // Each Nakshatra = 13 deg 20 min = 800 min.
     // 360 deg = 21600 min.
@@ -1549,7 +1590,7 @@ export function calculateVimshottariDasha(moonLon: number, birthDate: Date): any
     // Better: Add years and fractional days.
 
     const addYears = (date: Date, years: number): Date => {
-        return new Date(date.getTime() + years * 31557600000); // 365.25 days
+        return new Date(date.getTime() + years * MS_PER_YEAR);
     };
 
     let currentEnd = addYears(currentStart, balanceYears);

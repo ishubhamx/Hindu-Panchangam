@@ -3,6 +3,21 @@ import { getTithi, getPaksha } from './calculations.js';
 import { getAyanamsa } from './ayanamsa.js';
 
 /**
+ * Get the 1-indexed Tithi (1-30) at an arbitrary point in time.
+ *
+ * This is ayanamsa-independent because the Moon−Sun difference cancels any
+ * constant offset, so tropical longitudes are used directly.
+ *
+ * @param time - The instant at which to evaluate
+ * @returns Tithi index (1-30)
+ */
+export function getTithiAtTime(time: Date): number {
+    const sunLon  = EclipticFunc(GeoVector(Body.Sun, time, true)).elon;
+    const moonLon = EclipticFunc(GeoVector(Body.Moon, time, true)).elon;
+    return getTithi(sunLon, moonLon) + 1;
+}
+
+/**
  * Udaya Tithi Calculation
  * 
  * Get the Tithi prevailing at sunrise (Udaya Tithi).
@@ -14,14 +29,7 @@ import { getAyanamsa } from './ayanamsa.js';
  * @returns Tithi index (1-30) prevailing at sunrise
  */
 export function getTithiAtSunrise(date: Date, sunrise: Date, observer: Observer): number {
-    const ayanamsa = getAyanamsa(sunrise);
-    const sunVector = GeoVector(Body.Sun, sunrise, true);
-    const moonVector = GeoVector(Body.Moon, sunrise, true);
-
-    const sunLon = EclipticFunc(sunVector).elon;
-    const moonLon = EclipticFunc(moonVector).elon;
-
-    return getTithi(sunLon, moonLon);
+    return getTithiAtTime(sunrise);
 }
 
 /**

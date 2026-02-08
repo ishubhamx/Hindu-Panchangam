@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { MonthCalendar } from '../components/Calendar/MonthCalendar';
+import { MonthFestivalList } from '../components/Calendar/MonthFestivalList';
 import { useMonthData } from '../hooks/useMonthData';
 import { useOutletContext } from 'react-router-dom';
 import type { Location } from '../types';
@@ -90,6 +91,16 @@ export const MonthViewPage = () => {
                     loading={loading}
                 />
             </div>
+
+            {/* Festival list for the month */}
+            {!loading && monthData.length > 0 && (
+                <div className="month-festivals-container">
+                    <MonthFestivalList
+                        monthData={monthData}
+                        onDateSelect={handleDateSelect}
+                    />
+                </div>
+            )}
         </div>
     );
 };

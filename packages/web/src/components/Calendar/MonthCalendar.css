@@ -106,7 +106,7 @@
     border: 1px dashed rgba(255, 255, 255, 0.04);
     cursor: default;
     pointer-events: none;
-    min-height: 80px;
+    min-height: 96px;
 }
 
 .day-cell.empty.trailing {
@@ -208,6 +208,15 @@
         rgba(147, 51, 234, 0.2)
     );
     border: 1px solid rgba(147, 51, 234, 0.5);
+}
+
+.legend-color.major-festival {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 198, 112, 0.5),
+        rgba(255, 144, 32, 0.3)
+    );
+    border: 1px solid rgba(255, 198, 112, 0.6);
 }
 
 .legend-text {

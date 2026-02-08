@@ -16,6 +16,7 @@ import { HoraCard } from './HoraCard';
 import { UpcomingFestivals } from './UpcomingFestivals';
 import { PlanetaryPositions } from './PlanetaryPositions';
 import { SankrantiPanchakInfo } from './SankrantiPanchakInfo';
+import { FestivalSection } from './FestivalSection';
 import { MoonPhase } from '../MoonPhase';
 import { MuhurtaTimeline } from '../MuhurtaTimeline';
 import { ShoolaCompass } from '../features/Shoola';
@@ -24,6 +25,7 @@ import { ChandrashtamaAlert } from '../features/Chandrashtama';
 import { BirthDataModal, loadBirthData } from '../BirthDataModal';
 import { formatTime } from '../../utils/colors';
 import { getTimezoneOffset } from '../../utils/timezone';
+import { getFestivalIcon } from '../../utils/festivalIcons';
 import './DayDetail.css';
 
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -129,9 +131,41 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
             <div className="hero-section">
                 <div className="hero-top-row">
                     <div className="hero-left-content">
-                        {/* Primary: Tithi */}
+                        {/* Primary: Tithi — show multi-tithi only when a tithi is "hidden" (3+ tithis in one day) */}
                         <div className="tithi-main">
-                            {tithiName}
+                            {(() => {
+                                // Last tithi carries to next sunrise, exclude it from this day
+                                const allTithis = panchang.tithis || [];
+                                const dayTithis = allTithis.length > 1
+                                    ? allTithis.slice(0, allTithis.length - 1)
+                                    : allTithis;
+                                // Show multi-tithi view only when 2+ tithis belong to this day
+                                if (dayTithis.length >= 2) {
+                                    return (
+                                        <div className="multi-tithi-container">
+                                            {dayTithis.map((t: any, idx: number) => {
+                                                const isUdaya = t.index === panchang.tithi;
+                                                const isHidden = idx > 0;
+                                                return (
+                                                    <div key={idx} className={`tithi-row ${isUdaya ? 'is-udaya' : ''} ${isHidden ? 'is-hidden-tithi' : ''}`}>
+                                                        <span className="tithi-name-text">{t.name}</span>
+                                                        {t.endTime && (
+                                                            <span className="tithi-end-time">
+                                                                {idx === 0
+                                                                    ? ` upto ${formatTime(new Date(t.endTime), timezone)}`
+                                                                    : ` ${formatTime(new Date(t.startTime), timezone)} – ${formatTime(new Date(t.endTime), timezone)}`
+                                                                }
+                                                            </span>
+                                                        )}
+                                                        {isHidden && <span className="hidden-tithi-badge">kshaya tithi</span>}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    );
+                                }
+                                return tithiName;
+                            })()}
                         </div>
 
                         {/* Secondary: Date & Weekday */}
@@ -142,9 +176,21 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
 
                         {festivals.length > 0 && (
                             <div className="festivals-list">
-                                {festivals.map((festival: string, i: number) => (
-                                    <span key={i} className="festival-tag">{festival}</span>
-                                ))}
+                                {festivals.slice(0, 3).map((festival: any, i: number) => {
+                                    const name = typeof festival === 'string' ? festival : festival.name;
+                                    const icon = getFestivalIcon(name);
+                                    const category = (typeof festival === 'object' && festival.category) || 'minor';
+                                    return (
+                                        <span key={i} className={`festival-tag festival-tag--${category}`}>
+                                            <span className="festival-icon-small">{icon}</span> {name}
+                                        </span>
+                                    );
+                                })}
+                                {festivals.length > 3 && (
+                                    <span className="festival-tag festival-tag--more">
+                                        +{festivals.length - 3} more
+                                    </span>
+                                )}
                             </div>
                         )}
                     </div>
@@ -222,6 +268,11 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
                     )}
                 </div>
             </div>
+
+            {/* Festival Section - Detailed cards for all festivals */}
+            {festivals.length > 0 && (
+                <FestivalSection festivals={festivals} />
+            )}
 
             {/* Sankranti & Panchak Alerts */}
             <SankrantiPanchakInfo

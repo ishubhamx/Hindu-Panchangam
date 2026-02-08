@@ -102,21 +102,12 @@ export const SunriseTimeline: React.FC<SunriseTimelineProps> = ({
     // Calculate sun path using sine curve (astronomical approximation)
     const sunData = useMemo(() => {
         if (!sunrise || !sunset) {
-            console.log('SunriseTimeline: sunrise or sunset is null', { sunrise, sunset });
             return null;
         }
 
         try {
             const sunriseMin = getMinutesFromMidnight(sunrise);
             const sunsetMin = getMinutesFromMidnight(sunset);
-
-            console.log('SunriseTimeline: calculated minutes', {
-                sunriseMin,
-                sunsetMin,
-                sunrise: sunrise.toString(),
-                sunset: sunset.toString(),
-                timezone
-            });
 
             // Safety check for invalid times
             if (sunsetMin <= sunriseMin) {

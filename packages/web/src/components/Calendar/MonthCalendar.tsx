@@ -155,8 +155,12 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
                     <span className="legend-text">Ekadashi</span>
                 </div>
                 <div className="legend-item">
+                    <span className="legend-color major-festival"></span>
+                    <span className="legend-text">Major Festival</span>
+                </div>
+                <div className="legend-item">
                     <span className="legend-color festival"></span>
-                    <span className="legend-text">Festival</span>
+                    <span className="legend-text">Observance</span>
                 </div>
             </div>
         </div>

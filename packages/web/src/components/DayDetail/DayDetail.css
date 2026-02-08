@@ -89,14 +89,75 @@
 .festival-tag {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-xs);
-    padding: 2px 10px;
-    background: rgba(255, 107, 107, 0.15);
-    border: 1px solid rgba(255, 107, 107, 0.3);
-    color: #ff8e8e;
-    border-radius: var(--radius-full);
-    font-size: var(--font-size-xs);
-    font-weight: 600;
+    gap: 0.35rem;
+    padding: 0.25rem 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--color-text-primary);
+    backdrop-filter: blur(4px);
+    transition: all 0.2s ease;
+}
+
+.festival-tag:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Category-specific festival tag styles */
+.festival-tag--major {
+    background: linear-gradient(135deg, rgba(255, 198, 112, 0.2), rgba(255, 144, 32, 0.12));
+    border-color: rgba(255, 198, 112, 0.35);
+    color: #ffc670;
+}
+
+.festival-tag--ekadashi {
+    background: rgba(74, 222, 128, 0.1);
+    border-color: rgba(74, 222, 128, 0.25);
+    color: #4ade80;
+}
+
+.festival-tag--pradosham {
+    background: rgba(192, 132, 252, 0.1);
+    border-color: rgba(192, 132, 252, 0.25);
+    color: #c084fc;
+}
+
+.festival-tag--vrat {
+    background: rgba(244, 114, 182, 0.1);
+    border-color: rgba(244, 114, 182, 0.25);
+    color: #f472b6;
+}
+
+.festival-tag--jayanti {
+    background: rgba(96, 165, 250, 0.1);
+    border-color: rgba(96, 165, 250, 0.25);
+    color: #60a5fa;
+}
+
+.festival-tag--solar {
+    background: rgba(251, 146, 60, 0.1);
+    border-color: rgba(251, 146, 60, 0.25);
+    color: #fb923c;
+}
+
+.festival-tag--minor {
+    background: rgba(167, 139, 250, 0.1);
+    border-color: rgba(167, 139, 250, 0.2);
+    color: #a78bfa;
+}
+
+.festival-tag--more {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--glass-border);
+    color: var(--color-text-tertiary);
+    font-size: 0.75rem;
+}
+
+.festival-icon-small {
+    font-size: 1rem;
+    line-height: 1;
 }
 
 .hero-right-content {
@@ -454,4 +515,83 @@
 .edit-birth-btn:hover {
     background: rgba(255, 255, 255, 0.15);
     color: var(--color-text-primary);
+}
+
+/* Multi Tithi Display Styles */
+.multi-tithi-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tithi-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 1.35rem;
+    line-height: 1.3;
+    opacity: 0.5;
+    padding: 4px 0;
+    border-radius: 8px;
+    transition: opacity 0.2s;
+    background: none;
+    -webkit-text-fill-color: var(--color-text-secondary);
+}
+
+.tithi-row.is-udaya {
+    font-weight: 800;
+    font-size: 1.6rem;
+    opacity: 1;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.tithi-end-time {
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-family: var(--font-family-base);
+    color: var(--color-text-tertiary);
+    -webkit-text-fill-color: var(--color-text-tertiary);
+    opacity: 0.9;
+}
+
+/* Hidden tithi — the tithi sandwiched inside a single day */
+.tithi-row.is-hidden-tithi {
+    position: relative;
+    padding: 6px 10px;
+    margin: 0;
+    border-radius: 8px;
+    background: rgba(251, 191, 36, 0.06);
+    border-left: 3px solid rgba(251, 191, 36, 0.6);
+    opacity: 0.85;
+    font-size: 1.15rem;
+}
+
+.tithi-row.is-hidden-tithi .tithi-name-text {
+    color: #fbbf24;
+    -webkit-text-fill-color: #fbbf24;
+    font-weight: 700;
+}
+
+.hidden-tithi-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(251, 191, 36, 0.12);
+    color: #fbbf24;
+    -webkit-text-fill-color: #fbbf24;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.hidden-tithi-badge::before {
+    content: '⚠';
+    font-size: 0.55rem;
 }

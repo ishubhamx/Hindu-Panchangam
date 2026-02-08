@@ -4,6 +4,7 @@
     flex-direction: column;
     background: var(--color-bg-primary);
     transition: background 0.3s ease;
+    padding-top: 80px; /* Header Height Compensation */
 }
 
 .app-main {

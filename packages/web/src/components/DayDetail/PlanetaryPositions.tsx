@@ -25,16 +25,26 @@ interface PlanetaryPositionsProps {
     };
 }
 
+import sunIcon from '../../assets/planets/sun.png';
+import moonIcon from '../../assets/planets/moon.png';
+import marsIcon from '../../assets/planets/mars.png';
+import mercuryIcon from '../../assets/planets/mercury.png';
+import jupiterIcon from '../../assets/planets/jupiter.png';
+import venusIcon from '../../assets/planets/venus.png';
+import saturnIcon from '../../assets/planets/saturn.png';
+import rahuIcon from '../../assets/planets/rahu.png';
+import ketuIcon from '../../assets/planets/ketu.png';
+
 const PLANET_INFO: Record<string, { icon: string; name: string; sanskritName: string }> = {
-    sun: { icon: '☀️', name: 'Sun', sanskritName: 'Surya' },
-    moon: { icon: '🌙', name: 'Moon', sanskritName: 'Chandra' },
-    mars: { icon: '🔴', name: 'Mars', sanskritName: 'Mangal' },
-    mercury: { icon: '🟢', name: 'Mercury', sanskritName: 'Budha' },
-    jupiter: { icon: '🟡', name: 'Jupiter', sanskritName: 'Guru' },
-    venus: { icon: '💗', name: 'Venus', sanskritName: 'Shukra' },
-    saturn: { icon: '🔵', name: 'Saturn', sanskritName: 'Shani' },
-    rahu: { icon: '⬛', name: 'Rahu', sanskritName: 'Rahu' },
-    ketu: { icon: '🟤', name: 'Ketu', sanskritName: 'Ketu' }
+    sun: { icon: sunIcon, name: 'Sun', sanskritName: 'Surya' },
+    moon: { icon: moonIcon, name: 'Moon', sanskritName: 'Chandra' },
+    mars: { icon: marsIcon, name: 'Mars', sanskritName: 'Mangal' },
+    mercury: { icon: mercuryIcon, name: 'Mercury', sanskritName: 'Budha' },
+    jupiter: { icon: jupiterIcon, name: 'Jupiter', sanskritName: 'Guru' },
+    venus: { icon: venusIcon, name: 'Venus', sanskritName: 'Shukra' },
+    saturn: { icon: saturnIcon, name: 'Saturn', sanskritName: 'Shani' },
+    rahu: { icon: rahuIcon, name: 'Rahu', sanskritName: 'Rahu' },
+    ketu: { icon: ketuIcon, name: 'Ketu', sanskritName: 'Ketu' }
 };
 
 const RASHI_ICONS: Record<string, string> = {
@@ -88,7 +98,7 @@ export const PlanetaryPositions: React.FC<PlanetaryPositionsProps> = ({ position
                     return (
                         <div key={planet} className={`planet-card ${pos.dignity}`}>
                             <div className="planet-header">
-                                <span className="planet-icon">{info.icon}</span>
+                                <img src={info.icon} alt={info.name} className="planet-icon-img" />
                                 <div className="planet-names">
                                     <span className="planet-name">{info.name}</span>
                                     <span className="planet-sanskrit">{info.sanskritName}</span>
