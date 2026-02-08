@@ -13,8 +13,10 @@ describe('Festival Detection (v3.0.0 — Tithi-based)', () => {
         // Diwali: Ashwina (6) Amavasya (30)
         expect(getFestivalsByTithi(6, false, 30, 'Krishna')).toContain('Diwali (Lakshmi Puja)');
 
-        // Maha Shivaratri: Magha (10) Krishna Chaturdashi (29)
-        expect(getFestivalsByTithi(10, false, 29, 'Krishna')).toContain('Maha Shivaratri');
+        // Maha Shivaratri: handled as a night-festival special case in getFestivals()
+        // (not in getFestivalsByTithi), so Masik Shivaratri fires instead.
+        // The Maha Shivaratri sunset-based rule is tested in shivaratri-check.test.ts.
+        expect(getFestivalsByTithi(10, false, 29, 'Krishna')).toContain('Masik Shivaratri');
     });
 
     test('Ekadashi Naming', () => {

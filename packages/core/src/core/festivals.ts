@@ -257,6 +257,37 @@ export function getFestivals(options: FestivalCalculationOptions): Festival[] {
         }
     }
 
+    // ===== NIGHT FESTIVAL SPECIAL CASES =====
+    // Maha Shivaratri: Night festival (Ratri Vrat) observed on the day when
+    // Krishna Chaturdashi prevails during Pradosh Kala (evening after sunset)
+    // and Nishita Kala (midnight). Per Drik Panchang convention:
+    //   - If sunrise tithi is Trayodashi and Chaturdashi starts before sunset,
+    //     that day IS Shivaratri (the night vigil happens that night).
+    //   - If sunrise tithi is Chaturdashi but Amavasya starts before sunset,
+    //     that day is NOT Shivaratri (Chaturdashi doesn't prevail at night).
+    if (masaIndex === 10 && !masa.isAdhika) {
+        // tithi 29 (1-indexed) = Krishna Chaturdashi
+        const CHATURDASHI = 29;
+        const hasChaturdashiAtSunset = options.sunset
+            ? getTithiAtTime(options.sunset) === CHATURDASHI
+            : udayaTithi === CHATURDASHI; // fallback if no sunset available
+
+        if (hasChaturdashiAtSunset && !festivals.some(f => f.name === 'Maha Shivaratri')) {
+            festivals.push({
+                name: 'Maha Shivaratri',
+                type: 'single',
+                category: 'major',
+                date,
+                tithi: CHATURDASHI,
+                paksha: 'Krishna',
+                masa: masaNames[masaIndex],
+                description: 'Great night of Shiva — observed on the night when Chaturdashi prevails',
+                observances: ['Fasting', 'All-night vigil', 'Shiva puja'],
+                isFastingDay: true
+            });
+        }
+    }
+
     // ===== MULTI-DAY FESTIVAL SPANS =====
     const multiDayFestivals = getMultiDayFestivals(masaIndex, udayaTithi, date, options);
     festivals.push(...multiDayFestivals);
@@ -668,13 +699,9 @@ function detectTithiBasedFestivals(
         }));
     }
 
-    if (masaIndex === 10 && udayaTithi === 29) {
-        festivals.push(createFestival("Maha Shivaratri", 'major', {
-            description: "Great night of Shiva",
-            observances: ["Fasting", "All-night vigil", "Shiva puja"],
-            isFastingDay: true
-        }));
-    }
+    // NOTE: Maha Shivaratri is handled as a special night-festival case in
+    // getFestivals() — it fires on the day whose evening/night (Pradosh Kala)
+    // has Krishna Chaturdashi prevailing, not on the udaya-tithi day.
 
     if (masaIndex === 11 && udayaTithi === 15) {
         festivals.push(createFestival("Holika Dahan", 'major', {
@@ -862,8 +889,9 @@ function detectTithiBasedFestivals(
     }
 
     // Masik Shivaratri — every Krishna Chaturdashi (tithi 29), Shiva worship
-    // (The Magha one is already Maha Shivaratri — skip duplicate)
-    if (udayaTithi === 29 && masaIndex !== 10) {
+    // Maha Shivaratri (Magha) is handled separately as a night-festival special
+    // case in getFestivals(), so Masik Shivaratri fires for ALL months here.
+    if (udayaTithi === 29) {
         festivals.push(createFestival("Masik Shivaratri", 'vrat', {
             description: "Monthly night of Shiva worship",
             isFastingDay: true,

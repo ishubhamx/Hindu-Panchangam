@@ -131,9 +131,41 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
             <div className="hero-section">
                 <div className="hero-top-row">
                     <div className="hero-left-content">
-                        {/* Primary: Tithi */}
+                        {/* Primary: Tithi — show multi-tithi only when a tithi is "hidden" (3+ tithis in one day) */}
                         <div className="tithi-main">
-                            {tithiName}
+                            {(() => {
+                                // Last tithi carries to next sunrise, exclude it from this day
+                                const allTithis = panchang.tithis || [];
+                                const dayTithis = allTithis.length > 1
+                                    ? allTithis.slice(0, allTithis.length - 1)
+                                    : allTithis;
+                                // Show multi-tithi view only when 2+ tithis belong to this day
+                                if (dayTithis.length >= 2) {
+                                    return (
+                                        <div className="multi-tithi-container">
+                                            {dayTithis.map((t: any, idx: number) => {
+                                                const isUdaya = t.index === panchang.tithi;
+                                                const isHidden = idx > 0;
+                                                return (
+                                                    <div key={idx} className={`tithi-row ${isUdaya ? 'is-udaya' : ''} ${isHidden ? 'is-hidden-tithi' : ''}`}>
+                                                        <span className="tithi-name-text">{t.name}</span>
+                                                        {t.endTime && (
+                                                            <span className="tithi-end-time">
+                                                                {idx === 0
+                                                                    ? ` upto ${formatTime(new Date(t.endTime), timezone)}`
+                                                                    : ` ${formatTime(new Date(t.startTime), timezone)} – ${formatTime(new Date(t.endTime), timezone)}`
+                                                                }
+                                                            </span>
+                                                        )}
+                                                        {isHidden && <span className="hidden-tithi-badge">kshaya tithi</span>}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    );
+                                }
+                                return tithiName;
+                            })()}
                         </div>
 
                         {/* Secondary: Date & Weekday */}

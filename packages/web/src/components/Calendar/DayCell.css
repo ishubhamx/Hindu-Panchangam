@@ -55,7 +55,7 @@
 
 /* Tithi name */
 .tithi-name {
-    font-size: 0.58rem;
+    font-size: 0.55rem;
     font-weight: 500;
     color: var(--color-text-secondary);
     text-transform: capitalize;
@@ -64,6 +64,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+    margin-bottom: 1px;
 }
 
 /* Day type variations */
@@ -290,6 +291,10 @@
         display: none;
     }
 
+    .hidden-tithi-indicator {
+        display: none;
+    }
+
     .festival-badge {
         display: flex;
     }
@@ -328,4 +333,76 @@
     .cell-festivals {
         display: none;
     }
+}
+
+/* Hidden tithi indicator — for tithis that are sandwiched within a single day */
+.hidden-tithi-indicator {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-top: 1px;
+    padding: 0 1px;
+}
+
+.hidden-tithi-name {
+    font-size: 0.48rem;
+    font-weight: 600;
+    color: #fbbf24;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0.85;
+    font-style: italic;
+}
+
+/* Tithi Corner Number */
+.tithi-corner-num {
+    position: absolute;
+    bottom: 4px;
+    right: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    opacity: 0.45;
+    z-index: 2;
+    pointer-events: none;
+    font-family: var(--font-family-mono, monospace);
+    line-height: 1;
+}
+
+.tithi-corner-num.shukla {
+    color: var(--color-text-primary);
+}
+
+.tithi-corner-num.krishna {
+    color: var(--color-text-secondary);
+}
+
+/* Multi-tithi corner badge */
+.tithi-corner-num.has-multi {
+    opacity: 0.7;
+    font-size: 0.62rem;
+    background: rgba(251, 191, 36, 0.1);
+    padding: 1px 4px;
+    border-radius: 4px;
+    bottom: 3px;
+    right: 3px;
+}
+
+.tithi-nums-stack {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+}
+
+.tithi-num-item {
+    color: inherit;
+}
+
+.tithi-num-item.is-hidden-num {
+    color: #fbbf24;
+}
+
+.tithi-num-sep {
+    margin: 0 1px;
+    opacity: 0.5;
 }
