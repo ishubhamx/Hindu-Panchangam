@@ -2,6 +2,9 @@
 
 A professional, rigorously tested TypeScript/JavaScript library for calculating Indian Panchangam (Hindu Calendar) elements. Built on high-precision Swiss Ephemeris calculations (`astronomy-engine`) and validated against Drik Panchang data.
 
+[![npm version](https://img.shields.io/npm/v/@ishubhamx/panchangam-js)](https://www.npmjs.com/package/@ishubhamx/panchangam-js)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 🌐 **Live Demo**: [hindu-panchang-c1a81.web.app](https://hindu-panchang-c1a81.web.app)
 
 ## 📦 Packages
@@ -10,60 +13,55 @@ This is a monorepo containing:
 
 | Package | Description | npm |
 |---------|-------------|-----|
-| [@panchangam/core](./packages/core) | Core calculation library | [![npm](https://img.shields.io/npm/v/@ishubhamx/panchangam-js)](https://www.npmjs.com/package/@ishubhamx/panchangam-js) |
-| [@panchangam/web](./packages/web) | Modern React web application | - |
+| [@ishubhamx/panchangam-js](./packages/core) | Core calculation library | [![npm](https://img.shields.io/npm/v/@ishubhamx/panchangam-js)](https://www.npmjs.com/package/@ishubhamx/panchangam-js) |
+| [@panchangam/web](./packages/web) | Modern React web application | Private |
 
 ## Features
 
-### Core Panchangam Elements
-- **Tithi**: Lunar day and phases (0-29)
-- **Nakshatra**: Lunar mansion (0-26)
-- **Yoga**: Solar-lunar combination (0-26)
-- **Karana**: Half-tithi periods
-- **Vara**: Day of the week
+### Core Panchangam
+- **Tithi** — Lunar day (1–30) with precise start/end times & transitions
+- **Nakshatra** — Lunar mansion (0–26) with Pada and transitions
+- **Yoga** — Solar-lunar combination (0–26)
+- **Karana** — Half-tithi periods with transitions
+- **Vara** — Day of the week
 
-### Astronomical Calculation
-- **Precision**: Uses Swiss Ephemeris algorithms via `astronomy-engine`.
-- **Positioning**: Calculates exact Sunrise, Sunset, Moonrise, and Moonset for any lat/long/elevation.
-- **End Times**: precise end times for Tithi, Nakshatra, and Yoga.
+### Muhurta & Timings
+- **Abhijit Muhurta** — Auspicious noon period
+- **Brahma Muhurta** — Pre-dawn spiritual window
+- **Govardhan Muhurta** — Afternoon auspicious time
+- **Choghadiya** — Day & night intervals with Good/Bad ratings
+- **Gowri Panchangam** — Day & night intervals with ratings
+- **Rahu Kalam, Yamaganda Kalam, Gulika Kalam** — Inauspicious periods
+- **Dur Muhurta** — Inauspicious muhurta windows
+- **Amrit Kalam & Varjyam** — Auspicious/inauspicious Nakshatra windows
 
-### Enhanced Vedic Features
-- **Muhurats**:
-  - **Abhijit Muhurta**: Auspicious noon period
-  - **Brahma Muhurta**: Pre-dawn spiritual window
-  - **Govardhan Muhurta**: Afternoon auspicious time
-- **Inauspicious Periods**:
-  - **Rahu Kalam**
-  - **Yamaganda Kalam**
-  - **Gulika Kalam**
-  - **Dur Muhurta**
-- **Planetary Info**:
-  - **Positions**: Rashi (Sign), Longitude, and Degrees for Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn.
-  - **Chandra Balam**: Moon strength calculation.
-  - **Hora**: Current planetary hour ruler.
-- **Vimshottari Dasha**:
-  - **Dasha Balance**: Current ruling planet and time remaining.
-  - **Full Cycle**: Complete 120-year prediction.
-  - **Antardasha**: Sub-periods.
-- **Special Yogas**:
-  - **Amrit Siddhi Yoga**
-  - **Sarvartha Siddhi Yoga**
-  - **Guru/Ravi Pushya**
-- **Festivals**:
-  - Major festivals (Diwali, Rama Navami, etc.) detected automatically based on Tithi/Masa.
+### Vedic Astrology
+- **Planetary Positions** — Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu, Ketu
+- **Vimshottari Dasha** — Mahadasha, Antardasha, full 120-year cycle
+- **Kundli (Birth Chart)** — Bhava calculations and Varga charts (D1–D12)
+- **Kundli Matching** — Ashtakoota matching (8 Kootas) with Dosha analysis
+- **Tarabalam** — Nakshatra-based daily auspiciousness
+- **Chandrashtama** — Moon in 8th house from birth Rashi
+- **Disha Shoola** — Directional inauspiciousness by Vara
+
+### Calendar & Festivals
+- **Masa, Paksha, Ritu, Ayana, Samvat** — Complete Hindu calendar context
+- **80+ Festivals** — Detected automatically based on Udaya Tithi
+- **Ekadashi Names** — Named Ekadashis for each Masa/Paksha
+- **Sankranti Detection** — Solar ingress dates
+- **Special Yogas** — Amrit Siddhi, Sarvartha Siddhi, Guru Pushya, Ravi Pushya
 
 ### Day Interpretation Rules
-- **Sunrise Anchoring**: All daily attributes (Tithi, Nakshatra, Yoga, Karana, Vara) are calculated at the exact moment of **Sunrise** for the given location, strictly following standard Panchangam rules.
-- **Instantaneous Values**: Planetary positions and Ascendant (Lagna) are calculated for the *exact input time* provided.
+- **Sunrise Anchoring**: All daily attributes (Tithi, Nakshatra, Yoga, Karana, Vara) are calculated at the exact moment of **Sunrise** for the given location.
+- **Instantaneous Values**: Planetary positions and Ascendant (Lagna) are calculated for the exact input time provided.
 
 ## Accuracy & Validation
 
-This library is **rigorously tested** to ensure reliability for real-world usage:
-
-- **Real-World Data**: Verified against **200 consecutive days** (Sep 2025 - Apr 2026) of Drik Panchang data with **100% accuracy**.
-- **Long-Term Stability**: Regression tested for 25+ years into the future (2030, 2035, 2040, 2045, 2050) against ground truth data.
-- **Unit Testing**: Comprehensive test suite covering edge cases, leap years, and timezone boundaries.
-- **High Performance**: Benchmarked at **~5ms per calculation** (193 ops/sec) on standard hardware, ready for real-time mobile use.
+- **Real-World Data**: Verified against **200 consecutive days** (Sep 2025 – Apr 2026) of Drik Panchang data with **100% accuracy**
+- **Large-Scale Validation**: 98.64% match over 643,797 test cases
+- **Long-Term Stability**: Regression tested for 25+ years into the future
+- **Unit Testing**: 1075 tests covering edge cases, DST, leap years, and timezone boundaries
+- **Performance**: ~5ms per calculation (193 ops/sec)
 
 ## Installation
 
@@ -71,191 +69,131 @@ This library is **rigorously tested** to ensure reliability for real-world usage
 npm install @ishubhamx/panchangam-js
 ```
 
-## Usage
+## Quick Start
 
-### Basic Example
+### ESM (TypeScript / Modern JS)
 
 ```typescript
-import { getPanchangam, Observer } from '@ishubhamx/panchangam-js';
+import { getPanchangam, Observer, tithiNames, nakshatraNames } from '@ishubhamx/panchangam-js';
 
-// 1. Define Location (Observer)
-// Example: Bangalore (12.9716° N, 77.5946° E, 920m elevation)
-const observer = new Observer(12.9716, 77.5946, 920);
+const observer = new Observer(12.9716, 77.5946, 920); // Bangalore
+const panchang = getPanchangam(new Date(), observer, {
+    timezoneOffset: 330 // IST = UTC+5:30
+});
 
-// 2. Define Date
-const date = new Date(); // or new Date('2025-06-15')
-
-// 3. Get Panchangam
-const panchangam = getPanchangam(date, observer);
-
-console.log('Tithi:', panchangam.tithi);
-console.log('Nakshatra:', panchangam.nakshatra);
-console.log('Sunrise:', panchangam.sunrise);
-console.log('Rahu Kalam:', panchangam.rahuKalamStart, '-', panchangam.rahuKalamEnd);
+console.log(`Tithi: ${tithiNames[panchang.tithi]}`);
+console.log(`Nakshatra: ${nakshatraNames[panchang.nakshatra]}`);
+console.log(`Sunrise: ${panchang.sunrise?.toLocaleTimeString()}`);
+console.log(`Paksha: ${panchang.paksha}`);
+console.log(`Masa: ${panchang.masa.name}`);
+console.log(`Ritu: ${panchang.ritu}`);
 ```
 
-### Advanced Vedic Example
+### CommonJS (Node.js)
+
+```javascript
+const { getPanchangam, Observer } = require('@ishubhamx/panchangam-js');
+
+const observer = new Observer(19.0760, 72.8777, 10); // Mumbai
+const panchang = getPanchangam(new Date(), observer, { timezoneOffset: 330 });
+console.log(panchang.tithi);
+```
+
+### Advanced Example
 
 ```typescript
 import { getPanchangam, Observer, rashiNames, yogaNames } from '@ishubhamx/panchangam-js';
 
 const observer = new Observer(12.9716, 77.5946, 920);
-const p = getPanchangam(new Date(), observer);
+const p = getPanchangam(new Date(), observer, { timezoneOffset: 330 });
 
-console.log(`Current Yoga: ${yogaNames[p.yoga]}`);
-console.log(`Sun Rashi: ${p.planetaryPositions.sun.rashiName} (Pada: ${p.sunNakshatra.pada})`);
-console.log(`Current Dasha: ${p.vimshottariDasha.currentMahadasha.planet} (${p.vimshottariDasha.dashaBalance})`);
-console.log(`Festivals: ${p.festivals.join(', ')}`);
+console.log(`Yoga: ${yogaNames[p.yoga]}`);
+console.log(`Sun Rashi: ${p.planetaryPositions.sun.rashiName}`);
+console.log(`Dasha: ${p.vimshottariDasha.currentMahadasha.planet} (${p.vimshottariDasha.dashaBalance})`);
 console.log(`Brahma Muhurta: ${p.brahmaMuhurta?.start.toLocaleTimeString()} - ${p.brahmaMuhurta?.end.toLocaleTimeString()}`);
-```
 
-### Advanced Muhurta Example (Choghadiya & Gowri)
-
-```typescript
-import { getPanchangam, Observer } from '@ishubhamx/panchangam-js';
-
-const observer = new Observer(19.0760, 72.8777, 10); // Mumbai
-const p = getPanchangam(new Date(), observer);
-
-// Access Choghadiya
-console.log('--- Day Choghadiya ---');
+// Choghadiya
 p.choghadiya.day.forEach(interval => {
-    // Output: "Amrit: 6:00 AM - 7:30 AM (good)"
-    console.log(`${interval.name}: ${interval.startTime.toLocaleTimeString()} - ${interval.endTime.toLocaleTimeString()} (${interval.rating})`);
+    console.log(`${interval.name}: ${interval.startTime.toLocaleTimeString()} (${interval.rating})`);
 });
 
-console.log('--- Night Choghadiya ---');
-p.choghadiya.night.forEach(interval => {
-    console.log(`${interval.name}: ${interval.rating}`);
-});
-
-// Access Gowri Panchangam
-console.log('--- Gowri Panchangam ---');
-p.gowri.day.forEach(interval => {
-    console.log(`${interval.name} (${interval.rating}): ${interval.startTime.toLocaleTimeString()}`);
-});
-```
-
-### Generating an HTML Calendar
-
-The library includes a utility to generate a monthly HTML calendar view.
-
-```typescript
-import { generateHtmlCalendar, Observer } from '@ishubhamx/panchangam-js';
-
-const html = generateHtmlCalendar(2025, 6, new Observer(12.9716, 77.5946, 920), 'Asia/Kolkata');
-// Write 'html' string to a .html file
+// Festivals
+p.festivals.forEach(f => console.log(`🎉 ${f.name} (${f.category})`));
 ```
 
 ## Timezone Handling
 
-**Important**: This library does **not** bundle large timezone databases (like `tz-lookup`) to keep the bundle size small.
-
-### Default Behavior
-If no timezone offset is provided, the library **approximates** the timezone based on Longitude (`Longitude / 15`). This can be inaccurate for Civil Day calculations (e.g., India is 5.5h ahead, but approximation gives 5.0h).
-
-### Best Practice (Critical for Accuracy)
-You **MUST** provide the `timezoneOffset` in the `options` object to ensure the library calculates the Panchang for the correct Civil Day. 
-Since Tithi and Nakshatra are anchored to the local Sunrise, an incorrect offset can shift the Sunrise time, potentially leading to off-by-one-day errors.
+**Important**: You should provide `timezoneOffset` in the options for accurate sunrise-anchored calculations.
 
 ```typescript
-// 1. Get Timezone Offset (Local Time - UTC) in Minutes
-// Method A: Using standard Intl API (Browser/Node)
-const getOffset = (timeZone: string) => {
-    const now = new Date();
-    const str = now.toLocaleString('en-US', { timeZone, timeZoneName: 'longOffset' });
-    const match = str.match(/GMT([+-]\d{2}):(\d{2})/);
+// Helper function to get offset from timezone name
+function getTimezoneOffset(timeZone: string, date: Date): number {
+    const str = date.toLocaleString('en-US', { timeZone, timeZoneName: 'longOffset' });
+    const match = str.match(/GMT([+-]\d{1,2}):?(\d{2})?/);
     if (!match) return 0;
     const sign = match[1].startsWith('+') ? 1 : -1;
-    const hours = parseInt(match[1].slice(1), 10);
-    const minutes = parseInt(match[2], 10);
+    const hours = parseInt(match[1].replace(/[+-]/, ''), 10);
+    const minutes = match[2] ? parseInt(match[2], 10) : 0;
     return sign * (hours * 60 + minutes);
 }
 
-// Method B: Fixed Constant (e.g. India = +330 minutes)
-const IST_OFFSET = 330; 
-
-// 2. Pass to Library
-const observer = new Observer(12.9716, 77.5946, 920);
-const panchang = getPanchangam(new Date(), observer, { 
-    timezoneOffset: getOffset('Asia/Kolkata') // or IST_OFFSET
-});
+const offset = getTimezoneOffset('Asia/Kolkata', new Date()); // 330
+const panchang = getPanchangam(date, observer, { timezoneOffset: offset });
 ```
 
-## Date Format Best Practices
+If no offset is provided, the library approximates timezone from longitude (`longitude / 15`), which may be inaccurate for civil day calculations.
 
-**Important**: JavaScript Date parsing is inconsistent across browsers and environments. Always use **ISO 8601 format** to avoid unexpected behavior.
+### Common Timezones
 
-### ✅ Recommended Formats
-```typescript
-// ISO 8601 with timezone offset
-const date = new Date("2026-01-17T00:05:00-08:00");  // Pacific Time
-const date = new Date("2026-01-17T10:30:00+05:30"); // India Time
-
-// Explicit UTC construction
-const date = new Date(Date.UTC(2026, 0, 17, 8, 5, 0)); // 8:05 UTC
-```
-
-### ❌ Avoid Non-Standard Formats
-```typescript
-// These may parse inconsistently across environments:
-const date = new Date("2026-01-17 00:05:00 GMT-0800"); // Space instead of T
-const date = new Date("Jan 17, 2026 00:05:00");        // Locale-dependent
-```
-
-### Verification
-Always verify your Date is parsed correctly:
-```typescript
-const date = new Date("2026-01-17T00:05:00-08:00");
-console.log(date.toISOString()); 
-// Expected: 2026-01-17T08:05:00.000Z (00:05 PST = 08:05 UTC)
-```
-
-If the output doesn't match the expected UTC time, your date string was not parsed correctly.
+| Location | Timezone | Offset (minutes) |
+|----------|----------|------------------|
+| India | Asia/Kolkata | 330 |
+| Nepal | Asia/Kathmandu | 345 |
+| Sri Lanka | Asia/Colombo | 330 |
+| UK | Europe/London | 0 |
+| US East | America/New_York | −300 |
+| US West | America/Los_Angeles | −480 |
+| Singapore | Asia/Singapore | 480 |
+| Australia | Australia/Sydney | 660 |
 
 ## Usage in Applications
 
-This library is Isomorphic (Universal), meaning it works seamlessly in **Node.js**, **Browsers**, and **React Native**.
+This library is isomorphic — it works in **Node.js**, **Browsers**, and **React Native**.
 
 ### 🌐 Web Application
 
-Check out our official web app built with React + Vite:
+Check out the official web app built with React + Vite:
 
 - **Live**: [hindu-panchang-c1a81.web.app](https://hindu-panchang-c1a81.web.app)
 - **Source**: [packages/web](./packages/web)
 
 Features:
-- 📅 Monthly calendar with Tithi, Nakshatra, and Moon phases
+- 📅 Monthly calendar with Tithi, Nakshatra, Paksha, and Moon phases
 - 🌅 Sunrise/Sunset timeline visualization
 - 📊 Panchang timeline chart (Tithi, Nakshatra, Yoga, Karana transitions)
 - 🌓 Moon phase visualization
 - ⏰ Muhurta timelines (Choghadiya, Gowri)
-- 🚫 Inauspicious periods (Rahu Kalam, Yamaganda, Gulika)
-- 🎉 Festival detection
+- 🧭 Disha Shoola compass
+- ⭐ Tarabalam wheel
+- 🌙 Chandrashtama alerts
+- 🎉 Festival detection (80+ festivals)
 - 🌙 Dark/Light theme support
 - 📍 Location selector with timezone
 
-### Custom Web Integration (React, Next.js, Vue)
+### React / Next.js Example
 
-The library relies on the `Observer` class from `astronomy-engine`, which is lightweight and browser-compatible.
-
-**Next.js / React Example:**
 ```tsx
 import { useState, useEffect } from 'react';
-import { getPanchangam, Observer } from '@ishubhamx/panchangam-js';
+import { getPanchangam, Observer, tithiNames } from '@ishubhamx/panchangam-js';
 
 const PanchangComponent = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    // 1. Get User Location (Browser API)
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
-      
-      // 2. Create Observer & Calculate
       const observer = new Observer(latitude, longitude, 0);
       const panchang = getPanchangam(new Date(), observer);
-      
       setData(panchang);
     });
   }, []);
@@ -265,43 +203,37 @@ const PanchangComponent = () => {
   return (
     <div>
       <h1>Today's Panchang</h1>
-      <p>Tithi: {data.tithi}</p>
+      <p>Tithi: {tithiNames[data.tithi]}</p>
       <p>Sunrise: {data.sunrise?.toLocaleTimeString()}</p>
     </div>
   );
 };
 ```
 
-### 📱 Mobile Apps (React Native, Expo)
+### 📱 React Native / Expo
 
-Since the calculation logic is pure TypeScript/JavaScript with no native module dependencies, it works out-of-the-box in React Native.
+Pure TypeScript with no native dependencies — works out-of-the-box:
 
-**React Native Example:**
 ```tsx
-import React from 'react';
 import { View, Text } from 'react-native';
-import { getPanchangam, Observer } from '@ishubhamx/panchangam-js';
+import { getPanchangam, Observer, tithiNames } from '@ishubhamx/panchangam-js';
 
 export default function App() {
-  // Coordinates for Mumbai
-  const observer = new Observer(19.0760, 72.8777, 10); 
-  const panchang = getPanchangam(new Date(), observer);
+  const observer = new Observer(19.0760, 72.8777, 10);
+  const p = getPanchangam(new Date(), observer, { timezoneOffset: 330 });
 
   return (
     <View style={{ padding: 20 }}>
-      <Text>Daily Panchang</Text>
-      <Text>Nakshatra Index: {panchang.nakshatra}</Text>
-      <Text>Rahu Kalam: {panchang.rahuKalamStart?.toLocaleTimeString()}</Text>
+      <Text>Tithi: {tithiNames[p.tithi]}</Text>
+      <Text>Paksha: {p.paksha}</Text>
+      <Text>Masa: {p.masa.name}</Text>
     </View>
   );
 }
 ```
 
-### ⚙️ Backend (Node.js API)
+### ⚙️ Node.js API
 
-Ideal for building an API service that serves Panchang data to multiple clients.
-
-**Express.js Example:**
 ```typescript
 import express from 'express';
 import { getPanchangam, Observer } from '@ishubhamx/panchangam-js';
@@ -309,51 +241,15 @@ import { getPanchangam, Observer } from '@ishubhamx/panchangam-js';
 const app = express();
 
 app.get('/api/panchang', (req, res) => {
-  const { lat, lng, date } = req.query;
-  
+  const { lat, lng, tz } = req.query;
   const observer = new Observer(Number(lat), Number(lng), 10);
-  const targetDate = date ? new Date(String(date)) : new Date();
-  
-  const result = getPanchangam(targetDate, observer);
-  
+  const result = getPanchangam(new Date(), observer, {
+    timezoneOffset: Number(tz) || 330
+  });
   res.json(result);
 });
 
-app.listen(3000, () => console.log('Panchang API running on port 3000'));
-```
-
-## Data Types
-
-### `Panchangam` Interface
-
-```typescript
-interface Panchangam {
-    // Core
-    tithi: number;
-    nakshatra: number;
-    yoga: number;
-    karana: string;
-    vara: number;
-
-    // Times
-    sunrise: Date | null;
-    sunset: Date | null;
-    tithiEndTime: Date | null;
-    nakshatraEndTime: Date | null;
-    // ... plus moonrise, moonset, yogaEndTime etc.
-
-    // Muhurats
-    rahuKalamStart: Date | null;
-    rahuKalamEnd: Date | null;
-    abhijitMuhurta: { start: Date, end: Date } | null;
-    // ... quantities for yamaganda, brahma muhurta etc.
-
-    // Planets
-    planetaryPositions: {
-        sun: { rashi: number, rashiName: string, degree: number, longitude: number };
-        // ... moon, mars, mercury, jupiter, venus, saturn
-    };
-}
+app.listen(3000);
 ```
 
 ## Development
@@ -368,14 +264,9 @@ This project uses npm workspaces for monorepo management.
 ### Setup
 
 ```bash
-# Clone the repository
 git clone https://github.com/ishubhamx/Hindu-Panchangam.git
 cd Hindu-Panchangam
-
-# Install all dependencies
 npm install
-
-# Build all packages
 npm run build
 ```
 
@@ -391,23 +282,38 @@ npm run build
 | `npm run lint` | Lint all packages |
 | `npm run deploy` | Deploy web app to Firebase |
 
+### Running Examples
+
+```bash
+npx ts-node examples/basic.ts
+npx ts-node examples/advanced.ts
+npx ts-node examples/transitions.ts
+```
+
 ### Project Structure
 
 ```
 Hindu-Panchangam/
 ├── package.json              # Root workspace config
+├── tsconfig.json             # Root TypeScript config
 ├── packages/
-│   ├── core/                 # @panchangam/core - Calculation library
+│   ├── core/                 # @ishubhamx/panchangam-js (published to npm)
 │   │   ├── src/
-│   │   ├── tests/
+│   │   │   ├── core/         # Panchangam, calculations, muhurta, festivals
+│   │   │   ├── kundli/       # Birth chart, houses, varga charts
+│   │   │   ├── matching/     # Ashtakoota matching, kootas
+│   │   │   └── types/        # TypeScript type definitions
+│   │   ├── tests/            # 1075 unit tests
 │   │   └── package.json
-│   └── web/                  # @panchangam/web - React web app
+│   └── web/                  # React + Vite web application
 │       ├── src/
-│       ├── firebase.json
+│       │   ├── components/   # Calendar, DayDetail, Muhurta, MoonPhase, etc.
+│       │   ├── hooks/        # usePanchangData, useMonthData
+│       │   └── pages/        # MonthView, DayView
 │       └── package.json
 ├── examples/                 # Usage examples
-├── scripts/                  # Utility scripts
-└── doc/                      # Documentation
+├── scripts/                  # Validation & utility scripts
+└── doc/                      # Documentation & verification reports
 ```
 
 ### Contributing

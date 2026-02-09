@@ -1,4 +1,4 @@
-import type { Festival } from '../types/festivals.js';
+import type { Festival } from '../types/festivals';
 
 export interface KaranaTransition {
     name: string;

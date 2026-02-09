@@ -1,5 +1,5 @@
 
-import { getPanchangam } from "../src/core/panchangam";
+import { getPanchangam } from '../packages/core/src/index';
 import { Observer } from "astronomy-engine";
 
 async function verifyPlanets() {
