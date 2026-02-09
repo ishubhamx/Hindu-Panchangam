@@ -1,8 +1,10 @@
 import { useState, useCallback } from 'react';
 import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import { AppLayout } from './components/Layout/AppLayout';
+import AnalyticsTracker from './components/Analytics/AnalyticsTracker';
 import { DayViewPage } from './pages/DayViewPage';
 import { MonthViewPage } from './pages/MonthViewPage';
+import { trackEvent } from './utils/analytics';
 import type { Location } from './types';
 import './styles/global.css';
 import './App.css';
@@ -25,6 +27,7 @@ function App() {
 
   const handleLocationChange = useCallback((newLocation: Location) => {
     setLocation(newLocation);
+    trackEvent('Location', 'Change', newLocation.name);
   }, []);
 
   const handleTodayClick = useCallback(() => {
@@ -39,6 +42,7 @@ function App() {
       location={location}
       onLocationChange={handleLocationChange}
     >
+      <AnalyticsTracker />
       <Outlet context={{ location }} />
     </AppLayout>
   );

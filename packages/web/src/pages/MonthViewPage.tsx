@@ -6,6 +6,7 @@ import { useMonthData } from '../hooks/useMonthData';
 import { useOutletContext } from 'react-router-dom';
 import type { Location } from '../types';
 import { format } from 'date-fns';
+import { trackEvent } from '../utils/analytics';
 
 const MONTH_NAMES = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -42,6 +43,7 @@ export const MonthViewPage = () => {
     const { monthData, loading } = useMonthData(currentYear, currentMonth, location);
 
     const handlePrevMonth = () => {
+        trackEvent('Month View', 'Navigate', 'Previous Month');
         if (currentMonth === 0) {
             setCurrentMonth(11);
             setCurrentYear(prev => prev - 1);
@@ -51,6 +53,7 @@ export const MonthViewPage = () => {
     };
 
     const handleNextMonth = () => {
+        trackEvent('Month View', 'Navigate', 'Next Month');
         if (currentMonth === 11) {
             setCurrentMonth(0);
             setCurrentYear(prev => prev + 1);
@@ -60,8 +63,10 @@ export const MonthViewPage = () => {
     };
 
     const handleDateSelect = (date: Date) => {
+        const dateStr = format(date, 'yyyy-MM-dd');
+        trackEvent('Month View', 'Select Date', dateStr);
         // Navigate to Day View when a date is clicked
-        navigate(`/date/${format(date, 'yyyy-MM-dd')}`);
+        navigate(`/date/${dateStr}`);
     };
 
     return (

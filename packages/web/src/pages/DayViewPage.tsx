@@ -5,6 +5,7 @@ import { DayDetail } from '../components/DayDetail/DayDetail';
 import { useMonthData } from '../hooks/useMonthData';
 import { useOutletContext } from 'react-router-dom';
 import type { Location } from '../types';
+import { trackEvent } from '../utils/analytics';
 
 export const DayViewPage = () => {
     const { dateStr } = useParams<{ dateStr: string }>();
@@ -42,16 +43,19 @@ export const DayViewPage = () => {
     // Navigation Handlers
     const handlePrevDay = () => {
         const newDate = subDays(selectedDate, 1);
+        trackEvent('Day View', 'Navigate', 'Previous Day');
         navigate(`/date/${format(newDate, 'yyyy-MM-dd')}`);
     };
 
     const handleNextDay = () => {
         const newDate = addDays(selectedDate, 1);
+        trackEvent('Day View', 'Navigate', 'Next Day');
         navigate(`/date/${format(newDate, 'yyyy-MM-dd')}`);
     };
 
     const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.value) {
+            trackEvent('Day View', 'Date Picker', e.target.value);
             navigate(`/date/${e.target.value}`);
         }
     };

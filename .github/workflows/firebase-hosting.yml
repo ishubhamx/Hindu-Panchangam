@@ -23,6 +23,10 @@ jobs:
       - name: Build core library
         run: npm run build:core
 
+      - name: Create .env file
+        run: |
+          echo "${{ secrets.FIREBASE_ENV_CONFIG }}" > packages/web/.env
+
       - name: Build web app
         run: npm run build:web
 
