@@ -91,3 +91,31 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Get published version
+        id: version
+        run: |
+          cd packages/core
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          if [[ "$VERSION" == *"beta"* ]] || [[ "$VERSION" == *"alpha"* ]] || [[ "$VERSION" == *"rc"* ]]; then
+            echo "prerelease=true" >> $GITHUB_OUTPUT
+          else
+            echo "prerelease=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: Release v${{ steps.version.outputs.version }}
+          body: |
+            ## @ishubhamx/panchangam-js v${{ steps.version.outputs.version }}
+            
+            📦 [View on npm](https://www.npmjs.com/package/@ishubhamx/panchangam-js/v/${{ steps.version.outputs.version }})
+            
+            ### Changes
+            See commit history for details.
+          draft: false
+          prerelease: ${{ steps.version.outputs.prerelease }}
