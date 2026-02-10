@@ -32,6 +32,9 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
     onDateSelect,
     monthData,
     loading,
+    onPrevMonth,
+    onNextMonth,
+    onMonthChange,
 }) => {
     // Calculate grid layout
     const firstDay = new Date(year, month, 1).getDay();
@@ -58,12 +61,26 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
         }, 0);
     }, [monthData]);
 
+    // Handle Month Picker Change (using date input for better UI consistency)
+    const handleMonthPickerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value) {
+            const date = new Date(e.target.value);
+            // Input date is typically YYYY-MM-DD
+            onMonthChange(date.getFullYear(), date.getMonth());
+        }
+    };
+
+    // Format current year-month-01 for input value
+    const currentMonthStr = `${year}-${String(month + 1).padStart(2, '0')}-01`;
+
     if (loading) {
         return (
             <div className="month-calendar loading">
                 <div className="month-header">
-                    <span className="hindu-month skeleton-text">&nbsp;</span>
+                    {/* Skeleton for navigation */}
+                    <div className="month-nav-skeleton"></div>
                 </div>
+                {/* ... (existing loading skeleton) ... */}
                 <div className="weekday-headers">
                     {WEEKDAY_LABELS.map(day => (
                         <div key={day.short} className="weekday-label">
@@ -83,22 +100,45 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
 
     return (
         <div className="month-calendar">
-            {/* Compact header with Hindu month and festival count */}
-            <div className="month-header">
-                <span className="hindu-month">{hinduMonth} Masa</span>
-                {festivalCount > 0 && (
-                    <div className="festival-summary">
-                        <span className="festival-icon">🎉</span>
-                        <span className="festival-text">{festivalCount} festival{festivalCount > 1 ? 's' : ''}</span>
+            {/* Header with Navigation looking exactly like Day View */}
+            <div className="month-header-container">
+
+
+                <div className="month-meta-info"  >
+                    <span className="hindu-month-name">{hinduMonth} Masa</span>
+                    <div className="month-controls-wrapper">
+                        <button className="nav-button" onClick={onPrevMonth} aria-label="Previous month">
+                            ←
+                        </button>
+
+                        <div className="date-picker-wrapper">
+                            <input
+                                type="date"
+                                value={currentMonthStr}
+                                onChange={handleMonthPickerChange}
+                                className="date-input"
+                                style={{ textAlign: 'center' }}
+                            />
+                        </div>
+
+                        <button className="nav-button" onClick={onNextMonth} aria-label="Next month">
+                            →
+                        </button>
                     </div>
-                )}
+                    {festivalCount > 0 && (
+                        <div className="festival-summary">
+                            <span className="festival-icon">🎉</span>
+                            <span className="festival-text">{festivalCount} festival{festivalCount > 1 ? 's' : ''}</span>
+                        </div>
+                    )}
+                </div>
             </div>
 
             {/* Weekday headers with planetary icons */}
             <div className="weekday-headers">
                 {WEEKDAY_LABELS.map((day, index) => (
-                    <div 
-                        key={day.short} 
+                    <div
+                        key={day.short}
                         className={`weekday-label ${index === 0 ? 'sunday' : index === 6 ? 'saturday' : ''}`}
                         title={day.full}
                     >

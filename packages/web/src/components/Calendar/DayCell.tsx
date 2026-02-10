@@ -38,7 +38,7 @@ export const DayCell: React.FC<DayCellProps> = ({
     // Construct display name: "Name Paksha" (e.g., "Dwitiya Krishna")
     // Amavasya & Purnima are usually standalone
     const isSpecialTithi = tithiName === 'Amavasya' || tithiName === 'Purnima';
-    const fullTithiDisplayName = isSpecialTithi ? tithiName : `${tithiName} ${paksha}`;
+    const fullTithiDisplayName = isSpecialTithi ? tithiName : `${tithiName}`;
 
     const moonIcon = getMoonIcon(tithiIndex);
     const festivals = panchang.festivals || [];
@@ -177,6 +177,11 @@ export const DayCell: React.FC<DayCellProps> = ({
 
             {/* Today indicator ring */}
             {isToday && <div className="today-ring"></div>}
+
+            {/* Paksha indicator - bottom left */}
+            <div className="paksha-label">
+                {paksha}
+            </div>
 
             {/* Special day indicators */}
             {isPurnima && <div className="special-glow purnima-glow"></div>}

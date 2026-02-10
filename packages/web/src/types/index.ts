@@ -25,6 +25,9 @@ export interface MonthCalendarProps {
     onDateSelect: (date: Date) => void;
     monthData: DayData[];
     loading: boolean;
+    onPrevMonth: () => void;
+    onNextMonth: () => void;
+    onMonthChange: (year: number, month: number) => void;
 }
 
 export interface DayCellProps {

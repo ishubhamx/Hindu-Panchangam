@@ -8,10 +8,7 @@ import type { Location } from '../types';
 import { format } from 'date-fns';
 import { trackEvent } from '../utils/analytics';
 
-const MONTH_NAMES = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-];
+
 
 export const MonthViewPage = () => {
     const navigate = useNavigate();
@@ -62,6 +59,12 @@ export const MonthViewPage = () => {
         }
     };
 
+    const handleMonthChange = (year: number, month: number) => {
+        trackEvent('Month View', 'Select Date', `${year}-${month + 1}`);
+        setCurrentYear(year);
+        setCurrentMonth(month);
+    };
+
     const handleDateSelect = (date: Date) => {
         const dateStr = format(date, 'yyyy-MM-dd');
         trackEvent('Month View', 'Select Date', dateStr);
@@ -71,19 +74,7 @@ export const MonthViewPage = () => {
 
     return (
         <div className="month-view-page">
-            <div className="view-controls">
-                <div className="month-controls-wrapper">
-                    <button className="nav-button" onClick={handlePrevMonth} aria-label="Previous month">
-                        ←
-                    </button>
-                    <div className="month-year-display">
-                        {MONTH_NAMES[currentMonth]} {currentYear}
-                    </div>
-                    <button className="nav-button" onClick={handleNextMonth} aria-label="Next month">
-                        →
-                    </button>
-                </div>
-            </div>
+            {/* Controls are now inside MonthCalendar */}
 
             <div className="month-calendar-container">
                 <MonthCalendar
@@ -94,6 +85,9 @@ export const MonthViewPage = () => {
                     onDateSelect={handleDateSelect}
                     monthData={monthData}
                     loading={loading}
+                    onPrevMonth={handlePrevMonth}
+                    onNextMonth={handleNextMonth}
+                    onMonthChange={handleMonthChange}
                 />
             </div>
 
