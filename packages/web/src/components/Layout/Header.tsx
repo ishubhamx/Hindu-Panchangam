@@ -1,6 +1,7 @@
 import React from 'react';
 import { LocationSelector } from '../LocationSelector';
 import { useTheme } from '../../context/ThemeContext';
+import { trackThemeToggle, trackTodayClick } from '../../utils/analytics';
 import type { Location } from '../../types';
 import './Header.css';
 
@@ -35,12 +36,12 @@ export const Header: React.FC<HeaderProps> = ({ onTodayClick, location, onLocati
                     />
                     <button 
                         className="theme-toggle" 
-                        onClick={toggleTheme}
+                        onClick={() => { toggleTheme(); trackThemeToggle(theme === 'dark' ? 'light' : 'dark'); }}
                         title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
                     >
                         {theme === 'dark' ? '☀️' : '🌙'}
                     </button>
-                    <button className="today-button" onClick={onTodayClick}>
+                    <button className="today-button" onClick={() => { onTodayClick(); trackTodayClick(); }}>
                         <span className="today-icon">📅</span>
                         <span className="today-text">Today</span>
                     </button>

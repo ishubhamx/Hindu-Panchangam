@@ -1,6 +1,7 @@
 import React from 'react';
 import { tithiNames } from '@ishubhamx/panchangam-js';
 import type { DayCellProps } from '../../types';
+import { trackDayCellClick } from '../../utils/analytics';
 import './DayCell.css';
 
 import { getMoonIcon } from '../../utils/tithiUtils';
@@ -100,7 +101,7 @@ export const DayCell: React.FC<DayCellProps> = ({
     const extraCount = festivalInfo.length - 2;
 
     return (
-        <button className={classes} onClick={onClick} aria-label={`${date.toDateString()}, ${tithiName}`}>
+        <button className={classes} onClick={() => { onClick(); trackDayCellClick(date.toISOString().split('T')[0]); }} aria-label={`${date.toDateString()}, ${tithiName}`}>
             {/* Top row: moon icon + date */}
             <div className="cell-top">
                 <span className="moon-icon">{moonIcon}</span>

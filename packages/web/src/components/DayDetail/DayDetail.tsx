@@ -23,6 +23,7 @@ import { ShoolaCompass } from '../features/Shoola';
 import { TarabalamWheel } from '../features/Tarabalam';
 import { ChandrashtamaAlert } from '../features/Chandrashtama';
 import { BirthDataModal, loadBirthData } from '../BirthDataModal';
+import { trackBirthDataModal } from '../../utils/analytics';
 import { formatTime } from '../../utils/colors';
 import { getTimezoneOffset } from '../../utils/timezone';
 import { getFestivalIcon } from '../../utils/festivalIcons';
@@ -432,7 +433,7 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
                         <p>Set your birth data to see personalized Tarabalam & Chandrashtama</p>
                         <button
                             className="set-birth-btn"
-                            onClick={() => setIsModalOpen(true)}
+                            onClick={() => { setIsModalOpen(true); trackBirthDataModal('open'); }}
                         >
                             Set Birth Data
                         </button>
@@ -443,7 +444,7 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
                 {birthData && (
                     <button
                         className="edit-birth-btn"
-                        onClick={() => setIsModalOpen(true)}
+                        onClick={() => { setIsModalOpen(true); trackBirthDataModal('open'); }}
                         title="Edit birth data"
                     >
                         ⚙️ Edit Birth Data
@@ -459,7 +460,7 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
             {/* Birth Data Modal */}
             <BirthDataModal
                 isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
+                onClose={() => { setIsModalOpen(false); trackBirthDataModal('close'); }}
                 onSave={(data) => setBirthData({ birthRashi: data.birthRashi, birthNakshatra: data.birthNakshatra })}
                 initialData={null}
             />

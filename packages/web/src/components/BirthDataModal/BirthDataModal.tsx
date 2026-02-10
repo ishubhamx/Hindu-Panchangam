@@ -6,6 +6,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { getPanchangam, rashiNames, nakshatraNames, Observer } from '@ishubhamx/panchangam-js';
+import { trackBirthDataModal } from '../../utils/analytics';
 import './BirthDataModal.css';
 
 interface BirthData {
@@ -148,6 +149,7 @@ export const BirthDataModal: React.FC<BirthDataModalProps> = ({
 
         setIsCalculating(true);
         setError(null);
+        trackBirthDataModal('calculate');
 
         try {
             const [year, month, day] = date.split('-').map(Number);
@@ -198,6 +200,7 @@ export const BirthDataModal: React.FC<BirthDataModalProps> = ({
 
         // Save to localStorage
         localStorage.setItem(STORAGE_KEY, JSON.stringify(birthData));
+        trackBirthDataModal('save');
         onSave(birthData);
         onClose();
     };

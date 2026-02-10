@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { trackLocationChange, trackLocationSearch } from '../../utils/analytics';
 import type { Location } from '../../types';
 import './LocationSelector.css';
 
@@ -132,6 +133,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({
         // Set new timeout (500ms debounce - Open-Meteo has generous limits)
         searchTimeoutRef.current = setTimeout(() => {
             searchLocations(value);
+            if (value.length >= 2) trackLocationSearch(value);
         }, 500);
     };
 
@@ -143,6 +145,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({
 
     const handleSelect = (location: Location) => {
         onLocationChange(location);
+        trackLocationChange(location.name);
         setIsOpen(false);
         setSearchQuery('');
         setSearchResults([]);

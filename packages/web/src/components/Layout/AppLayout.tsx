@@ -2,6 +2,7 @@
 import React, { type ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Header } from './Header';
+import { trackViewSwitch } from '../../utils/analytics';
 import type { Location } from '../../types';
 import './AppLayout.css';
 
@@ -40,13 +41,13 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
                 <div className="view-switcher display-tabs">
                     <button
                         className={`view-tab ${isDayView ? 'active' : ''}`}
-                        onClick={() => navigate('/')}
+                        onClick={() => { navigate('/'); trackViewSwitch('day'); }}
                     >
                         Day View
                     </button>
                     <button
                         className={`view-tab ${isMonthView ? 'active' : ''}`}
-                        onClick={() => navigate('/month')}
+                        onClick={() => { navigate('/month'); trackViewSwitch('month'); }}
                     >
                         Month View
                     </button>

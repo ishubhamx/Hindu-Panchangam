@@ -12,7 +12,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(window.location.hostname === '' ? {} : firebaseConfig);
 const analytics = getAnalytics(app);
 
 export { app, analytics };
