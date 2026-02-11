@@ -14,17 +14,21 @@ export const trackPageView = (path: string) => {
 
     // In standard Firebase Analytics for Web, 'page_view' is automatically collected 
     // when using the config tag, but since we are using the SDK:
-    logEvent(analytics, 'page_view', {
-        page_path: path
-    });
+    if (analytics) {
+        logEvent(analytics, 'page_view', {
+            page_path: path
+        });
+    }
 };
 
 export const trackEvent = (category: string, action: string, label?: string) => {
     // Mapping generic event params to Firebase structure
-    logEvent(analytics, action, {
-        event_category: category,
-        event_label: label
-    });
+    if (analytics) {
+        logEvent(analytics, action, {
+            event_category: category,
+            event_label: label
+        });
+    }
 };
 
 // ── Specific tracking helpers ──────────────────────────────────
@@ -34,9 +38,9 @@ export const trackNavigation = (action: string, label?: string) =>
     trackEvent('Navigation', action, label);
 
 /** View-switch events (Day View / Month View) */
-export const trackViewSwitch = (view: 'day' | 'month') =>
-    trackEvent('Navigation', 'view_switch', view);
-
+export const trackViewSwitch = (view: 'day' | 'month' | 'matching') => {
+    trackEvent('Navigation', 'Switch View', view);
+};
 /** Today button */
 export const trackTodayClick = () =>
     trackEvent('Navigation', 'today_click');

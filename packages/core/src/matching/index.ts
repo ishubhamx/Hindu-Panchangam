@@ -19,7 +19,7 @@ import { nakshatraNames } from "../core/constants";
  * 2. Standard Houses: 1, 4, 7, 8, 12. (Some traditions include 2).
  * 3. Exceptions: Mars in Own Sign (Aries, Scorpio), Exalted (Capricorn), or specific house/sign combos.
  */
-function checkMangalDosha(kundli: Kundli): DoshaResult {
+export function checkMangalDosha(kundli: Kundli): DoshaResult {
     // Helper to get house position from a reference point (1-based)
     const getPos = (planetLon: number, refLon: number) => {
         let diff = Math.floor(planetLon / 30) - Math.floor(refLon / 30);

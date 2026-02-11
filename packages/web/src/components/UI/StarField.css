@@ -1,0 +1,16 @@
+.starfield-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+    transition: background 0.5s ease;
+}
+
+[data-theme="light"] .starfield-canvas {
+    /* Warm Ethereal Day Sky */
+    background: radial-gradient(ellipse at bottom, #fff8e1 0%, #ffe0b2 100%);
+}

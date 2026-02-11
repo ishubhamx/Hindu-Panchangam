@@ -1,0 +1,160 @@
+.match-view-page {
+    padding: var(--space-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.match-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.match-header h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    /* Default (Dark) - Silver Movie Poster style */
+    background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: var(--space-xs);
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] .match-header h1 {
+    /* Light Mode - Deep Gold/Bronze */
+    background: linear-gradient(135deg, #8B4513, #CD853F);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(218, 165, 32, 0.2);
+}
+
+.subtitle {
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+}
+
+.match-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    animation: fadeIn 1s ease-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.analyzing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    color: var(--color-text-primary);
+    text-align: center;
+}
+
+.analyzing-container h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-xs);
+    animation: pulse 2s infinite;
+}
+
+.analyzing-container p {
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+}
+
+.cosmic-loader {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: var(--color-primary);
+    border-right-color: var(--color-accent);
+    animation: spin 1s linear infinite;
+    position: relative;
+    box-shadow: 0 0 20px rgba(var(--color-primary-rgb), 0.5);
+}
+
+.cosmic-loader::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    bottom: 5px;
+    left: 5px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: var(--color-accent);
+    animation: spin 2s linear infinite reverse;
+}
+
+.cosmic-loader::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    bottom: 15px;
+    left: 15px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #fff;
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+
+    50% {
+        opacity: 0.7;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+}

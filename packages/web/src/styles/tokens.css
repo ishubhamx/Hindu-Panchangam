@@ -15,6 +15,8 @@
     --gradient-night: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
 
     /* Accent colors */
+    --color-primary: #ffc670;
+    /* Primary brand color */
     --color-accent-primary: #ffc670;
     --color-accent-secondary: #ffaa40;
     --color-accent-tertiary: #ff9020;
@@ -151,6 +153,8 @@
     --gradient-night: linear-gradient(135deg, #8d6e63 0%, #a1887f 100%);
 
     /* Accent colors - same warm amber as dark theme */
+    --color-primary: #ff9020;
+    /* Darker amber for better contrast on light bg */
     --color-accent-primary: #ffc670;
     --color-accent-secondary: #ffaa40;
     --color-accent-tertiary: #ff9020;
