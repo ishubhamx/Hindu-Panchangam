@@ -51,6 +51,12 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
                     >
                         Month View
                     </button>
+                    <button
+                        className={`view-tab ${routerLocation.pathname.startsWith('/matching') ? 'active' : ''}`}
+                        onClick={() => { navigate('/matching'); trackViewSwitch('matching'); }}
+                    >
+                        Matching
+                    </button>
                 </div>
             </div>
 

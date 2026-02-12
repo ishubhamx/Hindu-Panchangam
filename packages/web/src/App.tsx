@@ -4,6 +4,7 @@ import { AppLayout } from './components/Layout/AppLayout';
 import AnalyticsTracker from './components/Analytics/AnalyticsTracker';
 import { DayViewPage } from './pages/DayViewPage';
 import { MonthViewPage } from './pages/MonthViewPage';
+import { MatchViewPage } from './pages/MatchViewPage';
 import { trackEvent } from './utils/analytics';
 import type { Location } from './types';
 import './styles/global.css';
@@ -53,6 +54,7 @@ function App() {
         <Route path="/" element={<DayViewPage />} />
         <Route path="/date/:dateStr" element={<DayViewPage />} />
         <Route path="/month" element={<MonthViewPage />} />
+        <Route path="/matching" element={<MatchViewPage />} />
         {/* Fallback to Day View */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
