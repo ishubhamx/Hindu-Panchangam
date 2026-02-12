@@ -194,8 +194,17 @@ export function getFestivals(options: FestivalCalculationOptions): Festival[] {
     // Calculate Udaya Tithi (Tithi at sunrise) — always 1-indexed (1-30)
     const udayaTithi = getTithiAtSunrise(date, sunrise, observer);
 
-    // Detect tithi-based festivals for the sunrise tithi
-    const festivals = detectTithiBasedFestivals(masaIndex, udayaTithi, paksha, date, options.vara, masa.isAdhika);
+    // Vriddhi Tithi check: If the previous sunrise also had the same udaya
+    // tithi, this is a long tithi spanning two sunrises. Per tradition the
+    // festival is observed on the FIRST day, so skip it on the second day.
+    const approxPrevSunrise = new Date(sunrise.getTime() - 24 * 60 * 60 * 1000);
+    const prevSunriseTithi = getTithiAtTime(approxPrevSunrise);
+    const isVriddhiSecondDay = prevSunriseTithi === udayaTithi;
+
+    // Detect tithi-based festivals for the sunrise tithi (skip if Vriddhi second day)
+    const festivals = isVriddhiSecondDay
+        ? []
+        : detectTithiBasedFestivals(masaIndex, udayaTithi, paksha, date, options.vara, masa.isAdhika);
 
     // Helper: determine the masa index for a given tithi.
     // If we cross from Amavasya (30 / Krishna Amavasya) into Shukla Pratipada (1),
@@ -232,6 +241,12 @@ export function getFestivals(options: FestivalCalculationOptions): Festival[] {
         const middayTithi = getTithiAtTime(midday);
         const sunsetTithi = getTithiAtTime(options.sunset);
 
+        // Determine the tithi at the NEXT sunrise, so we can avoid adding
+        // festivals for tithis that will be tomorrow's udaya tithi (those
+        // festivals belong to tomorrow, not today).
+        const approxNextSunrise = new Date(sunrise.getTime() + 24 * 60 * 60 * 1000);
+        const nextSunriseTithi = getTithiAtTime(approxNextSunrise);
+
         // Collect all distinct tithis that occur during the day
         // (sunrise → midday → sunset), skipping the sunrise tithi already handled
         const tithisSeen = new Set<number>([udayaTithi]);
@@ -243,13 +258,17 @@ export function getFestivals(options: FestivalCalculationOptions): Festival[] {
 
             let t = udayaTithi;
             // Walk forward from sunrise tithi until we reach the sunset tithi
-            // This handles: sunrise=8, midday=9, sunset=10 → add 9 and 10
-            // Also handles kshaya: sunrise=8, midday=10 → add 9 (kshaya) and 10
+            // Only add festivals for Kshaya tithis — tithis that start and end
+            // within this day WITHOUT touching the next sunrise. If a tithi
+            // persists to the next sunrise, it belongs to tomorrow's panchang.
             while (true) {
                 t = t + 1;
                 if (t > 30) t = 1;
                 tithisSeen.add(t);
-                addFestivalsForTithi(t);
+                // Skip tithis that will be the next day's udaya tithi
+                if (t !== nextSunriseTithi) {
+                    addFestivalsForTithi(t);
+                }
                 if (t === endTithi) break;
                 // Safety: avoid infinite loop (shouldn't happen in normal conditions)
                 if (tithisSeen.size > 5) break;
@@ -289,8 +308,11 @@ export function getFestivals(options: FestivalCalculationOptions): Festival[] {
     }
 
     // ===== MULTI-DAY FESTIVAL SPANS =====
-    const multiDayFestivals = getMultiDayFestivals(masaIndex, udayaTithi, date, options);
-    festivals.push(...multiDayFestivals);
+    // Skip on Vriddhi second day to avoid span duplicates
+    if (!isVriddhiSecondDay) {
+        const multiDayFestivals = getMultiDayFestivals(masaIndex, udayaTithi, date, options);
+        festivals.push(...multiDayFestivals);
+    }
 
     // ===== SOLAR FESTIVALS =====
     const solarFestivals = getSolarFestivals(date, options);
@@ -1096,10 +1118,13 @@ function detectTithiBasedFestivals(
 
     if (udayaTithi === 11 || udayaTithi === 26) {
         const ekadashiName = getEkadashiName(masaIndex, paksha);
-        festivals.push(createFestival(ekadashiName, 'ekadashi', {
-            isFastingDay: true,
-            observances: ["Fasting", "Vishnu worship"]
-        }));
+        // Avoid duplicate if a month-specific Ekadashi was already added above
+        if (!festivals.some(f => f.name === ekadashiName)) {
+            festivals.push(createFestival(ekadashiName, 'ekadashi', {
+                isFastingDay: true,
+                observances: ["Fasting", "Vishnu worship"]
+            }));
+        }
     }
 
     if (udayaTithi === 13 || udayaTithi === 28) {
