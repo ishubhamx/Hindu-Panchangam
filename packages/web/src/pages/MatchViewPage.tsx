@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { MatchingInputForm } from '../components/Matching/MatchingInputForm';
 import type { ProfileData } from '../components/Matching/MatchingInputForm';
 import { MatchingResult } from '../components/Matching/MatchingResult';
-import { matchKundli, getKundli } from '@ishubhamx/panchangam-js';
+import { matchKundli, getKundli, type Kundli } from '@ishubhamx/panchangam-js';
 import { Observer } from 'astronomy-engine';
 import { StarField } from '../components/UI/StarField';
 import './MatchViewPage.css';
@@ -90,7 +90,7 @@ export const MatchViewPage: React.FC = () => {
         }
     }, [searchParams]);
 
-    const handleCalculate = (boy: Kundli, girl: Kundli, boyProfile: ProfileData, girlProfile: ProfileData) => {
+    const handleCalculate = (_boy: Kundli, _girl: Kundli, boyProfile: ProfileData, girlProfile: ProfileData) => {
         setViewState('analyzing');
         setProfiles({ boy: boyProfile, girl: girlProfile });
 
