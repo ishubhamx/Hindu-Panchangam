@@ -1,7 +1,7 @@
 import {
     calculateVarna, calculateVashya, calculateTara, calculateYoni,
     calculateGrahaMaitri, calculateGana, calculateBhakoot, calculateNadi
-} from '../kootas';
+} from '../../core/src/matching/kootas';
 
 describe('Ashtakoota Matching', () => {
 
