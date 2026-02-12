@@ -1,5 +1,5 @@
-import { matchKundli } from '../index';
-import { Kundli } from '../../kundli/types';
+import { matchKundli } from '../../core/src/matching/index';
+import { Kundli } from '../../core/src/kundli/types';
 
 // Helper to create a minimal Kundli for matching
 const createKundli = (moonLon: number, marsLon: number, lagnaLon: number): Kundli => {

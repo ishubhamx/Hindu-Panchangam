@@ -1,7 +1,7 @@
 
 import { Observer } from 'astronomy-engine';
-import { getKundli } from '../../kundli/index';
-import { matchKundli } from '../index';
+import { getKundli } from '../../core/src/kundli/index';
+import { matchKundli } from '../../core/src/matching/index'
 
 describe('Real World Kundli Matching Scenarios', () => {
 

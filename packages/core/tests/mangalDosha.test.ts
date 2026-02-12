@@ -1,5 +1,5 @@
-import { checkMangalDosha } from '../index';
-import { Kundli } from '../../kundli/types';
+import { checkMangalDosha } from '../../core/src/index';
+import { Kundli } from '../../core/src/kundli/types'
 
 // Helper to create a mock Kundli with specific positions
 const createMockKundli = (marsLon: number, lagnaLon: number, moonLon: number, venusLon: number): Kundli => {
