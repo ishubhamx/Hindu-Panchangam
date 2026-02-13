@@ -14,7 +14,8 @@
     "test": "npm run test -w @ishubhamx/panchangam-js",
     "lint": "npm run lint --workspaces --if-present",
     "clean": "rm -rf packages/*/dist packages/*/node_modules node_modules",
-    "deploy": "npm run deploy -w @panchangam/web"
+    "deploy": "npm run deploy -w @panchangam/web",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "node": ">=18.0.0"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
