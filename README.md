@@ -25,7 +25,7 @@ This is a monorepo containing:
 </p>
 
 <p align="center">
-  <img src="screenshots/ai_summary.png" alt="AI Summary" width="45%"/>
+  <img src="screenshots/ai_summary_new.png" alt="AI Summary" width="45%"/>
   <img src="screenshots/ai_chatbot.png" alt="Jyotish AI Chat" width="45%"/>
   <br/>
   <em>Left: AI Daily Insights • Right: Interactive Chatbot</em>
