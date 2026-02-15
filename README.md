@@ -16,6 +16,21 @@ This is a monorepo containing:
 | [@ishubhamx/panchangam-js](./packages/core) | Core calculation library | [![npm](https://img.shields.io/npm/v/@ishubhamx/panchangam-js)](https://www.npmjs.com/package/@ishubhamx/panchangam-js) |
 | [@panchangam/web](./packages/web) | Modern React web application | Private |
 
+## 📸 Screenshots
+
+<p align="center">
+  <img src="screenshots/dashboard.png" alt="Dashboard" width="800"/>
+  <br/>
+  <em>Comprehensive Panchang Dashboard</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/ai_summary.png" alt="AI Summary" width="45%"/>
+  <img src="screenshots/chat_panel.png" alt="Jyotish AI Chat" width="45%"/>
+  <br/>
+  <em>Left: AI Daily Insights • Right: Interactive Chatbot</em>
+</p>
+
 ## Features
 
 ### Core Panchangam
@@ -50,6 +65,12 @@ This is a monorepo containing:
 - **Ekadashi Names** — Named Ekadashis for each Masa/Paksha
 - **Sankranti Detection** — Solar ingress dates
 - **Special Yogas** — Amrit Siddhi, Sarvartha Siddhi, Guru Pushya, Ravi Pushya
+
+### AI Integration
+- **AI Daily Summary** — Insightful, personalized daily overview generated from Panchangam data
+- **Jyotish AI Chatbot** — Interactive Vedic astrology assistant for specific queries
+- **Bring Your Own Key (BYOK)** — Users can provide their own Gemini API key for higher rate limits
+- **Powered by Google Gemini** — Leveraging the latest `gemini-3-flash-preview` model via `@google/genai` SDK
 
 ### Day Interpretation Rules
 - **Sunrise Anchoring**: All daily attributes (Tithi, Nakshatra, Yoga, Karana, Vara) are calculated at the exact moment of **Sunrise** for the given location.
@@ -269,6 +290,17 @@ cd Hindu-Panchangam
 npm install
 npm run build
 ```
+
+### Environment Setup (Web App)
+
+To enable AI features:
+
+1. Create a `.env` file in `packages/web`
+2. Add your Google Gemini API Key:
+   ```
+   VITE_GEMINI_API_KEY=your_api_key_here
+   ```
+   Get a key from [Google AI Studio](https://aistudio.google.com/).
 
 ### Available Scripts
 

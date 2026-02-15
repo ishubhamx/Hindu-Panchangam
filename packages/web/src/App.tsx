@@ -6,6 +6,7 @@ import { DayViewPage } from './pages/DayViewPage';
 import { MonthViewPage } from './pages/MonthViewPage';
 import { MatchViewPage } from './pages/MatchViewPage';
 import { trackEvent } from './utils/analytics';
+import { PanchangChat } from './components/Chat/PanchangChat';
 import type { Location } from './types';
 import './styles/global.css';
 import './App.css';
@@ -45,6 +46,7 @@ function App() {
     >
       <AnalyticsTracker />
       <Outlet context={{ location }} />
+      <PanchangChat location={location} />
     </AppLayout>
   );
 

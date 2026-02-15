@@ -12,6 +12,7 @@
     "deploy:preview": "npm run build && firebase hosting:channel:deploy preview"
   },
   "dependencies": {
+    "@google/genai": "^1.41.0",
     "@ishubhamx/panchangam-js": "*",
     "date-fns": "^4.1.0",
     "firebase": "^12.9.0",

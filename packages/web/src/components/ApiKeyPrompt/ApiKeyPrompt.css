@@ -1,0 +1,165 @@
+/* ─── API Key Prompt ─────────────────────────────────────────────────── */
+
+.api-key-reason {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    margin-bottom: var(--space-md);
+    border-radius: var(--radius-md);
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    color: #fbbf24;
+    font-size: 0.78rem;
+    line-height: 1.4;
+}
+
+.api-key-reason-icon {
+    flex-shrink: 0;
+    font-size: 1rem;
+}
+
+.api-key-prompt {
+    padding: var(--space-lg);
+    text-align: center;
+}
+
+.api-key-prompt.compact {
+    padding: var(--space-md);
+}
+
+.api-key-info {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+    text-align: left;
+}
+
+.api-key-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.api-key-title {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0 0 2px;
+}
+
+.api-key-desc {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+    margin: 0;
+}
+
+.api-key-desc a {
+    color: #818cf8;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.api-key-desc a:hover {
+    text-decoration: underline;
+}
+
+.api-key-input-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: var(--space-sm);
+}
+
+.api-key-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family-primary);
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.api-key-input::placeholder {
+    color: var(--color-text-tertiary);
+    opacity: 0.6;
+}
+
+.api-key-input:focus {
+    border-color: rgba(99, 102, 241, 0.5);
+}
+
+.api-key-save-btn {
+    padding: 8px 18px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border: none;
+    border-radius: var(--radius-md);
+    color: white;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.api-key-save-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.api-key-save-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.api-key-note {
+    font-size: 0.65rem;
+    color: var(--color-text-tertiary);
+    opacity: 0.7;
+    margin: 0;
+}
+
+/* ─── Saved State ────────────────────────────────────────────────────── */
+.api-key-saved {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-lg);
+}
+
+.api-key-saved.compact {
+    padding: var(--space-sm) var(--space-md);
+}
+
+.api-key-check {
+    color: #4ade80;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.api-key-text {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+    flex: 1;
+}
+
+.api-key-change-btn {
+    padding: 3px 10px;
+    border: 1px solid var(--glass-border);
+    background: transparent;
+    border-radius: var(--radius-md);
+    color: var(--color-text-tertiary);
+    font-size: 0.7rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.api-key-change-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-text-secondary);
+}

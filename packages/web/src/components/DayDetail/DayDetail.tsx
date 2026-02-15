@@ -27,6 +27,7 @@ import { trackBirthDataModal } from '../../utils/analytics';
 import { formatTime } from '../../utils/colors';
 import { getTimezoneOffset } from '../../utils/timezone';
 import { getFestivalIcon } from '../../utils/festivalIcons';
+import { AIDailySummary } from './AIDailySummary';
 import './DayDetail.css';
 
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -269,6 +270,9 @@ export const DayDetail: React.FC<DayDetailProps> = ({ date, panchang, timezone, 
                     )}
                 </div>
             </div>
+
+            {/* AI Daily Summary */}
+            <AIDailySummary panchang={panchang} date={date} timezone={timezone} />
 
             {/* Festival Section - Detailed cards for all festivals */}
             {festivals.length > 0 && (
