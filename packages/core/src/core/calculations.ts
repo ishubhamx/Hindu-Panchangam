@@ -299,22 +299,35 @@ export function findTithiStart(date: Date): Date | null {
     const startTithiAngle = currentTithi * 12;
     const targetAngle = startTithiAngle % 360;
 
-    const tithiFunc = (d: Date): number => {
+    // Fix for findTithiStart
+    const tithiFuncStart = (d: Date): number => {
         const sunLon = EclipticFunc(GeoVector(Body.Sun, d, true)).elon;
         const moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
         let diff = moonLon - sunLon;
         if (diff < 0) diff += 360;
 
+        // Special handling for Target 0 (Amavasya -> Prathama boundary)
+        if (targetAngle === 0) {
+            if (diff > 180) {
+                return diff - 360;
+            }
+            return diff;
+        }
+
         // Handle the 360->0 wrap-around for search.
         if (diff > targetAngle + 180) {
             diff -= 360;
         }
+        if (diff < targetAngle - 180) {
+            diff += 360;
+        }
+
         return diff - targetAngle;
     }
 
     // A tithi is slightly less than a day. Searching from 25h before is safe.
     const searchStartDate = new Date(date.getTime() - 25 * MS_PER_HOUR);
-    return search(tithiFunc, searchStartDate);
+    return search(tithiFuncStart, searchStartDate);
 }
 
 export function findTithiEnd(date: Date): Date | null {
@@ -332,6 +345,14 @@ export function findTithiEnd(date: Date): Date | null {
         const moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
         let diff = moonLon - sunLon;
         if (diff < 0) diff += 360;
+
+        // Special handling for Target 0 (Amavasya -> Prathama boundary)
+        if (targetAngle === 0) {
+            if (diff > 180) {
+                return diff - 360;
+            }
+            return diff;
+        }
 
         if (diff < targetAngle - 180) {
             diff += 360;
@@ -729,6 +750,18 @@ export function findTithiTransitions(startDate: Date, endDate: Date): TithiTrans
                 const moonLon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
                 let diff = moonLon - sunLon;
                 if (diff < 0) diff += 360;
+
+                // If target is 0 (Amavasya -> Shukla Prathama), we need special handling
+                // because diff will jump from ~359 to ~1.
+                // We want the function to be continuous crossing zero.
+                if (targetAngle === 0) {
+                    // If we are near 360 (e.g. 359), treat it as negative relative to 0
+                    if (diff > 180) {
+                        return diff - 360;
+                    }
+                    return diff;
+                }
+
                 if (diff < targetAngle - 180) diff += 360;
                 return diff - targetAngle;
             };
