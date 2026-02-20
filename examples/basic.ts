@@ -1,4 +1,4 @@
-import { getPanchangam, Observer, rashiNames, yogaNames } from '../packages/core/src/index';
+import { getPanchangam, Observer, rashiNames, tithiNames, yogaNames } from '../packages/core/src/index';
 
 const observer = new Observer(12.9716, 77.5946, 920);
 
@@ -9,6 +9,7 @@ const observer = new Observer(12.9716, 77.5946, 920);
 const p = getPanchangam(new Date(), observer, { timezoneOffset: 330 }); // 330 min = +5:30 IST
 
 console.log("Input Date:", new Date().toLocaleString('en-US', { timeZone: "Asia/Kolkata" }));
+console.log(`Current Tithi: ${tithiNames[p.tithi]}, ${p.tithiStartTime}, ${p.tithiEndTime}`);
 console.log(`Current Yoga: ${yogaNames[p.yoga]}`);
 console.log(`Sun Rashi: ${p.planetaryPositions.sun.rashiName} (Pada: ${p.sunNakshatra.pada})`);
 console.log(`Current Dasha: ${p.vimshottariDasha.currentMahadasha.planet} (${p.vimshottariDasha.dashaBalance})`);
