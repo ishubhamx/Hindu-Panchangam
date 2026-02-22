@@ -20,7 +20,7 @@ describe('Real World Kundli Matching Scenarios', () => {
         const aishwarya = createRealKundli('1973-11-01', '07:20', 12.9141, 74.8560);
 
         const result = matchKundli(abhishek, aishwarya);
-        console.log('Abhishek-Aishwarya Dosha:', JSON.stringify(result.dosha, null, 2));
+        // console.log('Abhishek-Aishwarya Dosha:', JSON.stringify(result.dosha, null, 2));
 
         // Expected: Score ~31
         expect(result.ashtakoot.totalScore).toBeCloseTo(31, 0);
@@ -39,7 +39,7 @@ describe('Real World Kundli Matching Scenarios', () => {
         const anushka = createRealKundli('1988-05-01', '12:00', 26.7993, 82.1963);
 
         const result = matchKundli(virat, anushka);
-        // console.log('Virat-Anushka Score Breakdown:', JSON.stringify(result.ashtakoot, null, 2));
+        // // console.log('Virat-Anushka Score Breakdown:', JSON.stringify(result.ashtakoot, null, 2));
 
         // Expected: Score 24.5 (Browser rounded to 25)
         expect(result.ashtakoot.totalScore).toBeCloseTo(24.5, 1);

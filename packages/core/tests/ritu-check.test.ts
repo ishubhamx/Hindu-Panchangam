@@ -29,60 +29,60 @@ describe('Ritu (Season) Verification', () => {
 
     test('Feb 15 2026 — Shishir (Winter) per Drik Panchang', () => {
         const p = getPanch(2026, 2, 15);
-        console.log(`Feb 15 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
+        // console.log(`Feb 15 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
         expect(p.ritu).toBe('Shishir');
         expect(p.ayana).toBe('Uttarayana');
     });
 
     test('Feb 17 2026 — still Shishir (Vasant starts Feb 18 9:20 PM)', () => {
         const p = getPanch(2026, 2, 17);
-        console.log(`Feb 17 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
+        // console.log(`Feb 17 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
         expect(p.ritu).toBe('Shishir');
     });
 
     test('Feb 19 2026 — Vasant (Spring)', () => {
         const p = getPanch(2026, 2, 19);
-        console.log(`Feb 19 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
+        // console.log(`Feb 19 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
         expect(p.ritu).toBe('Vasant');
     });
 
     test('Mar 15 2026 — Vasant (Spring), Uttarayana', () => {
         const p = getPanch(2026, 3, 15);
-        console.log(`Mar 15 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
+        // console.log(`Mar 15 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
         expect(p.ritu).toBe('Vasant');
         expect(p.ayana).toBe('Uttarayana');
     });
 
     test('May 15 2026 — Grishma (Summer)', () => {
         const p = getPanch(2026, 5, 15);
-        console.log(`May 15 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
+        // console.log(`May 15 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
         expect(p.ritu).toBe('Grishma');
     });
 
     test('Jul 15 2026 — Varsha (Monsoon), Dakshinayana', () => {
         const p = getPanch(2026, 7, 15);
-        console.log(`Jul 15 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
+        // console.log(`Jul 15 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
         expect(p.ritu).toBe('Varsha');
         expect(p.ayana).toBe('Dakshinayana');
     });
 
     test('Sep 15 2026 — Sharad (Autumn), Dakshinayana', () => {
         const p = getPanch(2026, 9, 15);
-        console.log(`Sep 15 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
+        // console.log(`Sep 15 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
         expect(p.ritu).toBe('Sharad');
         expect(p.ayana).toBe('Dakshinayana');
     });
 
     test('Nov 15 2026 — Hemant (Pre-Winter), Dakshinayana', () => {
         const p = getPanch(2026, 11, 15);
-        console.log(`Nov 15 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
+        // console.log(`Nov 15 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
         expect(p.ritu).toBe('Hemant');
         expect(p.ayana).toBe('Dakshinayana');
     });
 
     test('Dec 25 2026 — Shishir (Winter), Uttarayana', () => {
         const p = getPanch(2026, 12, 25);
-        console.log(`Dec 25 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
+        // console.log(`Dec 25 2026: Ritu = ${p.ritu}, Ayana = ${p.ayana}`);
         expect(p.ritu).toBe('Shishir');
         expect(p.ayana).toBe('Uttarayana');
     });

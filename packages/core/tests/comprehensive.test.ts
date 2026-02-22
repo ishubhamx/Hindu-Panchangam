@@ -8,13 +8,13 @@ import {
 } from '../src';
 
 function runBasicValidationTests(): boolean {
-    console.log('=== BASIC VALIDATION TESTS ===\n');
+    // console.log('=== BASIC VALIDATION TESTS ===\n');
 
     const observer = new Observer(12.9716, 77.5946, 920); // Bangalore
     const testDate = new Date('2025-06-15T12:00:00Z');
 
-    console.log(`Testing date: ${testDate.toISOString()}`);
-    console.log(`Location: Bangalore, India\n`);
+    // console.log(`Testing date: ${testDate.toISOString()}`);
+    // console.log(`Location: Bangalore, India\n`);
 
     try {
         const result = getPanchangam(testDate, observer);
@@ -56,42 +56,42 @@ function runBasicValidationTests(): boolean {
         let allValid = true;
         validations.forEach(validation => {
             if (validation.condition) {
-                console.log(`  ✅ ${validation.name}: ${validation.actual}`);
+                // console.log(`  ✅ ${validation.name}: ${validation.actual}`);
             } else {
-                console.log(`  ❌ ${validation.name}: ${validation.actual} (expected: ${validation.expected})`);
+                // console.log(`  ❌ ${validation.name}: ${validation.actual} (expected: ${validation.expected})`);
                 allValid = false;
             }
         });
 
         // Display calculated values with names
-        console.log(`\n📊 Calculated Values:`);
-        console.log(`  Tithi: ${tithiNames[result.tithi]} (${result.tithi})`);
-        console.log(`  Nakshatra: ${nakshatraNames[result.nakshatra]} (${result.nakshatra})`);
-        console.log(`  Yoga: ${yogaNames[result.yoga]} (${result.yoga})`);
-        console.log(`  Karana: ${result.karana}`);
-        console.log(`  Vara: ${result.vara} (${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][result.vara]})`);
+        // console.log(`\n📊 Calculated Values:`);
+        // console.log(`  Tithi: ${tithiNames[result.tithi]} (${result.tithi})`);
+        // console.log(`  Nakshatra: ${nakshatraNames[result.nakshatra]} (${result.nakshatra})`);
+        // console.log(`  Yoga: ${yogaNames[result.yoga]} (${result.yoga})`);
+        // console.log(`  Karana: ${result.karana}`);
+        // console.log(`  Vara: ${result.vara} (${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][result.vara]})`);
 
         // Check if sun/moon rise/set times are reasonable
         if (result.sunrise && result.sunset) {
             const dayLength = result.sunset.getTime() - result.sunrise.getTime();
             const dayLengthHours = dayLength / (1000 * 60 * 60);
             if (dayLengthHours > 8 && dayLengthHours < 16) {
-                console.log(`  ✅ Day length reasonable: ${dayLengthHours.toFixed(2)} hours`);
+                // console.log(`  ✅ Day length reasonable: ${dayLengthHours.toFixed(2)} hours`);
             } else {
-                console.log(`  ⚠️  Day length unusual: ${dayLengthHours.toFixed(2)} hours`);
+                // console.log(`  ⚠️  Day length unusual: ${dayLengthHours.toFixed(2)} hours`);
             }
         }
 
         return allValid;
 
     } catch (error) {
-        console.log(`❌ Test failed with error: ${error}`);
+        // console.log(`❌ Test failed with error: ${error}`);
         return false;
     }
 }
 
 function runEdgeCaseTests(): boolean {
-    console.log('\n=== EDGE CASE TESTS ===\n');
+    // console.log('\n=== EDGE CASE TESTS ===\n');
 
     let allTestsPassed = true;
     const observer = new Observer(12.9716, 77.5946, 920); // Bangalore
@@ -105,7 +105,7 @@ function runEdgeCaseTests(): boolean {
     ];
 
     edgeCases.forEach((date, index) => {
-        console.log(`Edge Case ${index + 1}: ${date.toISOString()}`);
+        // console.log(`Edge Case ${index + 1}: ${date.toISOString()}`);
 
         try {
             const result = getPanchangam(date, observer);
@@ -116,14 +116,14 @@ function runEdgeCaseTests(): boolean {
                 result.yoga >= 0 && result.yoga <= 26 &&
                 result.vara >= 0 && result.vara <= 6 &&
                 karanaNames.includes(result.karana)) {
-                console.log(`  ✅ All values within expected ranges`);
+                // console.log(`  ✅ All values within expected ranges`);
             } else {
-                console.log(`  ❌ Some values out of range`);
+                // console.log(`  ❌ Some values out of range`);
                 allTestsPassed = false;
             }
 
         } catch (error) {
-            console.log(`  ❌ Failed with error: ${error}`);
+            // console.log(`  ❌ Failed with error: ${error}`);
             allTestsPassed = false;
         }
     });
@@ -132,13 +132,13 @@ function runEdgeCaseTests(): boolean {
 }
 
 function runPerformanceTests(): boolean {
-    console.log('\n=== PERFORMANCE TESTS ===\n');
+    // console.log('\n=== PERFORMANCE TESTS ===\n');
 
     const observer = new Observer(12.9716, 77.5946, 920);
     const iterations = 100;
     const startDate = new Date('2025-06-01');
 
-    console.log(`Running ${iterations} calculations...`);
+    // console.log(`Running ${iterations} calculations...`);
 
     const startTime = Date.now();
 
@@ -151,20 +151,20 @@ function runPerformanceTests(): boolean {
     const totalTime = endTime - startTime;
     const avgTime = totalTime / iterations;
 
-    console.log(`  Total time: ${totalTime}ms`);
-    console.log(`  Average time per calculation: ${avgTime.toFixed(2)}ms`);
+    // console.log(`  Total time: ${totalTime}ms`);
+    // console.log(`  Average time per calculation: ${avgTime.toFixed(2)}ms`);
 
     if (avgTime < 100) { // Less than 100ms per calculation is reasonable
-        console.log(`  ✅ Performance acceptable`);
+        // console.log(`  ✅ Performance acceptable`);
         return true;
     } else {
-        console.log(`  ⚠️  Performance may need optimization`);
+        // console.log(`  ⚠️  Performance may need optimization`);
         return false;
     }
 }
 
 function runLongTermTests(): boolean {
-    console.log('\n=== LONG-TERM STABILITY TESTS (INTERVALS) ===\n');
+    // console.log('\n=== LONG-TERM STABILITY TESTS (INTERVALS) ===\n');
 
     let allTestsPassed = true;
     const observer = new Observer(12.9716, 77.5946, 920); // Bangalore
@@ -219,7 +219,7 @@ function runLongTermTests(): boolean {
 
     expectations.forEach(exp => {
         const testDate = new Date(exp.date);
-        console.log(`Testing ${exp.year}: ${testDate.toISOString()}`);
+        // console.log(`Testing ${exp.year}: ${testDate.toISOString()}`);
 
         try {
             // Get sunrise-based panchanga to match Drik's day panchang
@@ -245,16 +245,16 @@ function runLongTermTests(): boolean {
             const varaMatch = match(calcVara, exp.vara);
 
             if (tithiMatch && nakMatch && yogaMatch && varaMatch) {
-                console.log(`  ✅ ${exp.year} Matches: ${calcTithi}, ${calcNakshatra}, ${calcYoga}, ${calcVara}`);
+                // console.log(`  ✅ ${exp.year} Matches: ${calcTithi}, ${calcNakshatra}, ${calcYoga}, ${calcVara}`);
             } else {
-                console.log(`  ❌ ${exp.year} Mismatch!`);
-                console.log(`     Expected: ${exp.tithi}, ${exp.nakshatra}, ${exp.yoga}, ${exp.vara}`);
-                console.log(`     Got:      ${calcTithi}, ${calcNakshatra}, ${calcYoga}, ${calcVara}`);
+                // console.log(`  ❌ ${exp.year} Mismatch!`);
+                // console.log(`     Expected: ${exp.tithi}, ${exp.nakshatra}, ${exp.yoga}, ${exp.vara}`);
+                // console.log(`     Got:      ${calcTithi}, ${calcNakshatra}, ${calcYoga}, ${calcVara}`);
                 allTestsPassed = false;
             }
 
         } catch (error) {
-            console.log(`  ❌ Calculation failed for ${exp.year}: ${error}`);
+            // console.log(`  ❌ Calculation failed for ${exp.year}: ${error}`);
             allTestsPassed = false;
         }
     });
@@ -265,7 +265,7 @@ function runLongTermTests(): boolean {
 
 
 function runVedicValidationTests(): boolean {
-    console.log('\n=== VEDIC & ELEMENT VALIDATION TESTS ===\n');
+    // console.log('\n=== VEDIC & ELEMENT VALIDATION TESTS ===\n');
 
     let allValid = true;
     const observer = new Observer(12.9716, 77.5946, 920); // Bangalore
@@ -283,20 +283,20 @@ function runVedicValidationTests(): boolean {
     muhurtas.forEach(m => {
         if (m.value && m.value.start instanceof Date && m.value.end instanceof Date) {
             if (m.value.start < m.value.end) {
-                console.log(`  ✅ ${m.name} is valid (${m.value.start.toLocaleTimeString()} - ${m.value.end.toLocaleTimeString()})`);
+                // console.log(`  ✅ ${m.name} is valid (${m.value.start.toLocaleTimeString()} - ${m.value.end.toLocaleTimeString()})`);
             } else {
-                console.log(`  ❌ ${m.name} invalid: start > end`);
+                // console.log(`  ❌ ${m.name} invalid: start > end`);
                 allValid = false;
             }
         } else {
-            console.log(`  ⚠️  ${m.name} is null (acceptable for some depending on day/time)`);
+            // console.log(`  ⚠️  ${m.name} is null (acceptable for some depending on day/time)`);
         }
     });
 
     if (result.rahuKalamStart && result.rahuKalamEnd && result.rahuKalamStart < result.rahuKalamEnd) {
-        console.log(`  ✅ Rahu Kalam is valid`);
+        // console.log(`  ✅ Rahu Kalam is valid`);
     } else {
-        console.log(`  ❌ Rahu Kalam missing or invalid`);
+        // console.log(`  ❌ Rahu Kalam missing or invalid`);
         allValid = false;
     }
 
@@ -310,34 +310,34 @@ function runVedicValidationTests(): boolean {
             if (p.longitude >= 0 && p.longitude < 360 && p.rashi >= 0 && p.rashi <= 11 && p.degree >= 0 && p.degree <= 30) {
                 // Valid
             } else {
-                console.log(`  ❌ ${planet} values out of range: Lon=${p.longitude}, Rashi=${p.rashi}`);
+                // console.log(`  ❌ ${planet} values out of range: Lon=${p.longitude}, Rashi=${p.rashi}`);
                 planetsValid = false;
             }
         } else {
-            console.log(`  ❌ ${planet} data missing`);
+            // console.log(`  ❌ ${planet} data missing`);
             planetsValid = false;
         }
     });
 
     if (planetsValid) {
-        console.log(`  ✅ All 7 planetary positions are valid`);
+        // console.log(`  ✅ All 7 planetary positions are valid`);
     } else {
         allValid = false;
     }
 
     // 3. Ayanamsa
     if (result.ayanamsa > 23 && result.ayanamsa < 25) {
-        console.log(`  ✅ Ayanamsa valid (${result.ayanamsa.toFixed(4)})`);
+        // console.log(`  ✅ Ayanamsa valid (${result.ayanamsa.toFixed(4)})`);
     } else {
-        console.log(`  ❌ Ayanamsa unusual: ${result.ayanamsa}`);
+        // console.log(`  ❌ Ayanamsa unusual: ${result.ayanamsa}`);
         // Not strictly failing, but warning
     }
 
     // 4. Transitions
     if (Array.isArray(result.nakshatraTransitions) && Array.isArray(result.tithiTransitions)) {
-        console.log(`  ✅ Transitions arrays present`);
+        // console.log(`  ✅ Transitions arrays present`);
     } else {
-        console.log(`  ❌ Transitions missing`);
+        // console.log(`  ❌ Transitions missing`);
         allValid = false;
     }
 
@@ -345,7 +345,7 @@ function runVedicValidationTests(): boolean {
 }
 
 function runAllTests(): void {
-    console.log('🧪 PANCHANGAM LIBRARY COMPREHENSIVE VALIDATION TESTS\n');
+    // console.log('🧪 PANCHANGAM LIBRARY COMPREHENSIVE VALIDATION TESTS\n');
 
     const results = {
         basic: runBasicValidationTests(),
@@ -355,20 +355,20 @@ function runAllTests(): void {
         performance: runPerformanceTests()
     };
 
-    console.log('\n=== TEST SUMMARY ===');
-    console.log(`Basic validation: ${results.basic ? '✅ PASSED' : '❌ FAILED'}`);
-    console.log(`Edge cases: ${results.edgeCases ? '✅ PASSED' : '❌ FAILED'}`);
-    console.log(`Vedic elements: ${results.vedic ? '✅ PASSED' : '❌ FAILED'}`);
-    console.log(`Long-term: ${results.longTerm ? '✅ PASSED' : '❌ FAILED'}`);
-    console.log(`Performance: ${results.performance ? '✅ PASSED' : '⚠️  NEEDS ATTENTION'}`);
+    // console.log('\n=== TEST SUMMARY ===');
+    // console.log(`Basic validation: ${results.basic ? '✅ PASSED' : '❌ FAILED'}`);
+    // console.log(`Edge cases: ${results.edgeCases ? '✅ PASSED' : '❌ FAILED'}`);
+    // console.log(`Vedic elements: ${results.vedic ? '✅ PASSED' : '❌ FAILED'}`);
+    // console.log(`Long-term: ${results.longTerm ? '✅ PASSED' : '❌ FAILED'}`);
+    // console.log(`Performance: ${results.performance ? '✅ PASSED' : '⚠️  NEEDS ATTENTION'}`);
 
     const allPassed = results.basic && results.edgeCases && results.vedic && results.longTerm && results.performance;
-    console.log(`\n🎯 OVERALL: ${allPassed ? '✅ ALL TESTS PASSED' : '❌ SOME TESTS FAILED'}`);
+    // console.log(`\n🎯 OVERALL: ${allPassed ? '✅ ALL TESTS PASSED' : '❌ SOME TESTS FAILED'}`);
 
     if (allPassed) {
-        console.log('✨ Library is ready for production use!');
+        // console.log('✨ Library is ready for production use!');
     } else {
-        console.log('🔧 Library needs attention before production use.');
+        // console.log('🔧 Library needs attention before production use.');
     }
 }
 
