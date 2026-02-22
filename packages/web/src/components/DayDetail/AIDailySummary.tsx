@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { Panchangam } from '@ishubhamx/panchangam-js';
 import { generateDailySummary, getSummaryCacheKey, isGeminiAvailable } from '../../utils/gemini';
 import { ApiKeyPrompt } from '../ApiKeyPrompt/ApiKeyPrompt';
+import { analytics } from '../../utils/firebase';
+import { logEvent } from 'firebase/analytics';
 import './AIDailySummary.css';
 
 interface AIDailySummaryProps {
@@ -82,6 +84,10 @@ export const AIDailySummary: React.FC<AIDailySummaryProps> = ({ panchang, date, 
             const cacheKey = getSummaryCacheKey(date);
             sessionStorage.setItem(cacheKey, fullText);
             setStatus('done');
+
+            if (analytics) {
+                logEvent(analytics, 'ai_summary_generated');
+            }
         } catch (err: any) {
             console.error('AI Summary error:', err);
             let msg = 'Failed to generate summary. Please try again.';

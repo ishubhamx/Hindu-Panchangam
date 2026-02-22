@@ -10,6 +10,8 @@ import {
 } from '../../utils/gemini';
 import { ApiKeyPrompt } from '../ApiKeyPrompt/ApiKeyPrompt';
 import { getTimezoneOffset } from '../../utils/timezone';
+import { analytics } from '../../utils/firebase';
+import { logEvent } from 'firebase/analytics';
 import type { Location } from '../../types';
 import './PanchangChat.css';
 
@@ -89,6 +91,10 @@ export const PanchangChat: React.FC<PanchangChatProps> = ({ location }) => {
     useEffect(() => {
         if (isOpen) {
             setTimeout(() => inputRef.current?.focus(), 300);
+
+            if (analytics) {
+                logEvent(analytics, 'chat_session_started');
+            }
         }
     }, [isOpen]);
 
@@ -102,6 +108,10 @@ export const PanchangChat: React.FC<PanchangChatProps> = ({ location }) => {
 
         // Add placeholder for streaming response
         setMessages(prev => [...prev, { role: 'model', text: '', isStreaming: true }]);
+
+        if (analytics) {
+            logEvent(analytics, 'chat_message_sent', { query: text });
+        }
 
         try {
             let fullResponse = '';
