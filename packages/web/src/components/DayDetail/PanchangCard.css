@@ -1,128 +1,85 @@
+/* ─── Panchang Card ─── */
 .panchang-card {
-    position: relative;
-    background: var(--glass-bg);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid var(--glass-border);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    padding: var(--space-sm);
-    cursor: pointer;
-    transition: all 0.2s ease;
     overflow: hidden;
+    transition: all var(--duration-base) var(--ease-out);
 }
-
-.panchang-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--accent-color);
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-
-.panchang-card:hover::before {
-    opacity: 1;
-}
-
 .panchang-card:hover {
-    background: var(--color-bg-card-hover);
     border-color: var(--color-border-hover);
-    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
 }
 
-.card-header {
+.panchang-card .card-header {
     display: flex;
     align-items: center;
-    gap: var(--space-xs);
-    margin-bottom: var(--space-xs);
+    gap: var(--sp-3);
+    padding: var(--sp-4);
+    cursor: pointer;
 }
 
-.card-icon {
-    font-size: var(--font-size-base);
+.panchang-card .card-icon {
+    font-size: var(--text-xl);
+    line-height: 1;
+    flex-shrink: 0;
 }
 
-.card-title {
-    font-size: 0.65rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-tertiary);
+.panchang-card .card-title {
+    font-size: var(--text-xs);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    font-weight: var(--weight-semibold);
 }
 
-.card-body {
-    margin-bottom: 0;
-}
+.panchang-card .card-body { padding: 0 var(--sp-4) var(--sp-4); }
 
-.card-value {
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-semibold);
+.panchang-card .card-value {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
     color: var(--color-text-primary);
-    margin-bottom: 0;
-    background: var(--accent-color);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.3;
+    line-height: var(--leading-tight);
 }
 
-.card-subtitle {
-    font-size: 0.65rem;
+.panchang-card .card-subtitle {
+    font-size: var(--text-xs);
     color: var(--color-text-tertiary);
     margin-top: 2px;
 }
 
-.expand-button {
-    position: absolute;
-    bottom: var(--space-xs);
-    right: var(--space-xs);
-    width: 20px;
-    height: 20px;
+.panchang-card .expand-button {
+    margin-left: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 50%;
-    transition: all 0.2s ease;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    transition: all var(--duration-fast) var(--ease-out);
+}
+.panchang-card .expand-button:hover {
+    background: var(--color-surface-hover);
 }
 
-.expand-button:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: scale(1.1);
+.panchang-card .expand-icon {
+    transition: transform var(--duration-fast) var(--ease-out);
+}
+.panchang-card.expanded .expand-icon {
+    transform: rotate(180deg);
 }
 
-.expand-icon {
-    font-size: 0.6rem;
-    color: var(--color-text-tertiary);
+.panchang-card .card-details {
+    padding: var(--sp-3) var(--sp-4) var(--sp-4);
+    border-top: 1px solid var(--color-border-subtle);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    display: none;
 }
-
-.card-details {
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-height var(--transition-slow),
-        opacity var(--transition-base),
-        margin var(--transition-slow);
-    margin-top: 0;
-}
-
-.card-details.visible {
-    max-height: 500px;
-    opacity: 1;
-    margin-top: var(--space-md);
-    padding-top: var(--space-md);
-    border-top: 1px solid var(--color-border);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .panchang-card {
-        padding: var(--space-md);
-    }
-
-    .card-value {
-        font-size: var(--font-size-xl);
-    }
+.panchang-card .card-details.visible {
+    display: block;
+    animation: fadeIn 0.2s var(--ease-out);
 }

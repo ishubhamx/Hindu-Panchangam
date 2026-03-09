@@ -1,55 +1,60 @@
+/* ─── Header ─── */
 .app-header {
-    background: rgba(8, 8, 12, 0.85);
-    border-bottom: 1px solid var(--color-border);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    z-index: var(--z-sticky, 1000);
-    transition: background 0.3s ease;
+    right: 0;
+    height: var(--header-height);
+    z-index: var(--z-sticky);
+    background: var(--color-bg-primary);
+    border-bottom: 1px solid var(--color-border);
+    transition: background var(--duration-base) var(--ease-out);
 }
 
 .header-container {
-    max-width: 1600px;
+    max-width: 1400px;
+    height: 100%;
     margin: 0 auto;
-    padding: var(--space-sm) var(--space-xl);
+    padding: 0 var(--sp-6);
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
 }
 
+/* Logo */
 .logo-section {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
+    gap: var(--sp-3);
+    flex-shrink: 0;
 }
 
 .logo-icon {
-    font-size: var(--font-size-2xl);
+    font-size: 1.6rem;
+    line-height: 1;
 }
 
 .logo-text h1 {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-bold);
-    background: linear-gradient(135deg, #ff9933, #ff6600);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-bold);
+    color: var(--color-primary);
+    letter-spacing: 0.04em;
 }
 
 .tagline {
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     color: var(--color-text-muted);
+    letter-spacing: 0.02em;
     margin-top: 1px;
-    letter-spacing: 0.3px;
 }
 
+/* Header actions */
 .header-actions {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
+    gap: var(--sp-2);
 }
 
 .theme-toggle {
@@ -58,63 +63,52 @@
     justify-content: center;
     width: 36px;
     height: 36px;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
     border-radius: var(--radius-md);
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    font-size: 1rem;
+    transition: all var(--duration-fast) var(--ease-out);
 }
-
 .theme-toggle:hover {
-    background: var(--color-bg-card-hover);
-    transform: scale(1.05);
+    background: var(--color-surface-hover);
+    border-color: var(--color-border-hover);
 }
 
 .today-button {
     display: flex;
     align-items: center;
-    gap: var(--space-xs);
-    padding: var(--space-xs) var(--space-md);
-    background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-tertiary));
-    color: #1a1a24;
+    gap: var(--sp-2);
+    padding: var(--sp-2) var(--sp-4);
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
     border-radius: var(--radius-md);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(255, 198, 112, 0.25);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    border: none;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--duration-fast) var(--ease-out);
 }
-
 .today-button:hover {
+    filter: brightness(1.1);
+    box-shadow: var(--shadow-md);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(255, 198, 112, 0.35);
 }
 
-.today-icon {
-    font-size: var(--font-size-sm);
-}
+.today-icon { font-size: var(--text-sm); }
 
 /* Responsive */
 @media (max-width: 768px) {
     .header-container {
-        padding: var(--space-sm) var(--space-md);
-        flex-wrap: wrap;
-        gap: var(--space-sm);
+        padding: 0 var(--sp-4);
     }
-
     .logo-text h1 {
-        font-size: var(--font-size-base);
+        font-size: var(--text-base);
     }
-
-    .tagline {
-        display: none;
-    }
-
-    .today-text {
-        display: none;
-    }
-
+    .tagline { display: none; }
+    .today-text { display: none; }
     .today-button {
-        padding: var(--space-xs);
+        padding: var(--sp-2);
+        min-width: 36px;
+        justify-content: center;
     }
 }

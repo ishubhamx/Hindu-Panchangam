@@ -1,172 +1,132 @@
+/* ─── Planetary Positions ─── */
 .planetary-positions {
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    padding: var(--space-md);
-    margin-bottom: var(--space-md);
+    padding: var(--sp-5);
 }
 
 .positions-header {
     display: flex;
     align-items: center;
-    gap: var(--space-xs);
-    margin-bottom: var(--space-md);
-    padding-bottom: var(--space-sm);
-    border-bottom: 1px solid var(--color-border);
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-4);
 }
-
-.positions-icon {
-    font-size: var(--font-size-base);
-}
-
+.positions-icon { font-size: var(--text-xl); }
 .positions-title {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: var(--weight-semibold);
     color: var(--color-text-primary);
-    margin: 0;
 }
 
 .positions-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-sm);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--sp-3);
 }
 
+/* Planet card */
 .planet-card {
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
-    padding: var(--space-sm);
-    background: rgba(255, 255, 255, 0.02);
+    gap: var(--sp-2);
+    padding: var(--sp-3);
+    background: var(--color-bg-tertiary);
     border-radius: var(--radius-md);
-    border: 1px solid transparent;
-    transition: all 0.2s ease;
-    position: relative;
+    border: 1px solid var(--color-border);
+    transition: all var(--duration-fast) var(--ease-out);
 }
+.planet-card:hover { background: var(--color-surface-hover); }
 
-.planet-card:hover {
-    background: rgba(255, 255, 255, 0.04);
-}
-
-.planet-card.exalted {
-    border-color: rgba(76, 175, 80, 0.3);
-    background: rgba(76, 175, 80, 0.05);
-}
-
-.planet-card.debilitated {
-    border-color: rgba(244, 67, 54, 0.3);
-    background: rgba(244, 67, 54, 0.05);
-}
-
-.planet-card.own {
-    border-color: rgba(255, 193, 7, 0.3);
-    background: rgba(255, 193, 7, 0.05);
-}
+/* Dignity-based left border accent */
+.planet-card.exalted    { border-left: 3px solid var(--color-success); }
+.planet-card.debilitated { border-left: 3px solid var(--color-danger); }
+.planet-card.own        { border-left: 3px solid var(--color-primary); }
+.planet-card.neutral    { border-left: 3px solid var(--color-text-muted); }
 
 .planet-header {
     display: flex;
     align-items: center;
-    gap: var(--space-xs);
+    gap: var(--sp-2);
 }
-
 .planet-icon-img {
-    width: 2rem;
-    height: 2rem;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
     object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
-
 .planet-names {
     display: flex;
     flex-direction: column;
 }
-
 .planet-name {
-    font-size: 0.75rem;
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
     color: var(--color-text-primary);
 }
-
 .planet-sanskrit {
-    font-size: 0.6rem;
-    color: var(--color-text-tertiary);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-family: var(--font-devanagari);
 }
 
 .planet-position {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--sp-2);
 }
-
-.rashi-icon {
-    font-size: 0.9rem;
-    opacity: 0.8;
-}
-
+.rashi-icon { font-size: var(--text-lg); }
 .rashi-name {
-    font-size: 0.7rem;
+    font-size: var(--text-sm);
     color: var(--color-text-secondary);
+    font-weight: var(--weight-medium);
 }
 
 .planet-details {
     display: flex;
     align-items: center;
-    gap: var(--space-xs);
+    gap: var(--sp-2);
+    flex-wrap: wrap;
 }
-
 .planet-degree {
-    font-size: 0.65rem;
-    font-family: var(--font-family-mono);
-    color: var(--color-text-tertiary);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
 }
-
 .retrograde-badge {
-    font-size: 0.7rem;
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: var(--radius-full);
+    background: rgba(231, 76, 60, 0.12);
     color: #e74c3c;
-    font-weight: var(--font-weight-bold);
-    background: rgba(231, 76, 60, 0.15);
-    padding: 1px 4px;
-    border-radius: var(--radius-sm);
+    font-weight: var(--weight-bold);
 }
-
 .dignity-badge {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    font-size: 0.5rem;
-    font-weight: var(--font-weight-semibold);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    padding: 2px 4px;
-    border-radius: var(--radius-sm);
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: var(--radius-full);
+    font-weight: var(--weight-bold);
+    background: var(--color-surface-hover);
+    color: var(--color-text-secondary);
+}
+.planet-card.exalted .dignity-badge {
+    background: rgba(34, 197, 94, 0.12);
+    color: var(--color-success);
+}
+.planet-card.debilitated .dignity-badge {
+    background: rgba(231, 76, 60, 0.12);
+    color: var(--color-danger);
+}
+.planet-card.own .dignity-badge {
+    background: var(--color-primary-muted);
+    color: var(--color-primary);
 }
 
-.dignity-badge.exalted {
-    background: rgba(76, 175, 80, 0.2);
-    color: #81c784;
+@media (max-width: 768px) {
+    .planetary-positions { padding: var(--sp-3); }
+    .positions-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 }
-
-.dignity-badge.debilitated {
-    background: rgba(244, 67, 54, 0.2);
-    color: #e57373;
-}
-
-.dignity-badge.own {
-    background: rgba(255, 193, 7, 0.2);
-    color: #ffd54f;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-    .positions-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 400px) {
-    .positions-grid {
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 480px) {
+    .positions-grid { grid-template-columns: 1fr; }
 }

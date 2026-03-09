@@ -1,230 +1,143 @@
+/* ─── Sunrise Timeline ─── */
 .sunrise-timeline-container {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    color: var(--color-text-primary);
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    border: 1px solid var(--glass-border);
-    overflow: hidden;
-
-    transition: background 0.3s ease;
-    min-height: 240px;
+    padding: var(--sp-5);
 }
-
 .sunrise-timeline-container.loading {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 200px;
+    min-height: 160px;
 }
-
 .loading-text {
-    font-size: var(--font-size-sm);
     color: var(--color-text-muted);
-    opacity: 0.7;
+    font-size: var(--text-sm);
 }
 
 .timeline-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: var(--space-sm) var(--space-md);
-    border-bottom: 1px solid var(--color-border);
-    flex-shrink: 0;
+    justify-content: space-between;
+    margin-bottom: var(--sp-4);
 }
-
 .header-left {
     display: flex;
     align-items: center;
-    gap: var(--space-xs);
+    gap: var(--sp-2);
 }
-
-.timeline-icon {
-    font-size: var(--font-size-base);
-}
-
+.timeline-icon { font-size: var(--text-xl); }
 .timeline-title {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-    background: linear-gradient(135deg, #FFD700, #FF8C00, #FF6347);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-primary);
 }
-
+.header-right { display: flex; align-items: center; }
 .current-time-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 2px var(--space-xs);
-    background: rgba(255, 198, 112, 0.15);
-    border: 1px solid rgba(255, 198, 112, 0.25);
+    font-size: var(--text-xs);
+    padding: 2px 10px;
     border-radius: var(--radius-full);
-    font-size: 0.65rem;
-    font-family: var(--font-family-mono);
-    color: var(--color-accent-primary);
+    background: var(--color-primary-muted);
+    color: var(--color-primary);
+    font-weight: var(--weight-semibold);
+    font-variant-numeric: tabular-nums;
 }
 
+/* Graph area */
 .timeline-graph-wrapper {
     position: relative;
     width: 100%;
-    flex: 1;
-    min-height: 160px;
-    overflow: visible;
+    overflow: hidden;
+    border-radius: var(--radius-md);
 }
-
 .timeline-svg {
     width: 100%;
-    height: 100%;
-    overflow: visible;
+    display: block;
 }
 
-/* Stars - static */
-.star {
-    opacity: 0.5;
-}
+/* SVG lines & fills */
+.horizon-line { stroke: var(--color-border); stroke-width: 1; stroke-dasharray: 4 4; }
+.sun-path-fill { fill: rgba(255, 170, 64, 0.08); }
+.sun-path-stroke { stroke: var(--color-primary); stroke-width: 2; fill: none; }
+.moon-path-fill { fill: rgba(148, 163, 184, 0.06); }
+.moon-path-stroke { stroke: var(--color-text-tertiary); stroke-width: 1.5; fill: none; stroke-dasharray: 6 3; }
 
-.star:nth-child(odd) {
-    opacity: 0.6;
-}
-
-.star:nth-child(3n) {
-    opacity: 0.4;
-}
-
-.horizon-line {
-    stroke: rgba(255, 255, 255, 0.25);
-    stroke-width: 2;
-    stroke-dasharray: none;
-}
-
-.sun-path-fill {
-    fill: url(#sunGradient);
-    opacity: 0.8;
-}
-
-.sun-path-stroke {
-    fill: none;
-    stroke: #FFD700;
-    stroke-width: 3;
-    stroke-linecap: round;
-    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
-}
-
-.moon-path-fill {
-    fill: url(#moonGradient);
-    opacity: 0.6;
-}
-
-.moon-path-stroke {
-    fill: none;
-    stroke: rgba(200, 200, 255, 0.8);
-    stroke-width: 2;
-    stroke-dasharray: 8 4;
-    stroke-linecap: round;
-    filter: drop-shadow(0 0 4px rgba(180, 180, 255, 0.5));
+.time-grid-label {
+    fill: var(--color-text-muted);
+    font-size: 10px;
 }
 
 .current-time-line {
-    stroke: rgba(255, 198, 112, 0.8);
-    stroke-width: 2;
-    stroke-dasharray: 6 4;
+    stroke: var(--color-primary);
+    stroke-width: 1.5;
+    stroke-dasharray: 3 3;
+    opacity: 0.7;
 }
 
-.time-grid-label {
-    fill: rgba(255, 255, 255, 0.4);
-    font-size: 11px;
-    font-family: var(--font-family-mono);
-}
-
+/* Event markers */
+.event-marker { cursor: pointer; }
+.sunrise-marker circle { fill: var(--color-primary); }
+.sunset-marker circle { fill: #e87040; }
 .event-label {
-    fill: var(--color-text-primary);
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 10px;
+    fill: var(--color-text-secondary);
+    font-weight: var(--weight-medium);
 }
-
+.moonrise-marker circle { fill: var(--color-text-tertiary); }
 .moon-label {
-    fill: #a0a0ff !important;
+    font-size: 10px;
+    fill: var(--color-text-muted);
 }
+.moonset-marker circle { fill: var(--color-text-muted); }
 
-/* Sun icon - static */
-.sun-icon {
-    /* No animation */
+.sun-icon { fill: var(--color-primary); }
+.sun-outer-glow { fill: rgba(255, 170, 64, 0.15); }
+
+/* Tooltip (shared with PanchangTimeline) */
+.segment-tooltip {
+    position: absolute;
+    background: var(--color-surface-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--sp-3);
+    box-shadow: var(--shadow-lg);
+    z-index: var(--z-tooltip);
+    pointer-events: none;
+    min-width: 180px;
 }
-
-.sun-outer-glow {
-    opacity: 0.4;
-}
-
-.celestial-emoji {
-    fill: white;
-}
-
-/* Moon icon - static */
-.moon-icon {
-    /* No animation */
-}
-
-/* Legend */
-.timeline-legend {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-md);
-    padding: var(--space-sm) var(--space-md);
-    border-top: 1px solid var(--color-border);
-    flex-shrink: 0;
-}
-
-.legend-item {
+.tooltip-header {
     display: flex;
     align-items: center;
-    gap: 4px;
-    font-size: 0.65rem;
-    color: var(--color-text-tertiary);
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-2);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--color-border);
+}
+.tooltip-star { color: var(--color-primary); }
+.tooltip-name {
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-sm);
+    color: var(--color-text-primary);
+}
+.tooltip-times { display: flex; flex-direction: column; gap: var(--sp-1); }
+.tooltip-range {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+}
+.tooltip-duration {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+}
+.tooltip-primary-note {
+    font-size: var(--text-xs);
+    color: var(--color-primary);
+    font-weight: var(--weight-medium);
+    margin-top: var(--sp-1);
 }
 
-.legend-line {
-    width: 16px;
-    height: 2px;
-    border-radius: 1px;
-}
-
-.sun-line {
-    background: linear-gradient(90deg, #FFD700, #FF8C00);
-}
-
-.moon-line {
-    background: linear-gradient(90deg, #a0a0ff, #7070cc);
-}
-
-.legend-dot {
-    width: 8px;
-    height: 10px;
-    border-radius: 50%;
-}
-
-.current-dot {
-    background: linear-gradient(135deg, #ffc670, #ff9020);
-    box-shadow: 0 0 8px rgba(255, 198, 112, 0.6);
-}
-
-/* Responsive */
 @media (max-width: 768px) {
-    .timeline-header {
-        flex-direction: column;
-        gap: var(--space-sm);
-        align-items: flex-start;
-    }
-
-    .timeline-graph-wrapper {
-        height: 220px;
-    }
-
-    .timeline-legend {
-        flex-wrap: wrap;
-        gap: var(--space-md);
-    }
+    .sunrise-timeline-container { padding: var(--sp-3); }
 }

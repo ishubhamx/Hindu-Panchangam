@@ -1,63 +1,49 @@
+/* ─── Moon Phase ─── */
 .moon-phase-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-md);
+    gap: var(--sp-2);
     position: relative;
+}
+.moon-phase-container.animate .moon-svg {
+    animation: moon-float 4s ease-in-out infinite;
+}
+@keyframes moon-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
 }
 
 .moon-glow {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(255, 253, 231, 0.15) 0%, transparent 70%);
+    width: 120%;
+    height: 120%;
     border-radius: 50%;
+    background: radial-gradient(circle, rgba(200, 200, 220, 0.08) 0%, transparent 70%);
     pointer-events: none;
-    z-index: -1;
-}
-
-.moon-phase-container.animate .moon-glow {
-    /* Static glow - no animation */
-    opacity: 0.6;
 }
 
 .moon-svg {
-    filter: drop-shadow(0 0 15px rgba(255, 253, 231, 0.3));
+    width: 80px;
+    height: 80px;
+    filter: drop-shadow(0 0 8px rgba(200, 200, 220, 0.15));
 }
-
-.moon-phase-container.animate .moon-svg {
-    /* No floating animation */
-}
-
-.moon-lit {
-    transition: d 0.5s ease-out;
-}
-
-.moon-dark {
-    opacity: 0.95;
-}
-
-.moon-craters {
-    transition: opacity 0.3s ease;
-}
+.moon-dark { fill: var(--color-bg-tertiary); }
+.moon-lit  { fill: #e8e0d0; }
+.moon-craters { opacity: 0.15; }
 
 .moon-phase-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-xs);
     text-align: center;
 }
-
 .phase-name {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
     color: var(--color-text-primary);
-    text-transform: capitalize;
+    display: block;
 }
-
 .illumination {
-    font-size: var(--font-size-xs);
+    font-size: var(--text-xs);
     color: var(--color-text-muted);
+    display: block;
+    margin-top: 2px;
 }

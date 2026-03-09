@@ -1,129 +1,71 @@
+/* ─── Sankranti & Panchak Info ─── */
 .sankranti-panchak-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-3);
 }
 
 .info-card {
-    border-radius: 12px;
-    padding: 16px;
-    backdrop-filter: blur(10px);
-    animation: slideIn 0.3s ease-out;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--sp-4);
 }
 
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+.sankranti-card { border-top: 3px solid var(--color-primary); }
+.panchak-card   { border-top: 3px solid var(--color-danger); }
 
-/* Sankranti Card - Golden/Orange theme */
-.sankranti-card {
-    background: linear-gradient(135deg, 
-        rgba(255, 193, 7, 0.15) 0%, 
-        rgba(255, 152, 0, 0.1) 100%);
-    border: 1px solid rgba(255, 193, 7, 0.3);
-    box-shadow: 0 4px 20px rgba(255, 193, 7, 0.1);
-}
-
-/* Panchak Card - Red/Warning theme */
-.panchak-card {
-    background: linear-gradient(135deg, 
-        rgba(244, 67, 54, 0.12) 0%, 
-        rgba(233, 30, 99, 0.08) 100%);
-    border: 1px solid rgba(244, 67, 54, 0.25);
-    box-shadow: 0 4px 20px rgba(244, 67, 54, 0.08);
-}
-
-.card-header {
+.info-card .card-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-3);
+}
+.info-card .card-icon { font-size: var(--text-xl); }
+.info-card .card-title {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-primary);
 }
 
-.card-icon {
-    font-size: 1.5rem;
-}
-
-.card-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin: 0;
-    color: var(--text-primary);
-}
-
-.sankranti-card .card-title {
-    color: #f59e0b;
-}
-
-.panchak-card .card-title {
-    color: #ef4444;
-}
-
-.card-content {
+.info-card .card-content {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--sp-2);
 }
 
 .primary-info {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    margin: 0;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-primary);
 }
 
-.primary-info strong {
-    color: var(--text-primary);
-}
-
-.time-info,
-.punya-kalam {
+.time-info {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
-    font-size: 0.875rem;
+    font-size: var(--text-xs);
 }
-
-.label {
-    color: var(--text-muted);
+.time-info .label {
+    color: var(--color-text-muted);
 }
-
-.value {
-    color: var(--text-primary);
-    font-weight: 500;
+.time-info .value {
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--weight-medium);
 }
 
 .punya-kalam {
-    background: rgba(255, 193, 7, 0.1);
-    padding: 8px 12px;
-    border-radius: 8px;
-    margin-top: 4px;
+    font-size: var(--text-xs);
+    padding: var(--sp-2) var(--sp-3);
+    background: var(--color-primary-muted);
+    border-radius: var(--radius-md);
+    color: var(--color-primary);
+    font-weight: var(--weight-medium);
+    text-align: center;
 }
 
-.description {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin: 0;
-    padding: 8px 12px;
-    background: rgba(244, 67, 54, 0.05);
-    border-radius: 8px;
-    border-left: 3px solid rgba(244, 67, 54, 0.3);
-}
-
-/* Responsive */
-@media (min-width: 768px) {
-    .sankranti-panchak-container {
-        flex-direction: row;
-    }
-
-    .info-card {
-        flex: 1;
-    }
+@media (max-width: 768px) {
+    .sankranti-panchak-container { grid-template-columns: 1fr; }
 }

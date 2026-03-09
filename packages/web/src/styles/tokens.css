@@ -1,191 +1,236 @@
-/* Design Tokens - Modern Panchang Calendar */
+/* ═══════════════════════════════════════════════
+   Design Tokens — Hindu Panchangam
+   ═══════════════════════════════════════════════ */
 
 :root {
-    /* Colors - Deep Dark with Glass Effect */
-    --color-bg-primary: #020204;
-    --color-bg-secondary: #08080c;
-    --color-bg-card: rgba(12, 12, 18, 0.85);
-    --color-bg-card-hover: rgba(18, 18, 26, 0.9);
+    /* ─── Color Palette ─── */
+    --saffron-50: #fff8f0;
+    --saffron-100: #ffefd6;
+    --saffron-200: #ffdca8;
+    --saffron-300: #ffc670;
+    --saffron-400: #ffaa40;
+    --saffron-500: #f59300;
+    --saffron-600: #e07800;
+    --saffron-700: #b85c00;
+    --saffron-800: #8a4500;
+    --saffron-900: #5c2e00;
 
-    /* Gradients inspired by sky/celestial theme */
-    --gradient-sunrise: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 50%, #6bcf7f 100%);
-    --gradient-sunset: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%);
-    --gradient-twilight: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-day: linear-gradient(135deg, #56ccf2 0%, #2f80ed 100%);
-    --gradient-night: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    --maroon-500: #b12a2a;
+    --maroon-600: #8b1a1a;
+    --gold-400: #d4af37;
+    --green-400: #4ade80;
+    --green-500: #22c55e;
+    --purple-400: #a78bfa;
+    --blue-400: #60a5fa;
+    --pink-400: #f472b6;
 
-    /* Accent colors */
-    --color-primary: #ffc670;
-    /* Primary brand color */
-    --color-accent-primary: #ffc670;
-    --color-accent-secondary: #ffaa40;
-    --color-accent-tertiary: #ff9020;
+    /* ─── Dark Theme (Default) ─── */
+    --color-bg-primary: #0e0c14;
+    --color-bg-secondary: #161420;
+    --color-bg-tertiary: #1e1a2a;
+    --color-surface: #1a1726;
+    --color-surface-hover: #231f32;
+    --color-surface-active: #2c2640;
+    --color-surface-elevated: #252138;
 
-    /* Text colors */
-    --color-text-primary: #f8f9fa;
-    --color-text-secondary: #adb5bd;
-    --color-text-tertiary: #868e96;
-    --color-text-muted: #6c757d;
-    --color-text-inverse: #212529;
+    --color-primary: var(--saffron-400);
+    --color-primary-hover: var(--saffron-300);
+    --color-primary-muted: rgba(255, 170, 64, 0.15);
+
+    --color-text-primary: #f0ece4;
+    --color-text-secondary: #a8a2b4;
+    --color-text-tertiary: #706a82;
+    --color-text-muted: #524e62;
+    --color-text-inverse: #0e0c14;
+    --color-text-on-primary: #1a1200;
+
+    /* Semantic colors */
+    --color-success: #22c55e;
+    --color-danger: #e74c3c;
+
+    --color-border: rgba(255, 255, 255, 0.07);
+    --color-border-subtle: rgba(255, 255, 255, 0.04);
+    --color-border-hover: rgba(255, 255, 255, 0.14);
 
     /* Special day colors */
-    --color-festival: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --color-amavasya: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
-    --color-purnima: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-    --color-ekadashi: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-    --color-today: rgba(255, 198, 112, 0.15);
+    --color-festival: #ffc670;
+    --color-festival-bg: rgba(255, 198, 112, 0.12);
+    --color-amavasya: #7c8baa;
+    --color-amavasya-bg: rgba(124, 139, 170, 0.12);
+    --color-purnima: #ffecd2;
+    --color-purnima-bg: rgba(255, 236, 210, 0.12);
+    --color-ekadashi: #4ade80;
+    --color-ekadashi-bg: rgba(74, 222, 128, 0.12);
+    --color-today-ring: var(--saffron-400);
+    --color-today-bg: rgba(255, 170, 64, 0.08);
 
-    /* Borders */
-    --color-border: rgba(255, 255, 255, 0.06);
-    --color-border-hover: rgba(255, 255, 255, 0.12);
+    /* Compat aliases for existing sub-components */
+    --color-bg-card: var(--color-surface);
+    --color-bg-card-hover: var(--color-surface-hover);
+    --glass-bg: var(--color-surface);
+    --glass-border: var(--color-border);
+    --glass-backdrop: none;
+    --color-accent-primary: var(--saffron-400);
+    --color-accent-secondary: var(--saffron-300);
+    --color-accent-tertiary: var(--saffron-500);
 
-    /* Glass effect - frosted dark glass */
-    --glass-bg: rgba(255, 255, 255, 0.02);
-    --glass-border: rgba(255, 255, 255, 0.05);
-    --glass-backdrop: blur(12px);
+    /* ─── Typography ─── */
+    --font-display: 'Cinzel', Georgia, serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-devanagari: 'Noto Sans Devanagari', sans-serif;
+    --font-family-primary: var(--font-body);
+    --font-family-display: var(--font-display);
 
-    /* Typography */
-    --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --font-family-display: 'Outfit', 'Inter', sans-serif;
+    --text-xs: 0.6875rem;
+    --text-sm: 0.8125rem;
+    --text-base: 0.9375rem;
+    --text-lg: 1.0625rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    --text-4xl: 2.25rem;
 
-    /* Font sizes - modular scale */
-    --font-size-xs: 0.75rem;
-    /* 12px */
-    --font-size-sm: 0.875rem;
-    /* 14px */
-    --font-size-base: 1rem;
-    /* 16px */
-    --font-size-lg: 1.125rem;
-    /* 18px */
-    --font-size-xl: 1.25rem;
-    /* 20px */
-    --font-size-2xl: 1.5rem;
-    /* 24px */
-    --font-size-3xl: 2rem;
-    /* 32px */
-    --font-size-4xl: 2.5rem;
-    /* 40px */
-    --font-size-5xl: 3rem;
-    /* 48px */
+    --font-size-xs: var(--text-xs);
+    --font-size-sm: var(--text-sm);
+    --font-size-base: var(--text-base);
+    --font-size-lg: var(--text-lg);
+    --font-size-xl: var(--text-xl);
+    --font-size-2xl: var(--text-2xl);
+    --font-size-3xl: var(--text-3xl);
+    --font-size-4xl: var(--text-4xl);
 
-    /* Font weights */
+    --weight-light: 300;
+    --weight-regular: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    --weight-bold: 700;
     --font-weight-light: 300;
     --font-weight-normal: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
 
-    /* Line heights */
+    --leading-tight: 1.2;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.65;
     --line-height-tight: 1.2;
     --line-height-normal: 1.5;
-    --line-height-relaxed: 1.75;
 
-    /* Spacing - 4px base unit */
-    --space-xs: 0.25rem;
-    /* 4px */
-    --space-sm: 0.5rem;
-    /* 8px */
-    --space-md: 1rem;
-    /* 16px */
-    --space-lg: 1.5rem;
-    /* 24px */
-    --space-xl: 2rem;
-    /* 32px */
-    --space-2xl: 3rem;
-    /* 48px */
-    --space-3xl: 4rem;
-    /* 64px */
+    /* ─── Spacing ─── */
+    --sp-1: 0.25rem;
+    --sp-2: 0.5rem;
+    --sp-3: 0.75rem;
+    --sp-4: 1rem;
+    --sp-5: 1.25rem;
+    --sp-6: 1.5rem;
+    --sp-8: 2rem;
+    --sp-10: 2.5rem;
+    --sp-12: 3rem;
+    --sp-16: 4rem;
 
-    /* Border radius */
-    --radius-sm: 0.25rem;
-    /* 4px */
-    --radius-md: 0.5rem;
-    /* 8px */
-    --radius-lg: 0.75rem;
-    /* 12px */
-    --radius-xl: 1rem;
-    /* 16px */
-    --radius-2xl: 1.5rem;
-    /* 24px */
+    --space-xs: var(--sp-1);
+    --space-sm: var(--sp-2);
+    --space-md: var(--sp-4);
+    --space-lg: var(--sp-6);
+    --space-xl: var(--sp-8);
+    --space-2xl: var(--sp-12);
+
+    /* ─── Border Radius ─── */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 20px;
+    --radius-2xl: 28px;
     --radius-full: 9999px;
 
-    /* Shadows */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
-    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.3);
-    --shadow-glow: 0 0 20px rgba(255, 198, 112, 0.25);
-    --shadow-glow-intense: 0 0 30px rgba(255, 198, 112, 0.4);
+    /* ─── Shadows ─── */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.16);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.24);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.32);
+    --shadow-glow: 0 0 24px rgba(255, 170, 64, 0.2);
+    --shadow-glow-intense: 0 0 30px rgba(255, 170, 64, 0.35);
+    --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.12);
 
-    /* Transitions */
+    /* ─── Transitions ─── */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --duration-fast: 150ms;
+    --duration-base: 250ms;
+    --duration-slow: 400ms;
     --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
-    /* Z-index layers */
+    /* ─── Z-index ─── */
     --z-base: 1;
     --z-dropdown: 100;
     --z-sticky: 200;
     --z-modal: 300;
     --z-tooltip: 400;
+    --z-fab: 450;
+    --z-toast: 500;
 
-    /* Breakpoints (for reference in JS) */
-    --breakpoint-sm: 640px;
-    --breakpoint-md: 768px;
-    --breakpoint-lg: 1024px;
-    --breakpoint-xl: 1280px;
+    /* ─── Layout ─── */
+    --header-height: 64px;
+    --max-content-width: 1200px;
+    --nav-height-mobile: 60px;
+
+    /* Gradients (compat) */
+    --gradient-sunrise: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 50%, #6bcf7f 100%);
+    --gradient-sunset: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%);
+    --gradient-twilight: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* Light Theme - Warm amber shade palette */
+/* ─── Light Theme ─── */
 [data-theme="light"] {
-    /* Background colors - warm amber tinted */
-    --color-bg-primary: #f5efe6;
-    --color-bg-secondary: #ebe4d8;
-    --color-bg-card: rgba(255, 248, 240, 0.9);
-    --color-bg-card-hover: rgba(255, 245, 232, 0.95);
+    --color-bg-primary: #faf7f2;
+    --color-bg-secondary: #f2ece2;
+    --color-bg-tertiary: #ebe4d8;
+    --color-surface: #ffffff;
+    --color-surface-hover: #faf7f2;
+    --color-surface-active: #f2ece2;
+    --color-surface-elevated: #ffffff;
 
-    /* Gradients - warm amber tones */
-    --gradient-sunrise: linear-gradient(135deg, #ff8a65 0%, #ffc670 50%, #81c784 100%);
-    --gradient-sunset: linear-gradient(135deg, #ffc670 0%, #ff9020 100%);
-    --gradient-twilight: linear-gradient(135deg, #ffaa40 0%, #ffc670 100%);
-    --gradient-day: linear-gradient(135deg, #ffe0b2 0%, #ffc670 100%);
-    --gradient-night: linear-gradient(135deg, #8d6e63 0%, #a1887f 100%);
+    --color-primary: var(--saffron-600);
+    --color-primary-hover: var(--saffron-500);
+    --color-primary-muted: rgba(224, 120, 0, 0.1);
 
-    /* Accent colors - same warm amber as dark theme */
-    --color-primary: #ff9020;
-    /* Darker amber for better contrast on light bg */
-    --color-accent-primary: #ffc670;
-    --color-accent-secondary: #ffaa40;
-    --color-accent-tertiary: #ff9020;
-
-    /* Text colors - darker for contrast */
-    --color-text-primary: #1a1612;
-    --color-text-secondary: #4a4035;
-    --color-text-tertiary: #6a5a4a;
-    --color-text-muted: #8a7a6a;
+    --color-text-primary: #1c1814;
+    --color-text-secondary: #5c5248;
+    --color-text-tertiary: #8c826e;
+    --color-text-muted: #b4a894;
     --color-text-inverse: #ffffff;
+    --color-text-on-primary: #ffffff;
 
-    /* Special day colors */
-    --color-festival: linear-gradient(135deg, #ff9020 0%, #ff6b35 100%);
-    --color-amavasya: linear-gradient(135deg, #8d6e63 0%, #6d4c41 100%);
-    --color-purnima: linear-gradient(135deg, #fff8e1 0%, #ffc670 100%);
-    --color-ekadashi: linear-gradient(135deg, #ffe0b2 0%, #ffcc80 100%);
-    --color-today: rgba(255, 198, 112, 0.25);
+    --color-success: #16a34a;
+    --color-danger: #dc2626;
 
-    /* Borders */
-    --color-border: rgba(139, 90, 43, 0.12);
-    --color-border-hover: rgba(139, 90, 43, 0.2);
+    --color-border: rgba(0, 0, 0, 0.08);
+    --color-border-subtle: rgba(0, 0, 0, 0.04);
+    --color-border-hover: rgba(0, 0, 0, 0.14);
 
-    /* Glass effect - warm amber tinted glass */
-    --glass-bg: rgba(255, 248, 240, 0.6);
-    --glass-border: rgba(139, 90, 43, 0.1);
+    --color-bg-card: var(--color-surface);
+    --color-bg-card-hover: var(--color-surface-hover);
+    --glass-bg: var(--color-surface);
+    --glass-border: var(--color-border);
 
-    /* Shadows - warm amber glow */
-    --shadow-sm: 0 1px 3px rgba(139, 90, 43, 0.08);
-    --shadow-md: 0 4px 6px rgba(139, 90, 43, 0.1);
-    --shadow-lg: 0 10px 15px rgba(139, 90, 43, 0.12);
-    --shadow-xl: 0 20px 25px rgba(139, 90, 43, 0.15);
-    --shadow-glow: 0 0 20px rgba(255, 198, 112, 0.3);
-    --shadow-glow-intense: 0 0 30px rgba(255, 198, 112, 0.45);
+    --color-festival: #e07800;
+    --color-festival-bg: rgba(224, 120, 0, 0.08);
+    --color-amavasya: #5c6a80;
+    --color-amavasya-bg: rgba(92, 106, 128, 0.08);
+    --color-purnima: #b85c00;
+    --color-purnima-bg: rgba(184, 92, 0, 0.08);
+    --color-ekadashi: #16a34a;
+    --color-ekadashi-bg: rgba(22, 163, 74, 0.08);
+    --color-today-ring: var(--saffron-500);
+    --color-today-bg: rgba(245, 147, 0, 0.06);
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.12);
+    --shadow-glow: 0 0 24px rgba(245, 147, 0, 0.15);
+    --shadow-glow-intense: 0 0 30px rgba(245, 147, 0, 0.25);
 }

@@ -1,142 +1,75 @@
+/* ─── App Layout ─── */
 .app-layout {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     background: var(--color-bg-primary);
-    transition: background 0.3s ease;
-    padding-top: 80px; /* Header Height Compensation */
+    padding-top: var(--header-height);
+    transition: background var(--duration-base) var(--ease-out);
 }
 
 .app-main {
     flex: 1;
-    max-width: 1600px;
     width: 100%;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: var(--space-lg) var(--space-xl);
+    padding: var(--sp-4) var(--sp-6);
 }
 
-.content-grid {
-    display: grid;
-    grid-template-columns: minmax(600px, 1fr) minmax(420px, 600px);
-    gap: var(--space-xl);
-    align-items: start;
-}
-
-/* View Switcher Controls */
+/* ─── View Switcher (Tab Bar) ─── */
 .layout-view-controls {
-    max-width: 1600px;
-    width: 100%;
-    margin: 0 auto;
-    padding: var(--space-md) var(--space-xl);
+    position: sticky;
+    top: var(--header-height);
+    z-index: calc(var(--z-sticky) - 1);
+    background: var(--color-bg-primary);
+    border-bottom: 1px solid var(--color-border-subtle);
     display: flex;
     justify-content: center;
+    padding: var(--sp-3) var(--sp-6);
 }
 
 .display-tabs {
-    display: flex;
-    background: var(--glass-bg);
-    padding: 4px;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--glass-border);
+    display: inline-flex;
+    background: var(--color-surface);
+    padding: 3px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+    gap: 2px;
 }
 
 .view-tab {
-    padding: 8px 24px;
-    border-radius: var(--radius-md);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
+    padding: var(--sp-2) var(--sp-5);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
     color: var(--color-text-secondary);
-    transition: all 0.2s ease;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out);
+    white-space: nowrap;
 }
-
 .view-tab:hover {
     color: var(--color-text-primary);
+    background: var(--color-surface-hover);
 }
-
 .view-tab.active {
-    background: var(--color-accent-primary);
-    color: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
+    font-weight: var(--weight-semibold);
+    box-shadow: var(--shadow-sm);
 }
 
-/* Month navigation controls */
-.month-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-lg);
-    margin-bottom: var(--space-lg);
-    padding: var(--space-md) 0;
-}
-
-.nav-button {
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    color: var(--color-text-primary);
-    font-size: var(--font-size-xl);
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.nav-button:hover {
-    background: var(--color-bg-card-hover);
-    border-color: var(--color-accent-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 160, 64, 0.2);
-}
-
-.nav-button:active {
-    transform: translateY(0);
-}
-
-.month-year-display {
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text-primary);
-    min-width: 280px;
-    text-align: center;
-    background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-/* Responsive breakpoints */
-@media (max-width: 1200px) {
-    .content-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-lg);
-    }
-
-    .app-main {
-        padding: var(--space-md);
-    }
-}
-
+/* Responsive */
 @media (max-width: 768px) {
     .app-main {
-        padding: var(--space-sm);
+        padding: var(--sp-3) var(--sp-3);
     }
-
-    .month-controls {
-        gap: var(--space-md);
-        margin-bottom: var(--space-md);
+    .layout-view-controls {
+        padding: var(--sp-2) var(--sp-4);
     }
-
-    .month-year-display {
-        font-size: var(--font-size-xl);
-        min-width: auto;
-    }
-
-    .nav-button {
-        width: 40px;
-        height: 40px;
-        font-size: var(--font-size-lg);
+    .view-tab {
+        padding: var(--sp-2) var(--sp-4);
+        font-size: var(--text-xs);
     }
 }
