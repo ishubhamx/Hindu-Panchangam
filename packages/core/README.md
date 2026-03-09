@@ -8,6 +8,7 @@ Whether you're building a **Hindu calendar app**, **Vedic astrology software**, 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 🌐 **Live Demo**: [hindu-panchang-c1a81.web.app](https://hindu-panchang-c1a81.web.app)
+🤖 **Google Play (Closed Testing)**: [Download on Play Store](https://play.google.com/store/apps/details?id=com.ishubhamx.hinducalendar)
 
 ---
 
@@ -24,6 +25,18 @@ Whether you're building a **Hindu calendar app**, **Vedic astrology software**, 
 | **80+ Festivals** | Diwali, Holi, Navratri, Ekadashi, Sankranti, and 75+ more — auto-detected |
 | **Offline & Fast** | No API calls. ~5–10 ms per calculation. Works in Node.js & browsers |
 | **98.64% Accuracy** | Validated against 643,797 Drik Panchang test cases |
+
+---
+
+## 📱 Mobile Experience
+
+The core library powers a premium mobile application experience with advanced astrological tools.
+
+| Daily Panchang | Solar & Muhurtas | Monthly Calendar | Festivals List |
+|:---:|:---:|:---:|:---:|
+| <img src="../../images/Screenshot_1773073419.png" width="180"/> | <img src="../../images/Screenshot_1773073442.png" width="180"/> | <img src="../../images/Screenshot_1773073455.png" width="180"/> | <img src="../../images/Screenshot_1773073465.png" width="180"/> |
+| **Muhurat Finder** | **Birth Chart** | **Planetary Status** | **Saved Profiles** |
+| <img src="../../images/Screenshot_1773073480.png" width="180"/> | <img src="../../images/Screenshot_1773073537.png" width="180"/> | <img src="../../images/Screenshot_1773073546.png" width="180"/> | <img src="../../images/Screenshot_1773073580.png" width="180"/> |
 
 ---
 

@@ -78,7 +78,10 @@ export const EKADASHI_NAMES: { [key: string]: string } = {
 /**
  * Get Ekadashi name for a given Masa and Paksha.
  */
-export function getEkadashiName(masaIndex: number, paksha: string): string {
+export function getEkadashiName(masaIndex: number, paksha: string, isAdhika: boolean = false): string {
+    if (isAdhika) {
+        return paksha === 'Shukla' ? 'Padmini Ekadashi' : 'Parama Ekadashi';
+    }
     const key = `${masaIndex}-${paksha}`;
     return EKADASHI_NAMES[key] || `${masaNames[masaIndex]} ${paksha} Ekadashi`;
 }
@@ -294,7 +297,7 @@ export function getFestivals(options: FestivalCalculationOptions): Festival[] {
     }
 
     // ===== MULTI-DAY FESTIVAL SPANS =====
-    if (!isVriddhiSecondDay) {
+    if (!isVriddhiSecondDay && !masa.isAdhika) {
         const multiDayFestivals = getMultiDayFestivals(masaIndex, udayaTithi, date, options);
         festivals.push(...multiDayFestivals);
     }
@@ -365,7 +368,7 @@ function detectTithiBasedFestivals(
     // In Adhika Masa only Ekadashi and Pradosham are observed.
     if (isAdhika) {
         if (udayaTithi === 11 || udayaTithi === 26) {
-            const ekadashiName = getEkadashiName(masaIndex, paksha);
+            const ekadashiName = getEkadashiName(masaIndex, paksha, isAdhika);
             festivals.push(createFestival(ekadashiName, 'ekadashi', {
                 isFastingDay: true,
                 observances: ["Fasting", "Vishnu worship"]
@@ -1276,7 +1279,7 @@ function detectTithiBasedFestivals(
 
     // Ekadashi — Shukla (tithi 11) and Krishna (tithi 26), every month
     if (udayaTithi === 11 || udayaTithi === 26) {
-        const ekadashiName = getEkadashiName(masaIndex, paksha);
+        const ekadashiName = getEkadashiName(masaIndex, paksha, isAdhika);
         if (!festivals.some(f => f.name === ekadashiName)) {
             festivals.push(createFestival(ekadashiName, 'ekadashi', {
                 isFastingDay: true,

@@ -6,6 +6,7 @@ A professional, rigorously tested TypeScript/JavaScript library for calculating 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 🌐 **Live Demo**: [hindu-panchang-c1a81.web.app](https://hindu-panchang-c1a81.web.app)
+🤖 **Google Play (Closed Testing)**: [Download on Play Store](https://play.google.com/store/apps/details?id=com.ishubhamx.hinducalendar)
 
 ## 📦 Packages
 
@@ -30,6 +31,16 @@ This is a monorepo containing:
   <br/>
   <em>Left: AI Daily Insights • Right: Interactive Chatbot</em>
 </p>
+
+## 📱 Mobile Experience
+
+The mobile application provides a premium, native experience with advanced astrological tools.
+
+| Daily Panchang | Solar & Muhurtas | Monthly Calendar | Festivals List |
+|:---:|:---:|:---:|:---:|
+| <img src="images/Screenshot_1773073419.png" width="180"/> | <img src="images/Screenshot_1773073442.png" width="180"/> | <img src="images/Screenshot_1773073455.png" width="180"/> | <img src="images/Screenshot_1773073465.png" width="180"/> |
+| **Muhurat Finder** | **Birth Chart** | **Planetary Status** | **Saved Profiles** |
+| <img src="images/Screenshot_1773073480.png" width="180"/> | <img src="images/Screenshot_1773073537.png" width="180"/> | <img src="images/Screenshot_1773073546.png" width="180"/> | <img src="images/Screenshot_1773073580.png" width="180"/> |
 
 ## Features
 

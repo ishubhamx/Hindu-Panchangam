@@ -30,8 +30,14 @@ describe('Festival Detection (v3.0.0 — Tithi-based)', () => {
         // Yogini Ekadashi: Jyeshtha (2) Krishna (26)
         expect(getFestivalsByTithi(2, false, 26, 'Krishna')).toContain('Yogini Ekadashi');
 
-        // getEkadashiName direct test
+        // getEkadashiName direct tests
         expect(getEkadashiName(0, 'Shukla')).toBe('Kamada Ekadashi');
+
+        // Adhika Masa Ekadashis
+        expect(getEkadashiName(3, 'Shukla', true)).toBe('Padmini Ekadashi');
+        expect(getEkadashiName(3, 'Krishna', true)).toBe('Parama Ekadashi');
+        expect(getFestivalsByTithi(3, true, 11, 'Shukla')).toContain('Padmini Ekadashi');
+        expect(getFestivalsByTithi(3, true, 26, 'Krishna')).toContain('Parama Ekadashi');
     });
 
     test('Pradosham Detection', () => {
