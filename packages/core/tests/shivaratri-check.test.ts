@@ -80,7 +80,8 @@ describe('Maha Shivaratri 2026 New Delhi', () => {
     // Feb 14 should not have Maha Shivaratri either
     expect(feb14.festivals.some(f => f.name === 'Maha Shivaratri')).toBe(false);
 
-    // Masik Shivaratri should be on Feb 16 (sunrise Chaturdashi day)
-    expect(feb16.festivals.some(f => f.name === 'Masik Shivaratri')).toBe(true);
+    // Note: Masik Shivaratri is suppressed in Magha (the month of Maha Shivaratri).
+    // Therefore, Feb 16 (Chaturdashi of Magha) will correctly NOT have Masik Shivaratri.
+    expect(feb16.festivals.some(f => f.name === 'Masik Shivaratri')).toBe(false);
   });
 });

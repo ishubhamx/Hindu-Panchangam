@@ -13,10 +13,10 @@ describe('Festival Detection (v3.0.0 — Tithi-based)', () => {
         // Diwali: Ashwina (6) Amavasya (30)
         expect(getFestivalsByTithi(6, false, 30, 'Krishna')).toContain('Diwali (Lakshmi Puja)');
 
-        // Maha Shivaratri: handled as a night-festival special case in getFestivals()
-        // (not in getFestivalsByTithi), so Masik Shivaratri fires instead.
-        // The Maha Shivaratri sunset-based rule is tested in shivaratri-check.test.ts.
-        expect(getFestivalsByTithi(10, false, 29, 'Krishna')).toContain('Masik Shivaratri');
+        // Note: The Maha Shivaratri sunset-based rule is tested in shivaratri-check.test.ts.
+        // Masik Shivaratri is no longer triggered in Magha (10) to avoid duplicates with Maha Shivaratri.
+        // We test Masik Shivaratri in Phalguna (11) instead.
+        expect(getFestivalsByTithi(11, false, 29, 'Krishna')).toContain('Masik Shivaratri');
     });
 
     test('Ekadashi Naming', () => {
@@ -70,17 +70,17 @@ describe('Festival Detection (v3.0.0 — Tithi-based)', () => {
         expect(getFestivalsByTithi(6, false, 19, 'Krishna')).toContain('Karwa Chauth');
 
         // Dhanteras: Ashwina (6) Krishna Trayodashi (28)
-        expect(getFestivalsByTithi(6, false, 28, 'Krishna')).toContain('Dhanteras');
+        expect(getFestivalsByTithi(6, false, 28, 'Krishna')).toContain('Dhanteras (Dhanatrayodashi)');
 
         // Vasant Panchami: Magha (10) Shukla Panchami (5)
-        expect(getFestivalsByTithi(10, false, 5, 'Shukla')).toContain('Vasant Panchami');
+        expect(getFestivalsByTithi(10, false, 5, 'Shukla')).toContain('Vasant Panchami (Shri Panchami)');
     });
 
     test('Holi Detection', () => {
         // Holika Dahan is on Phalguna Purnima (tithi 15)
         expect(getFestivalsByTithi(11, false, 15, 'Shukla')).toContain('Holika Dahan');
         // Holi (color festival) is on Krishna Pratipada (tithi 16) in Phalguna
-        expect(getFestivalsByTithi(11, false, 16, 'Krishna')).toContain('Holi');
+        expect(getFestivalsByTithi(11, false, 16, 'Krishna')).toContain('Holi (Rangwali / Dhulandi)');
     });
 
     test('Ganesh Chaturthi Detection', () => {
@@ -102,11 +102,11 @@ describe('Festival Detection (v3.0.0 — Tithi-based)', () => {
     });
 
     test('Diwali Week Detection', () => {
-        expect(getFestivalsByTithi(6, false, 28, 'Krishna')).toContain('Dhanteras');
+        expect(getFestivalsByTithi(6, false, 28, 'Krishna')).toContain('Dhanteras (Dhanatrayodashi)');
         expect(getFestivalsByTithi(6, false, 29, 'Krishna')).toContain('Naraka Chaturdashi (Choti Diwali)');
         expect(getFestivalsByTithi(6, false, 30, 'Krishna')).toContain('Diwali (Lakshmi Puja)');
         expect(getFestivalsByTithi(7, false, 1, 'Shukla')).toContain('Govardhan Puja');
-        expect(getFestivalsByTithi(7, false, 2, 'Shukla')).toContain('Bhai Dooj');
+        expect(getFestivalsByTithi(7, false, 2, 'Shukla')).toContain('Bhai Dooj (Yama Dwitiya)');
     });
 
     test('No Duplicate Festival Names', () => {
