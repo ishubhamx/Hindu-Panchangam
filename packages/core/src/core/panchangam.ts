@@ -19,6 +19,9 @@ import {
 import { getFestivals } from "./festivals";
 import { calculateChoghadiya } from "./muhurta/choghadiya";
 import { calculateGowriPanchangam } from "./muhurta/gowri";
+import { getDishaShoola } from "./shoola";
+import { getChandrashtama } from "./chandrashtama";
+import { getTarabalam } from "./tarabalam";
 
 /**
  * Validates inputs for getPanchangam / getPanchangamDetails.
@@ -305,6 +308,13 @@ export function getPanchangam(date: Date, observer: Observer, options?: Panchang
         planetaryPositions,
         chandrabalam,
         currentHora,
+        dishaShoola: getDishaShoola(vara),
+        chandrashtama: (options?.birthMoonRashi !== undefined)
+            ? getChandrashtama(options.birthMoonRashi, moonRashi.index)
+            : null,
+        tarabalam: (options?.birthNakshatra !== undefined)
+            ? getTarabalam(options.birthNakshatra, getNakshatra(moonLon))
+            : null,
         // Phase 3: Planetary Details
         nakshatraPada,
         moonRashi,

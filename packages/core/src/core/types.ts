@@ -104,6 +104,8 @@ import { ChoghadiyaResult, GowriResult } from './muhurta/types';
 
 export interface PanchangamOptions {
     timezoneOffset?: number; // Timezone Offset in MINUTES (e.g. -480 for UTC-8, 330 for IST)
+    birthMoonRashi?: number; // Birth Moon Rashi index (0-11) for Chandrashtama calculation
+    birthNakshatra?: number; // Birth Nakshatra index (0-26) for Tarabalam calculation
 }
 
 export interface Panchangam {
@@ -173,6 +175,13 @@ export interface Panchangam {
     };
     chandrabalam: number;  // Moon strength (0-100)
     currentHora: string;   // Current planetary hour
+
+    // Direction-based travel dosha
+    dishaShoola: import('./shoola').DishaShoola;
+
+    // Personalized calculations (only populated when birthMoonRashi/birthNakshatra provided)
+    chandrashtama: import('./chandrashtama').ChandrashtamaInfo | null;
+    tarabalam: import('./tarabalam').TarabalamInfo | null;
 
 
     // Phase 3: Planetary Details

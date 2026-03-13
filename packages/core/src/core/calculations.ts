@@ -1,4 +1,5 @@
 import { getAyanamsa } from './ayanamsa';
+import { getTarabalam as getTarabalamCanonical } from './tarabalam';
 import { Body, GeoVector, Ecliptic as EclipticFunc, Observer, SearchRiseSet, SiderealTime, e_tilt, MakeTime, Search } from "astronomy-engine";
 import { repeatingKaranaNames, tithiNames, nakshatraNames, yogaNames, rashiNames, horaRulers, masaNames, rituNames, ayanaNames, pakshaNames, samvatsaraNames, sankrantiNames, varjyamStartGhatis, amritKalamStartGhatis, vimshottariLords, vimshottariDurations, planetExaltation, planetDebilitation, planetOwnSigns } from "./constants";
 import { KaranaTransition, TithiTransition, NakshatraTransition, YogaTransition, PlanetaryPosition, MuhurtaTime, RashiTransition, SankrantiInfo, PanchakInfo, DashaResult } from "./types";
@@ -1231,15 +1232,10 @@ export function findSankrantisInRange(startDate: Date, endDate: Date, ayanamsa: 
  * @returns SankrantiInfo if Sankranti occurs on this day, null otherwise
  */
 export function getSankrantiForDate(date: Date, ayanamsa: number, timezoneOffsetMinutes: number = 0): SankrantiInfo | null {
-    // Calculate local midnight start and end
-    const localOffset = timezoneOffsetMinutes * MS_PER_MINUTE;
-    // Shift date to local time to extract correct year/month/date
-    const localDateObj = new Date(date.getTime() + localOffset);
-    const localMidnightUTC = new Date(Date.UTC(localDateObj.getUTCFullYear(), localDateObj.getUTCMonth(), localDateObj.getUTCDate()));
-    
-    // Shift back to true UTC time of the local midnight
-    const localDayStart = new Date(localMidnightUTC.getTime() - localOffset);
-    const localDayEnd = new Date(localDayStart.getTime() + MS_PER_DAY);
+    // Reuse getStartOfLocalDay for civil day boundaries
+    const syntheticObserver = new Observer(0, timezoneOffsetMinutes / 4, 0); // longitude approximation — only used as fallback
+    const { start: localDayStart, end: localDayEndMinusOne } = getStartOfLocalDay(date, syntheticObserver, { timezoneOffset: timezoneOffsetMinutes });
+    const localDayEnd = new Date(localDayEndMinusOne.getTime() + 1); // getStartOfLocalDay returns end - 1ms
 
     // Search backwards 35 days to catch any Sankranti (Sun takes ~30 days per Rashi)
     const searchStart = new Date(localDayStart.getTime() - SANKRANTI_LOOKBACK_MS);
@@ -1427,54 +1423,23 @@ export function findRashiTransitions(startDate: Date, endDate: Date, ayanamsa: n
     return transitions;
 }
 
+/**
+ * Calculate Tara Balam based on Moon's current Nakshatra and birth Nakshatra.
+ * 
+ * @deprecated Use `getTarabalam(birthNakshatra, moonNakshatra)` from `tarabalam.ts` for richer output.
+ * @param moonNakshatra - Current Moon Nakshatra index (0-26)
+ * @param birthNakshatra - Birth Nakshatra index (0-26)
+ */
 export function calculateTaraBalam(moonNakshatra: number, birthNakshatra: number): { strength: string, type: string } {
-    // 1-based logic: (Moon - Birth + 1) % 9. 
-    // Nakshatras 0-26.
-
-    // Check inputs
     if (moonNakshatra < 0 || birthNakshatra < 0) return { strength: "Unknown", type: "Invalid" };
 
-    // Standard formula: Count from Birth to Moon inclusive.
-    // If Moon=0, Birth=0, Count=1.
-    // Logic: (Moon - Birth)
-    let diff = moonNakshatra - birthNakshatra;
-    if (diff < 0) diff += 27;
-
-    // Count is (diff + 1)
-    const count = diff + 1;
-    const remainder = count % 9 || 9; // Map 0 to 9 if any (though mod 9 of 1..27 gives 1..0 -> 1..9)
-    // 1%9=1, 9%9=0 -> 9. 
-
-    // Mapping
-    // 1: Janma (Danger/Mixed)
-    // 2: Sampat (Wealth - Good)
-    // 3: Vipat (Danger - Bad)
-    // 4: Kshema (Well-being - Good)
-    // 5: Pratyak (Obstacles - Bad)
-    // 6: Sadhana (Achievement - Good)
-    // 7: Naidhana (Death/Loss - Bad)
-    // 8: Mitra (Friend - Good)
-    // 9: Parama Mitra (Best Friend - Good)
-
-    const types = [
-        "Ignore", // 0
-        "Janma (Danger to Body)",      // 1
-        "Sampat (Wealth/Prosperity)",  // 2
-        "Vipat (Dangers/Losses)",      // 3
-        "Kshema (Well-being/Safe)",    // 4
-        "Pratyak (Obstacles)",         // 5
-        "Sadhana (Realization/Success)", // 6
-        "Naidhana (Destruction/Death)",  // 7
-        "Mitra (Friendship)",          // 8
-        "Parama Mitra (Supreme Friendship)" // 9
-    ];
-
-    const isGood = [2, 4, 6, 8, 9].includes(remainder);
-    const strength = isGood ? "Good" : "Bad";
+    // Delegate to the canonical implementation (note: arg order is birth, current)
+    const result = getTarabalamCanonical(birthNakshatra, moonNakshatra);
+    const isGood = result.isAuspicious;
 
     return {
-        strength,
-        type: types[remainder]
+        strength: isGood ? "Good" : "Bad",
+        type: `${result.taraName} (${result.description})`
     };
 }
 
