@@ -53,15 +53,32 @@ export function getTithi(sunLon: number, moonLon: number): number {
     return Math.floor(longitudeDifference / 12);
 }
 
+/**
+ * Calculate the current Nakshatra (lunar mansion) from the Moon's sidereal longitude.
+ * @param moonLon - Sidereal longitude of the Moon (0-360)
+ * @returns Nakshatra index (0-26): 0 = Ashwini, 26 = Revati
+ */
 export function getNakshatra(moonLon: number): number {
     return Math.floor(moonLon / (13 + 1 / 3));
 }
 
+/**
+ * Calculate the current Yoga from Sun and Moon sidereal longitudes.
+ * @param sunLonSidereal - Sidereal longitude of the Sun (0-360)
+ * @param moonLonSidereal - Sidereal longitude of the Moon (0-360)
+ * @returns Yoga index (0-26): 0 = Vishkambha, 26 = Vaidhriti
+ */
 export function getYoga(sunLonSidereal: number, moonLonSidereal: number): number {
     const totalLongitude = (sunLonSidereal + moonLonSidereal) % 360;
     return Math.floor(totalLongitude / (13 + 1 / 3)) % 27;
 }
 
+/**
+ * Calculate the current Karana (half-tithi) from Sun and Moon longitudes.
+ * @param sunLon - Sidereal longitude of the Sun (0-360)
+ * @param moonLon - Sidereal longitude of the Moon (0-360)
+ * @returns Karana name string
+ */
 export function getKarana(sunLon: number, moonLon: number): string {
     let longitudeDifference = moonLon - sunLon;
     if (longitudeDifference < 0) {

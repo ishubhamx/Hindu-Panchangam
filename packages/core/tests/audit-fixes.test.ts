@@ -92,3 +92,58 @@ describe('Audit Fix #9: getSankrantiForDate uses consolidated getStartOfLocalDay
         expect(result!.name).toBe('Makar Sankranti');
     });
 });
+
+describe('Audit Fix #4: getUpcomingFestivals', () => {
+    test('returns festivals for a 30-day scan', () => {
+        const { getUpcomingFestivals } = require('../src/core/festivals');
+        const festivals = getUpcomingFestivals({
+            date: new Date('2026-03-01T06:00:00Z'),
+            observer: bangalore,
+            days: 30,
+            timezoneOffset: 330,
+        });
+        expect(festivals.length).toBeGreaterThan(0);
+        // Should include at minimum some monthly observances (Purnima, Amavasya, Ekadashi)
+        const names = festivals.map((f: any) => f.name);
+        console.log(`  Found ${festivals.length} festivals in 30 days:`, names.slice(0, 10).join(', '));
+    });
+
+    test('category filter works', () => {
+        const { getUpcomingFestivals } = require('../src/core/festivals');
+        const majorOnly = getUpcomingFestivals({
+            date: new Date('2026-03-01T06:00:00Z'),
+            observer: bangalore,
+            days: 60,
+            timezoneOffset: 330,
+            categories: ['major'],
+        });
+        majorOnly.forEach((f: any) => {
+            expect(f.category).toBe('major');
+        });
+        console.log(`  Major festivals in 60 days: ${majorOnly.map((f: any) => f.name).join(', ')}`);
+    });
+
+    test('empty scan returns no festivals', () => {
+        const { getUpcomingFestivals } = require('../src/core/festivals');
+        const result = getUpcomingFestivals({
+            date: new Date('2026-03-15T06:00:00Z'),
+            observer: bangalore,
+            days: 0,
+            timezoneOffset: 330,
+        });
+        expect(result).toHaveLength(0);
+    });
+
+    test('no duplicate festivals on same date', () => {
+        const { getUpcomingFestivals } = require('../src/core/festivals');
+        const festivals = getUpcomingFestivals({
+            date: new Date('2026-01-01T06:00:00Z'),
+            observer: bangalore,
+            days: 60,
+            timezoneOffset: 330,
+        });
+        const keys = festivals.map((f: any) => `${f.name}-${f.date.toISOString().slice(0, 10)}`);
+        const uniqueKeys = new Set(keys);
+        expect(keys.length).toBe(uniqueKeys.size);
+    });
+});
