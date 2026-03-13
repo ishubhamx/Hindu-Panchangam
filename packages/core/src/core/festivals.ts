@@ -100,7 +100,7 @@ function getSolarFestivals(
         return festivals;
     }
 
-    const timezoneOffsetMinutes = -date.getTimezoneOffset();
+    const timezoneOffsetMinutes = options.timezoneOffset ?? -date.getTimezoneOffset();
     const ayanamsa = getAyanamsa(date);
     const sankranti = getSankrantiForDate(date, ayanamsa, timezoneOffsetMinutes);
 
