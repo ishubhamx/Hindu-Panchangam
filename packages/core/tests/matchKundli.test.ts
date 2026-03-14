@@ -99,7 +99,7 @@ describe('Full Kundli Matching Integration', () => {
         // Nadi: 8 (Different)
 
         // Total should be high.
-        expect(result.ashtakoot.totalScore).toBeGreaterThan(30);
+        expect(result.ashtakoot.totalScore).toBe(34);
     });
 
 });

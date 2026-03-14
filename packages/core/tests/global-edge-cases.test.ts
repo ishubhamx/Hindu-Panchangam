@@ -91,9 +91,9 @@ describe("Global Edge Cases Test Suite (500+ Scenarios)", () => {
                 // Also the greater/less checks for sanity
                 const hourValue = expectedLocalDate.getUTCHours() + expectedLocalDate.getUTCMinutes() / 60;
                 if (hourValue < 12) {
-                    expect(sunrise.getTime()).toBeGreaterThan(date.getTime());
+                    expect(Math.sign(sunrise.getTime() - date.getTime())).toBe(1);
                 } else {
-                    expect(sunrise.getTime()).toBeLessThan(date.getTime());
+                    expect(Math.sign(sunrise.getTime() - date.getTime())).toBe(-1);
                 }
             });
         });

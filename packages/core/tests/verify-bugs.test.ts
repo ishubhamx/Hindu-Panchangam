@@ -183,7 +183,7 @@ describe('Bug 5: calculateDurMuhurta weekday-specific', () => {
             const result = calculateDurMuhurta(sunrise, sunset, v);
             expect(result).not.toBeNull();
             if (result && result.length === 2) {
-                expect(result[0].start.getTime()).toBeLessThan(result[1].start.getTime());
+                expect(Math.sign(result[1].start.getTime() - result[0].start.getTime())).toBe(1);
             }
         }
     });
@@ -192,8 +192,8 @@ describe('Bug 5: calculateDurMuhurta weekday-specific', () => {
         for (let v = 0; v < 7; v++) {
             const result = calculateDurMuhurta(sunrise, sunset, v);
             result?.forEach(m => {
-                expect(m.start.getTime()).toBeGreaterThanOrEqual(sunrise.getTime());
-                expect(m.end.getTime()).toBeLessThanOrEqual(sunset.getTime());
+                expect(m.start.getTime() >= sunrise.getTime()).toBe(true);
+                expect(m.end.getTime() <= sunset.getTime()).toBe(true);
             });
         }
     });
@@ -204,7 +204,8 @@ describe('Bug 5: calculateDurMuhurta weekday-specific', () => {
             const result = calculateDurMuhurta(sunrise, sunset, v);
             result?.forEach(m => {
                 const dur = m.end.getTime() - m.start.getTime();
-                expect(Math.abs(dur - muhurtaDur)).toBeLessThan(tolerance);
+                const expectedDur = Math.round(muhurtaDur);
+                expect(Math.round(dur)).toBe(expectedDur);
             });
         }
     });
@@ -313,7 +314,7 @@ describe('Integration: panchangam with explicit timezoneOffset', () => {
             }
         }
         // Should have more than 1 distinct set of muhurta indices across the week
-        expect(seenIndices.size).toBeGreaterThan(1);
+        expect(seenIndices.size).toBe(7);
     });
 
     test('panchangam hora uses correct TZ for multiple cities', () => {
@@ -325,7 +326,7 @@ describe('Integration: panchangam with explicit timezoneOffset', () => {
         // Both should have valid hora strings
         expect(typeof pBangalore.currentHora).toBe('string');
         expect(typeof pTokyo.currentHora).toBe('string');
-        expect(pBangalore.currentHora.length).toBeGreaterThan(0);
-        expect(pTokyo.currentHora.length).toBeGreaterThan(0);
+        expect(pBangalore.currentHora).toBe('Jupiter');
+        expect(pTokyo.currentHora).toBe('Mercury');
     });
 });

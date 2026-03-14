@@ -77,8 +77,8 @@ describe('Audit Fix #3: DishaShoola/Chandrashtama/Tarabalam in panchangam', () =
             const p = getPanchangam(d, bangalore, { timezoneOffset: 330 });
             seen.add(p.dishaShoola.inauspiciousDirection);
         }
-        // 4 directions (E, W, N, S) — at least 3 should appear in a week
-        expect(seen.size).toBeGreaterThanOrEqual(3);
+        // 4 directions (E, W, N, S)
+        expect(seen.size).toBe(4);
     });
 });
 
@@ -102,7 +102,7 @@ describe('Audit Fix #4: getUpcomingFestivals', () => {
             days: 30,
             timezoneOffset: 330,
         });
-        expect(festivals.length).toBeGreaterThan(0);
+        expect(festivals.length).toBe(24);
         // Should include at minimum some monthly observances (Purnima, Amavasya, Ekadashi)
         const names = festivals.map((f: any) => f.name);
         console.log(`  Found ${festivals.length} festivals in 30 days:`, names.slice(0, 10).join(', '));

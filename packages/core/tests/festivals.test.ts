@@ -57,7 +57,7 @@ describe('Festival Detection (v3.0.0 — Tithi-based)', () => {
         // Chaitra Shukla Prathama has Ugadi + Navratri Ghatasthapana
         const res = getFestivalsByTithi(0, false, 1, 'Shukla');
         expect(Array.isArray(res)).toBe(true);
-        expect(res.length).toBeGreaterThan(1);
+        expect(res.length).toBe(2);
         expect(res).toContain('Ugadi / Gudi Padwa');
         expect(res).toContain('Chaitra Navratri Ghatasthapana');
     });
