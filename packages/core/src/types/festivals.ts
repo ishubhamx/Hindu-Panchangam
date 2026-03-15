@@ -126,6 +126,9 @@ export interface FestivalCalculationOptions {
 
     /** Whether to calculate multi-day festival spans */
     includeMultiDaySpans?: boolean;
+
+    /** Timezone offset in minutes (e.g. 330 for IST). Used for Sankranti civil-day matching. */
+    timezoneOffset?: number;
 }
 
 /**

@@ -1,4 +1,5 @@
 import { getAyanamsa } from './ayanamsa';
+import { getTarabalam as getTarabalamCanonical } from './tarabalam';
 import { Body, GeoVector, Ecliptic as EclipticFunc, Observer, SearchRiseSet, SiderealTime, e_tilt, MakeTime, Search } from "astronomy-engine";
 import { repeatingKaranaNames, tithiNames, nakshatraNames, yogaNames, rashiNames, horaRulers, masaNames, rituNames, ayanaNames, pakshaNames, samvatsaraNames, sankrantiNames, varjyamStartGhatis, amritKalamStartGhatis, vimshottariLords, vimshottariDurations, planetExaltation, planetDebilitation, planetOwnSigns } from "./constants";
 import { KaranaTransition, TithiTransition, NakshatraTransition, YogaTransition, PlanetaryPosition, MuhurtaTime, RashiTransition, SankrantiInfo, PanchakInfo, DashaResult } from "./types";
@@ -52,15 +53,32 @@ export function getTithi(sunLon: number, moonLon: number): number {
     return Math.floor(longitudeDifference / 12);
 }
 
+/**
+ * Calculate the current Nakshatra (lunar mansion) from the Moon's sidereal longitude.
+ * @param moonLon - Sidereal longitude of the Moon (0-360)
+ * @returns Nakshatra index (0-26): 0 = Ashwini, 26 = Revati
+ */
 export function getNakshatra(moonLon: number): number {
     return Math.floor(moonLon / (13 + 1 / 3));
 }
 
-export function getYoga(sunLon: number, moonLon: number): number {
-    const totalLongitude = sunLon + moonLon;
+/**
+ * Calculate the current Yoga from Sun and Moon sidereal longitudes.
+ * @param sunLonSidereal - Sidereal longitude of the Sun (0-360)
+ * @param moonLonSidereal - Sidereal longitude of the Moon (0-360)
+ * @returns Yoga index (0-26): 0 = Vishkambha, 26 = Vaidhriti
+ */
+export function getYoga(sunLonSidereal: number, moonLonSidereal: number): number {
+    const totalLongitude = (sunLonSidereal + moonLonSidereal) % 360;
     return Math.floor(totalLongitude / (13 + 1 / 3)) % 27;
 }
 
+/**
+ * Calculate the current Karana (half-tithi) from Sun and Moon longitudes.
+ * @param sunLon - Sidereal longitude of the Sun (0-360)
+ * @param moonLon - Sidereal longitude of the Moon (0-360)
+ * @returns Karana name string
+ */
 export function getKarana(sunLon: number, moonLon: number): string {
     let longitudeDifference = moonLon - sunLon;
     if (longitudeDifference < 0) {
@@ -89,11 +107,21 @@ export function getKarana(sunLon: number, moonLon: number): string {
 
 /**
  * Returns the weekday (0=Sunday, ...) based on the Observer's local time.
- * If no observer is provided, falls back to system local time (not recommended for server-side use).
+ * 
+ * @param date - Date to check
+ * @param observer - Observer location (used to approximate timezone from longitude if timezoneOffsetMinutes is not given)
+ * @param timezoneOffsetMinutes - Explicit timezone offset in minutes (e.g. 330 for IST). Preferred over longitude approximation.
  */
-export function getVara(date: Date, observer?: Observer): number {
+export function getVara(date: Date, observer?: Observer, timezoneOffsetMinutes?: number): number {
+    if (timezoneOffsetMinutes !== undefined) {
+        const tzOffsetMs = timezoneOffsetMinutes * MS_PER_MINUTE;
+        const localDate = new Date(date.getTime() + tzOffsetMs);
+        return localDate.getUTCDay();
+    }
     if (observer) {
-        // Shift to observer's local time
+        // Approximate timezone from longitude: 15° = 1 hour
+        // NOTE: This can be ~20min off for zones like IST (5.5h vs 5.17h for 77.6°E).
+        // Prefer passing timezoneOffsetMinutes for accuracy.
         const tzOffsetMs = (observer.longitude / 15.0) * MS_PER_HOUR;
         const localDate = new Date(date.getTime() + tzOffsetMs);
         return localDate.getUTCDay();
@@ -370,7 +398,7 @@ export function findYogaEnd(date: Date, ayanamsa: number): Date | null {
     const sunLonSid = (sunLonInitial - ayanamsa + 360) % 360;
     const moonLonSid = (moonLonInitial - ayanamsa + 360) % 360;
 
-    const totalLongitudeInitial = sunLonSid + moonLonSid;
+    const totalLongitudeInitial = (sunLonSid + moonLonSid) % 360;
 
     const yogaWidth = 360 / 27; // 13 degrees 20 minutes
     const currentYogaTotalIndex = Math.floor(totalLongitudeInitial / yogaWidth);
@@ -383,9 +411,9 @@ export function findYogaEnd(date: Date, ayanamsa: number): Date | null {
         let sunLonS = (sunLon - ayanamsa + 360) % 360;
         let moonLonS = (moonLon - ayanamsa + 360) % 360;
 
-        let totalLon = sunLonS + moonLonS;
+        let totalLon = (sunLonS + moonLonS) % 360;
 
-        if (totalLon < nextYogaBoundary - 270) {
+        if (totalLon < 90 && nextYogaBoundary > 270) {
             totalLon += 360;
         }
 
@@ -597,28 +625,47 @@ export function calculateGulikaKalam(sunrise: Date, sunset: Date, vara: number):
     };
 }
 
-export function calculateDurMuhurta(sunrise: Date, sunset: Date): MuhurtaTime[] | null {
+/**
+ * Calculate Dur (inauspicious) Muhurtas for the day.
+ * Traditional Panchanga specifies two dur muhurtas per weekday.
+ *
+ * @param sunrise - Sunrise time
+ * @param sunset  - Sunset time
+ * @param vara    - Weekday (0=Sun … 6=Sat). When omitted, falls back to static [4, 6].
+ */
+export function calculateDurMuhurta(sunrise: Date, sunset: Date, vara?: number): MuhurtaTime[] | null {
     if (!sunrise || !sunset) return null;
 
     const dayDuration = sunset.getTime() - sunrise.getTime();
     const muhurtaDuration = dayDuration / 15; // Day is divided into 15 muhurtas
 
+    // Weekday-specific dur muhurta indices (1-indexed muhurta numbers)
+    // Source: Traditional Muhurta Shastra
+    // Format: [muhurta1, muhurta2] for each vara Sun–Sat
+    const durMuhurtaByVara: [number, number][] = [
+        [14, 10], // Sun
+        [8,  2],  // Mon
+        [4,  10], // Tue
+        [12, 8],  // Wed
+        [10, 2],  // Thu
+        [4,  6],  // Fri
+        [14, 6],  // Sat
+    ];
+
+    const indices = (vara !== undefined && vara >= 0 && vara <= 6)
+        ? durMuhurtaByVara[vara]
+        : [4, 6]; // Fallback to the old default (Friday's values)
+
     const durMuhurtas: MuhurtaTime[] = [];
 
-    // 4th Muhurta (around 10-11 AM)
-    const fourthStart = new Date(sunrise.getTime() + 3 * muhurtaDuration);
-    const fourthEnd = new Date(sunrise.getTime() + 4 * muhurtaDuration);
-    durMuhurtas.push({ start: fourthStart, end: fourthEnd });
+    for (const idx of indices) {
+        const start = new Date(sunrise.getTime() + (idx - 1) * muhurtaDuration);
+        const end = new Date(sunrise.getTime() + idx * muhurtaDuration);
+        durMuhurtas.push({ start, end });
+    }
 
-    // 6th Muhurta (around 12-1 PM)  
-    const sixthStart = new Date(sunrise.getTime() + 5 * muhurtaDuration);
-    const sixthEnd = new Date(sunrise.getTime() + 6 * muhurtaDuration);
-    durMuhurtas.push({ start: sixthStart, end: sixthEnd });
-
-    // 14th Muhurta (late afternoon)
-    const fourteenthStart = new Date(sunrise.getTime() + 13 * muhurtaDuration);
-    const fourteenthEnd = new Date(sunrise.getTime() + 14 * muhurtaDuration);
-    durMuhurtas.push({ start: fourteenthStart, end: fourteenthEnd });
+    // Sort chronologically
+    durMuhurtas.sort((a, b) => a.start.getTime() - b.start.getTime());
 
     return durMuhurtas;
 }
@@ -635,17 +682,25 @@ export function calculateChandraBalam(moonLon: number, sunLon: number): number {
     return Math.round((angularDistance / 180) * 100);
 }
 
-export function getCurrentHora(date: Date, sunrise: Date): string {
+/**
+ * Get the current Hora (planetary hour) lord.
+ *
+ * @param date - Current time
+ * @param sunrise - Sunrise time for the day
+ * @param observer - Observer location
+ * @param timezoneOffsetMinutes - Explicit TZ offset in minutes (e.g. 330 for IST) for accurate weekday
+ */
+export function getCurrentHora(date: Date, sunrise: Date, observer?: Observer, timezoneOffsetMinutes?: number): string {
     if (!sunrise) return horaRulers[0]; // Default to Sun
 
-    const dayOfWeek = date.getDay();
+    const dayOfWeek = getVara(date, observer, timezoneOffsetMinutes);
     const millisecondsFromSunrise = date.getTime() - sunrise.getTime();
 
     // If the time is before sunrise, use the previous day's calculation
     if (millisecondsFromSunrise < 0) {
         // Calculate previous day's sunrise
         const prevDay = new Date(date.getTime() - MS_PER_DAY);
-        const prevDayOfWeek = prevDay.getDay();
+        const prevDayOfWeek = getVara(prevDay, observer, timezoneOffsetMinutes);
         const hoursFromPrevSunrise = Math.abs(millisecondsFromSunrise) / (1000 * 60 * 60);
 
         const dayStartPlanet = [0, 3, 6, 2, 5, 1, 4]; // Sun=0, Moon=3, Mars=6, Mercury=2, Jupiter=5, Venus=1, Saturn=4
@@ -828,7 +883,7 @@ export function findYogaTransitions(startDate: Date, endDate: Date, ayanamsa: nu
     const getSiderealSum = (d: Date) => {
         const sun = EclipticFunc(GeoVector(Body.Sun, d, true)).elon;
         const moon = EclipticFunc(GeoVector(Body.Moon, d, true)).elon;
-        return ((sun - ayanamsa + 360) % 360) + ((moon - ayanamsa + 360) % 360);
+        return (((sun - ayanamsa + 360) % 360) + ((moon - ayanamsa + 360) % 360)) % 360;
     };
 
     let lastYoga = getYoga(
@@ -845,7 +900,9 @@ export function findYogaTransitions(startDate: Date, endDate: Date, ayanamsa: nu
 
             const yogaFunc = (d: Date): number => {
                 let totalLon = getSiderealSum(d);
-                if (totalLon < nextYogaBoundary - 270) totalLon += 360;
+                if (totalLon < 90 && nextYogaBoundary > 270) {
+                    totalLon += 360;
+                }
                 return totalLon - nextYogaBoundary;
             };
             return search(yogaFunc, current);
@@ -1192,11 +1249,10 @@ export function findSankrantisInRange(startDate: Date, endDate: Date, ayanamsa: 
  * @returns SankrantiInfo if Sankranti occurs on this day, null otherwise
  */
 export function getSankrantiForDate(date: Date, ayanamsa: number, timezoneOffsetMinutes: number = 0): SankrantiInfo | null {
-    // Calculate local midnight start and end
-    const localOffset = timezoneOffsetMinutes * MS_PER_MINUTE;
-    const utcMidnight = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
-    const localDayStart = new Date(utcMidnight.getTime() - localOffset);
-    const localDayEnd = new Date(localDayStart.getTime() + MS_PER_DAY);
+    // Reuse getStartOfLocalDay for civil day boundaries
+    const syntheticObserver = new Observer(0, timezoneOffsetMinutes / 4, 0); // longitude approximation — only used as fallback
+    const { start: localDayStart, end: localDayEndMinusOne } = getStartOfLocalDay(date, syntheticObserver, { timezoneOffset: timezoneOffsetMinutes });
+    const localDayEnd = new Date(localDayEndMinusOne.getTime() + 1); // getStartOfLocalDay returns end - 1ms
 
     // Search backwards 35 days to catch any Sankranti (Sun takes ~30 days per Rashi)
     const searchStart = new Date(localDayStart.getTime() - SANKRANTI_LOOKBACK_MS);
@@ -1384,54 +1440,23 @@ export function findRashiTransitions(startDate: Date, endDate: Date, ayanamsa: n
     return transitions;
 }
 
+/**
+ * Calculate Tara Balam based on Moon's current Nakshatra and birth Nakshatra.
+ * 
+ * @deprecated Use `getTarabalam(birthNakshatra, moonNakshatra)` from `tarabalam.ts` for richer output.
+ * @param moonNakshatra - Current Moon Nakshatra index (0-26)
+ * @param birthNakshatra - Birth Nakshatra index (0-26)
+ */
 export function calculateTaraBalam(moonNakshatra: number, birthNakshatra: number): { strength: string, type: string } {
-    // 1-based logic: (Moon - Birth + 1) % 9. 
-    // Nakshatras 0-26.
-
-    // Check inputs
     if (moonNakshatra < 0 || birthNakshatra < 0) return { strength: "Unknown", type: "Invalid" };
 
-    // Standard formula: Count from Birth to Moon inclusive.
-    // If Moon=0, Birth=0, Count=1.
-    // Logic: (Moon - Birth)
-    let diff = moonNakshatra - birthNakshatra;
-    if (diff < 0) diff += 27;
-
-    // Count is (diff + 1)
-    const count = diff + 1;
-    const remainder = count % 9 || 9; // Map 0 to 9 if any (though mod 9 of 1..27 gives 1..0 -> 1..9)
-    // 1%9=1, 9%9=0 -> 9. 
-
-    // Mapping
-    // 1: Janma (Danger/Mixed)
-    // 2: Sampat (Wealth - Good)
-    // 3: Vipat (Danger - Bad)
-    // 4: Kshema (Well-being - Good)
-    // 5: Pratyak (Obstacles - Bad)
-    // 6: Sadhana (Achievement - Good)
-    // 7: Naidhana (Death/Loss - Bad)
-    // 8: Mitra (Friend - Good)
-    // 9: Parama Mitra (Best Friend - Good)
-
-    const types = [
-        "Ignore", // 0
-        "Janma (Danger to Body)",      // 1
-        "Sampat (Wealth/Prosperity)",  // 2
-        "Vipat (Dangers/Losses)",      // 3
-        "Kshema (Well-being/Safe)",    // 4
-        "Pratyak (Obstacles)",         // 5
-        "Sadhana (Realization/Success)", // 6
-        "Naidhana (Destruction/Death)",  // 7
-        "Mitra (Friendship)",          // 8
-        "Parama Mitra (Supreme Friendship)" // 9
-    ];
-
-    const isGood = [2, 4, 6, 8, 9].includes(remainder);
-    const strength = isGood ? "Good" : "Bad";
+    // Delegate to the canonical implementation (note: arg order is birth, current)
+    const result = getTarabalamCanonical(birthNakshatra, moonNakshatra);
+    const isGood = result.isAuspicious;
 
     return {
-        strength,
-        type: types[remainder]
+        strength: isGood ? "Good" : "Bad",
+        type: `${result.taraName} (${result.description})`
     };
 }
 

@@ -19,6 +19,9 @@ import {
 import { getFestivals } from "./festivals";
 import { calculateChoghadiya } from "./muhurta/choghadiya";
 import { calculateGowriPanchangam } from "./muhurta/gowri";
+import { getDishaShoola } from "./shoola";
+import { getChandrashtama } from "./chandrashtama";
+import { getTarabalam } from "./tarabalam";
 
 /**
  * Validates inputs for getPanchangam / getPanchangamDetails.
@@ -90,7 +93,7 @@ export function getPanchangam(date: Date, observer: Observer, options?: Panchang
 
     const yogaEndTime = findYogaEnd(anchorDate, ayanamsa);
 
-    const rahuKalam = (sunrise && sunset) ? calculateRahuKalam(sunrise, sunset, getVara(anchorDate, observer)) : null;
+    const rahuKalam = (sunrise && sunset) ? calculateRahuKalam(sunrise, sunset, getVara(anchorDate, observer, options?.timezoneOffset)) : null;
 
     // For transitions, search from Sunrise to Next Sunrise
     let nextSunrise: Date | null = null;
@@ -124,11 +127,11 @@ export function getPanchangam(date: Date, observer: Observer, options?: Panchang
     const govardhanMuhurta = (sunrise && sunset) ? calculateGovardhanMuhurta(sunrise, sunset) : null;
 
     // Vara should be based on Anchor Date (Sunrise)
-    const vara = getVara(anchorDate, observer);
+    const vara = getVara(anchorDate, observer, options?.timezoneOffset);
 
     const yamagandaKalam = (sunrise && sunset) ? calculateYamagandaKalam(sunrise, sunset, vara) : null;
     const gulikaKalam = (sunrise && sunset) ? calculateGulikaKalam(sunrise, sunset, vara) : null;
-    const durMuhurta = (sunrise && sunset) ? calculateDurMuhurta(sunrise, sunset) : null;
+    const durMuhurta = (sunrise && sunset) ? calculateDurMuhurta(sunrise, sunset, vara) : null;
 
     // Planetary positions at INSTANT (date), not Sunrise
     // Ayanamsa change in 1 day is small, so using anchor ayanamsa is acceptable for positions too,
@@ -147,7 +150,7 @@ export function getPanchangam(date: Date, observer: Observer, options?: Panchang
     };
 
     const chandrabalam = calculateChandraBalam(moonLon, sunLon);
-    const currentHora = getCurrentHora(date, sunrise || date);
+    const currentHora = getCurrentHora(date, sunrise || date, observer, options?.timezoneOffset);
 
     const tithi = getTithi(sunLon, moonLon);
     // Masa/Samvat should be based on Anchor (Day's Month/Year)
@@ -284,7 +287,8 @@ export function getPanchangam(date: Date, observer: Observer, options?: Panchang
             vara,
             includeSolarFestivals: true,
             includeMultiDaySpans: true,
-            calendarType: 'amanta'
+            calendarType: 'amanta',
+            timezoneOffset: options?.timezoneOffset
         }),
 
         // Phase 8: Advanced Muhurta (v2.1)
@@ -304,6 +308,13 @@ export function getPanchangam(date: Date, observer: Observer, options?: Panchang
         planetaryPositions,
         chandrabalam,
         currentHora,
+        dishaShoola: getDishaShoola(vara),
+        chandrashtama: (options?.birthMoonRashi !== undefined)
+            ? getChandrashtama(options.birthMoonRashi, moonRashi.index)
+            : null,
+        tarabalam: (options?.birthNakshatra !== undefined)
+            ? getTarabalam(options.birthNakshatra, getNakshatra(moonLon))
+            : null,
         // Phase 3: Planetary Details
         nakshatraPada,
         moonRashi,

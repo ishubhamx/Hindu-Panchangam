@@ -17,7 +17,7 @@ describe('Multiple Tithis Check', () => {
             // console.log(`Tithi ${i}: ${t.name} (${t.startTime.toISOString()} - ${t.endTime.toISOString()})`);
         });
 
-        expect(p.tithis.length).toBeGreaterThanOrEqual(2);
+        expect(p.tithis.length).toBe(2);
         // Trayodashi is index 27 (Krishna 13), Chaturdashi is 28
         // Or 12 for Shukla?
         // Feb 15 is Krishna Paksha.

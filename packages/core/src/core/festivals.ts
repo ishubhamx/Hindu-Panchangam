@@ -100,7 +100,7 @@ function getSolarFestivals(
         return festivals;
     }
 
-    const timezoneOffsetMinutes = -date.getTimezoneOffset();
+    const timezoneOffsetMinutes = options.timezoneOffset ?? -date.getTimezoneOffset();
     const ayanamsa = getAyanamsa(date);
     const sankranti = getSankrantiForDate(date, ayanamsa, timezoneOffsetMinutes);
 
@@ -1298,4 +1298,103 @@ function detectTithiBasedFestivals(
     }
 
     return festivals;
+}
+
+// ---------------------------------------------------------------------------
+// Upcoming Festivals Scanner
+// ---------------------------------------------------------------------------
+
+export interface UpcomingFestivalsOptions {
+    /** Start date to scan from */
+    date: Date;
+    /** Observer location for sunrise calculations */
+    observer: Observer;
+    /** Number of days to scan ahead (default: 30) */
+    days?: number;
+    /** Timezone offset in minutes (e.g. 330 for IST) */
+    timezoneOffset?: number;
+    /** Minimum festival category to include (default: all) */
+    categories?: FestivalCategory[];
+}
+
+/**
+ * Scan ahead N days and return all upcoming festivals.
+ *
+ * Useful for "upcoming festivals" widgets where calling `getPanchangam` for
+ * a single date might return zero festivals.
+ *
+ * @param options - Scan options including date, observer, and number of days
+ * @returns Array of festivals with their dates, sorted chronologically
+ *
+ * @example
+ * ```typescript
+ * const upcoming = getUpcomingFestivals({
+ *     date: new Date(),
+ *     observer: new Observer(12.97, 77.59, 920),
+ *     days: 30,
+ *     timezoneOffset: 330
+ * });
+ * ```
+ */
+export function getUpcomingFestivals(options: UpcomingFestivalsOptions): Festival[] {
+    const { date, observer, days = 30, timezoneOffset, categories } = options;
+    const MS_PER_DAY = 24 * 60 * 60 * 1000;
+    const allFestivals: Festival[] = [];
+    const seen = new Set<string>();
+
+    for (let i = 0; i < days; i++) {
+        const d = new Date(date.getTime() + i * MS_PER_DAY);
+
+        // Get sunrise for this day
+        const { getSunrise, getSunset, getVara, getMasa, getPaksha, getTithi, getNakshatra } = require('./calculations');
+        const { getAyanamsa: getAya } = require('./ayanamsa');
+
+        const sunrise = getSunrise(d, observer, { timezoneOffset });
+        const sunset = getSunset(d, observer, { timezoneOffset });
+        const anchorDate = sunrise || d;
+        const ayanamsa = getAya(anchorDate);
+
+        const { Body: B, GeoVector: GV, Ecliptic: Ecl } = require('astronomy-engine');
+        const sunVec = GV(B.Sun, anchorDate, true);
+        const moonVec = GV(B.Moon, anchorDate, true);
+        const sunLon = (Ecl(sunVec).elon - ayanamsa + 360) % 360;
+        const moonLon = (Ecl(moonVec).elon - ayanamsa + 360) % 360;
+
+        const tithi = getTithi(sunLon, moonLon);
+        const masa = getMasa(sunLon, moonLon, anchorDate);
+        const paksha = getPaksha(tithi);
+        const vara = getVara(anchorDate, observer, timezoneOffset);
+        const nakshatra = getNakshatra(moonLon);
+
+        const dayFestivals = getFestivals({
+            date: d,
+            observer,
+            sunrise: sunrise || d,
+            sunset: sunset || undefined,
+            masa,
+            paksha,
+            tithi: tithi + 1,
+            nakshatra,
+            vara,
+            includeSolarFestivals: true,
+            includeMultiDaySpans: false,
+            calendarType: 'amanta',
+            timezoneOffset
+        });
+
+        for (const f of dayFestivals) {
+            // Apply category filter
+            if (categories && !categories.includes(f.category)) continue;
+
+            // Deduplicate by name (same festival can span multiple algorithm passes)
+            const key = `${f.name}-${d.toISOString().slice(0, 10)}`;
+            if (seen.has(key)) continue;
+            seen.add(key);
+
+            f.date = d; // Set the actual civil date
+            allFestivals.push(f);
+        }
+    }
+
+    return allFestivals;
 }

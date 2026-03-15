@@ -58,7 +58,7 @@ describe('Ashtakoota Matching', () => {
             // Ashwini(Horse) vs Mahish(Buffalo-Swati/Hasta)
             // Swati(14) is Buffalo.
             const res = calculateYoni(0, 14);
-            expect(res.score).toBeLessThan(4);
+            expect(res.score).toBe(0);
         });
     });
 

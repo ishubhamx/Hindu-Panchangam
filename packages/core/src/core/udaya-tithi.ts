@@ -12,7 +12,7 @@ import { getAyanamsa } from './ayanamsa';
  * @returns Tithi index (1-30)
  */
 export function getTithiAtTime(time: Date): number {
-    const sunLon  = EclipticFunc(GeoVector(Body.Sun, time, true)).elon;
+    const sunLon = EclipticFunc(GeoVector(Body.Sun, time, true)).elon;
     const moonLon = EclipticFunc(GeoVector(Body.Moon, time, true)).elon;
     return getTithi(sunLon, moonLon) + 1;
 }
@@ -70,7 +70,7 @@ export function getUdayaTithiInfo(
     tithiEnd: Date;
 } {
     const udayaTithi = getTithiAtSunrise(date, sunrise, observer);
-    const paksha = getPaksha(udayaTithi);
+    const paksha = getPaksha(udayaTithi - 1);
 
     // Find when this Tithi starts and ends
     const searchStart = new Date(sunrise.getTime() - 2 * 24 * 60 * 60 * 1000);
@@ -98,7 +98,15 @@ function findTithiTransition(
         const mv = GeoVector(Body.Moon, d, true);
         const sLon = EclipticFunc(sv).elon;
         const mLon = EclipticFunc(mv).elon;
-        return getTithi(sLon, mLon);
+        return getTithi(sLon, mLon) + 1; // 1-indexed (1-30)
+    };
+
+    // Helper for cyclical distances. -ve means `t` is before `target`. +ve means after.
+    const getDiff = (t: number, target: number): number => {
+        let d = t - target;
+        if (d < -15) d += 30;
+        if (d > 15) d -= 30;
+        return d;
     };
 
     // Find start time
@@ -109,7 +117,7 @@ function findTithiTransition(
         const mid = (lo + hi) / 2;
         const tithiAtMid = tithiFunc(new Date(mid));
 
-        if (tithiAtMid < targetTithi) {
+        if (getDiff(tithiAtMid, targetTithi) < 0) {
             lo = mid;
         } else {
             hi = mid;
@@ -120,7 +128,6 @@ function findTithiTransition(
     const startTime = new Date((lo + hi) / 2);
 
     // Find end time
-    const nextTithi = (targetTithi % 30) + 1;
     lo = startTime.getTime();
     hi = searchEnd.getTime();
 
@@ -128,7 +135,8 @@ function findTithiTransition(
         const mid = (lo + hi) / 2;
         const tithiAtMid = tithiFunc(new Date(mid));
 
-        if (tithiAtMid === targetTithi) {
+        // When we move past the target Tithi, the diff becomes > 0
+        if (getDiff(tithiAtMid, targetTithi) <= 0) {
             lo = mid;
         } else {
             hi = mid;
